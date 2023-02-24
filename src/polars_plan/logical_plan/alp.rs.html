@@ -1304,12 +1304,12 @@
         <span class="kw">match </span><span class="self">self </span>{
             Melt { .. }
             | Slice { .. }
-            | Sort { .. }
             | Explode { .. }
             | Cache { .. }
             | Distinct { .. }
             | Union { .. }
             | MapFunction { .. } =&gt; {}
+            Sort { by_column, .. } =&gt; container.extend_from_slice(by_column),
             Selection { predicate, .. } =&gt; container.push(<span class="kw-2">*</span>predicate),
             Projection { expr, .. } =&gt; container.extend_from_slice(expr),
             LocalProjection { expr, .. } =&gt; container.extend_from_slice(expr),
