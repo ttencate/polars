@@ -1108,6 +1108,10 @@
 <a href="#1108" id="1108">1108</a>
 <a href="#1109" id="1109">1109</a>
 <a href="#1110" id="1110">1110</a>
+<a href="#1111" id="1111">1111</a>
+<a href="#1112" id="1112">1112</a>
+<a href="#1113" id="1113">1113</a>
+<a href="#1114" id="1114">1114</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Type agnostic columnar data structure.
 </span><span class="kw">pub use </span><span class="kw">crate</span>::prelude::ChunkCompare;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -1797,12 +1801,16 @@
             <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
             <span class="kw">match </span><span class="self">self</span>.dtype() {
                 Boolean =&gt; <span class="self">self</span>.cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap().product(),
-                Int8 | UInt8 | Int16 | UInt16 =&gt; {
+                Int8 | UInt8 | Int16 | UInt16 | Int32 | UInt32 =&gt; {
                     <span class="kw">let </span>s = <span class="self">self</span>.cast(<span class="kw-2">&amp;</span>Int64).unwrap();
                     s.product()
                 }
                 Int64 =&gt; {
                     <span class="kw">let </span>ca = <span class="self">self</span>.i64().unwrap();
+                    ca.prod_as_series()
+                }
+                UInt64 =&gt; {
+                    <span class="kw">let </span>ca = <span class="self">self</span>.u64().unwrap();
                     ca.prod_as_series()
                 }
                 Float32 =&gt; {

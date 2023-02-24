@@ -2170,6 +2170,7 @@
 <a href="#2170" id="2170">2170</a>
 <a href="#2171" id="2171">2171</a>
 <a href="#2172" id="2172">2172</a>
+<a href="#2173" id="2173">2173</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Domain specific language for the Lazy api.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
 </span><span class="kw">pub mod </span>cat;
@@ -3135,6 +3136,7 @@
                 <span class="kw">match </span>dt {
                     Float32 =&gt; Float32,
                     Float64 =&gt; Float64,
+                    UInt64 =&gt; UInt64,
                     <span class="kw">_ </span>=&gt; Int64,
                 }
             }),
