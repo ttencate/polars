@@ -962,6 +962,16 @@
 <a href="#962" id="962">962</a>
 <a href="#963" id="963">963</a>
 <a href="#964" id="964">964</a>
+<a href="#965" id="965">965</a>
+<a href="#966" id="966">966</a>
+<a href="#967" id="967">967</a>
+<a href="#968" id="968">968</a>
+<a href="#969" id="969">969</a>
+<a href="#970" id="970">970</a>
+<a href="#971" id="971">971</a>
+<a href="#972" id="972">972</a>
+<a href="#973" id="973">973</a>
+<a href="#974" id="974">974</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>arg_sort;
 <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
 </span><span class="kw">mod </span>arg_sort_multiple;
@@ -972,6 +982,7 @@
 <span class="kw">use </span>std::hint::unreachable_unchecked;
 <span class="kw">use </span>std::iter::FromIterator;
 
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>arg_sort_multiple::argsort_multiple_row_fmt;
 <span class="kw">use </span>arrow::bitmap::MutableBitmap;
 <span class="kw">use </span>arrow::buffer::Buffer;
 <span class="kw">use </span>num::Float;
@@ -987,6 +998,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
 <span class="kw">use </span><span class="kw">crate</span>::utils::{CustomIterTools, NoNull};
+<span class="kw">use </span><span class="kw">crate</span>::POOL;
 
 <span class="doccomment">/// Reverse sorting when there are no nulls
 </span><span class="kw">fn </span>order_descending&lt;T: Ord&gt;(a: <span class="kw-2">&amp;</span>T, b: <span class="kw-2">&amp;</span>T) -&gt; Ordering {
@@ -1022,14 +1034,14 @@
     parallel: bool,
 ) <span class="kw">where
     </span>T: PartialOrd + Send,
-    Fd: FnMut(<span class="kw-2">&amp;</span>T, <span class="kw-2">&amp;</span>T) -&gt; Ordering + <span class="kw">for</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;s</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>T, <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>T) -&gt; Ordering + Sync,
-    Fr: FnMut(<span class="kw-2">&amp;</span>T, <span class="kw-2">&amp;</span>T) -&gt; Ordering + <span class="kw">for</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;s</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>T, <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>T) -&gt; Ordering + Sync,
+    Fd: FnMut(<span class="kw-2">&amp;</span>T, <span class="kw-2">&amp;</span>T) -&gt; Ordering + <span class="kw">for</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;s</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>T, <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>T) -&gt; Ordering + Sync + Send,
+    Fr: FnMut(<span class="kw-2">&amp;</span>T, <span class="kw-2">&amp;</span>T) -&gt; Ordering + <span class="kw">for</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;s</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>T, <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>T) -&gt; Ordering + Sync + Send,
 {
     <span class="kw">if </span>parallel {
-        <span class="kw">match </span>descending {
+        POOL.install(|| <span class="kw">match </span>descending {
             <span class="bool-val">true </span>=&gt; slice.par_sort_unstable_by(descending_order_fn),
             <span class="bool-val">false </span>=&gt; slice.par_sort_unstable_by(ascending_order_fn),
-        }
+        })
     } <span class="kw">else </span>{
         <span class="kw">match </span>descending {
             <span class="bool-val">true </span>=&gt; slice.sort_unstable_by(descending_order_fn),
@@ -1061,14 +1073,14 @@
     parallel: bool,
 ) <span class="kw">where
     </span>T: PartialOrd + Send,
-    Fd: FnMut(<span class="kw-2">&amp;</span>T, <span class="kw-2">&amp;</span>T) -&gt; Ordering + <span class="kw">for</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;s</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>T, <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>T) -&gt; Ordering + Sync,
-    Fr: FnMut(<span class="kw-2">&amp;</span>T, <span class="kw-2">&amp;</span>T) -&gt; Ordering + <span class="kw">for</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;s</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>T, <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>T) -&gt; Ordering + Sync,
+    Fd: FnMut(<span class="kw-2">&amp;</span>T, <span class="kw-2">&amp;</span>T) -&gt; Ordering + <span class="kw">for</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;s</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>T, <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>T) -&gt; Ordering + Sync + Send,
+    Fr: FnMut(<span class="kw-2">&amp;</span>T, <span class="kw-2">&amp;</span>T) -&gt; Ordering + <span class="kw">for</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;s</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>T, <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>T) -&gt; Ordering + Sync + Send,
 {
     <span class="kw">if </span>parallel {
-        <span class="kw">match </span>descending {
+        POOL.install(|| <span class="kw">match </span>descending {
             <span class="bool-val">true </span>=&gt; slice.par_sort_by(descending_order_fn),
             <span class="bool-val">false </span>=&gt; slice.par_sort_by(ascending_order_fn),
-        }
+        })
     } <span class="kw">else </span>{
         <span class="kw">match </span>descending {
             <span class="bool-val">true </span>=&gt; slice.sort_by(descending_order_fn),
@@ -1692,6 +1704,30 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>convert_sort_column_multi_sort(s: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
+    <span class="kw">let </span>out = <span class="kw">match </span>s.dtype() {
+        <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
+        </span>Categorical(<span class="kw">_</span>) =&gt; s.rechunk(),
+        <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
+        </span>Binary =&gt; s.clone(),
+        Utf8 =&gt; s.clone(),
+        <span class="comment">// TODO! remove this. With row ordering we can do this easily
+        </span>Boolean =&gt; s.cast(<span class="kw-2">&amp;</span>UInt8).unwrap(),
+        <span class="kw">_ </span>=&gt; {
+            <span class="kw">let </span>phys = s.to_physical_repr().into_owned();
+            <span class="kw">if </span>!phys.dtype().is_numeric() {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
+                    <span class="macro">format!</span>(<span class="string">&quot;Cannot sort column of dtype: {:?}&quot;</span>, s.dtype()).into(),
+                ));
+            }
+            phys
+        }
+    };
+    <span class="prelude-val">Ok</span>(out)
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>prepare_arg_sort(
     columns: Vec&lt;Series&gt;,
     <span class="kw-2">mut </span>descending: Vec&lt;bool&gt;,
@@ -1700,24 +1736,8 @@
 
     <span class="kw">let </span><span class="kw-2">mut </span>columns = columns
         .iter()
-        .map(|s| {
-            <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
-            <span class="kw">match </span>s.dtype() {
-                Float32 | Float64 | Int32 | Int64 | Utf8 | UInt32 | UInt64 =&gt; s.clone(),
-                <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
-                </span>Categorical(<span class="kw">_</span>) =&gt; s.rechunk(),
-                <span class="kw">_ </span>=&gt; {
-                    <span class="comment">// small integers i8, u8 etc are casted to reduce compiler bloat
-                    // not that we don&#39;t expect any logical types at this point
-                    </span><span class="kw">if </span>s.bit_repr_is_large() {
-                        s.cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap()
-                    } <span class="kw">else </span>{
-                        s.cast(<span class="kw-2">&amp;</span>DataType::Int32).unwrap()
-                    }
-                }
-            }
-        })
-        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        .map(convert_sort_column_multi_sort)
+        .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
 
     <span class="kw">let </span>first = columns.remove(<span class="number">0</span>);
 
