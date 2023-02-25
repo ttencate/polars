@@ -423,28 +423,6 @@
 <a href="#423" id="423">423</a>
 <a href="#424" id="424">424</a>
 <a href="#425" id="425">425</a>
-<a href="#426" id="426">426</a>
-<a href="#427" id="427">427</a>
-<a href="#428" id="428">428</a>
-<a href="#429" id="429">429</a>
-<a href="#430" id="430">430</a>
-<a href="#431" id="431">431</a>
-<a href="#432" id="432">432</a>
-<a href="#433" id="433">433</a>
-<a href="#434" id="434">434</a>
-<a href="#435" id="435">435</a>
-<a href="#436" id="436">436</a>
-<a href="#437" id="437">437</a>
-<a href="#438" id="438">438</a>
-<a href="#439" id="439">439</a>
-<a href="#440" id="440">440</a>
-<a href="#441" id="441">441</a>
-<a href="#442" id="442">442</a>
-<a href="#443" id="443">443</a>
-<a href="#444" id="444">444</a>
-<a href="#445" id="445">445</a>
-<a href="#446" id="446">446</a>
-<a href="#447" id="447">447</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -531,7 +509,8 @@
         }
     }
 
-    <span class="kw">fn </span>eval_and_flatten(<span class="kw-2">&amp;</span><span class="self">self</span>, inputs: <span class="kw-2">&amp;mut </span>[Series]) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="doccomment">/// evaluates and flattens `Option&lt;Series&gt;` to `Series`.
+    </span><span class="kw">fn </span>eval_and_flatten(<span class="kw-2">&amp;</span><span class="self">self</span>, inputs: <span class="kw-2">&amp;mut </span>[Series]) -&gt; PolarsResult&lt;Series&gt; {
         <span class="self">self</span>.function.call_udf(inputs).map(|opt_out| {
             opt_out.unwrap_or_else(|| {
                 <span class="kw">let </span>field = <span class="self">self</span>.to_field(<span class="self">self</span>.input_schema.as_ref().unwrap()).unwrap();
@@ -590,38 +569,25 @@
         ca.rename(<span class="kw-2">&amp;</span>name);
         <span class="self">self</span>.finish_apply_groups(ac, ca)
     }
-    <span class="kw">fn </span>apply_single_flattened&lt;<span class="lifetime">&#39;a</span>&gt;(
+
+    <span class="doccomment">/// Apply elementwise e.g. ignore the group/list indices
+    </span><span class="kw">fn </span>apply_single_flattened&lt;<span class="lifetime">&#39;a</span>&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="kw-2">mut </span>ac: AggregationContext&lt;<span class="lifetime">&#39;a</span>&gt;,
     ) -&gt; PolarsResult&lt;AggregationContext&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
-        <span class="comment">// make sure the groups are updated because we are about to throw away
-        // the series&#39; length information
-        </span><span class="kw">let </span>set_update_groups = <span class="kw">match </span>ac.update_groups {
-            UpdateGroups::WithSeriesLen =&gt; {
-                ac.groups();
-                <span class="bool-val">true
-            </span>}
-            UpdateGroups::WithSeriesLenOwned(<span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
-            UpdateGroups::No | UpdateGroups::WithGroupsLen =&gt; <span class="bool-val">false</span>,
+        <span class="kw">let </span>(s, aggregated) = <span class="kw">match </span>ac.agg_state() {
+            AggState::AggregatedList(s) =&gt; {
+                <span class="kw">let </span>ca = s.list().unwrap();
+                <span class="kw">let </span>out = ca.apply_to_inner(<span class="kw-2">&amp;</span>|s| <span class="self">self</span>.eval_and_flatten(<span class="kw-2">&amp;mut </span>[s]))<span class="question-mark">?</span>;
+                (out.into_series(), <span class="bool-val">true</span>)
+            }
+            AggState::AggregatedFlat(s) =&gt; (<span class="self">self</span>.eval_and_flatten(<span class="kw-2">&amp;mut </span>[s.clone()])<span class="question-mark">?</span>, <span class="bool-val">true</span>),
+            AggState::NotAggregated(s) | AggState::Literal(s) =&gt; {
+                (<span class="self">self</span>.eval_and_flatten(<span class="kw-2">&amp;mut </span>[s.clone()])<span class="question-mark">?</span>, <span class="bool-val">false</span>)
+            }
         };
 
-        <span class="kw">if let </span>UpdateGroups::WithSeriesLen = ac.update_groups {
-            ac.groups();
-        }
-
-        <span class="kw">let </span>input = ac.flat_naive().into_owned();
-        <span class="kw">let </span>input_len = input.len();
-        <span class="kw">let </span>s = <span class="self">self</span>.eval_and_flatten(<span class="kw-2">&amp;mut </span>[input])<span class="question-mark">?</span>;
-
-        check_map_output_len(input_len, s.len(), <span class="kw-2">&amp;</span><span class="self">self</span>.expr)<span class="question-mark">?</span>;
-        ac.with_series(s, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
-
-        <span class="kw">if </span>set_update_groups {
-            <span class="comment">// The flat_naive orders by groups, so we must create new groups
-            // not by series length as we don&#39;t have an agg_list, but by original
-            // groups length
-            </span>ac.update_groups = UpdateGroups::WithGroupsLen;
-        }
+        ac.with_series(s, aggregated, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.expr))<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(ac)
     }
 }
@@ -675,24 +641,14 @@
         <span class="kw">if </span><span class="self">self</span>.inputs.len() == <span class="number">1 </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>ac = <span class="self">self</span>.inputs[<span class="number">0</span>].evaluate_on_groups(df, groups, state)<span class="question-mark">?</span>;
 
-            <span class="kw">match </span>(state.has_overlapping_groups(), <span class="self">self</span>.collect_groups) {
-                (<span class="kw">_</span>, ApplyOptions::ApplyList) =&gt; {
+            <span class="kw">match </span><span class="self">self</span>.collect_groups {
+                ApplyOptions::ApplyList =&gt; {
                     <span class="kw">let </span>s = <span class="self">self</span>.eval_and_flatten(<span class="kw-2">&amp;mut </span>[ac.aggregated()])<span class="question-mark">?</span>;
                     ac.with_series(s, <span class="bool-val">true</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.expr))<span class="question-mark">?</span>;
                     <span class="prelude-val">Ok</span>(ac)
                 }
-                <span class="comment">// - series is aggregated flat/reduction: sum/min/mean etc.
-                // - apply options is apply_flat -&gt; elementwise
-                // we can simply apply the function in a vectorized manner.
-                </span>(<span class="kw">_</span>, ApplyOptions::ApplyFlat) <span class="kw">if </span>ac.is_aggregated_flat() =&gt; {
-                    <span class="kw">let </span>s = ac.aggregated();
-                    <span class="kw">let </span>s = <span class="self">self</span>.eval_and_flatten(<span class="kw-2">&amp;mut </span>[s])<span class="question-mark">?</span>;
-                    ac.with_series(s, <span class="bool-val">true</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.expr))<span class="question-mark">?</span>;
-                    <span class="prelude-val">Ok</span>(ac)
-                }
-                <span class="comment">// overlapping groups always take this branch as explode/flat_naive bloats data size
-                </span>(<span class="kw">_</span>, ApplyOptions::ApplyGroups) | (<span class="bool-val">true</span>, <span class="kw">_</span>) =&gt; <span class="self">self</span>.apply_single_group_aware(ac),
-                (<span class="kw">_</span>, ApplyOptions::ApplyFlat) =&gt; <span class="self">self</span>.apply_single_flattened(ac),
+                ApplyOptions::ApplyGroups =&gt; <span class="self">self</span>.apply_single_group_aware(ac),
+                ApplyOptions::ApplyFlat =&gt; <span class="self">self</span>.apply_single_flattened(ac),
             }
         } <span class="kw">else </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>acs = <span class="self">self</span>.prepare_multiple_inputs(df, groups, state)<span class="question-mark">?</span>;

@@ -647,8 +647,6 @@
 <a href="#647" id="647">647</a>
 <a href="#648" id="648">648</a>
 <a href="#649" id="649">649</a>
-<a href="#650" id="650">650</a>
-<a href="#651" id="651">651</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>aggregation;
 <span class="kw">mod </span>alias;
 <span class="kw">mod </span>apply;
@@ -837,9 +835,7 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_aggregated(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         !<span class="self">self</span>.is_not_aggregated()
     }
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_aggregated_flat(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="macro">matches!</span>(<span class="self">self</span>.state, AggState::AggregatedFlat(<span class="kw">_</span>))
-    }
+
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_literal(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="macro">matches!</span>(<span class="self">self</span>.state, AggState::Literal(<span class="kw">_</span>))
     }
