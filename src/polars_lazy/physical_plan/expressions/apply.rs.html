@@ -416,13 +416,6 @@
 <a href="#416" id="416">416</a>
 <a href="#417" id="417">417</a>
 <a href="#418" id="418">418</a>
-<a href="#419" id="419">419</a>
-<a href="#420" id="420">420</a>
-<a href="#421" id="421">421</a>
-<a href="#422" id="422">422</a>
-<a href="#423" id="423">423</a>
-<a href="#424" id="424">424</a>
-<a href="#425" id="425">425</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -571,7 +564,7 @@
     }
 
     <span class="doccomment">/// Apply elementwise e.g. ignore the group/list indices
-    </span><span class="kw">fn </span>apply_single_flattened&lt;<span class="lifetime">&#39;a</span>&gt;(
+    </span><span class="kw">fn </span>apply_single_elementwise&lt;<span class="lifetime">&#39;a</span>&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="kw-2">mut </span>ac: AggregationContext&lt;<span class="lifetime">&#39;a</span>&gt;,
     ) -&gt; PolarsResult&lt;AggregationContext&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
@@ -589,6 +582,55 @@
 
         ac.with_series(s, aggregated, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.expr))<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(ac)
+    }
+    <span class="kw">fn </span>apply_multiple_group_aware&lt;<span class="lifetime">&#39;a</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="kw-2">mut </span>acs: Vec&lt;AggregationContext&lt;<span class="lifetime">&#39;a</span>&gt;&gt;,
+        df: <span class="kw-2">&amp;</span>DataFrame,
+    ) -&gt; PolarsResult&lt;AggregationContext&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>container = <span class="macro">vec!</span>[Default::default(); acs.len()];
+        <span class="kw">let </span>schema = <span class="self">self</span>.get_input_schema(df);
+        <span class="kw">let </span>field = <span class="self">self</span>.to_field(<span class="kw-2">&amp;</span>schema)<span class="question-mark">?</span>;
+
+        <span class="comment">// aggregate representation of the aggregation contexts
+        // then unpack the lists and finally create iterators from this list chunked arrays.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>iters = acs
+            .iter_mut()
+            .map(|ac| ac.iter_groups())
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+
+        <span class="comment">// length of the items to iterate over
+        </span><span class="kw">let </span>len = iters[<span class="number">0</span>].size_hint().<span class="number">0</span>;
+
+        <span class="kw">if </span>len == <span class="number">0 </span>{
+            <span class="kw">let </span>out = Series::full_null(field.name(), <span class="number">0</span>, <span class="kw-2">&amp;</span>field.dtype);
+
+            drop(iters);
+            <span class="comment">// take the first aggregation context that as that is the input series
+            </span><span class="kw">let </span><span class="kw-2">mut </span>ac = acs.swap_remove(<span class="number">0</span>);
+            ac.with_series(out, <span class="bool-val">true</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.expr))<span class="question-mark">?</span>;
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(ac);
+        }
+
+        <span class="kw">let </span><span class="kw-2">mut </span>ca: ListChunked = (<span class="number">0</span>..len)
+            .map(|<span class="kw">_</span>| {
+                container.clear();
+                <span class="kw">for </span>iter <span class="kw">in </span><span class="kw-2">&amp;mut </span>iters {
+                    <span class="kw">match </span>iter.next().unwrap() {
+                        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
+                        <span class="prelude-val">Some</span>(s) =&gt; container.push(s.deep_clone()),
+                    }
+                }
+                <span class="self">self</span>.function.call_udf(<span class="kw-2">&amp;mut </span>container)
+            })
+            .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
+
+        ca.rename(<span class="kw-2">&amp;</span>field.name);
+        drop(iters);
+
+        <span class="comment">// take the first aggregation context that as that is the input series
+        </span><span class="kw">let </span>ac = acs.swap_remove(<span class="number">0</span>);
+        <span class="self">self</span>.finish_apply_groups(ac, ca)
     }
 }
 
@@ -648,13 +690,13 @@
                     <span class="prelude-val">Ok</span>(ac)
                 }
                 ApplyOptions::ApplyGroups =&gt; <span class="self">self</span>.apply_single_group_aware(ac),
-                ApplyOptions::ApplyFlat =&gt; <span class="self">self</span>.apply_single_flattened(ac),
+                ApplyOptions::ApplyFlat =&gt; <span class="self">self</span>.apply_single_elementwise(ac),
             }
         } <span class="kw">else </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>acs = <span class="self">self</span>.prepare_multiple_inputs(df, groups, state)<span class="question-mark">?</span>;
 
-            <span class="kw">match </span>(state.has_overlapping_groups(), <span class="self">self</span>.collect_groups) {
-                (<span class="kw">_</span>, ApplyOptions::ApplyList) =&gt; {
+            <span class="kw">match </span><span class="self">self</span>.collect_groups {
+                ApplyOptions::ApplyList =&gt; {
                     <span class="kw">let </span><span class="kw-2">mut </span>s = acs.iter_mut().map(|ac| ac.aggregated()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
                     <span class="kw">let </span>s = <span class="self">self</span>.eval_and_flatten(<span class="kw-2">&amp;mut </span>s)<span class="question-mark">?</span>;
                     <span class="comment">// take the first aggregation context that as that is the input series
@@ -663,72 +705,16 @@
                     ac.with_series(s, <span class="bool-val">true</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.expr))<span class="question-mark">?</span>;
                     <span class="prelude-val">Ok</span>(ac)
                 }
-
-                <span class="comment">// overlapping groups always take this branch as explode bloats data size
-                </span>(<span class="kw">_</span>, ApplyOptions::ApplyGroups) | (<span class="bool-val">true</span>, <span class="kw">_</span>) =&gt; {
-                    <span class="comment">// if
-                    // - there are overlapping groups
-                    // - can do elementwise operations
-                    // - we don&#39;t have to explode
-                    // then apply flat
-                    </span><span class="kw">if let </span>(
-                        <span class="bool-val">true</span>,
-                        ApplyOptions::ApplyFlat,
-                        AggState::AggregatedFlat(<span class="kw">_</span>) | AggState::NotAggregated(<span class="kw">_</span>),
-                    ) = (
-                        state.has_overlapping_groups(),
-                        <span class="self">self</span>.collect_groups,
-                        acs[<span class="number">0</span>].agg_state(),
-                    ) {
-                        apply_multiple_flat(acs, <span class="self">self</span>.function.as_ref(), <span class="kw-2">&amp;</span><span class="self">self</span>.expr)
+                ApplyOptions::ApplyGroups =&gt; <span class="self">self</span>.apply_multiple_group_aware(acs, df),
+                ApplyOptions::ApplyFlat =&gt; {
+                    <span class="kw">if </span>acs
+                        .iter()
+                        .any(|ac| <span class="macro">matches!</span>(ac.agg_state(), AggState::AggregatedList(<span class="kw">_</span>)))
+                    {
+                        <span class="self">self</span>.apply_multiple_group_aware(acs, df)
                     } <span class="kw">else </span>{
-                        <span class="kw">let </span><span class="kw-2">mut </span>container = <span class="macro">vec!</span>[Default::default(); acs.len()];
-                        <span class="kw">let </span>schema = <span class="self">self</span>.get_input_schema(df);
-                        <span class="kw">let </span>field = <span class="self">self</span>.to_field(<span class="kw-2">&amp;</span>schema)<span class="question-mark">?</span>;
-
-                        <span class="comment">// aggregate representation of the aggregation contexts
-                        // then unpack the lists and finally create iterators from this list chunked arrays.
-                        </span><span class="kw">let </span><span class="kw-2">mut </span>iters = acs
-                            .iter_mut()
-                            .map(|ac| ac.iter_groups())
-                            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-
-                        <span class="comment">// length of the items to iterate over
-                        </span><span class="kw">let </span>len = iters[<span class="number">0</span>].size_hint().<span class="number">0</span>;
-
-                        <span class="kw">if </span>len == <span class="number">0 </span>{
-                            <span class="kw">let </span>out = Series::full_null(field.name(), <span class="number">0</span>, <span class="kw-2">&amp;</span>field.dtype);
-
-                            drop(iters);
-                            <span class="comment">// take the first aggregation context that as that is the input series
-                            </span><span class="kw">let </span><span class="kw-2">mut </span>ac = acs.swap_remove(<span class="number">0</span>);
-                            ac.with_series(out, <span class="bool-val">true</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.expr))<span class="question-mark">?</span>;
-                            <span class="kw">return </span><span class="prelude-val">Ok</span>(ac);
-                        }
-
-                        <span class="kw">let </span><span class="kw-2">mut </span>ca: ListChunked = (<span class="number">0</span>..len)
-                            .map(|<span class="kw">_</span>| {
-                                container.clear();
-                                <span class="kw">for </span>iter <span class="kw">in </span><span class="kw-2">&amp;mut </span>iters {
-                                    <span class="kw">match </span>iter.next().unwrap() {
-                                        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
-                                        <span class="prelude-val">Some</span>(s) =&gt; container.push(s.deep_clone()),
-                                    }
-                                }
-                                <span class="self">self</span>.function.call_udf(<span class="kw-2">&amp;mut </span>container)
-                            })
-                            .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
-
-                        ca.rename(<span class="kw-2">&amp;</span>field.name);
-                        drop(iters);
-
-                        <span class="comment">// take the first aggregation context that as that is the input series
-                        </span><span class="kw">let </span>ac = acs.swap_remove(<span class="number">0</span>);
-                        <span class="self">self</span>.finish_apply_groups(ac, ca)
+                        apply_multiple_elementwise(acs, <span class="self">self</span>.function.as_ref(), <span class="kw-2">&amp;</span><span class="self">self</span>.expr)
                     }
-                }
-                (<span class="kw">_</span>, ApplyOptions::ApplyFlat) =&gt; {
-                    apply_multiple_flat(acs, <span class="self">self</span>.function.as_ref(), <span class="kw-2">&amp;</span><span class="self">self</span>.expr)
                 }
             }
         }
@@ -762,7 +748,7 @@
     }
 }
 
-<span class="kw">fn </span>apply_multiple_flat&lt;<span class="lifetime">&#39;a</span>&gt;(
+<span class="kw">fn </span>apply_multiple_elementwise&lt;<span class="lifetime">&#39;a</span>&gt;(
     <span class="kw-2">mut </span>acs: Vec&lt;AggregationContext&lt;<span class="lifetime">&#39;a</span>&gt;&gt;,
     function: <span class="kw-2">&amp;</span><span class="kw">dyn </span>SeriesUdf,
     expr: <span class="kw-2">&amp;</span>Expr,
