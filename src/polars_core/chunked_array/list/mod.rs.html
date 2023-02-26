@@ -63,6 +63,23 @@
 <a href="#63" id="63">63</a>
 <a href="#64" id="64">64</a>
 <a href="#65" id="65">65</a>
+<a href="#66" id="66">66</a>
+<a href="#67" id="67">67</a>
+<a href="#68" id="68">68</a>
+<a href="#69" id="69">69</a>
+<a href="#70" id="70">70</a>
+<a href="#71" id="71">71</a>
+<a href="#72" id="72">72</a>
+<a href="#73" id="73">73</a>
+<a href="#74" id="74">74</a>
+<a href="#75" id="75">75</a>
+<a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a>
+<a href="#78" id="78">78</a>
+<a href="#79" id="79">79</a>
+<a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Special list utility methods
 </span><span class="kw">mod </span>iterator;
 
@@ -95,15 +112,32 @@
         fld.coerce(DataType::List(Box::new(inner_dtype)))
     }
 
+    <span class="doccomment">/// Get the inner values as `Series`, ignoring the list offsets.
+    </span><span class="kw">pub fn </span>get_inner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Series {
+        <span class="kw">let </span>ca = <span class="self">self</span>.rechunk();
+        <span class="kw">let </span>inner_dtype = <span class="self">self</span>.inner_dtype().to_arrow();
+        <span class="kw">let </span>arr = ca.downcast_iter().next().unwrap();
+        <span class="kw">unsafe </span>{
+            Series::try_from_arrow_unchecked(
+                <span class="self">self</span>.name(),
+                <span class="macro">vec!</span>[(<span class="kw-2">*</span>arr.values()).clone()],
+                <span class="kw-2">&amp;</span>inner_dtype,
+            )
+            .unwrap()
+        }
+    }
+
     <span class="doccomment">/// Ignore the list indices and apply `func` to the inner type as `Series`.
     </span><span class="kw">pub fn </span>apply_to_inner(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         func: <span class="kw-2">&amp;</span><span class="kw">dyn </span>Fn(Series) -&gt; PolarsResult&lt;Series&gt;,
     ) -&gt; PolarsResult&lt;ListChunked&gt; {
+        <span class="comment">// generated Series will have wrong length otherwise.
+        </span><span class="kw">let </span>ca = <span class="self">self</span>.rechunk();
         <span class="kw">let </span>inner_dtype = <span class="self">self</span>.inner_dtype().to_arrow();
 
-        <span class="kw">let </span>chunks = <span class="self">self</span>.downcast_iter().map(|arr| {
-            <span class="kw">let </span>elements = <span class="kw">unsafe </span>{ Series::try_from_arrow_unchecked(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[(<span class="kw-2">*</span>arr.values()).clone()], <span class="kw-2">&amp;</span>inner_dtype).unwrap() } ;
+        <span class="kw">let </span>chunks = ca.downcast_iter().map(|arr| {
+            <span class="kw">let </span>elements = <span class="kw">unsafe </span>{ Series::try_from_arrow_unchecked(<span class="self">self</span>.name(), <span class="macro">vec!</span>[(<span class="kw-2">*</span>arr.values()).clone()], <span class="kw-2">&amp;</span>inner_dtype).unwrap() } ;
 
             <span class="kw">let </span>expected_len = elements.len();
             <span class="kw">let </span>out: Series = func(elements)<span class="question-mark">?</span>;

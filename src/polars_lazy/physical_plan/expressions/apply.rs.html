@@ -416,6 +416,32 @@
 <a href="#416" id="416">416</a>
 <a href="#417" id="417">417</a>
 <a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
+<a href="#429" id="429">429</a>
+<a href="#430" id="430">430</a>
+<a href="#431" id="431">431</a>
+<a href="#432" id="432">432</a>
+<a href="#433" id="433">433</a>
+<a href="#434" id="434">434</a>
+<a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -753,27 +779,53 @@
     function: <span class="kw-2">&amp;</span><span class="kw">dyn </span>SeriesUdf,
     expr: <span class="kw-2">&amp;</span>Expr,
 ) -&gt; PolarsResult&lt;AggregationContext&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>s = acs
-        .iter_mut()
-        .map(|ac| {
-            <span class="comment">// make sure the groups are updated because we are about to throw away
-            // the series length information
-            </span><span class="kw">if let </span>UpdateGroups::WithSeriesLen = ac.update_groups {
-                ac.groups();
-            }
+    <span class="kw">match </span>acs.first().unwrap().agg_state() {
+        <span class="comment">// a fast path that doesn&#39;t drop groups of the first arg
+        // this doesn&#39;t require group re-computation
+        </span>AggState::AggregatedList(s) =&gt; {
+            <span class="kw">let </span>ca = s.list().unwrap();
 
-            ac.flat_naive().into_owned()
-        })
-        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+            <span class="kw">let </span>other = acs[<span class="number">1</span>..]
+                .iter()
+                .map(|ac| ac.flat_naive().into_owned())
+                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
-    <span class="kw">let </span>input_len = s[<span class="number">0</span>].len();
-    <span class="kw">let </span>s = function.call_udf(<span class="kw-2">&amp;mut </span>s)<span class="question-mark">?</span>.unwrap();
-    check_map_output_len(input_len, s.len(), expr)<span class="question-mark">?</span>;
+            <span class="kw">let </span>out = ca.apply_to_inner(<span class="kw-2">&amp;</span>|s| {
+                <span class="kw">let </span><span class="kw-2">mut </span>args = <span class="macro">vec!</span>[s];
+                args.extend_from_slice(<span class="kw-2">&amp;</span>other);
+                <span class="kw">let </span>out = function.call_udf(<span class="kw-2">&amp;mut </span>args)<span class="question-mark">?</span>.unwrap();
+                <span class="prelude-val">Ok</span>(out)
+            })<span class="question-mark">?</span>;
+            <span class="kw">let </span><span class="kw-2">mut </span>ac = acs.swap_remove(<span class="number">0</span>);
+            ac.with_series(out.into_series(), <span class="bool-val">true</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+            <span class="prelude-val">Ok</span>(ac)
+        }
+        <span class="kw">_ </span>=&gt; {
+            <span class="kw">let </span><span class="kw-2">mut </span>s = acs
+                .iter_mut()
+                .enumerate()
+                .map(|(i, ac)| {
+                    <span class="comment">// make sure the groups are updated because we are about to throw away
+                    // the series length information
+                    // only on first iteration
+                    </span><span class="kw">if let </span>(<span class="number">0</span>, UpdateGroups::WithSeriesLen) = (i, <span class="kw-2">&amp;</span>ac.update_groups) {
+                        ac.groups();
+                    }
 
-    <span class="comment">// take the first aggregation context that as that is the input series
-    </span><span class="kw">let </span><span class="kw-2">mut </span>ac = acs.swap_remove(<span class="number">0</span>);
-    ac.with_series(s, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
-    <span class="prelude-val">Ok</span>(ac)
+                    ac.flat_naive().into_owned()
+                })
+                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+
+            <span class="kw">let </span>input_len = s[<span class="number">0</span>].len();
+            <span class="kw">let </span>s = function.call_udf(<span class="kw-2">&amp;mut </span>s)<span class="question-mark">?</span>.unwrap();
+            check_map_output_len(input_len, s.len(), expr)<span class="question-mark">?</span>;
+
+            <span class="comment">// take the first aggregation context that as that is the input series
+            </span><span class="kw">let </span><span class="kw-2">mut </span>ac = acs.swap_remove(<span class="number">0</span>);
+            ac.with_series(s, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+            <span class="prelude-val">Ok</span>(ac)
+        }
+    }
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;parquet&quot;</span>)]
