@@ -908,8 +908,8 @@
                         <span class="kw">return </span><span class="self">self</span>.parse_bytes(
                             bytes,
                             ignore_errors,
-                            needs_escaping,
-                            _missing_is_null,
+                            <span class="bool-val">false</span>, <span class="comment">// escaping was already done
+                            </span>_missing_is_null,
                         );
                     }
                     <span class="kw">if </span>ignore_errors || bytes.is_empty() {
