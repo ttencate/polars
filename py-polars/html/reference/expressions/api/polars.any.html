@@ -547,6 +547,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.clip_max.html">polars.Series.clip_max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.clip_min.html">polars.Series.clip_min</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.clone.html">polars.Series.clone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.cut.html">polars.Series.cut</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.drop_nans.html">polars.Series.drop_nans</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.drop_nulls.html">polars.Series.drop_nulls</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.explode.html">polars.Series.explode</a></li>
@@ -1420,8 +1421,42 @@
 <h1>polars.any<a class="headerlink" href="#polars-any" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="polars.any">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Expr</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Expr</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/lazy_functions.py#L1632-L1639"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.any" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Expr</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Expr</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/lazy_functions.py#L1881-L1925"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.any" title="Permalink to this definition">#</a></dt>
 <dd><p>Evaluate columnwise or elementwise with a bitwise OR operation.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span>
+<span class="go">shape: (3, 3)</span>
+<span class="go">┌───────┬───────┬───────┐</span>
+<span class="go">│ a     ┆ b     ┆ c     │</span>
+<span class="go">│ ---   ┆ ---   ┆ ---   │</span>
+<span class="go">│ bool  ┆ bool  ┆ bool  │</span>
+<span class="go">╞═══════╪═══════╪═══════╡</span>
+<span class="go">│ true  ┆ false ┆ false │</span>
+<span class="go">│ false ┆ false ┆ true  │</span>
+<span class="go">│ true  ┆ false ┆ false │</span>
+<span class="go">└───────┴───────┴───────┘</span>
+</pre></div>
+</div>
+<p>Compares the values (in binary format) and return true if any value in the column
+is true.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">))</span>
+<span class="go">shape: (1, 3)</span>
+<span class="go">┌──────┬───────┬──────┐</span>
+<span class="go">│ a    ┆ b     ┆ c    │</span>
+<span class="go">│ ---  ┆ ---   ┆ ---  │</span>
+<span class="go">│ bool ┆ bool  ┆ bool │</span>
+<span class="go">╞══════╪═══════╪══════╡</span>
+<span class="go">│ true ┆ false ┆ true │</span>
+<span class="go">└──────┴───────┴──────┘</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

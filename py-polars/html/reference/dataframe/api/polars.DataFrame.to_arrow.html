@@ -547,6 +547,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.clip_max.html">polars.Series.clip_max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.clip_min.html">polars.Series.clip_min</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.clone.html">polars.Series.clone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.cut.html">polars.Series.cut</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.drop_nans.html">polars.Series.drop_nans</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.drop_nulls.html">polars.Series.drop_nulls</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.explode.html">polars.Series.explode</a></li>
@@ -1420,7 +1421,7 @@
 <h1>polars.DataFrame.to_arrow<a class="headerlink" href="#polars-dataframe-to-arrow" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.DataFrame.to_arrow">
-<span class="sig-prename descclassname"><span class="pre">DataFrame.</span></span><span class="sig-name descname"><span class="pre">to_arrow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://arrow.apache.org/docs/python/generated/pyarrow.Table.html#pyarrow.Table" title="(in Apache Arrow v11.0.0)"><span class="pre">Table</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/dataframe/frame.py#L1771-L1795"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.DataFrame.to_arrow" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">DataFrame.</span></span><span class="sig-name descname"><span class="pre">to_arrow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://arrow.apache.org/docs/python/generated/pyarrow.Table.html#pyarrow.Table" title="(in Apache Arrow v11.0.0)"><span class="pre">Table</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/dataframe/frame.py#L1779-L1803"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.DataFrame.to_arrow" title="Permalink to this definition">#</a></dt>
 <dd><p>Collect the underlying arrow arrays in an Arrow Table.</p>
 <p>This operation is mostly zero copy.</p>
 <dl class="simple">

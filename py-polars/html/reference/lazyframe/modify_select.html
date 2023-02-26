@@ -547,6 +547,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.clip_max.html">polars.Series.clip_max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.clip_min.html">polars.Series.clip_min</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.clone.html">polars.Series.clone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.cut.html">polars.Series.cut</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.drop_nans.html">polars.Series.drop_nans</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.drop_nulls.html">polars.Series.drop_nulls</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.explode.html">polars.Series.explode</a></li>
@@ -1432,7 +1433,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.LazyFrame.drop_nulls.html#polars.LazyFrame.drop_nulls" title="polars.LazyFrame.drop_nulls"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.drop_nulls</span></code></a>([subset])</p></td>
 <td><p>Drop all rows that contain null values.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.LazyFrame.explode.html#polars.LazyFrame.explode" title="polars.LazyFrame.explode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.explode</span></code></a>(columns)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.LazyFrame.explode.html#polars.LazyFrame.explode" title="polars.LazyFrame.explode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.explode</span></code></a>(columns, *more_columns)</p></td>
 <td><p>Explode the dataframe to long format by exploding the given columns.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.LazyFrame.fill_nan.html#polars.LazyFrame.fill_nan" title="polars.LazyFrame.fill_nan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.fill_nan</span></code></a>(fill_value)</p></td>

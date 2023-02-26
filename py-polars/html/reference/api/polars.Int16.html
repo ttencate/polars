@@ -547,6 +547,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.clip_max.html">polars.Series.clip_max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.clip_min.html">polars.Series.clip_min</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.clone.html">polars.Series.clone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.cut.html">polars.Series.cut</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.drop_nans.html">polars.Series.drop_nans</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.drop_nulls.html">polars.Series.drop_nulls</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.explode.html">polars.Series.explode</a></li>
@@ -1420,7 +1421,7 @@
 <h1>polars.Int16<a class="headerlink" href="#polars-int16" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="polars.Int16">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">Int16</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/datatypes.py#L176-L177"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Int16" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">Int16</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/datatypes.py#L196-L197"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Int16" title="Permalink to this definition">#</a></dt>
 <dd><p>16-bit signed integer type.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Int16.__init__">
@@ -1432,6 +1433,9 @@
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#polars.Int16.__init__" title="polars.Int16.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(*args, **kwargs)</p></td>
 <td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">base_type</span></code>()</p></td>
+<td><p>Return this DataType's fundamental/root type class.</p></td>
 </tr>
 </tbody>
 </table>
