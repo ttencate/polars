@@ -1452,7 +1452,7 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
 </span><span class="kw">use </span>arrow::scalar::BinaryScalar;
 <span class="kw">use </span>arrow::scalar::{PrimitiveScalar, Scalar, Utf8Scalar};
-<span class="kw">use </span>num::{NumCast, ToPrimitive};
+<span class="kw">use </span>num_traits::{NumCast, ToPrimitive};
 <span class="kw">use </span>polars_arrow::prelude::FromData;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;

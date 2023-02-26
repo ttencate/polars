@@ -83,13 +83,9 @@ var sourcesIndex = JSON.parse('{\
 "multiversion_macros":["",[],["dispatcher.rs","lib.rs","meta.rs","multiversion.rs","safe_inner.rs","static_dispatch.rs","target.rs","target_cfg.rs","util.rs"]],\
 "ndarray":["",[["dimension",[],["axes.rs","axis.rs","broadcast.rs","conversion.rs","dim.rs","dimension_trait.rs","dynindeximpl.rs","macros.rs","mod.rs","ndindex.rs","ops.rs","remove_axis.rs","reshape.rs","sequence.rs"]],["extension",[],["nonnull.rs"]],["impl_views",[],["constructors.rs","conversions.rs","indexing.rs","mod.rs","splitting.rs"]],["iterators",[],["chunks.rs","into_iter.rs","iter.rs","lanes.rs","macros.rs","mod.rs","windows.rs"]],["layout",[],["layoutfmt.rs","mod.rs"]],["linalg",[],["impl_linalg.rs","mod.rs"]],["numeric",[],["impl_numeric.rs","mod.rs"]],["zip",[],["mod.rs","ndproducer.rs","zipmacro.rs"]]],["aliases.rs","argument_traits.rs","arrayformat.rs","arraytraits.rs","data_repr.rs","data_traits.rs","error.rs","extension.rs","free_functions.rs","impl_1d.rs","impl_2d.rs","impl_clone.rs","impl_constructors.rs","impl_cow.rs","impl_dyn.rs","impl_internal_constructors.rs","impl_methods.rs","impl_ops.rs","impl_owned_array.rs","impl_raw_views.rs","impl_special_element_types.rs","indexes.rs","itertools.rs","lib.rs","linalg_traits.rs","low_level_util.rs","macro_utils.rs","math_cell.rs","numeric_util.rs","order.rs","partial.rs","prelude.rs","private.rs","shape_builder.rs","slice.rs","split_at.rs","stacking.rs"]],\
 "now":["",[],["lib.rs"]],\
-"num":["",[],["lib.rs"]],\
-"num_bigint":["",[["bigint",[],["addition.rs","bits.rs","convert.rs","division.rs","multiplication.rs","power.rs","shift.rs","subtraction.rs"]],["biguint",[],["addition.rs","bits.rs","convert.rs","division.rs","iter.rs","monty.rs","multiplication.rs","power.rs","shift.rs","subtraction.rs"]]],["bigint.rs","biguint.rs","lib.rs","macros.rs"]],\
-"num_complex":["",[],["cast.rs","complex_float.rs","lib.rs","pow.rs"]],\
+"num_complex":["",[],["cast.rs","lib.rs","pow.rs"]],\
 "num_cpus":["",[],["lib.rs","linux.rs"]],\
 "num_integer":["",[],["average.rs","lib.rs","roots.rs"]],\
-"num_iter":["",[],["lib.rs"]],\
-"num_rational":["",[],["lib.rs","pow.rs"]],\
 "num_traits":["",[["ops",[],["checked.rs","euclid.rs","inv.rs","mod.rs","mul_add.rs","overflowing.rs","saturating.rs","wrapping.rs"]]],["bounds.rs","cast.rs","float.rs","identities.rs","int.rs","lib.rs","macros.rs","pow.rs","real.rs","sign.rs"]],\
 "once_cell":["",[],["imp_std.rs","lib.rs","race.rs"]],\
 "parking_lot":["",[],["condvar.rs","deadlock.rs","elision.rs","fair_mutex.rs","lib.rs","mutex.rs","once.rs","raw_fair_mutex.rs","raw_mutex.rs","raw_rwlock.rs","remutex.rs","rwlock.rs","util.rs"]],\

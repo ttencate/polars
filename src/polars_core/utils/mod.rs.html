@@ -992,6 +992,7 @@
 <a href="#992" id="992">992</a>
 <a href="#993" id="993">993</a>
 <a href="#994" id="994">994</a>
+<a href="#995" id="995">995</a>
 </pre><pre class="rust"><code><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>series;
 <span class="kw">mod </span>supertype;
 
@@ -999,6 +1000,7 @@
 <span class="kw">use </span>std::ops::{Deref, DerefMut};
 
 <span class="kw">use </span>arrow::bitmap::Bitmap;
+<span class="kw">use </span>num_traits::{One, Zero};
 <span class="kw">pub use </span>polars_arrow::utils::{TrustMyLength, <span class="kw-2">*</span>};
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>series::<span class="kw-2">*</span>;
@@ -1825,20 +1827,20 @@
 </span><span class="attr">#[inline]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>index_to_chunked_index&lt;
     I: Iterator&lt;Item = Idx&gt;,
-    Idx: PartialOrd + std::ops::AddAssign + std::ops::SubAssign + num::Zero + num::One,
+    Idx: PartialOrd + std::ops::AddAssign + std::ops::SubAssign + Zero + One,
 &gt;(
     chunk_lens: I,
     index: Idx,
 ) -&gt; (Idx, Idx) {
     <span class="kw">let </span><span class="kw-2">mut </span>index_remainder = index;
-    <span class="kw">let </span><span class="kw-2">mut </span>current_chunk_idx = num::Zero::zero();
+    <span class="kw">let </span><span class="kw-2">mut </span>current_chunk_idx = Zero::zero();
 
     <span class="kw">for </span>chunk_len <span class="kw">in </span>chunk_lens {
         <span class="kw">if </span>chunk_len &gt; index_remainder {
             <span class="kw">break</span>;
         } <span class="kw">else </span>{
             index_remainder -= chunk_len;
-            current_chunk_idx += num::One::one();
+            current_chunk_idx += One::one();
         }
     }
     (current_chunk_idx, index_remainder)

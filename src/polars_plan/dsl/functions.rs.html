@@ -1124,7 +1124,6 @@
 <a href="#1124" id="1124">1124</a>
 <a href="#1125" id="1125">1125</a>
 <a href="#1126" id="1126">1126</a>
-<a href="#1127" id="1127">1127</a>
 </pre><pre class="rust"><code><span class="doccomment">//! # Functions
 //!
 //! Functions on expressions that might be useful.
@@ -1133,8 +1132,6 @@
 
 <span class="kw">use </span>polars_core::export::arrow::temporal_conversions::NANOSECONDS;
 <span class="kw">use </span>polars_core::utils::arrow::temporal_conversions::SECONDS_IN_DAY;
-<span class="attr">#[cfg(feature = <span class="string">&quot;rank&quot;</span>)]
-</span><span class="kw">use </span>polars_core::utils::coalesce_nulls_series;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">use </span>polars_core::utils::get_supertype;
 
@@ -1306,6 +1303,7 @@
 ///     and thus lead to the highest rank.
 </span><span class="attr">#[cfg(all(feature = <span class="string">&quot;rank&quot;</span>, feature = <span class="string">&quot;propagate_nans&quot;</span>))]
 </span><span class="kw">pub fn </span>spearman_rank_corr(a: Expr, b: Expr, ddof: u8, propagate_nans: bool) -&gt; Expr {
+    <span class="kw">use </span>polars_core::utils::coalesce_nulls_series;
     <span class="kw">use </span>polars_ops::prelude::nan_propagating_aggregate::nan_max_s;
 
     <span class="kw">let </span>function = <span class="kw">move </span>|a: Series, b: Series| {

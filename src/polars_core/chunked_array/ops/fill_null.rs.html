@@ -443,7 +443,7 @@
 
 <span class="kw">use </span>arrow::compute;
 <span class="kw">use </span>arrow::types::simd::Simd;
-<span class="kw">use </span>num::{Bounded, NumCast, One, Zero};
+<span class="kw">use </span>num_traits::{Bounded, NumCast, One, Zero};
 <span class="kw">use </span>polars_arrow::kernels::set::set_at_nulls;
 <span class="kw">use </span>polars_arrow::trusted_len::FromIteratorReversed;
 <span class="kw">use </span>polars_arrow::utils::{CustomIterTools, FromTrustedLenIterator};

@@ -598,7 +598,11 @@
 <a href="#598" id="598">598</a>
 <a href="#599" id="599">599</a>
 <a href="#600" id="600">600</a>
-</pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+</pre><pre class="rust"><code><span class="kw">use </span>num_traits::NumCast;
+
+<span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;chunked_ids&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::utils::create_chunked_index_mapping;
 
@@ -883,7 +887,7 @@
 <span class="kw">impl</span>&lt;T&gt; ChunkedArray&lt;T&gt;
 <span class="kw">where
     </span>T: PolarsIntegerType + Sync,
-    T::Native: Eq + Hash + num::NumCast,
+    T::Native: Eq + Hash + NumCast,
 {
     <span class="kw">fn </span>hash_join_outer(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; Vec&lt;(<span class="prelude-ty">Option</span>&lt;IdxSize&gt;, <span class="prelude-ty">Option</span>&lt;IdxSize&gt;)&gt; {
         <span class="kw">let </span>(a, b, swap) = <span class="macro">det_hash_prone_order!</span>(<span class="self">self</span>, other);

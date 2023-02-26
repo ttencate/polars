@@ -1053,7 +1053,7 @@
 <span class="kw">use </span>arrow::compute;
 <span class="kw">use </span>arrow::types::simd::Simd;
 <span class="kw">use </span>arrow::types::NativeType;
-<span class="kw">use </span>num::{Float, ToPrimitive};
+<span class="kw">use </span>num_traits::{Float, ToPrimitive};
 <span class="kw">use </span>polars_arrow::kernels::rolling::{compare_fn_nan_max, compare_fn_nan_min};
 <span class="kw">pub use </span>quantile::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>var::<span class="kw-2">*</span>;

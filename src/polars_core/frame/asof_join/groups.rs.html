@@ -951,7 +951,7 @@
 
 <span class="kw">use </span>ahash::RandomState;
 <span class="kw">use </span>arrow::types::NativeType;
-<span class="kw">use </span>num::Zero;
+<span class="kw">use </span>num_traits::Zero;
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -1105,7 +1105,7 @@
     forward: bool,
 ) <span class="kw">where
     </span>K: Hash + PartialEq + Eq,
-    T: NativeType + Sub&lt;Output = T&gt; + PartialOrd + num::Zero,
+    T: NativeType + Sub&lt;Output = T&gt; + PartialOrd + Zero,
 {
     <span class="kw">let </span>(offset_slice, <span class="kw-2">mut </span>previous_join_idx) =
         <span class="kw-2">*</span>right_tbl_offsets.get(<span class="kw-2">&amp;</span>k).unwrap_or(<span class="kw-2">&amp;</span>(<span class="number">0usize</span>, <span class="prelude-val">None</span>));
@@ -1126,7 +1126,7 @@
             <span class="kw">if </span>forward {
                 previous_join_idx = <span class="prelude-val">None</span>;
             }
-            <span class="kw">if </span>tolerance &gt; num::zero() {
+            <span class="kw">if </span>tolerance &gt; Zero::zero() {
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(idx) = previous_join_idx {
                     <span class="macro">debug_assert!</span>((idx <span class="kw">as </span>usize) &lt; right_asof.len());
                     <span class="kw">let </span>val_r = <span class="kw">unsafe </span>{ <span class="kw-2">*</span>right_asof.get_unchecked(idx <span class="kw">as </span>usize) };
