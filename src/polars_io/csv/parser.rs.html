@@ -681,6 +681,9 @@
 <a href="#681" id="681">681</a>
 <a href="#682" id="682">682</a>
 <a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
 </pre><pre class="rust"><code><span class="kw">use </span>memchr::memchr2_iter;
 <span class="kw">use </span>num::traits::Pow;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
@@ -1169,8 +1172,9 @@
     buffers: <span class="kw-2">&amp;mut </span>[Buffer&lt;<span class="lifetime">&#39;a</span>&gt;],
     ignore_errors: bool,
     n_lines: usize,
-    <span class="comment">// length or original schema
+    <span class="comment">// length of original schema
     </span>schema_len: usize,
+    schema: <span class="kw-2">&amp;</span>Schema,
 ) -&gt; PolarsResult&lt;usize&gt; {
     <span class="macro">assert!</span>(
         !projection.is_empty(),
@@ -1228,13 +1232,12 @@
                     <span class="kw">break</span>;
                 }
                 <span class="prelude-val">Some</span>((<span class="kw-2">mut </span>field, needs_escaping)) =&gt; {
-                    idx += <span class="number">1</span>;
                     <span class="kw">let </span>field_len = field.len();
 
                     <span class="comment">// +1 is the split character that is consumed by the iterator.
                     </span>read_sol += field_len + <span class="number">1</span>;
 
-                    <span class="kw">if </span>(idx - <span class="number">1</span>) == next_projected <span class="kw">as </span>u32 {
+                    <span class="kw">if </span>idx == next_projected <span class="kw">as </span>u32 {
                         <span class="comment">// the iterator is finished when it encounters a `\n`
                         // this could be preceded by a &#39;\r&#39;
                         </span><span class="kw">if </span>field_len &gt; <span class="number">0 </span>&amp;&amp; field[field_len - <span class="number">1</span>] == <span class="string">b&#39;\r&#39; </span>{
@@ -1267,9 +1270,10 @@
                                 .map_err(|<span class="kw">_</span>| {
                                     <span class="kw">let </span>bytes_offset = offset + field.as_ptr() <span class="kw">as </span>usize - start;
                                     <span class="kw">let </span>unparsable = String::from_utf8_lossy(field);
+                                    <span class="kw">let </span>column_name = schema.get_index(idx <span class="kw">as </span>usize).unwrap().<span class="number">0</span>;
                                     PolarsError::ComputeError(
                                         <span class="macro">format!</span>(
-                                            <span class="string">&quot;Could not parse `{}` as dtype {:?} at column {}.\n\
+                                            <span class="string">&quot;Could not parse `{}` as dtype {:?} at column &#39;{}&#39; (column number {}).\n\
                                             The current offset in the file is {} bytes.\n\
                                             \n\
                                             You might want to try:\n\
@@ -1279,7 +1283,8 @@
                                             - adding `{}` to the `null_values` list.&quot;</span>,
                                             <span class="kw-2">&amp;</span>unparsable,
                                             buf.dtype(),
-                                            idx,
+                                            column_name,
+                                            idx+<span class="number">1</span>,
                                             bytes_offset,
                                             <span class="kw-2">&amp;</span>unparsable,
                                         )
@@ -1307,6 +1312,7 @@
                             }
                         }
                     }
+                    idx += <span class="number">1</span>;
                 }
             }
         }
