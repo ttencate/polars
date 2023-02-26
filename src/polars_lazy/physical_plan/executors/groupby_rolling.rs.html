@@ -128,9 +128,6 @@
 <a href="#128" id="128">128</a>
 <a href="#129" id="129">129</a>
 <a href="#130" id="130">130</a>
-<a href="#131" id="131">131</a>
-<a href="#132" id="132">132</a>
-<a href="#133" id="133">133</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;dynamic_groupby&quot;</span>)]
 </span><span class="kw">use </span>polars_time::RollingGroupOptions;
 
@@ -199,9 +196,6 @@
                 }
             }
         };
-
-        <span class="comment">// a rolling groupby has overlapping windows
-        </span>state.set_has_overlapping_groups();
 
         <span class="kw">let </span>agg_columns = POOL.install(|| {
             <span class="self">self</span>.aggs
