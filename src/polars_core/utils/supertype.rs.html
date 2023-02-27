@@ -315,8 +315,6 @@
 <a href="#315" id="315">315</a>
 <a href="#316" id="316">316</a>
 <a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Given two datatypes, determine the supertype that both types can safely be cast to
@@ -515,11 +513,9 @@
             </span>(Time, Float64) =&gt; <span class="prelude-val">Some</span>(Float64),
 
             <span class="comment">// every known type can be casted to a string except binary
-            </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
             </span>(dt, Utf8) <span class="kw">if </span>dt != <span class="kw-2">&amp;</span>DataType::Unknown &amp;&amp; dt != <span class="kw-2">&amp;</span>DataType::Binary =&gt; <span class="prelude-val">Some</span>(Utf8),
 
-            <span class="attr">#[cfg(not(feature = <span class="string">&quot;dtype-binary&quot;</span>))]
-            </span>(dt, Utf8) <span class="kw">if </span>dt != <span class="kw-2">&amp;</span>DataType::Unknown =&gt; <span class="prelude-val">Some</span>(Utf8),
+            (dt, Utf8) <span class="kw">if </span>dt != <span class="kw-2">&amp;</span>DataType::Unknown =&gt; <span class="prelude-val">Some</span>(Utf8),
 
             (dt, Null) =&gt; <span class="prelude-val">Some</span>(dt.clone()),
 

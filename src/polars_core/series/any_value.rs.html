@@ -300,10 +300,6 @@
 <a href="#300" id="300">300</a>
 <a href="#301" id="301">301</a>
 <a href="#302" id="302">302</a>
-<a href="#303" id="303">303</a>
-<a href="#304" id="304">304</a>
-<a href="#305" id="305">305</a>
-<a href="#306" id="306">306</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::fmt::Write;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -325,8 +321,7 @@
             AnyValue::Utf8(s) =&gt; builder.append_value(s),
             AnyValue::Utf8Owned(s) =&gt; builder.append_value(s),
             AnyValue::Null =&gt; builder.append_null(),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
-            </span>AnyValue::Binary(<span class="kw">_</span>) | AnyValue::BinaryOwned(<span class="kw">_</span>) =&gt; builder.append_null(),
+            AnyValue::Binary(<span class="kw">_</span>) | AnyValue::BinaryOwned(<span class="kw">_</span>) =&gt; builder.append_null(),
             av =&gt; {
                 owned.clear();
                 <span class="macro">write!</span>(owned, <span class="string">&quot;{av}&quot;</span>).unwrap();
@@ -337,8 +332,7 @@
     builder.finish()
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
-</span><span class="kw">fn </span>any_values_to_binary(avs: <span class="kw-2">&amp;</span>[AnyValue]) -&gt; BinaryChunked {
+<span class="kw">fn </span>any_values_to_binary(avs: <span class="kw-2">&amp;</span>[AnyValue]) -&gt; BinaryChunked {
     avs.iter()
         .map(|av| <span class="kw">match </span>av {
             AnyValue::Binary(s) =&gt; <span class="prelude-val">Some</span>(<span class="kw-2">*</span>s),
@@ -416,8 +410,7 @@
             DataType::Float32 =&gt; any_values_to_primitive::&lt;Float32Type&gt;(av).into_series(),
             DataType::Float64 =&gt; any_values_to_primitive::&lt;Float64Type&gt;(av).into_series(),
             DataType::Utf8 =&gt; any_values_to_utf8(av).into_series(),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
-            </span>DataType::Binary =&gt; any_values_to_binary(av).into_series(),
+            DataType::Binary =&gt; any_values_to_binary(av).into_series(),
             DataType::Boolean =&gt; any_values_to_bool(av).into_series(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
             </span>DataType::Date =&gt; any_values_to_primitive::&lt;Int32Type&gt;(av)
@@ -568,8 +561,7 @@
             Null =&gt; DataType::Null,
             Boolean(<span class="kw">_</span>) =&gt; DataType::Boolean,
             Utf8(<span class="kw">_</span>) | Utf8Owned(<span class="kw">_</span>) =&gt; DataType::Utf8,
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
-            </span>Binary(<span class="kw">_</span>) | BinaryOwned(<span class="kw">_</span>) =&gt; DataType::Binary,
+            Binary(<span class="kw">_</span>) | BinaryOwned(<span class="kw">_</span>) =&gt; DataType::Binary,
             UInt32(<span class="kw">_</span>) =&gt; DataType::UInt32,
             UInt64(<span class="kw">_</span>) =&gt; DataType::UInt64,
             Int32(<span class="kw">_</span>) =&gt; DataType::Int32,

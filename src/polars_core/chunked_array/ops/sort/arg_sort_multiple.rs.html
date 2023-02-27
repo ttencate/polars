@@ -182,7 +182,7 @@
     <span class="kw">let </span><span class="kw-2">mut </span>fields = Vec::with_capacity(by.len());
 
     <span class="kw">for </span>(by, descending) <span class="kw">in </span>by.iter().zip(descending) {
-        <span class="kw">let </span>by = convert_sort_column_multi_sort(by)<span class="question-mark">?</span>;
+        <span class="kw">let </span>by = convert_sort_column_multi_sort(by, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
         <span class="kw">let </span>data_type = by.dtype().to_arrow();
         <span class="kw">let </span>by = by.rechunk();
         cols.push(by.chunks()[<span class="number">0</span>].clone());

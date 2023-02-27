@@ -344,10 +344,6 @@
 <a href="#344" id="344">344</a>
 <a href="#345" id="345">345</a>
 <a href="#346" id="346">346</a>
-<a href="#347" id="347">347</a>
-<a href="#348" id="348">348</a>
-<a href="#349" id="349">349</a>
-<a href="#350" id="350">350</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;string_encoding&quot;</span>)]
@@ -373,15 +369,13 @@
 <span class="kw">pub trait </span>Utf8NameSpaceImpl: AsUtf8 {
     <span class="attr">#[cfg(not(feature = <span class="string">&quot;binary_encoding&quot;</span>))]
     </span><span class="kw">fn </span>hex_decode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;Utf8Chunked&gt; {
-        <span class="macro">panic!</span>(<span class="string">&quot;activate &#39;dtype-binary&#39; feature&quot;</span>)
+        <span class="macro">panic!</span>(<span class="string">&quot;activate &#39;binary_encoding&#39; feature&quot;</span>)
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;binary_encoding&quot;</span>)]
     </span><span class="kw">fn </span>hex_decode(<span class="kw-2">&amp;</span><span class="self">self</span>, strict: bool) -&gt; PolarsResult&lt;BinaryChunked&gt; {
         <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
-        ca.cast_unchecked(<span class="kw-2">&amp;</span>DataType::Binary)<span class="question-mark">?
-            </span>.binary()<span class="question-mark">?
-            </span>.hex_decode(strict)
+        ca.as_binary().hex_decode(strict)
     }
 
     <span class="attr">#[must_use]
@@ -393,15 +387,13 @@
 
     <span class="attr">#[cfg(not(feature = <span class="string">&quot;binary_encoding&quot;</span>))]
     </span><span class="kw">fn </span>base64_decode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;Utf8Chunked&gt; {
-        <span class="macro">panic!</span>(<span class="string">&quot;activate &#39;dtype-binary&#39; feature&quot;</span>)
+        <span class="macro">panic!</span>(<span class="string">&quot;activate &#39;binary_encoding&#39; feature&quot;</span>)
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;binary_encoding&quot;</span>)]
     </span><span class="kw">fn </span>base64_decode(<span class="kw-2">&amp;</span><span class="self">self</span>, strict: bool) -&gt; PolarsResult&lt;BinaryChunked&gt; {
         <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
-        ca.cast_unchecked(<span class="kw-2">&amp;</span>DataType::Binary)<span class="question-mark">?
-            </span>.binary()<span class="question-mark">?
-            </span>.base64_decode(strict)
+        ca.as_binary().base64_decode(strict)
     }
 
     <span class="attr">#[must_use]

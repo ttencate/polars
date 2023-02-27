@@ -992,7 +992,6 @@
 <a href="#992" id="992">992</a>
 <a href="#993" id="993">993</a>
 <a href="#994" id="994">994</a>
-<a href="#995" id="995">995</a>
 </pre><pre class="rust"><code><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>series;
 <span class="kw">mod </span>supertype;
 
@@ -1278,8 +1277,7 @@
     (<span class="macro-nonterminal">$obj</span>:expr, <span class="macro-nonterminal">$</span><span class="kw">macro</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$macro_utf8</span>:ident, <span class="macro-nonterminal">$macro_binary</span>:ident, <span class="macro-nonterminal">$macro_bool</span>:ident $(, <span class="macro-nonterminal">$opt_args</span>:expr)<span class="kw-2">*</span>) =&gt; {{
         <span class="kw">match </span><span class="macro-nonterminal">$obj </span>{
             DataType::Utf8 =&gt; <span class="macro-nonterminal">$</span><span class="macro">macro_utf8!</span>($(<span class="macro-nonterminal">$opt_args</span>)<span class="kw-2">*</span>),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
-            </span>DataType::Binary =&gt; <span class="macro-nonterminal">$</span><span class="macro">macro_binary!</span>($(<span class="macro-nonterminal">$opt_args</span>)<span class="kw-2">*</span>),
+            DataType::Binary =&gt; <span class="macro-nonterminal">$</span><span class="macro">macro_binary!</span>($(<span class="macro-nonterminal">$opt_args</span>)<span class="kw-2">*</span>),
             DataType::Boolean =&gt; <span class="macro-nonterminal">$</span><span class="macro">macro_bool!</span>($(<span class="macro-nonterminal">$opt_args</span>)<span class="kw-2">*</span>),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-u8&quot;</span>)]
             </span>DataType::UInt8 =&gt; <span class="macro-nonterminal">$</span><span class="macro">macro!</span>(<span class="macro-nonterminal">UInt8Type </span>$(, <span class="macro-nonterminal">$opt_args</span>)<span class="kw-2">*</span>),

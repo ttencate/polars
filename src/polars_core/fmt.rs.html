@@ -1024,10 +1024,6 @@
 <a href="#1024" id="1024">1024</a>
 <a href="#1025" id="1025">1025</a>
 <a href="#1026" id="1026">1026</a>
-<a href="#1027" id="1027">1027</a>
-<a href="#1028" id="1028">1028</a>
-<a href="#1029" id="1029">1029</a>
-<a href="#1030" id="1030">1030</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(any(feature = <span class="string">&quot;fmt&quot;</span>, feature = <span class="string">&quot;fmt_no_tty&quot;</span>))]
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::fmt;
@@ -1202,8 +1198,7 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
-</span><span class="kw">impl </span>Debug <span class="kw">for </span>BinaryChunked {
+<span class="kw">impl </span>Debug <span class="kw">for </span>BinaryChunked {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
         <span class="macro">format_array!</span>(f, <span class="self">self</span>, <span class="string">&quot;binary&quot;</span>, <span class="self">self</span>.name(), <span class="string">&quot;ChunkedArray&quot;</span>)
     }
@@ -1331,8 +1326,7 @@
             DataType::Null =&gt; {
                 <span class="macro">writeln!</span>(f, <span class="string">&quot;nullarray&quot;</span>)
             }
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
-            </span>DataType::Binary =&gt; {
+            DataType::Binary =&gt; {
                 <span class="macro">format_array!</span>(f, <span class="self">self</span>.binary().unwrap(), <span class="string">&quot;binary&quot;</span>, <span class="self">self</span>.name(), <span class="string">&quot;Series&quot;</span>)
             }
             dt =&gt; <span class="macro">panic!</span>(<span class="string">&quot;{dt:?} not impl&quot;</span>),
@@ -1759,8 +1753,7 @@
             AnyValue::Boolean(v) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="kw-2">*</span>v),
             AnyValue::Utf8(v) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="macro">format_args!</span>(<span class="string">&quot;\&quot;{v}\&quot;&quot;</span>)),
             AnyValue::Utf8Owned(v) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="macro">format_args!</span>(<span class="string">&quot;\&quot;{v}\&quot;&quot;</span>)),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
-            </span>AnyValue::Binary(<span class="kw">_</span>) | AnyValue::BinaryOwned(<span class="kw">_</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;[binary data]&quot;</span>),
+            AnyValue::Binary(<span class="kw">_</span>) | AnyValue::BinaryOwned(<span class="kw">_</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;[binary data]&quot;</span>),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
             </span>AnyValue::Date(v) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, date32_to_date(<span class="kw-2">*</span>v)),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
@@ -1915,8 +1908,7 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-binary&quot;</span>)]
-</span><span class="kw">impl </span>FmtList <span class="kw">for </span>BinaryChunked {
+<span class="kw">impl </span>FmtList <span class="kw">for </span>BinaryChunked {
     <span class="kw">fn </span>fmt_list(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
         <span class="macro">impl_fmt_list!</span>(<span class="self">self</span>)
     }
