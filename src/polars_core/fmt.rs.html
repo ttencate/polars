@@ -1101,7 +1101,7 @@
                 .map_or(LIMIT, |n: i64| <span class="kw">if </span>n &lt; <span class="number">0 </span>{ <span class="macro-nonterminal">$a</span>.len() } <span class="kw">else </span>{ n <span class="kw">as </span>usize });
             std::cmp::min(limit, <span class="macro-nonterminal">$a</span>.len())
         };
-        <span class="kw">let </span>write_fn = |v, f: <span class="kw-2">&amp;mut </span>Formatter| {
+        <span class="kw">let </span>write_fn = |v, f: <span class="kw-2">&amp;mut </span>Formatter| -&gt; fmt::Result {
             <span class="kw">if </span>truncate {
                 <span class="kw">let </span>v = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, v);
                 <span class="kw">let </span>v_trunc = <span class="kw-2">&amp;</span>v[..v
