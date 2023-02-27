@@ -1379,13 +1379,13 @@
 
 <span class="attr">#[cfg(all(feature = <span class="string">&quot;concat_str&quot;</span>, feature = <span class="string">&quot;strings&quot;</span>))]
 </span><span class="doccomment">/// Horizontally concat string columns in linear time
-</span><span class="kw">pub fn </span>concat_str&lt;E: AsRef&lt;[Expr]&gt;&gt;(s: E, sep: <span class="kw-2">&amp;</span>str) -&gt; Expr {
+</span><span class="kw">pub fn </span>concat_str&lt;E: AsRef&lt;[Expr]&gt;&gt;(s: E, separator: <span class="kw-2">&amp;</span>str) -&gt; Expr {
     <span class="kw">let </span>input = s.as_ref().to_vec();
-    <span class="kw">let </span>sep = sep.to_string();
+    <span class="kw">let </span>separator = separator.to_string();
 
     Expr::Function {
         input,
-        function: StringFunction::ConcatHorizontal(sep).into(),
+        function: StringFunction::ConcatHorizontal(separator).into(),
         options: FunctionOptions {
             collect_groups: ApplyOptions::ApplyGroups,
             input_wildcard_expansion: <span class="bool-val">true</span>,
