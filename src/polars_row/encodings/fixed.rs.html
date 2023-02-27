@@ -325,7 +325,7 @@
 }
 
 <span class="attr">#[inline]
-</span><span class="kw">fn </span>null_sentinel(field: <span class="kw-2">&amp;</span>SortField) -&gt; u8 {
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>null_sentinel(field: <span class="kw-2">&amp;</span>SortField) -&gt; u8 {
     <span class="kw">if </span>field.nulls_last {
         <span class="number">0xFF
     </span>} <span class="kw">else </span>{
