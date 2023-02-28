@@ -967,7 +967,7 @@
 <a href="#967" id="967">967</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>arg_sort;
 <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">mod </span>arg_sort_multiple;
+</span><span class="kw">pub mod </span>arg_sort_multiple;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
 </span><span class="kw">mod </span>categorical;
 
@@ -1709,7 +1709,7 @@
     <span class="prelude-val">Ok</span>(out)
 }
 
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>broadcast_descending(n_cols: usize, descending: <span class="kw-2">&amp;mut </span>Vec&lt;bool&gt;) {
+<span class="kw">pub fn </span>_broadcast_descending(n_cols: usize, descending: <span class="kw-2">&amp;mut </span>Vec&lt;bool&gt;) {
     <span class="kw">if </span>n_cols &gt; descending.len() &amp;&amp; descending.len() == <span class="number">1 </span>{
         <span class="kw">while </span>n_cols != descending.len() {
             descending.push(descending[<span class="number">0</span>]);
@@ -1732,7 +1732,7 @@
     <span class="kw">let </span>first = columns.remove(<span class="number">0</span>);
 
     <span class="comment">// broadcast ordering
-    </span>broadcast_descending(n_cols, <span class="kw-2">&amp;mut </span>descending);
+    </span>_broadcast_descending(n_cols, <span class="kw-2">&amp;mut </span>descending);
     <span class="prelude-val">Ok</span>((first, columns, descending))
 }
 

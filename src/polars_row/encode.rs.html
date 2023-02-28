@@ -227,27 +227,39 @@
 <a href="#227" id="227">227</a>
 <a href="#228" id="228">228</a>
 <a href="#229" id="229">229</a>
+<a href="#230" id="230">230</a>
+<a href="#231" id="231">231</a>
+<a href="#232" id="232">232</a>
+<a href="#233" id="233">233</a>
+<a href="#234" id="234">234</a>
+<a href="#235" id="235">235</a>
+<a href="#236" id="236">236</a>
+<a href="#237" id="237">237</a>
+<a href="#238" id="238">238</a>
+<a href="#239" id="239">239</a>
+<a href="#240" id="240">240</a>
+<a href="#241" id="241">241</a>
+<a href="#242" id="242">242</a>
+<a href="#243" id="243">243</a>
+<a href="#244" id="244">244</a>
+<a href="#245" id="245">245</a>
 </pre><pre class="rust"><code><span class="kw">use </span>arrow::array::{Array, BinaryArray, BooleanArray, DictionaryArray, PrimitiveArray, Utf8Array};
 <span class="kw">use </span>arrow::datatypes::{DataType <span class="kw">as </span>ArrowDataType, DataType};
 <span class="kw">use </span>arrow::types::NativeType;
 
 <span class="kw">use </span><span class="kw">crate</span>::encodings::fixed::FixedLengthEncoding;
-<span class="kw">use </span><span class="kw">crate</span>::row::RowsEncoded;
-<span class="kw">use </span><span class="kw">crate</span>::sort_field::SortField;
+<span class="kw">use </span><span class="kw">crate</span>::row::{RowsEncoded, SortField};
 <span class="kw">use crate</span>::{with_match_arrow_primitive_type, ArrayRef};
 
-<span class="kw">pub fn </span>convert_columns(columns: <span class="kw-2">&amp;</span>[ArrayRef], fields: Vec&lt;SortField&gt;) -&gt; RowsEncoded {
+<span class="kw">pub fn </span>convert_columns(columns: <span class="kw-2">&amp;</span>[ArrayRef], fields: <span class="kw-2">&amp;</span>[SortField]) -&gt; RowsEncoded {
     <span class="macro">assert_eq!</span>(fields.len(), columns.len());
 
-    <span class="kw">let </span><span class="kw-2">mut </span>rows = allocate_rows_buf(columns, <span class="kw-2">&amp;</span>fields);
+    <span class="kw">let </span><span class="kw-2">mut </span>rows = allocate_rows_buf(columns);
     <span class="kw">for </span>(arr, field) <span class="kw">in </span>columns.iter().zip(fields.iter()) {
         <span class="comment">// Safety:
         // we allocated rows with enough bytes.
         </span><span class="kw">unsafe </span>{ encode_array(<span class="kw-2">&amp;**</span>arr, field, <span class="kw-2">&amp;mut </span>rows) }
     }
-
-    <span class="comment">// we set fields later so we don&#39;t have aliasing borrows.
-    </span>rows.fields = fields;
     rows
 }
 
@@ -300,22 +312,39 @@
     };
 }
 
-<span class="kw">pub fn </span>allocate_rows_buf(columns: <span class="kw-2">&amp;</span>[ArrayRef], fields: <span class="kw-2">&amp;</span>[SortField]) -&gt; RowsEncoded {
-    <span class="kw">let </span>has_variable = fields
+<span class="kw">pub fn </span>encoded_size(data_type: <span class="kw-2">&amp;</span>ArrowDataType) -&gt; usize {
+    <span class="kw">use </span>ArrowDataType::<span class="kw-2">*</span>;
+    <span class="kw">match </span>data_type {
+        UInt8 =&gt; u8::ENCODED_LEN,
+        UInt16 =&gt; u16::ENCODED_LEN,
+        UInt32 =&gt; u32::ENCODED_LEN,
+        UInt64 =&gt; u64::ENCODED_LEN,
+        Int8 =&gt; i8::ENCODED_LEN,
+        Int16 =&gt; i16::ENCODED_LEN,
+        Int32 =&gt; i32::ENCODED_LEN,
+        Int64 =&gt; i64::ENCODED_LEN,
+        Float32 =&gt; f32::ENCODED_LEN,
+        Float64 =&gt; f64::ENCODED_LEN,
+        <span class="kw">_ </span>=&gt; <span class="macro">unimplemented!</span>(),
+    }
+}
+
+<span class="kw">pub fn </span>allocate_rows_buf(columns: <span class="kw-2">&amp;</span>[ArrayRef]) -&gt; RowsEncoded {
+    <span class="kw">let </span>has_variable = columns
         .iter()
-        .any(|f| <span class="macro">matches!</span>(f.data_type, ArrowDataType::LargeBinary));
+        .any(|arr| <span class="macro">matches!</span>(arr.data_type(), ArrowDataType::LargeBinary));
 
     <span class="kw">let </span>num_rows = columns[<span class="number">0</span>].len();
     <span class="kw">if </span>has_variable {
         <span class="comment">// row size of the fixed-length columns
         // those can be determined without looping over the arrays
-        </span><span class="kw">let </span>row_size_fixed: usize = fields
+        </span><span class="kw">let </span>row_size_fixed: usize = columns
             .iter()
-            .map(|f| {
-                <span class="kw">if </span><span class="macro">matches!</span>(f.data_type, ArrowDataType::LargeBinary) {
+            .map(|arr| {
+                <span class="kw">if </span><span class="macro">matches!</span>(arr.data_type(), ArrowDataType::LargeBinary) {
                     <span class="number">0
                 </span>} <span class="kw">else </span>{
-                    f.encoded_size()
+                    encoded_size(arr.data_type())
                 }
             })
             .sum();
@@ -368,9 +397,12 @@
 
         <span class="comment">// todo! allocate uninit
         </span><span class="kw">let </span>buf = <span class="macro">vec!</span>[<span class="number">0u8</span>; current_offset];
-        RowsEncoded::new(buf, offsets, <span class="prelude-val">None</span>)
+        RowsEncoded::new(buf, offsets)
     } <span class="kw">else </span>{
-        <span class="kw">let </span>row_size: usize = fields.iter().map(|f| f.encoded_size()).sum();
+        <span class="kw">let </span>row_size: usize = columns
+            .iter()
+            .map(|arr| encoded_size(arr.data_type()))
+            .sum();
         <span class="kw">let </span>n_bytes = num_rows * row_size;
         <span class="comment">// todo! allocate uninit
         </span><span class="kw">let </span>buf = <span class="macro">vec!</span>[<span class="number">0u8</span>; n_bytes];
@@ -394,7 +426,7 @@
             offsets.push(current_offset);
             current_offset += row_size;
         }
-        RowsEncoded::new(buf, offsets, <span class="prelude-val">None</span>)
+        RowsEncoded::new(buf, offsets)
     }
 }
 
