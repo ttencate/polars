@@ -961,6 +961,10 @@
 <a href="#961" id="961">961</a>
 <a href="#962" id="962">962</a>
 <a href="#963" id="963">963</a>
+<a href="#964" id="964">964</a>
+<a href="#965" id="965">965</a>
+<a href="#966" id="966">966</a>
+<a href="#967" id="967">967</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>arg_sort;
 <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
 </span><span class="kw">mod </span>arg_sort_multiple;
@@ -1705,6 +1709,14 @@
     <span class="prelude-val">Ok</span>(out)
 }
 
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>broadcast_descending(n_cols: usize, descending: <span class="kw-2">&amp;mut </span>Vec&lt;bool&gt;) {
+    <span class="kw">if </span>n_cols &gt; descending.len() &amp;&amp; descending.len() == <span class="number">1 </span>{
+        <span class="kw">while </span>n_cols != descending.len() {
+            descending.push(descending[<span class="number">0</span>]);
+        }
+    }
+}
+
 <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>prepare_arg_sort(
     columns: Vec&lt;Series&gt;,
@@ -1720,11 +1732,7 @@
     <span class="kw">let </span>first = columns.remove(<span class="number">0</span>);
 
     <span class="comment">// broadcast ordering
-    </span><span class="kw">if </span>n_cols &gt; descending.len() &amp;&amp; descending.len() == <span class="number">1 </span>{
-        <span class="kw">while </span>n_cols != descending.len() {
-            descending.push(descending[<span class="number">0</span>]);
-        }
-    }
+    </span>broadcast_descending(n_cols, <span class="kw-2">&amp;mut </span>descending);
     <span class="prelude-val">Ok</span>((first, columns, descending))
 }
 

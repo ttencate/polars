@@ -123,6 +123,18 @@
 <a href="#123" id="123">123</a>
 <a href="#124" id="124">124</a>
 <a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a>
+<a href="#129" id="129">129</a>
+<a href="#130" id="130">130</a>
+<a href="#131" id="131">131</a>
+<a href="#132" id="132">132</a>
+<a href="#133" id="133">133</a>
+<a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Variable length values are encoded as
 //!
 //! - single `0_u8` if null
@@ -142,16 +154,16 @@
 <span class="kw">use </span><span class="kw">crate</span>::SortField;
 
 <span class="doccomment">/// The block size of the variable length encoding
-</span><span class="kw">const </span>BLOCK_SIZE: usize = <span class="number">32</span>;
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>BLOCK_SIZE: usize = <span class="number">32</span>;
 
 <span class="doccomment">/// The continuation token.
-</span><span class="kw">const </span>BLOCK_CONTINUATION_TOKEN: u8 = <span class="number">0xFF</span>;
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>BLOCK_CONTINUATION_TOKEN: u8 = <span class="number">0xFF</span>;
 
 <span class="doccomment">/// Indicates an empty string
-</span><span class="kw">const </span>EMPTY_SENTINEL: u8 = <span class="number">1</span>;
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>EMPTY_SENTINEL: u8 = <span class="number">1</span>;
 
 <span class="doccomment">/// Indicates a non-empty string
-</span><span class="kw">const </span>NON_EMPTY_SENTINEL: u8 = <span class="number">2</span>;
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>NON_EMPTY_SENTINEL: u8 = <span class="number">2</span>;
 
 <span class="doccomment">/// Returns the ceil of `value`/`divisor`
 </span><span class="attr">#[inline]
@@ -196,7 +208,9 @@
             <span class="number">1
         </span>}
         <span class="prelude-val">Some</span>(val) =&gt; {
-            <span class="kw">let </span>end_offset = padded_length(val.len());
+            <span class="kw">let </span>block_count = ceil(val.len(), BLOCK_SIZE);
+            <span class="kw">let </span>end_offset = <span class="number">1 </span>+ block_count * (BLOCK_SIZE + <span class="number">1</span>);
+
             <span class="kw">let </span>dst = out.get_unchecked_release_mut(..end_offset);
 
             <span class="comment">// Write `2_u8` to demarcate as non-empty, non-null string
@@ -222,6 +236,16 @@
                 // replace the &quot;there is another block&quot; with
                 // &quot;we are finished this, this is the length of this block&quot;
                 </span><span class="kw-2">*</span>dst.last_mut().unwrap_unchecked() = BLOCK_SIZE <span class="kw">as </span>u8;
+            } <span class="kw">else </span>{
+                <span class="comment">// get the last block
+                </span><span class="kw">let </span>start_offset = <span class="number">1 </span>+ (block_count - <span class="number">1</span>) * (BLOCK_SIZE + <span class="number">1</span>);
+                <span class="kw">let </span>last_dst = dst.get_unchecked_release_mut(start_offset..);
+                std::ptr::copy_nonoverlapping(
+                    src_remainder.as_ptr(),
+                    last_dst.as_mut_ptr(),
+                    src_remainder.len(),
+                );
+                <span class="kw-2">*</span>dst.last_mut().unwrap_unchecked() = src_remainder.len() <span class="kw">as </span>u8;
             }
 
             <span class="kw">if </span>field.descending {

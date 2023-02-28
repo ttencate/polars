@@ -5540,8 +5540,8 @@
             <span class="kw">_ </span>=&gt; {
                 <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
                 </span>{
-                    <span class="kw">if </span>std::env::var(<span class="string">&quot;POLARS_ROW_FMT_SORT&quot;</span>).is_ok() {
-                        argsort_multiple_row_fmt(<span class="kw-2">&amp;</span>by_column, <span class="kw-2">&amp;</span>descending, nulls_last, parallel)<span class="question-mark">?
+                    <span class="kw">if </span>nulls_last || std::env::var(<span class="string">&quot;POLARS_ROW_FMT_SORT&quot;</span>).is_ok() {
+                        argsort_multiple_row_fmt(<span class="kw-2">&amp;</span>by_column, descending, nulls_last, parallel)<span class="question-mark">?
                     </span>} <span class="kw">else </span>{
                         <span class="kw">let </span>(first, by_column, descending) =
                             prepare_arg_sort(by_column, descending)<span class="question-mark">?</span>;
@@ -6150,7 +6150,7 @@
     ///
     /// let df2: DataFrame = df1.describe(None)?;
     /// assert_eq!(df2.shape(), (9, 4));
-    /// dbg!(df2);
+    /// println!(&quot;{}&quot;, df2);
     /// # Ok::&lt;(), PolarsError&gt;(())
     /// ```
     ///
