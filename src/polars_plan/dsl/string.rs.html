@@ -388,9 +388,17 @@
 <a href="#388" id="388">388</a>
 <a href="#389" id="389">389</a>
 <a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_arrow::array::ValueSize;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">use </span>polars_arrow::export::arrow::array::{MutableArray, MutableUtf8Array};
+<span class="kw">use </span>polars_utils::format_smartstring;
 
 <span class="kw">use </span><span class="kw">super</span>::function_expr::StringFunction;
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -607,7 +615,9 @@
                 function,
                 GetOutput::from_type(DataType::Struct(
                     (<span class="number">0</span>..n + <span class="number">1</span>)
-                        .map(|i| Field::from_owned(<span class="macro">format!</span>(<span class="string">&quot;field_{i}&quot;</span>), DataType::Utf8))
+                        .map(|i| {
+                            Field::from_owned(<span class="macro">format_smartstring!</span>(<span class="string">&quot;field_{i}&quot;</span>), DataType::Utf8)
+                        })
                         .collect(),
                 )),
             )
@@ -659,7 +669,9 @@
                 function,
                 GetOutput::from_type(DataType::Struct(
                     (<span class="number">0</span>..n + <span class="number">1</span>)
-                        .map(|i| Field::from_owned(<span class="macro">format!</span>(<span class="string">&quot;field_{i}&quot;</span>), DataType::Utf8))
+                        .map(|i| {
+                            Field::from_owned(<span class="macro">format_smartstring!</span>(<span class="string">&quot;field_{i}&quot;</span>), DataType::Utf8)
+                        })
                         .collect(),
                 )),
             )
@@ -711,7 +723,9 @@
                 function,
                 GetOutput::from_type(DataType::Struct(
                     (<span class="number">0</span>..n)
-                        .map(|i| Field::from_owned(<span class="macro">format!</span>(<span class="string">&quot;field_{i}&quot;</span>), DataType::Utf8))
+                        .map(|i| {
+                            Field::from_owned(<span class="macro">format_smartstring!</span>(<span class="string">&quot;field_{i}&quot;</span>), DataType::Utf8)
+                        })
                         .collect(),
                 )),
             )

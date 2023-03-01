@@ -1150,7 +1150,7 @@
             <span class="kw">let </span>field = e
                 .to_field_amortized(<span class="kw-2">&amp;</span>schema, Context::Default, <span class="kw-2">&amp;mut </span>arena)
                 .unwrap();
-            new_schema.with_column(field.name().to_string(), field.data_type().clone());
+            new_schema.with_column(field.name().clone(), field.data_type().clone());
             arena.clear();
         }
 
@@ -1386,7 +1386,7 @@
                 <span class="kw">if let </span>Expr::Column(name) = e {
                     <span class="kw">if let </span><span class="prelude-val">Some</span>(DataType::List(inner)) = schema.get(name) {
                         <span class="kw">let </span>inner = <span class="kw-2">*</span>inner.clone();
-                        schema.with_column(name.to_string(), inner);
+                        schema.with_column(name.as_ref().into(), inner);
                     }
 
                     (<span class="kw-2">**</span>name).to_owned()
@@ -1515,12 +1515,12 @@
         .variable_name
         .as_ref()
         .cloned()
-        .unwrap_or_else(|| <span class="string">&quot;variable&quot;</span>.to_string());
+        .unwrap_or_else(|| <span class="string">&quot;variable&quot;</span>.into());
     <span class="kw">let </span>value_name = args
         .value_name
         .as_ref()
         .cloned()
-        .unwrap_or_else(|| <span class="string">&quot;value&quot;</span>.to_string());
+        .unwrap_or_else(|| <span class="string">&quot;value&quot;</span>.into());
 
     new_schema.with_column(variable_name, DataType::Utf8);
 

@@ -965,6 +965,7 @@
 <a href="#965" id="965">965</a>
 <a href="#966" id="966">966</a>
 <a href="#967" id="967">967</a>
+<a href="#968" id="968">968</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>arg_sort;
 <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
 </span><span class="kw">pub mod </span>arg_sort_multiple;
@@ -975,7 +976,8 @@
 <span class="kw">use </span>std::hint::unreachable_unchecked;
 <span class="kw">use </span>std::iter::FromIterator;
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>arg_sort_multiple::argsort_multiple_row_fmt;
+<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>arg_sort_multiple::argsort_multiple_row_fmt;
 <span class="kw">use </span>arrow::bitmap::MutableBitmap;
 <span class="kw">use </span>arrow::buffer::Buffer;
 <span class="kw">use </span>num_traits::Float;

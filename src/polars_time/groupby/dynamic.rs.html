@@ -842,6 +842,7 @@
 <a href="#842" id="842">842</a>
 <a href="#843" id="843">843</a>
 <a href="#844" id="844">844</a>
+<a href="#845" id="845">845</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_arrow::utils::CustomIterTools;
 <span class="kw">use </span>polars_core::export::rayon::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::frame::groupby::GroupsProxy;
@@ -849,6 +850,7 @@
 <span class="kw">use </span>polars_core::POOL;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
+<span class="kw">use </span>smartstring::alias::String <span class="kw">as </span>SmartString;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
@@ -859,7 +861,7 @@
 #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 </span><span class="kw">pub struct </span>DynamicGroupOptions {
     <span class="doccomment">/// Time or index column
-    </span><span class="kw">pub </span>index_column: String,
+    </span><span class="kw">pub </span>index_column: SmartString,
     <span class="doccomment">/// start a window at this interval
     </span><span class="kw">pub </span>every: Duration,
     <span class="doccomment">/// window duration
@@ -877,7 +879,7 @@
 <span class="kw">impl </span>Default <span class="kw">for </span>DynamicGroupOptions {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            index_column: <span class="string">&quot;&quot;</span>.to_string(),
+            index_column: <span class="string">&quot;&quot;</span>.into(),
             every: Duration::new(<span class="number">1</span>),
             period: Duration::new(<span class="number">1</span>),
             offset: Duration::new(<span class="number">1</span>),
@@ -893,7 +895,7 @@
 #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 </span><span class="kw">pub struct </span>RollingGroupOptions {
     <span class="doccomment">/// Time or index column
-    </span><span class="kw">pub </span>index_column: String,
+    </span><span class="kw">pub </span>index_column: SmartString,
     <span class="doccomment">/// window duration
     </span><span class="kw">pub </span>period: Duration,
     <span class="kw">pub </span>offset: Duration,
