@@ -52,7 +52,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/expressions/api/polars.Expr.argsort';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="polars.Expr.backward_fill" href="polars.Expr.backward_fill.html" />
+    <link rel="next" title="polars.Expr.arg_true" href="polars.Expr.arg_true.html" />
     <link rel="prev" title="polars.Expr.arg_sort" href="polars.Expr.arg_sort.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -1163,6 +1163,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.append.html">polars.Expr.append</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.arg_sort.html">polars.Expr.arg_sort</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Expr.argsort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.arg_true.html">polars.Expr.arg_true</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.backward_fill.html">polars.Expr.backward_fill</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.cast.html">polars.Expr.cast</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.ceil.html">polars.Expr.ceil</a></li>
@@ -1485,7 +1486,7 @@ document.write(`
 <h1>polars.Expr.argsort<a class="headerlink" href="#polars-expr-argsort" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.argsort">
-<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">argsort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descending</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nulls_last</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/expr/expr.py#L4733-L4780"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.argsort" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">argsort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descending</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nulls_last</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/expr/expr.py#L4768-L4815"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.argsort" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the index values that would sort this column.</p>
 <p>Alias for <a class="reference internal" href="polars.Expr.arg_sort.html#polars.Expr.arg_sort" title="polars.Expr.arg_sort"><code class="xref py py-func docutils literal notranslate"><span class="pre">Expr.arg_sort()</span></code></a>.</p>
 <div class="deprecated">
@@ -1548,11 +1549,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="polars.Expr.backward_fill.html"
+       href="polars.Expr.arg_true.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.Expr.backward_fill</p>
+        <p class="prev-next-title">polars.Expr.arg_true</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
