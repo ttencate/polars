@@ -240,9 +240,6 @@
 <a href="#240" id="240">240</a>
 <a href="#241" id="241">241</a>
 <a href="#242" id="242">242</a>
-<a href="#243" id="243">243</a>
-<a href="#244" id="244">244</a>
-<a href="#245" id="245">245</a>
 </pre><pre class="rust"><code><span class="kw">use </span>arrow::array::{Array, BinaryArray, BooleanArray, DictionaryArray, PrimitiveArray, Utf8Array};
 <span class="kw">use </span>arrow::datatypes::{DataType <span class="kw">as </span>ArrowDataType, DataType};
 <span class="kw">use </span>arrow::types::NativeType;
@@ -432,12 +429,10 @@
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>test {
-    <span class="kw">use </span>arrow::array::{Int64Array, UInt8Array, Utf8Array};
+    <span class="kw">use </span>arrow::array::Utf8Array;
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use </span><span class="kw">crate</span>::encodings::variable::{
-        BLOCK_CONTINUATION_TOKEN, BLOCK_SIZE, EMPTY_SENTINEL, NON_EMPTY_SENTINEL,
-    };
+    <span class="kw">use </span><span class="kw">crate</span>::encodings::variable::{BLOCK_SIZE, EMPTY_SENTINEL, NON_EMPTY_SENTINEL};
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_str_encode() {
@@ -448,11 +443,10 @@
         <span class="kw">let </span>field = SortField {
             descending: <span class="bool-val">false</span>,
             nulls_last: <span class="bool-val">false</span>,
-            data_type: ArrowDataType::LargeBinary,
         };
         <span class="kw">let </span>arr = arrow::compute::cast::cast(<span class="kw-2">&amp;</span>arr, <span class="kw-2">&amp;</span>ArrowDataType::LargeBinary, Default::default())
             .unwrap();
-        <span class="kw">let </span>rows_encoded = convert_columns(<span class="kw-2">&amp;</span>[arr], <span class="macro">vec!</span>[field]);
+        <span class="kw">let </span>rows_encoded = convert_columns(<span class="kw-2">&amp;</span>[arr], <span class="kw-2">&amp;</span>[field]);
         <span class="kw">let </span>row1 = rows_encoded.get(<span class="number">0</span>);
 
         <span class="comment">// + 2 for the start valid byte and for the continuation token
@@ -471,11 +465,11 @@
         <span class="kw">let </span><span class="kw-2">mut </span>expected = [<span class="number">0u8</span>; BLOCK_SIZE + <span class="number">2</span>];
         expected[<span class="number">0</span>] = NON_EMPTY_SENTINEL;
         <span class="kw-2">*</span>expected.last_mut().unwrap() = <span class="number">4</span>;
-        <span class="kw-2">&amp;mut </span>expected[<span class="number">1</span>..<span class="number">5</span>].copy_from_slice(<span class="string">b&quot;meep&quot;</span>);
+        (<span class="kw-2">&amp;mut </span>expected[<span class="number">1</span>..<span class="number">5</span>]).copy_from_slice(<span class="string">b&quot;meep&quot;</span>);
         <span class="macro">assert_eq!</span>(row3, expected);
 
         <span class="kw">let </span>row4 = rows_encoded.get(<span class="number">3</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>expected = [
+        <span class="kw">let </span>expected = [
             <span class="number">2</span>, <span class="number">84</span>, <span class="number">104</span>, <span class="number">101</span>, <span class="number">32</span>, <span class="number">98</span>, <span class="number">108</span>, <span class="number">97</span>, <span class="number">99</span>, <span class="number">107</span>, <span class="number">32</span>, <span class="number">99</span>, <span class="number">97</span>, <span class="number">116</span>, <span class="number">32</span>, <span class="number">119</span>, <span class="number">97</span>, <span class="number">108</span>, <span class="number">107</span>, <span class="number">101</span>,
             <span class="number">100</span>, <span class="number">32</span>, <span class="number">117</span>, <span class="number">110</span>, <span class="number">100</span>, <span class="number">101</span>, <span class="number">114</span>, <span class="number">32</span>, <span class="number">97</span>, <span class="number">32</span>, <span class="number">108</span>, <span class="number">97</span>, <span class="number">100</span>, <span class="number">255</span>, <span class="number">100</span>, <span class="number">101</span>, <span class="number">114</span>, <span class="number">32</span>, <span class="number">98</span>,
             <span class="number">117</span>, <span class="number">116</span>, <span class="number">32</span>, <span class="number">102</span>, <span class="number">111</span>, <span class="number">114</span>, <span class="number">103</span>, <span class="number">101</span>, <span class="number">116</span>, <span class="number">32</span>, <span class="number">105</span>, <span class="number">116</span>, <span class="number">39</span>, <span class="number">115</span>, <span class="number">32</span>, <span class="number">109</span>, <span class="number">105</span>, <span class="number">108</span>,
