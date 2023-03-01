@@ -809,7 +809,7 @@
     </span><span class="kw">fn </span>test_explode_df_empty_list() -&gt; PolarsResult&lt;()&gt; {
         <span class="kw">let </span>s0 = Series::new(<span class="string">&quot;a&quot;</span>, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
         <span class="kw">let </span>s1 = Series::new(<span class="string">&quot;b&quot;</span>, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]);
-        <span class="kw">let </span>list = Series::new(<span class="string">&quot;foo&quot;</span>, <span class="kw-2">&amp;</span>[s0, s1.clone(), s1.slice(<span class="number">0</span>, <span class="number">0</span>)]);
+        <span class="kw">let </span>list = Series::new(<span class="string">&quot;foo&quot;</span>, <span class="kw-2">&amp;</span>[s0, s1.clone(), s1.clear()]);
         <span class="kw">let </span>s0 = Series::new(<span class="string">&quot;B&quot;</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
         <span class="kw">let </span>s1 = Series::new(<span class="string">&quot;C&quot;</span>, [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]);
         <span class="kw">let </span>df = DataFrame::new(<span class="macro">vec!</span>[list, s0.clone(), s1.clone()])<span class="question-mark">?</span>;
@@ -823,7 +823,7 @@
 
         <span class="macro">assert!</span>(out.frame_equal_missing(<span class="kw-2">&amp;</span>expected));
 
-        <span class="kw">let </span>list = Series::new(<span class="string">&quot;foo&quot;</span>, <span class="kw-2">&amp;</span>[s0.clone(), s1.slice(<span class="number">0</span>, <span class="number">0</span>), s1.clone()]);
+        <span class="kw">let </span>list = Series::new(<span class="string">&quot;foo&quot;</span>, <span class="kw-2">&amp;</span>[s0.clone(), s1.clear(), s1.clone()]);
         <span class="kw">let </span>df = DataFrame::new(<span class="macro">vec!</span>[list, s0.clone(), s1.clone()])<span class="question-mark">?</span>;
         <span class="kw">let </span>out = df.explode([<span class="string">&quot;foo&quot;</span>])<span class="question-mark">?</span>;
         <span class="kw">let </span>expected = <span class="macro">df!</span>[
