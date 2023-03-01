@@ -834,8 +834,7 @@
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../descriptive.html">Descriptive</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="polars.LazyFrame.describe_plan.html">polars.LazyFrame.describe_plan</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.LazyFrame.describe_optimized_plan.html">polars.LazyFrame.describe_optimized_plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.LazyFrame.explain.html">polars.LazyFrame.explain</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.LazyFrame.show_graph.html">polars.LazyFrame.show_graph</a></li>
 </ul>
 </li>
@@ -1421,7 +1420,7 @@
 <h1>polars.LazyFrame.schema<a class="headerlink" href="#polars-lazyframe-schema" title="Permalink to this heading">#</a></h1>
 <dl class="py property">
 <dt class="sig sig-object py" id="polars.LazyFrame.schema">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LazyFrame.</span></span><span class="sig-name descname"><span class="pre">schema</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">SchemaDict</span></em><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/lazyframe/frame.py#L596-L614"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.LazyFrame.schema" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LazyFrame.</span></span><span class="sig-name descname"><span class="pre">schema</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">SchemaDict</span></em><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/lazyframe/frame.py#L597-L615"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.LazyFrame.schema" title="Permalink to this definition">#</a></dt>
 <dd><p>Get a dict[column name, DataType].</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lf</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
