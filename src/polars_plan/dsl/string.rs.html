@@ -397,6 +397,8 @@
 <a href="#397" id="397">397</a>
 <a href="#398" id="398">398</a>
 <a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_arrow::array::ValueSize;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">use </span>polars_arrow::export::arrow::array::{MutableArray, MutableUtf8Array};
@@ -421,7 +423,8 @@
         )
     }
 
-    <span class="doccomment">/// Check if a string value contains a Regex substring.
+    <span class="doccomment">/// Check if this column of strings contains a Regex. If `strict` is `true`, then it is an error if any `pat` is
+    /// an invalid regex, whereas if `strict` is `false`, an invalid regex will simply evaluate to `false`.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
     </span><span class="kw">pub fn </span>contains(<span class="self">self</span>, pat: Expr, strict: bool) -&gt; Expr {
         <span class="self">self</span>.<span class="number">0</span>.map_many_private(
@@ -452,7 +455,7 @@
         )
     }
 
-    <span class="doccomment">/// Extract a regex pattern from the a string value.
+    <span class="doccomment">/// Extract a regex pattern from the a string value. If `group_index` is out of bounds, null is returned.
     </span><span class="kw">pub fn </span>extract(<span class="self">self</span>, pat: <span class="kw-2">&amp;</span>str, group_index: usize) -&gt; Expr {
         <span class="kw">let </span>pat = pat.to_string();
         <span class="self">self</span>.<span class="number">0
@@ -498,7 +501,8 @@
         <span class="self">self</span>.<span class="number">0</span>.map_private(StringFunction::CountMatch(pat).into())
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
+    <span class="doccomment">/// Construct a `Datetime` column by parsing this string column as datetimes, using the provided `options`.
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
     </span><span class="kw">pub fn </span>strptime(<span class="self">self</span>, options: StrpTimeOptions) -&gt; Expr {
         <span class="self">self</span>.<span class="number">0</span>.map_private(StringFunction::Strptime(options).into())
     }

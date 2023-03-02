@@ -293,6 +293,12 @@
 <a href="#293" id="293">293</a>
 <a href="#294" id="294">294</a>
 <a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
 </span><span class="kw">use </span>polars_core::export::chrono::{Duration <span class="kw">as </span>ChronoDuration, NaiveDate, NaiveDateTime};
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
@@ -584,7 +590,13 @@
     }
 }
 
-<span class="doccomment">/// Create a Literal Expression from `L`
+<span class="doccomment">/// Create a Literal Expression from `L`. A literal expression behaves like a column that contains a single distinct
+/// value.
+///
+/// The column is automatically of the &quot;correct&quot; length to make the operations work. Often this is determined by the
+/// length of the `LazyFrame` it is being used with. For instance, `lazy_df.with_column(lit(5).alias(&quot;five&quot;))` creates a
+/// new column named &quot;five&quot; that is the length of the Dataframe (at the time `collect` is called), where every value in
+/// the column is `5`.
 </span><span class="kw">pub fn </span>lit&lt;L: Literal&gt;(t: L) -&gt; Expr {
     t.lit()
 }
