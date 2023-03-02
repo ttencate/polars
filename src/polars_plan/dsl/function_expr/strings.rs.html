@@ -611,7 +611,7 @@
     RStrip(<span class="prelude-ty">Option</span>&lt;String&gt;),
     LStrip(<span class="prelude-ty">Option</span>&lt;String&gt;),
     <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
-    </span>FromRadix(<span class="prelude-ty">Option</span>&lt;u32&gt;),
+    </span>FromRadix(u32, bool),
 }
 
 <span class="kw">impl </span>Display <span class="kw">for </span>StringFunction {
@@ -1098,9 +1098,9 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>from_radix(s: <span class="kw-2">&amp;</span>Series, radix: <span class="prelude-ty">Option</span>&lt;u32&gt;) -&gt; PolarsResult&lt;Series&gt; {
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>from_radix(s: <span class="kw-2">&amp;</span>Series, radix: u32, strict: bool) -&gt; PolarsResult&lt;Series&gt; {
     <span class="kw">let </span>ca = s.utf8()<span class="question-mark">?</span>;
-    <span class="prelude-val">Ok</span>(ca.parse_int(radix).into_series())
+    ca.parse_int(radix, strict).map(|ok| ok.into_series())
 }
 </code></pre></div>
 </section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (065852def 2023-02-13)" data-search-js="search-abe1d547ad11c273.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

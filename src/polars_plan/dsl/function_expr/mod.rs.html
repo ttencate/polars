@@ -933,7 +933,7 @@
             LStrip(matches) =&gt; <span class="macro">map!</span>(strings::lstrip, matches.as_deref()),
             RStrip(matches) =&gt; <span class="macro">map!</span>(strings::rstrip, matches.as_deref()),
             <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
-            </span>FromRadix(matches) =&gt; <span class="macro">map!</span>(strings::from_radix, matches),
+            </span>FromRadix(radix, strict) =&gt; <span class="macro">map!</span>(strings::from_radix, radix, strict),
         }
     }
 }

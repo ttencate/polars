@@ -395,6 +395,8 @@
 <a href="#395" id="395">395</a>
 <a href="#396" id="396">396</a>
 <a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_arrow::array::ValueSize;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">use </span>polars_arrow::export::arrow::array::{MutableArray, MutableUtf8Array};
@@ -787,9 +789,11 @@
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
     </span><span class="doccomment">/// Parse string in base radix into decimal
-    </span><span class="kw">pub fn </span>from_radix(<span class="self">self</span>, radix: <span class="prelude-ty">Option</span>&lt;u32&gt;) -&gt; Expr {
+    </span><span class="kw">pub fn </span>from_radix(<span class="self">self</span>, radix: u32, strict: bool) -&gt; Expr {
         <span class="self">self</span>.<span class="number">0
-            </span>.map_private(FunctionExpr::StringExpr(StringFunction::FromRadix(radix)))
+            </span>.map_private(FunctionExpr::StringExpr(StringFunction::FromRadix(
+                radix, strict,
+            )))
     }
 }
 </code></pre></div>
