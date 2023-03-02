@@ -6977,21 +6977,21 @@ column totals (“sum”) on all numeric columns, autofit:</p>
 <p>Write frame to a specific location on the sheet, set a named table style,
 apply US-style date formatting, increase default float precision, apply
 non-default total function to a single column, autofit:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">write_excel</span><span class="p">(</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">write_excel</span><span class="p">(</span>  
 <span class="gp">... </span>    <span class="n">position</span><span class="o">=</span><span class="s2">&quot;B4&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">table_style</span><span class="o">=</span><span class="s2">&quot;Table Style Light 16&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">dtype_formats</span><span class="o">=</span><span class="p">{</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">:</span> <span class="s2">&quot;mm/dd/yyyy&quot;</span><span class="p">},</span>
 <span class="gp">... </span>    <span class="n">column_totals</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="s2">&quot;average&quot;</span><span class="p">},</span>
 <span class="gp">... </span>    <span class="n">float_precision</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">autofit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="gp">... </span><span class="p">)</span>  
+<span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Write the same frame to a named worksheet twice, applying different styles
 and conditional formatting to each table, adding table titles using direct
 xlsxwriter integration:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">xlsxwriter</span> <span class="kn">import</span> <span class="n">Workbook</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">Workbook</span><span class="p">(</span><span class="s2">&quot;multi_frame.xlsx&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">wb</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">Workbook</span><span class="p">(</span><span class="s2">&quot;multi_frame.xlsx&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">wb</span><span class="p">:</span>  
 <span class="gp">... </span>    <span class="c1"># basic/default conditional formatting</span>
 <span class="gp">... </span>    <span class="n">df</span><span class="o">.</span><span class="n">write_excel</span><span class="p">(</span>
 <span class="gp">... </span>        <span class="n">workbook</span><span class="o">=</span><span class="n">wb</span><span class="p">,</span>
