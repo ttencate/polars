@@ -1486,43 +1486,48 @@ document.write(`
 <h1>polars.Series.str.parse_int<a class="headerlink" href="#polars-series-str-parse-int" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.str.parse_int">
-<span class="sig-prename descclassname"><span class="pre">Series.str.</span></span><span class="sig-name descname"><span class="pre">parse_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/series/string.py#L950-L988"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.str.parse_int" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.str.</span></span><span class="sig-name descname"><span class="pre">parse_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/series/string.py#L950-L994"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.str.parse_int" title="Permalink to this definition">#</a></dt>
 <dd><p>Parse integers with base radix from strings.</p>
-<p>By default base 2.</p>
+<p>By default base 2. ParseError/Overflows become Nulls.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>radix</strong></dt><dd><p>Positive integer which is the base of the string we are parsing.
 Default: 2</p>
 </dd>
+<dt><strong>strict</strong></dt><dd><p>Bool, Defult=True will raise any ParseError or overflow as ComputeError.
+False silently convert to Null.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>Column of parsed integers in i32 format</dt><dd></dd>
+<dt>Series of parsed integers in i32 format</dt><dd></dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="s2">&quot;bin&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;110&quot;</span><span class="p">,</span> <span class="s2">&quot;101&quot;</span><span class="p">,</span> <span class="s2">&quot;010&quot;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">parse_int</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="go">shape: (3,)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="s2">&quot;bin&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;110&quot;</span><span class="p">,</span> <span class="s2">&quot;101&quot;</span><span class="p">,</span> <span class="s2">&quot;010&quot;</span><span class="p">,</span> <span class="s2">&quot;invalid&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">parse_int</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">shape: (4,)</span>
 <span class="go">Series: &#39;bin&#39; [i32]</span>
 <span class="go">[</span>
 <span class="go">        6</span>
 <span class="go">        5</span>
 <span class="go">        2</span>
+<span class="go">        null</span>
 <span class="go">]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="s2">&quot;hex&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;fa1e&quot;</span><span class="p">,</span> <span class="s2">&quot;ff00&quot;</span><span class="p">,</span> <span class="s2">&quot;cafe&quot;</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="s2">&quot;hex&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;fa1e&quot;</span><span class="p">,</span> <span class="s2">&quot;ff00&quot;</span><span class="p">,</span> <span class="s2">&quot;cafe&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">parse_int</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
-<span class="go">shape: (3,)</span>
+<span class="go">shape: (4,)</span>
 <span class="go">Series: &#39;hex&#39; [i32]</span>
 <span class="go">[</span>
 <span class="go">        64030</span>
 <span class="go">        65280</span>
 <span class="go">        51966</span>
+<span class="go">        null</span>
 <span class="go">]</span>
 </pre></div>
 </div>
