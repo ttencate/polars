@@ -1425,7 +1425,7 @@
         input,
         function: StringFunction::ConcatHorizontal(separator).into(),
         options: FunctionOptions {
-            collect_groups: ApplyOptions::ApplyGroups,
+            collect_groups: ApplyOptions::ApplyFlat,
             input_wildcard_expansion: <span class="bool-val">true</span>,
             auto_explode: <span class="bool-val">true</span>,
             ..Default::default()
@@ -2244,7 +2244,7 @@
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">pub fn </span>as_struct(exprs: <span class="kw-2">&amp;</span>[Expr]) -&gt; Expr {
     map_multiple(
-        |s| StructChunked::new(<span class="string">&quot;&quot;</span>, s).map(|ca| <span class="prelude-val">Some</span>(ca.into_series())),
+        |s| StructChunked::new(s[<span class="number">0</span>].name(), s).map(|ca| <span class="prelude-val">Some</span>(ca.into_series())),
         exprs,
         GetOutput::map_fields(|fld| Field::new(fld[<span class="number">0</span>].name(), DataType::Struct(fld.to_vec()))),
     )
