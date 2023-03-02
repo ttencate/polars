@@ -774,6 +774,15 @@
 <a href="#774" id="774">774</a>
 <a href="#775" id="775">775</a>
 <a href="#776" id="776">776</a>
+<a href="#777" id="777">777</a>
+<a href="#778" id="778">778</a>
+<a href="#779" id="779">779</a>
+<a href="#780" id="780">780</a>
+<a href="#781" id="781">781</a>
+<a href="#782" id="782">782</a>
+<a href="#783" id="783">783</a>
+<a href="#784" id="784">784</a>
+<a href="#785" id="785">785</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::io::{Read, Seek};
 <span class="kw">use </span>std::ops::Deref;
 <span class="kw">use </span>std::path::PathBuf;
@@ -1145,11 +1154,20 @@
         <span class="kw">let </span><span class="kw-2">mut </span>new_schema = (<span class="kw-2">**</span>schema).clone();
         <span class="kw">let </span>(exprs, <span class="kw">_</span>) = <span class="macro">try_delayed!</span>(prepare_projection(exprs, <span class="kw-2">&amp;</span>schema), <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, into);
 
+        <span class="kw">let </span><span class="kw-2">mut </span>output_names = PlHashSet::with_capacity(exprs.len());
+
         <span class="kw">let </span><span class="kw-2">mut </span>arena = Arena::with_capacity(<span class="number">8</span>);
         <span class="kw">for </span>e <span class="kw">in </span><span class="kw-2">&amp;</span>exprs {
             <span class="kw">let </span>field = e
                 .to_field_amortized(<span class="kw-2">&amp;</span>schema, Context::Default, <span class="kw-2">&amp;mut </span>arena)
                 .unwrap();
+            <span class="kw">if </span>!output_names.insert(field.name().clone()) {
+                <span class="kw">let </span>msg = <span class="macro">format!</span>(
+                    <span class="string">&quot;The name: &#39;{}&#39; passed to `LazyFrame.with_columns` is duplicate&quot;</span>,
+                    field.name()
+                );
+                <span class="kw">return </span><span class="macro">raise_err!</span>(PolarsError::ComputeError(msg.into()), <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, into);
+            }
             new_schema.with_column(field.name().clone(), field.data_type().clone());
             arena.clear();
         }
@@ -1231,10 +1249,10 @@
                     }
 
                     <span class="kw">let </span>msg = <span class="kw">if </span><span class="macro">cfg!</span>(feature = <span class="string">&quot;python&quot;</span>) {
-                        <span class="macro">format!</span>(<span class="string">&quot;The predicate passed to &#39;filter&#39; expanded to multiple expressions: \n\n{expanded}\n\
+                        <span class="macro">format!</span>(<span class="string">&quot;The predicate passed to &#39;LazyFrame.filter&#39; expanded to multiple expressions: \n\n{expanded}\n\
                     This is ambiguous. Try to combine the predicates with the &#39;all&#39; or `any&#39; expression.&quot;</span>)
                     } <span class="kw">else </span>{
-                        <span class="macro">format!</span>(<span class="string">&quot;The predicate passed to &#39;filter&#39; expanded to multiple expressions: \n\n{expanded}\n\
+                        <span class="macro">format!</span>(<span class="string">&quot;The predicate passed to &#39;LazyFrame.filter&#39; expanded to multiple expressions: \n\n{expanded}\n\
                     This is ambiguous. Try to combine the predicates with the &#39;all_exprs&#39; or `any_exprs&#39; expression.&quot;</span>)
                     };
                     <span class="kw">return </span><span class="macro">raise_err!</span>(PolarsError::ComputeError(msg.into()), <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, into);
