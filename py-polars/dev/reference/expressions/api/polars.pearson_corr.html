@@ -52,8 +52,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/expressions/api/polars.pearson_corr';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="polars.spearman_rank_corr" href="polars.spearman_rank_corr.html" />
-    <link rel="prev" title="polars.corr" href="polars.corr.html" />
+    <link rel="next" title="polars.quantile" href="polars.quantile.html" />
+    <link rel="prev" title="polars.n_unique" href="polars.n_unique.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -838,9 +838,9 @@ document.write(`
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../dataframe/miscellaneous.html">Miscellaneous</a><input class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-25"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../dataframe/api/polars.DataFrame.apply.html">polars.DataFrame.apply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dataframe/api/polars.DataFrame.corr.html">polars.DataFrame.corr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../dataframe/api/polars.DataFrame.frame_equal.html">polars.DataFrame.frame_equal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../dataframe/api/polars.DataFrame.lazy.html">polars.DataFrame.lazy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../dataframe/api/polars.DataFrame.corr.html">polars.DataFrame.corr</a></li>
 </ul>
 </li>
 </ul>
@@ -1101,6 +1101,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.coalesce.html">polars.coalesce</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.concat_list.html">polars.concat_list</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.concat_str.html">polars.concat_str</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.corr.html">polars.corr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.count.html">polars.count</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.cov.html">polars.cov</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.cumfold.html">polars.cumfold</a></li>
@@ -1125,13 +1126,12 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.median.html">polars.median</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.min.html">polars.min</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.n_unique.html">polars.n_unique</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.corr.html">polars.corr</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.pearson_corr</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.spearman_rank_corr.html">polars.spearman_rank_corr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.quantile.html">polars.quantile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.reduce.html">polars.reduce</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.repeat.html">polars.repeat</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.select.html">polars.select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.spearman_rank_corr.html">polars.spearman_rank_corr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.std.html">polars.std</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.struct.html">polars.struct</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.sum.html">polars.sum</a></li>
@@ -1487,8 +1487,11 @@ document.write(`
 <h1>polars.pearson_corr<a class="headerlink" href="#polars-pearson-corr" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="polars.pearson_corr">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">pearson_corr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddof</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/lazy_functions.py#L1359-L1393"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.pearson_corr" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">pearson_corr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddof</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/lazy_functions.py#L1367-L1409"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.pearson_corr" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute the pearson’s correlation between two columns.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.16.10: </span><code class="docutils literal notranslate"><span class="pre">pearson_corr</span></code> will be removed in favor of <code class="docutils literal notranslate"><span class="pre">corr(...,</span> <span class="pre">method=&quot;pearson&quot;)</span></code>.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -1498,21 +1501,28 @@ document.write(`
 </dd>
 <dt><strong>ddof</strong></dt><dd><p>Delta degrees of freedom</p>
 </dd>
-<dt><strong>Examples</strong></dt><dd></dd>
-<dt><strong>——–</strong></dt><dd></dd>
-<dt><strong>&gt;&gt;&gt; df = pl.DataFrame({“a”: [1, 8, 3], “b”: [4, 5, 2], “c”: [“foo”, “bar”, “foo”]})</strong></dt><dd></dd>
-<dt><strong>&gt;&gt;&gt; df.select(pl.pearson_corr(“a”, “b”))</strong></dt><dd></dd>
-<dt><strong>shape: (1, 1)</strong></dt><dd></dd>
-<dt><strong>┌──────────┐</strong></dt><dd></dd>
-<dt><strong>│ a        │</strong></dt><dd></dd>
-<dt><strong>│ —      │</strong></dt><dd></dd>
-<dt><strong>│ f64      │</strong></dt><dd></dd>
-<dt><strong>╞══════════╡</strong></dt><dd></dd>
-<dt><strong>│ 0.544705 │</strong></dt><dd></dd>
-<dt><strong>└──────────┘</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="polars.corr.html#polars.corr" title="polars.corr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">corr</span></code></a></dt><dd></dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="s2">&quot;foo&quot;</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">pearson_corr</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">))</span>
+<span class="go">shape: (1, 1)</span>
+<span class="go">┌──────────┐</span>
+<span class="go">│ a        │</span>
+<span class="go">│ ---      │</span>
+<span class="go">│ f64      │</span>
+<span class="go">╞══════════╡</span>
+<span class="go">│ 0.544705 │</span>
+<span class="go">└──────────┘</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -1526,20 +1536,20 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.corr.html"
+       href="polars.n_unique.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.corr</p>
+        <p class="prev-next-title">polars.n_unique</p>
       </div>
     </a>
     <a class="right-next"
-       href="polars.spearman_rank_corr.html"
+       href="polars.quantile.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.spearman_rank_corr</p>
+        <p class="prev-next-title">polars.quantile</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

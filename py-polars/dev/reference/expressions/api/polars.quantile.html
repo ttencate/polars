@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="polars.reduce" href="polars.reduce.html" />
-    <link rel="prev" title="polars.spearman_rank_corr" href="polars.spearman_rank_corr.html" />
+    <link rel="prev" title="polars.pearson_corr" href="polars.pearson_corr.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -838,9 +838,9 @@ document.write(`
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../dataframe/miscellaneous.html">Miscellaneous</a><input class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-25"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../dataframe/api/polars.DataFrame.apply.html">polars.DataFrame.apply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dataframe/api/polars.DataFrame.corr.html">polars.DataFrame.corr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../dataframe/api/polars.DataFrame.frame_equal.html">polars.DataFrame.frame_equal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../dataframe/api/polars.DataFrame.lazy.html">polars.DataFrame.lazy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../dataframe/api/polars.DataFrame.corr.html">polars.DataFrame.corr</a></li>
 </ul>
 </li>
 </ul>
@@ -1101,6 +1101,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.coalesce.html">polars.coalesce</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.concat_list.html">polars.concat_list</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.concat_str.html">polars.concat_str</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.corr.html">polars.corr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.count.html">polars.count</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.cov.html">polars.cov</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.cumfold.html">polars.cumfold</a></li>
@@ -1125,13 +1126,12 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.median.html">polars.median</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.min.html">polars.min</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.n_unique.html">polars.n_unique</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.corr.html">polars.corr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.pearson_corr.html">polars.pearson_corr</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.spearman_rank_corr.html">polars.spearman_rank_corr</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.quantile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.reduce.html">polars.reduce</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.repeat.html">polars.repeat</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.select.html">polars.select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.spearman_rank_corr.html">polars.spearman_rank_corr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.std.html">polars.std</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.struct.html">polars.struct</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.sum.html">polars.sum</a></li>
@@ -1487,7 +1487,7 @@ document.write(`
 <h1>polars.quantile<a class="headerlink" href="#polars-quantile" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="polars.quantile">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">RollingInterpolationMethod</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'nearest'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/lazy_functions.py#L2123-L2141"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.quantile" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">RollingInterpolationMethod</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'nearest'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/lazy_functions.py#L2140-L2158"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.quantile" title="Permalink to this definition">#</a></dt>
 <dd><p>Syntactic sugar for <cite>pl.col(“foo”).quantile(..)</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1514,12 +1514,12 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.spearman_rank_corr.html"
+       href="polars.pearson_corr.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.spearman_rank_corr</p>
+        <p class="prev-next-title">polars.pearson_corr</p>
       </div>
     </a>
     <a class="right-next"
