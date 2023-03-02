@@ -111,7 +111,7 @@
         CsvReader::from_path(<span class="kw-2">&amp;</span><span class="self">self</span>.path)
             .unwrap()
             .has_header(<span class="self">self</span>.options.has_header)
-            .with_schema(<span class="kw-2">&amp;</span><span class="self">self</span>.schema)
+            .with_schema(<span class="self">self</span>.schema.clone())
             .with_delimiter(<span class="self">self</span>.options.delimiter)
             .with_ignore_errors(<span class="self">self</span>.options.ignore_errors)
             .with_skip_rows(<span class="self">self</span>.options.skip_rows)
