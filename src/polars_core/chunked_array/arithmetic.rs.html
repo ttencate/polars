@@ -706,7 +706,7 @@
 
 <span class="kw">use </span>arrow::array::PrimitiveArray;
 <span class="kw">use </span>arrow::compute::arithmetics::basic;
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-i128&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
 </span><span class="kw">use </span>arrow::compute::arithmetics::decimal;
 <span class="kw">use </span>arrow::compute::arity_assign;
 <span class="kw">use </span>arrow::types::NativeType;
@@ -763,7 +763,7 @@
 
 <span class="macro">native_array_arithmetics!</span>(u8, u16, u32, u64, i8, i16, i32, i64, f32, f64);
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-i128&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
 </span><span class="kw">impl </span>ArrayArithmetics <span class="kw">for </span>i128 {
     <span class="kw">fn </span>add(lhs: <span class="kw-2">&amp;</span>PrimitiveArray&lt;<span class="self">Self</span>&gt;, rhs: <span class="kw-2">&amp;</span>PrimitiveArray&lt;<span class="self">Self</span>&gt;) -&gt; PrimitiveArray&lt;<span class="self">Self</span>&gt; {
         decimal::add(lhs, rhs)

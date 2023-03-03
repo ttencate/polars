@@ -59,6 +59,7 @@ var sourcesIndex = JSON.parse('{\
 "iana_time_zone":["",[],["ffi_utils.rs","lib.rs","tz_linux.rs"]],\
 "indexmap":["",[["map",[["core",[],["raw.rs"]]],["core.rs"]]],["arbitrary.rs","equivalent.rs","lib.rs","macros.rs","map.rs","mutable_keys.rs","set.rs","util.rs"]],\
 "itoa":["",[],["lib.rs","udiv128.rs"]],\
+"itoap":["",[],["common.rs","lib.rs","sse2.rs"]],\
 "json_deserializer":["",[],["array.rs","boolean.rs","error.rs","lib.rs","null.rs","number.rs","object.rs","parser.rs","string.rs"]],\
 "lexical":["",[],["lib.rs"]],\
 "lexical_core":["",[],["lib.rs"]],\

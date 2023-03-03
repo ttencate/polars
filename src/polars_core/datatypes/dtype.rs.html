@@ -302,6 +302,16 @@
 <a href="#302" id="302">302</a>
 <a href="#303" id="303">303</a>
 <a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub type </span>TimeZone = String;
@@ -319,11 +329,11 @@
     Int64,
     Float32,
     Float64,
-    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-i128&quot;</span>)]
-    </span><span class="doccomment">/// Fixed point decimal type with precision and scale.
-    /// This is backed by 128 bits which allows for 38 significant digits.
-    </span>Decimal128(<span class="prelude-ty">Option</span>&lt;(usize, usize)&gt;),
-    <span class="doccomment">/// String data
+    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+    </span><span class="doccomment">/// Fixed point decimal type optional precision and non-negative scale.
+    /// This is backed by a signed 128-bit integer which allows for up to 38 significant digits.
+    </span>Decimal(<span class="prelude-ty">Option</span>&lt;usize&gt;, <span class="prelude-ty">Option</span>&lt;usize&gt;), <span class="comment">// prec/scale; scale being None means &quot;infer&quot;
+    </span><span class="doccomment">/// String data
     </span>Utf8,
     Binary,
     <span class="doccomment">/// A 32-bit date representing the elapsed time since UNIX epoch (1970-01-01)
@@ -506,8 +516,12 @@
             Int64 =&gt; ArrowDataType::Int64,
             Float32 =&gt; ArrowDataType::Float32,
             Float64 =&gt; ArrowDataType::Float64,
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-i128&quot;</span>)]
-            </span>Decimal128(<span class="kw">_</span>) =&gt; <span class="macro">todo!</span>(),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+            </span><span class="comment">// note: what else can we do here other than setting prec to 38?..
+            </span>Decimal(prec, scale) =&gt; ArrowDataType::Decimal(
+                (<span class="kw-2">*</span>prec).unwrap_or(<span class="number">38</span>),
+                scale.unwrap_or(<span class="number">0</span>), <span class="comment">// and what else can we do here?
+            </span>),
             Utf8 =&gt; ArrowDataType::LargeUtf8,
             Binary =&gt; ArrowDataType::LargeBinary,
             Date =&gt; ArrowDataType::Date32,
@@ -560,8 +574,14 @@
             DataType::Int64 =&gt; <span class="string">&quot;i64&quot;</span>,
             DataType::Float32 =&gt; <span class="string">&quot;f32&quot;</span>,
             DataType::Float64 =&gt; <span class="string">&quot;f64&quot;</span>,
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-i128&quot;</span>)]
-            </span>DataType::Decimal128(<span class="kw">_</span>) =&gt; <span class="string">&quot;i128&quot;</span>,
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+            </span>DataType::Decimal(prec, scale) =&gt; {
+                <span class="kw">return match </span>(prec, scale) {
+                    (<span class="kw">_</span>, <span class="prelude-val">None</span>) =&gt; f.write_str(<span class="string">&quot;decimal[?]&quot;</span>), <span class="comment">// shouldn&#39;t happen
+                    </span>(<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(scale)) =&gt; f.write_str(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;decimal[{scale}]&quot;</span>)),
+                    (<span class="prelude-val">Some</span>(prec), <span class="prelude-val">Some</span>(scale)) =&gt; f.write_str(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;decimal[.{prec},{scale}]&quot;</span>)),
+                };
+            }
             DataType::Utf8 =&gt; <span class="string">&quot;str&quot;</span>,
             DataType::Binary =&gt; <span class="string">&quot;binary&quot;</span>,
             DataType::Date =&gt; <span class="string">&quot;date&quot;</span>,

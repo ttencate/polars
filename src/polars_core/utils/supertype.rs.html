@@ -315,6 +315,14 @@
 <a href="#315" id="315">315</a>
 <a href="#316" id="316">316</a>
 <a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Given two datatypes, determine the supertype that both types can safely be cast to
@@ -580,6 +588,14 @@
                 }
                 <span class="prelude-val">Some</span>(Struct(new_fields))
             }
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+            </span>(d @ Decimal(<span class="kw">_</span>, <span class="kw">_</span>), dt) <span class="kw">if </span>dt.is_signed() || dt.is_unsigned() =&gt; <span class="prelude-val">Some</span>(d.clone()),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+            </span>(Decimal(p1, s1), Decimal(p2, s2)) =&gt; {
+                <span class="prelude-val">Some</span>(Decimal((<span class="kw-2">*</span>p1).zip(<span class="kw-2">*</span>p2).map(|(p1, p2)| p1.max(p2)), (<span class="kw-2">*</span>s1).max(<span class="kw-2">*</span>s2)))
+            }
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+            </span>(Decimal(<span class="kw">_</span>, <span class="kw">_</span>), f @ (Float32 | Float64)) =&gt; <span class="prelude-val">Some</span>(f.clone()),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
