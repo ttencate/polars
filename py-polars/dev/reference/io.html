@@ -392,7 +392,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/polars.read_excel.html">polars.read_excel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.scan_delta.html">polars.scan_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.read_delta.html">polars.read_delta</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/polars.scan_ds.html">polars.scan_ds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.scan_pyarrow_dataset.html">polars.scan_pyarrow_dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.internals.batched.BatchedCsvReader.next_batches.html">polars.internals.batched.BatchedCsvReader.next_batches</a></li>
 </ul>
 </li>
@@ -1574,7 +1574,7 @@ document.write(`
 <h2>AVRO<a class="headerlink" href="#avro" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.read_avro.html#polars.read_avro" title="polars.read_avro"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_avro</span></code></a>(file[, columns, n_rows])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.read_avro.html#polars.read_avro" title="polars.read_avro"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_avro</span></code></a>(file, *[, columns, n_rows])</p></td>
 <td><p>Read into a DataFrame from Apache Avro format.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.write_avro.html#polars.DataFrame.write_avro" title="polars.DataFrame.write_avro"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.write_avro</span></code></a>(file[, compression])</p></td>
@@ -1611,7 +1611,7 @@ document.write(`
 <p>Connect to pyarrow datasets.</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.scan_ds.html#polars.scan_ds" title="polars.scan_ds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scan_ds</span></code></a>(ds, *[, allow_pyarrow_filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.scan_pyarrow_dataset.html#polars.scan_pyarrow_dataset" title="polars.scan_pyarrow_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scan_pyarrow_dataset</span></code></a>(source, *[, ...])</p></td>
 <td><p>Scan a pyarrow dataset.</p></td>
 </tr>
 </tbody>

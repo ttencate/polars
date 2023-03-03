@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>polars.scan_ds &#8212; Polars  documentation</title>
+    <title>polars.scan_pyarrow_dataset &#8212; Polars  documentation</title>
   
   
   
@@ -49,7 +49,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.scan_ds';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.scan_pyarrow_dataset';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="polars.internals.batched.BatchedCsvReader.next_batches" href="polars.internals.batched.BatchedCsvReader.next_batches.html" />
@@ -392,7 +392,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.read_excel.html">polars.read_excel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.scan_delta.html">polars.scan_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.read_delta.html">polars.read_delta</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.scan_ds</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.scan_pyarrow_dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.internals.batched.BatchedCsvReader.next_batches.html">polars.internals.batched.BatchedCsvReader.next_batches</a></li>
 </ul>
 </li>
@@ -1462,7 +1462,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../io.html" class="nav-link">Input/output</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">polars.scan_ds</li>
+    <li class="breadcrumb-item active" aria-current="page">polars.scan_pyarrow_dataset</li>
   </ul>
 </nav>
 </div>
@@ -1479,17 +1479,17 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="polars-scan-ds">
-<h1>polars.scan_ds<a class="headerlink" href="#polars-scan-ds" title="Permalink to this heading">#</a></h1>
+  <section id="polars-scan-pyarrow-dataset">
+<h1>polars.scan_pyarrow_dataset<a class="headerlink" href="#polars-scan-pyarrow-dataset" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="polars.scan_ds">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">scan_ds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pa.dataset.dataset</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_pyarrow_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LazyFrame</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/io/pyarrow_dataset.py#L13-L54"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.scan_ds" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="polars.scan_pyarrow_dataset">
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">scan_pyarrow_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pa.dataset.dataset</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_pyarrow_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LazyFrame</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/io/pyarrow_dataset.py#L14-L56"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.scan_pyarrow_dataset" title="Permalink to this definition">#</a></dt>
 <dd><p>Scan a pyarrow dataset.</p>
 <p>This can be useful to connect to cloud or partitioned datasets.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>ds</strong></dt><dd><p>Pyarrow dataset to scan.</p>
+<dt><strong>source</strong></dt><dd><p>Pyarrow dataset to scan.</p>
 </dd>
 <dt><strong>allow_pyarrow_filter</strong></dt><dd><p>Allow predicates to be pushed down to pyarrow. This can lead to different
 results if comparisons are done with null values as pyarrow handles this
@@ -1506,8 +1506,8 @@ change.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyarrow.dataset</span> <span class="k">as</span> <span class="nn">ds</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dset</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;s3://my-partitioned-folder/&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;ipc&quot;</span><span class="p">)</span>  
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="p">(</span>
-<span class="gp">... </span>    <span class="n">pl</span><span class="o">.</span><span class="n">scan_ds</span><span class="p">(</span><span class="n">dset</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">pl</span><span class="o">.</span><span class="n">scan_pyarrow_dataset</span><span class="p">(</span><span class="n">dset</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;bools&quot;</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s2">&quot;bools&quot;</span><span class="p">,</span> <span class="s2">&quot;floats&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">])</span>
 <span class="gp">... </span>    <span class="o">.</span><span class="n">collect</span><span class="p">()</span>
@@ -1567,7 +1567,7 @@ change.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.scan_ds"><code class="docutils literal notranslate"><span class="pre">scan_ds()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.scan_pyarrow_dataset"><code class="docutils literal notranslate"><span class="pre">scan_pyarrow_dataset()</span></code></a></li>
 </ul>
   </nav></div>
 
