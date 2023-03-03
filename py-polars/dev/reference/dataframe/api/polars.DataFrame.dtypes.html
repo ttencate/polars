@@ -381,6 +381,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.read_parquet_schema.html">polars.read_parquet_schema</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.DataFrame.write_parquet.html">polars.DataFrame.write_parquet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.read_database.html">polars.read_database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.DataFrame.write_database.html">polars.DataFrame.write_database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.read_json.html">polars.read_json</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.read_ndjson.html">polars.read_ndjson</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.scan_ndjson.html">polars.scan_ndjson</a></li>
@@ -1487,7 +1488,7 @@ document.write(`
 <h1>polars.DataFrame.dtypes<a class="headerlink" href="#polars-dataframe-dtypes" title="Permalink to this heading">#</a></h1>
 <dl class="py property">
 <dt class="sig sig-object py" id="polars.DataFrame.dtypes">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DataFrame.</span></span><span class="sig-name descname"><span class="pre">dtypes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">PolarsDataType</span><span class="p"><span class="pre">]</span></span></em><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/dataframe/frame.py#L1112-L1147"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.DataFrame.dtypes" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DataFrame.</span></span><span class="sig-name descname"><span class="pre">dtypes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">PolarsDataType</span><span class="p"><span class="pre">]</span></span></em><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/dataframe/frame.py#L1114-L1149"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.DataFrame.dtypes" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the datatypes of the columns of this DataFrame.</p>
 <p>The datatypes can also be found in column headers when printing the DataFrame.</p>
 <div class="admonition seealso">

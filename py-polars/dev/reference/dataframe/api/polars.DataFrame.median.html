@@ -381,6 +381,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.read_parquet_schema.html">polars.read_parquet_schema</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.DataFrame.write_parquet.html">polars.DataFrame.write_parquet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.read_database.html">polars.read_database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.DataFrame.write_database.html">polars.DataFrame.write_database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.read_json.html">polars.read_json</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.read_ndjson.html">polars.read_ndjson</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.scan_ndjson.html">polars.scan_ndjson</a></li>
@@ -1487,7 +1488,7 @@ document.write(`
 <h1>polars.DataFrame.median<a class="headerlink" href="#polars-dataframe-median" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.DataFrame.median">
-<span class="sig-prename descclassname"><span class="pre">DataFrame.</span></span><span class="sig-name descname"><span class="pre">median</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/dataframe/frame.py#L6783-L6807"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.DataFrame.median" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">DataFrame.</span></span><span class="sig-name descname"><span class="pre">median</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/dataframe/frame.py#L6825-L6849"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.DataFrame.median" title="Permalink to this definition">#</a></dt>
 <dd><p>Aggregate the columns of this DataFrame to their median value.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
