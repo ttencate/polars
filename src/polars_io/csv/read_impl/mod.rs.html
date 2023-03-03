@@ -798,6 +798,16 @@
 <a href="#798" id="798">798</a>
 <a href="#799" id="799">799</a>
 <a href="#800" id="800">800</a>
+<a href="#801" id="801">801</a>
+<a href="#802" id="802">802</a>
+<a href="#803" id="803">803</a>
+<a href="#804" id="804">804</a>
+<a href="#805" id="805">805</a>
+<a href="#806" id="806">806</a>
+<a href="#807" id="807">807</a>
+<a href="#808" id="808">808</a>
+<a href="#809" id="809">809</a>
+<a href="#810" id="810">810</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>batched;
 
 <span class="kw">use </span>std::fmt;
@@ -1141,17 +1151,14 @@
         <span class="prelude-val">Ok</span>((bytes, starting_point_offset))
     }
 
-    <span class="attr">#[allow(clippy::type_complexity)]
-    </span><span class="kw">fn </span>determine_file_chunks_and_statistics(
+    <span class="doccomment">/// Estimates number of rows and optionally ensure we don&#39;t read more than `n_rows`
+    /// by slicing `bytes` to the upper bound.
+    </span><span class="kw">fn </span>estimate_rows_and_set_upper_bound&lt;<span class="lifetime">&#39;b</span>&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        n_threads: <span class="kw-2">&amp;mut </span>usize,
-        bytes: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
+        <span class="kw-2">mut </span>bytes: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[u8],
         logging: bool,
-        streaming: bool,
-    ) -&gt; PolarsResult&lt;(Vec&lt;(usize, usize)&gt;, usize, usize, <span class="prelude-ty">Option</span>&lt;usize&gt;, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8])&gt; {
-        <span class="comment">// Make the variable mutable so that we can reassign the sliced file to this variable.
-        </span><span class="kw">let </span>(<span class="kw-2">mut </span>bytes, starting_point_offset) = <span class="self">self</span>.find_starting_point(bytes, <span class="self">self</span>.eol_char)<span class="question-mark">?</span>;
-
+        set_upper_bound: bool,
+    ) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[u8], usize) {
         <span class="comment">// initial row guess. We use the line statistic to guess the number of rows to allocate
         </span><span class="kw">let </span><span class="kw-2">mut </span>total_rows = <span class="number">128</span>;
 
@@ -1188,7 +1195,9 @@
                         <span class="self">self</span>.quote_char,
                         <span class="self">self</span>.eol_char,
                     ) {
-                        bytes = <span class="kw-2">&amp;</span>bytes[..n_bytes + pos]
+                        <span class="kw">if </span>set_upper_bound {
+                            bytes = <span class="kw-2">&amp;</span>bytes[..n_bytes + pos]
+                        }
                     }
                 }
             }
@@ -1196,6 +1205,20 @@
                 <span class="macro">eprintln!</span>(<span class="string">&quot;initial row estimate: {total_rows}&quot;</span>)
             }
         }
+        (bytes, total_rows)
+    }
+
+    <span class="attr">#[allow(clippy::type_complexity)]
+    </span><span class="kw">fn </span>determine_file_chunks_and_statistics(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        n_threads: <span class="kw-2">&amp;mut </span>usize,
+        bytes: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
+        logging: bool,
+    ) -&gt; PolarsResult&lt;(Vec&lt;(usize, usize)&gt;, usize, usize, <span class="prelude-ty">Option</span>&lt;usize&gt;, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8])&gt; {
+        <span class="comment">// Make the variable mutable so that we can reassign the sliced file to this variable.
+        </span><span class="kw">let </span>(bytes, starting_point_offset) = <span class="self">self</span>.find_starting_point(bytes, <span class="self">self</span>.eol_char)<span class="question-mark">?</span>;
+
+        <span class="kw">let </span>(bytes, total_rows) = <span class="self">self</span>.estimate_rows_and_set_upper_bound(bytes, logging, <span class="bool-val">true</span>);
         <span class="kw">if </span>total_rows == <span class="number">128 </span>{
             <span class="kw-2">*</span>n_threads = <span class="number">1</span>;
 
@@ -1205,9 +1228,7 @@
         }
 
         <span class="kw">let </span>chunk_size = std::cmp::min(<span class="self">self</span>.chunk_size, total_rows);
-        <span class="kw">let </span>n_chunks = total_rows / chunk_size;
-
-        <span class="kw">let </span>n_file_chunks = <span class="kw">if </span>streaming { n_chunks } <span class="kw">else </span>{ <span class="kw-2">*</span>n_threads };
+        <span class="kw">let </span>n_file_chunks = <span class="kw-2">*</span>n_threads;
 
         <span class="comment">// split the file by the nearest new line characters such that every thread processes
         // approximately the same number of rows.
@@ -1230,7 +1251,6 @@
 
         <span class="prelude-val">Ok</span>((chunks, chunk_size, total_rows, starting_point_offset, bytes))
     }
-
     <span class="kw">fn </span>get_projection(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; Vec&lt;usize&gt; {
         <span class="comment">// we also need to sort the projection to have predictable output.
         // the `parse_lines` function expects this.
@@ -1287,7 +1307,7 @@
     ) -&gt; PolarsResult&lt;DataFrame&gt; {
         <span class="kw">let </span>logging = verbose();
         <span class="kw">let </span>(file_chunks, chunk_size, total_rows, starting_point_offset, bytes) =
-            <span class="self">self</span>.determine_file_chunks_and_statistics(<span class="kw-2">&amp;mut </span>n_threads, bytes, logging, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.determine_file_chunks_and_statistics(<span class="kw-2">&amp;mut </span>n_threads, bytes, logging)<span class="question-mark">?</span>;
         <span class="kw">let </span>projection = <span class="self">self</span>.get_projection();
         <span class="kw">let </span>str_columns = <span class="self">self</span>.get_string_columns(<span class="kw-2">&amp;</span>projection)<span class="question-mark">?</span>;
 
