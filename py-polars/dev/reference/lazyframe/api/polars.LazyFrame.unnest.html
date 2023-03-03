@@ -1487,36 +1487,32 @@ document.write(`
 <h1>polars.LazyFrame.unnest<a class="headerlink" href="#polars-lazyframe-unnest" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.LazyFrame.unnest">
-<span class="sig-prename descclassname"><span class="pre">LazyFrame.</span></span><span class="sig-name descname"><span class="pre">unnest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/lazyframe/frame.py#L4327-L4381"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.LazyFrame.unnest" title="Permalink to this definition">#</a></dt>
-<dd><p>Decompose a struct into its fields.</p>
-<p>The fields will be inserted into the <cite>DataFrame</cite> on the location of the
-<cite>struct</cite> type.</p>
+<span class="sig-prename descclassname"><span class="pre">LazyFrame.</span></span><span class="sig-name descname"><span class="pre">unnest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">more_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/lazyframe/frame.py#L4327-L4381"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.LazyFrame.unnest" title="Permalink to this definition">#</a></dt>
+<dd><p>Decompose struct columns into separate columns for each of their fields.</p>
+<p>The new columns will be inserted into the dataframe at the location of the
+struct column.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>names</strong></dt><dd><p>Names of the struct columns that will be decomposed by its fields</p>
+<dt><strong>columns</strong></dt><dd><p>Name of the struct column(s) that should be unnested.</p>
+</dd>
+<dt><strong>*more_columns</strong></dt><dd><p>Additional columns to unnest, specified as positional arguments.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="p">(</span>
-<span class="gp">... </span>    <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="p">{</span>
-<span class="gp">... </span>            <span class="s2">&quot;before&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="s2">&quot;bar&quot;</span><span class="p">],</span>
-<span class="gp">... </span>            <span class="s2">&quot;t_a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
-<span class="gp">... </span>            <span class="s2">&quot;t_b&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">],</span>
-<span class="gp">... </span>            <span class="s2">&quot;t_c&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
-<span class="gp">... </span>            <span class="s2">&quot;t_d&quot;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">]],</span>
-<span class="gp">... </span>            <span class="s2">&quot;after&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;baz&quot;</span><span class="p">,</span> <span class="s2">&quot;womp&quot;</span><span class="p">],</span>
-<span class="gp">... </span>        <span class="p">}</span>
-<span class="gp">... </span>    <span class="p">)</span>
-<span class="gp">... </span>    <span class="o">.</span><span class="n">lazy</span><span class="p">()</span>
-<span class="gp">... </span>    <span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="p">[</span><span class="s2">&quot;before&quot;</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">struct</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;^t_.$&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;t_struct&quot;</span><span class="p">),</span> <span class="s2">&quot;after&quot;</span><span class="p">]</span>
-<span class="gp">... </span>    <span class="p">)</span>
-<span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">fetch</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">LazyFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;before&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="s2">&quot;bar&quot;</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="s2">&quot;t_a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="s2">&quot;t_b&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="s2">&quot;t_c&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="s2">&quot;t_d&quot;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">]],</span>
+<span class="gp">... </span>        <span class="s2">&quot;after&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;baz&quot;</span><span class="p">,</span> <span class="s2">&quot;womp&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;before&quot;</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">struct</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;^t_.$&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;t_struct&quot;</span><span class="p">),</span> <span class="s2">&quot;after&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
 <span class="go">shape: (2, 3)</span>
 <span class="go">┌────────┬─────────────────────┬───────┐</span>
 <span class="go">│ before ┆ t_struct            ┆ after │</span>
@@ -1526,7 +1522,7 @@ document.write(`
 <span class="go">│ foo    ┆ {1,&quot;a&quot;,true,[1, 2]} ┆ baz   │</span>
 <span class="go">│ bar    ┆ {2,&quot;b&quot;,null,[3]}    ┆ womp  │</span>
 <span class="go">└────────┴─────────────────────┴───────┘</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">unnest</span><span class="p">(</span><span class="s2">&quot;t_struct&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">unnest</span><span class="p">(</span><span class="s2">&quot;t_struct&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
 <span class="go">shape: (2, 6)</span>
 <span class="go">┌────────┬─────┬─────┬──────┬───────────┬───────┐</span>
 <span class="go">│ before ┆ t_a ┆ t_b ┆ t_c  ┆ t_d       ┆ after │</span>

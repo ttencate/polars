@@ -1631,8 +1631,8 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.unique.html#polars.DataFrame.unique" title="polars.DataFrame.unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.unique</span></code></a>(*[, maintain_order, ...])</p></td>
 <td><p>Drop duplicate rows from this dataframe.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.unnest.html#polars.DataFrame.unnest" title="polars.DataFrame.unnest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.unnest</span></code></a>(names)</p></td>
-<td><p>Decompose a struct into its fields.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.unnest.html#polars.DataFrame.unnest" title="polars.DataFrame.unnest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.unnest</span></code></a>(columns, *more_columns)</p></td>
+<td><p>Decompose struct columns into separate columns for each of their fields.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.unstack.html#polars.DataFrame.unstack" title="polars.DataFrame.unstack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.unstack</span></code></a>(step[, how, columns, ...])</p></td>
 <td><p>Unstack a long table to a wide form without doing an aggregation.</p></td>
