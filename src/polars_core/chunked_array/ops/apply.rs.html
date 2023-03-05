@@ -859,6 +859,16 @@
 <a href="#859" id="859">859</a>
 <a href="#860" id="860">860</a>
 <a href="#861" id="861">861</a>
+<a href="#862" id="862">862</a>
+<a href="#863" id="863">863</a>
+<a href="#864" id="864">864</a>
+<a href="#865" id="865">865</a>
+<a href="#866" id="866">866</a>
+<a href="#867" id="867">867</a>
+<a href="#868" id="868">868</a>
+<a href="#869" id="869">869</a>
+<a href="#870" id="870">870</a>
+<a href="#871" id="871">871</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Implementations of the ChunkApply Trait.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::convert::TryFrom;
@@ -1249,7 +1259,17 @@
     </span><span class="kw">where
         </span>F: Fn(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; Cow&lt;<span class="lifetime">&#39;a</span>, str&gt; + Copy,
     {
-        <span class="macro">apply!</span>(<span class="self">self</span>, f)
+        <span class="kw">use </span>polars_arrow::array::utf8::Utf8FromIter;
+        <span class="kw">let </span>chunks = <span class="self">self
+            </span>.downcast_iter()
+            .map(|arr| {
+                <span class="kw">let </span>iter = arr.values_iter().map(f);
+                <span class="kw">let </span>value_size = (arr.get_values_size() <span class="kw">as </span>f64 * <span class="number">1.3</span>) <span class="kw">as </span>usize;
+                <span class="kw">let </span>new = Utf8Array::&lt;i64&gt;::from_values_iter(iter, arr.len(), value_size);
+                Box::new(new.with_validity(arr.validity().cloned())) <span class="kw">as </span>ArrayRef
+            })
+            .collect();
+        <span class="kw">unsafe </span>{ Utf8Chunked::from_chunks(<span class="self">self</span>.name(), chunks) }
     }
 
     <span class="kw">fn </span>try_apply&lt;F&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, f: F) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt;
