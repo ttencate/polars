@@ -551,6 +551,13 @@
 <a href="#551" id="551">551</a>
 <a href="#552" id="552">552</a>
 <a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -996,6 +1003,10 @@
     out
 }
 
+<span class="kw">fn </span>is_literal_pat(pat: <span class="kw-2">&amp;</span>str) -&gt; bool {
+    pat.chars().all(|c| !c.is_ascii_punctuation())
+}
+
 <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
 </span><span class="kw">fn </span>replace_single&lt;<span class="lifetime">&#39;a</span>&gt;(
     ca: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Utf8Chunked,
@@ -1007,7 +1018,7 @@
         (<span class="number">1</span>, <span class="number">1</span>) =&gt; {
             <span class="kw">let </span>pat = get_pat(pat)<span class="question-mark">?</span>;
             <span class="kw">let </span>val = val.get(<span class="number">0</span>).ok_or_else(|| PolarsError::ComputeError(<span class="string">&quot;value may not be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>.into()))<span class="question-mark">?</span>;
-            <span class="kw">let </span>literal = literal || pat.chars().all(|c| !c.is_ascii_punctuation());
+            <span class="kw">let </span>literal = literal || is_literal_pat(pat);
 
             <span class="kw">match </span>literal {
                 <span class="bool-val">true </span>=&gt; ca.replace_literal(pat, val),
@@ -1020,6 +1031,7 @@
                 <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="macro">format!</span>(<span class="string">&quot;The replacement value expression in &#39;str.replace&#39; should be equal to the length of the string column.\
                 Got column length: {} and replacement value length: {}&quot;</span>, ca.len(), len_val).into()))
             }
+            <span class="kw">let </span>literal = literal || is_literal_pat(<span class="kw-2">&amp;</span>pat);
 
             <span class="kw">if </span>literal {
                 pat = escape(<span class="kw-2">&amp;</span>pat)
@@ -1053,6 +1065,7 @@
         (<span class="number">1</span>, <span class="number">1</span>) =&gt; {
             <span class="kw">let </span>pat = get_pat(pat)<span class="question-mark">?</span>;
             <span class="kw">let </span>val = val.get(<span class="number">0</span>).ok_or_else(|| PolarsError::ComputeError(<span class="string">&quot;value may not be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>.into()))<span class="question-mark">?</span>;
+            <span class="kw">let </span>literal = literal || is_literal_pat(pat);
 
             <span class="kw">match </span>literal {
                 <span class="bool-val">true </span>=&gt; ca.replace_literal_all(pat, val),
@@ -1065,6 +1078,7 @@
                 <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="macro">format!</span>(<span class="string">&quot;The replacement value expression in &#39;str.replace&#39; should be equal to the length of the string column.\
                 Got column length: {} and replacement value length: {}&quot;</span>, ca.len(), len_val).into()))
             }
+            <span class="kw">let </span>literal = literal || is_literal_pat(<span class="kw-2">&amp;</span>pat);
 
             <span class="kw">if </span>literal {
                 pat = escape(<span class="kw-2">&amp;</span>pat)

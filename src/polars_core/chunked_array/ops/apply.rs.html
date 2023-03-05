@@ -1244,7 +1244,7 @@
 <span class="kw">impl </span>Utf8Chunked {
     <span class="kw">pub fn </span>apply_mut&lt;<span class="lifetime">&#39;a</span>, F&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, <span class="kw-2">mut </span>f: F) -&gt; <span class="self">Self
     </span><span class="kw">where
-        </span>F: FnMut(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;,
+        </span>F: FnMut(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
     {
         <span class="kw">use </span>polars_arrow::array::utf8::Utf8FromIter;
         <span class="kw">let </span>chunks = <span class="self">self

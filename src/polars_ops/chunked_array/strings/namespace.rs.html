@@ -395,6 +395,31 @@
 <a href="#395" id="395">395</a>
 <a href="#396" id="396">396</a>
 <a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
+<a href="#412" id="412">412</a>
+<a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;string_encoding&quot;</span>)]
@@ -406,7 +431,7 @@
 <span class="kw">use </span>polars_arrow::kernels::string::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
 </span><span class="kw">use </span>polars_core::export::num::Num;
-<span class="kw">use </span>polars_core::export::regex::{escape, NoExpand, Regex};
+<span class="kw">use </span>polars_core::export::regex::{escape, Regex};
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;binary_encoding&quot;</span>)]
@@ -661,10 +686,9 @@
                 <span class="comment">// extend lifetime
                 // lifetime is bound to &#39;a
                 </span><span class="kw">let </span>slice = buf.as_str();
-                <span class="kw">let </span>slice = <span class="kw">unsafe </span>{ std::mem::transmute::&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;(slice) };
-                Cow::Borrowed(slice)
+                <span class="kw">unsafe </span>{ std::mem::transmute::&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;(slice) }
             } <span class="kw">else </span>{
-                Cow::Borrowed(s)
+                s
             }
         };
         <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
@@ -679,10 +703,36 @@
     }
 
     <span class="doccomment">/// Replace all matching literal (sub)strings with another string
-    </span><span class="kw">fn </span>replace_literal_all(<span class="kw-2">&amp;</span><span class="self">self</span>, pat: <span class="kw-2">&amp;</span>str, val: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Utf8Chunked&gt; {
+    </span><span class="kw">fn </span>replace_literal_all&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, pat: <span class="kw-2">&amp;</span>str, val: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Utf8Chunked&gt; {
+        <span class="comment">// amortize allocation
+        </span><span class="kw">let </span><span class="kw-2">mut </span>buf = String::new();
+
+        <span class="kw">let </span>f = <span class="kw">move </span>|s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str| {
+            buf.clear();
+            <span class="kw">let </span><span class="kw-2">mut </span>changed = <span class="bool-val">false</span>;
+
+            <span class="comment">// See: str.replace
+            </span><span class="kw">let </span><span class="kw-2">mut </span>last_end = <span class="number">0</span>;
+            <span class="kw">for </span>(start, part) <span class="kw">in </span>s.match_indices(pat) {
+                changed = <span class="bool-val">true</span>;
+                buf.push_str(<span class="kw">unsafe </span>{ s.get_unchecked(last_end..start) });
+                buf.push_str(val);
+                last_end = start + part.len();
+            }
+            buf.push_str(<span class="kw">unsafe </span>{ s.get_unchecked(last_end..s.len()) });
+
+            <span class="kw">if </span>changed {
+                <span class="comment">// extend lifetime
+                // lifetime is bound to &#39;a
+                </span><span class="kw">let </span>slice = buf.as_str();
+                <span class="kw">unsafe </span>{ std::mem::transmute::&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;(slice) }
+            } <span class="kw">else </span>{
+                s
+            }
+        };
+
         <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
-        <span class="kw">let </span>reg = Regex::new(escape(pat).as_str())<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(ca.apply(|s| reg.replace_all(s, NoExpand(val))))
+        <span class="prelude-val">Ok</span>(ca.apply_mut(f))
     }
 
     <span class="doccomment">/// Extract the nth capture group from pattern
