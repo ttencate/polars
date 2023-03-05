@@ -4715,7 +4715,7 @@
     ///                         &quot;Tax revenue (% GDP)&quot; =&gt; [Some(32.7), None, None])?;
     /// assert_eq!(df1.shape(), (3, 2));
     ///
-    /// let df2: DataFrame = df1.drop_nulls(None)?;
+    /// let df2: DataFrame = df1.drop_nulls::&lt;String&gt;(None)?;
     /// assert_eq!(df2.shape(), (1, 2));
     /// println!(&quot;{}&quot;, df2);
     /// # Ok::&lt;(), PolarsError&gt;(())
@@ -4733,7 +4733,7 @@
     /// | Malta   | 32.7                |
     /// +---------+---------------------+
     /// ```
-    </span><span class="kw">pub fn </span>drop_nulls(<span class="kw-2">&amp;</span><span class="self">self</span>, subset: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[String]&gt;) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
+    </span><span class="kw">pub fn </span>drop_nulls&lt;S: AsRef&lt;str&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, subset: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[S]&gt;) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
         <span class="kw">let </span>selected_series;
 
         <span class="kw">let </span><span class="kw-2">mut </span>iter = <span class="kw">match </span>subset {

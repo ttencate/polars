@@ -2580,7 +2580,7 @@
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
     </span><span class="kw">pub fn </span>unnest&lt;I: IntoIterator&lt;Item = S&gt;, S: AsRef&lt;str&gt;&gt;(<span class="self">self</span>, cols: I) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.map_private(FunctionNode::Unnest {
-            columns: Arc::new(cols.into_iter().map(|s| Arc::from(s.as_ref())).collect()),
+            columns: cols.into_iter().map(|s| Arc::from(s.as_ref())).collect(),
         })
     }
 

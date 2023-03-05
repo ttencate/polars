@@ -299,10 +299,24 @@
 <a href="#299" id="299">299</a>
 <a href="#300" id="300">300</a>
 <a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>drop;
 <span class="attr">#[cfg(feature = <span class="string">&quot;merge_sorted&quot;</span>)]
 </span><span class="kw">mod </span>merge_sorted;
 <span class="kw">mod </span>rename;
+
 <span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::fmt::{Debug, Display, Formatter};
 <span class="kw">use </span>std::sync::Arc;
@@ -341,13 +355,13 @@
         original: <span class="prelude-ty">Option</span>&lt;Arc&lt;LogicalPlan&gt;&gt;,
     },
     Unnest {
-        columns: Arc&lt;Vec&lt;Arc&lt;str&gt;&gt;&gt;,
+        columns: Arc&lt;[Arc&lt;str&gt;]&gt;,
     },
     FastProjection {
-        columns: Arc&lt;Vec&lt;Arc&lt;str&gt;&gt;&gt;,
+        columns: Arc&lt;[Arc&lt;str&gt;]&gt;,
     },
     DropNulls {
-        subset: Arc&lt;Vec&lt;String&gt;&gt;,
+        subset: Arc&lt;[Arc&lt;str&gt;]&gt;,
     },
     Rechunk,
     <span class="comment">// The two DataFrames are temporary concatenated
@@ -360,13 +374,17 @@
         </span>column: Arc&lt;str&gt;,
     },
     Rename {
-        existing: Arc&lt;Vec&lt;SmartString&gt;&gt;,
-        new: Arc&lt;Vec&lt;SmartString&gt;&gt;,
+        existing: Arc&lt;[SmartString]&gt;,
+        new: Arc&lt;[SmartString]&gt;,
         <span class="comment">// A column name gets swapped with an existing column
         </span>swapping: bool,
     },
     Drop {
-        names: Arc&lt;Vec&lt;SmartString&gt;&gt;,
+        names: Arc&lt;[SmartString]&gt;,
+    },
+    Explode {
+        columns: Arc&lt;[Arc&lt;str&gt;]&gt;,
+        schema: SchemaRef,
     },
 }
 
@@ -390,6 +408,7 @@
                 },
             ) =&gt; existing_l == existing_r &amp;&amp; new_l == new_r,
             (Drop { names: l }, Drop { names: r }) =&gt; l == r,
+            (Explode { columns: l, .. }, Explode { columns: r, .. }) =&gt; l == r,
             <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
         }
     }
@@ -407,6 +426,7 @@
             | FastProjection { .. }
             | Unnest { .. }
             | Rename { .. }
+            | Explode { .. }
             | Drop { .. } =&gt; <span class="bool-val">true</span>,
             Opaque { streamable, .. } =&gt; <span class="kw-2">*</span>streamable,
         }
@@ -472,6 +492,7 @@
             </span>MergeSorted { .. } =&gt; <span class="prelude-val">Ok</span>(Cow::Borrowed(input_schema)),
             Rename { existing, new, .. } =&gt; rename::rename_schema(input_schema, existing, new),
             Drop { names } =&gt; drop::drop_schema(input_schema, names),
+            Explode { schema, .. } =&gt; <span class="prelude-val">Ok</span>(Cow::Owned(schema.clone())),
         }
     }
 
@@ -484,6 +505,7 @@
             | Rechunk
             | Unnest { .. }
             | Rename { .. }
+            | Explode { .. }
             | Drop { .. } =&gt; <span class="bool-val">true</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;merge_sorted&quot;</span>)]
             </span>MergeSorted { .. } =&gt; <span class="bool-val">true</span>,
@@ -500,6 +522,7 @@
             | Rechunk
             | Unnest { .. }
             | Rename { .. }
+            | Explode { .. }
             | Drop { .. } =&gt; <span class="bool-val">true</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;merge_sorted&quot;</span>)]
             </span>MergeSorted { .. } =&gt; <span class="bool-val">true</span>,
@@ -510,7 +533,8 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>additional_projection_pd_columns(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Arc&lt;str&gt;] {
         <span class="kw">use </span>FunctionNode::<span class="kw-2">*</span>;
         <span class="kw">match </span><span class="self">self </span>{
-            Unnest { columns } =&gt; columns.as_slice(),
+            Unnest { columns } =&gt; columns.as_ref(),
+            Explode { columns, .. } =&gt; columns.as_ref(),
             <span class="kw">_ </span>=&gt; <span class="kw-2">&amp;</span>[],
         }
     }
@@ -519,8 +543,8 @@
         <span class="kw">use </span>FunctionNode::<span class="kw-2">*</span>;
         <span class="kw">match </span><span class="self">self </span>{
             Opaque { function, .. } =&gt; function.call_udf(df),
-            FastProjection { columns } =&gt; df.select(columns.as_slice()),
-            DropNulls { subset } =&gt; df.drop_nulls(<span class="prelude-val">Some</span>(subset.as_slice())),
+            FastProjection { columns } =&gt; df.select(columns.as_ref()),
+            DropNulls { subset } =&gt; df.drop_nulls(<span class="prelude-val">Some</span>(subset.as_ref())),
             Rechunk =&gt; {
                 df.as_single_chunk_par();
                 <span class="prelude-val">Ok</span>(df)
@@ -530,7 +554,7 @@
             Unnest { columns: _columns } =&gt; {
                 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
                 </span>{
-                    df.unnest(_columns.as_slice())
+                    df.unnest(_columns.as_ref())
                 }
                 <span class="attr">#[cfg(not(feature = <span class="string">&quot;dtype-struct&quot;</span>))]
                 </span>{
@@ -552,6 +576,7 @@
             }
             Rename { existing, new, .. } =&gt; rename::rename_impl(df, existing, new),
             Drop { names } =&gt; drop::drop_impl(df, names),
+            Explode { columns, .. } =&gt; df.explode(columns.as_ref()),
         }
     }
 }
@@ -569,18 +594,18 @@
             Opaque { fmt_str, .. } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{fmt_str}&quot;</span>),
             FastProjection { columns } =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot;FAST_PROJECT: &quot;</span>)<span class="question-mark">?</span>;
-                <span class="kw">let </span>columns = columns.as_slice();
+                <span class="kw">let </span>columns = columns.as_ref();
                 fmt_column_delimited(f, columns, <span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)
             }
             DropNulls { subset } =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot;DROP_NULLS by: &quot;</span>)<span class="question-mark">?</span>;
-                <span class="kw">let </span>subset = subset.as_slice();
+                <span class="kw">let </span>subset = subset.as_ref();
                 fmt_column_delimited(f, subset, <span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)
             }
             Rechunk =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;RECHUNK&quot;</span>),
             Unnest { columns } =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot;UNNEST by:&quot;</span>)<span class="question-mark">?</span>;
-                <span class="kw">let </span>columns = columns.as_slice();
+                <span class="kw">let </span>columns = columns.as_ref();
                 fmt_column_delimited(f, columns, <span class="string">&quot;[&quot;</span>, <span class="string">&quot;]&quot;</span>)
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;merge_sorted&quot;</span>)]
@@ -597,6 +622,7 @@
             }
             Rename { .. } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;RENAME&quot;</span>),
             Drop { .. } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;DROP&quot;</span>),
+            Explode { .. } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;EXPLODE&quot;</span>),
         }
     }
 }

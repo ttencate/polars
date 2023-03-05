@@ -571,16 +571,17 @@ of <code>append</code> operations with a <a href="struct.DataFrame.html#method.r
 
 <span class="kw">let </span>s2: Series = df.drop_in_place(<span class="string">&quot;Animal&quot;</span>)<span class="question-mark">?</span>;
 <span class="macro">assert_eq!</span>(s2, Series::new(<span class="string">&quot;Animal&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;Tiger&quot;</span>, <span class="string">&quot;Lion&quot;</span>, <span class="string">&quot;Great auk&quot;</span>]));</code></pre></div>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.drop_nulls" class="method"><a class="srclink rightside" href="../../src/polars_core/frame/mod.rs.html#1022">source</a><h4 class="code-header">pub fn <a href="#method.drop_nulls" class="fn">drop_nulls</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.drop_nulls" class="method"><a class="srclink rightside" href="../../src/polars_core/frame/mod.rs.html#1022">source</a><h4 class="code-header">pub fn <a href="#method.drop_nulls" class="fn">drop_nulls</a>&lt;S&gt;(
     &amp;self,
-    subset: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;[<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>]&gt;
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.DataFrame.html" title="struct polars::frame::DataFrame">DataFrame</a>, <a class="enum" href="../error/enum.PolarsError.html" title="enum polars::error::PolarsError">PolarsError</a>&gt;</h4></section></summary><div class="docblock"><p>Return a new <code>DataFrame</code> where all null values are dropped.</p>
+    subset: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">[S]</a>&gt;
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.DataFrame.html" title="struct polars::frame::DataFrame">DataFrame</a>, <a class="enum" href="../error/enum.PolarsError.html" title="enum polars::error::PolarsError">PolarsError</a>&gt;<span class="where fmt-newline">where
+    S: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;,</span></h4></section></summary><div class="docblock"><p>Return a new <code>DataFrame</code> where all null values are dropped.</p>
 <h5 id="example-23"><a href="#example-23">Example</a></h5>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>df1: DataFrame = <span class="macro">df!</span>(<span class="string">&quot;Country&quot; </span>=&gt; [<span class="string">&quot;Malta&quot;</span>, <span class="string">&quot;Liechtenstein&quot;</span>, <span class="string">&quot;North Korea&quot;</span>],
                         <span class="string">&quot;Tax revenue (% GDP)&quot; </span>=&gt; [<span class="prelude-val">Some</span>(<span class="number">32.7</span>), <span class="prelude-val">None</span>, <span class="prelude-val">None</span>])<span class="question-mark">?</span>;
 <span class="macro">assert_eq!</span>(df1.shape(), (<span class="number">3</span>, <span class="number">2</span>));
 
-<span class="kw">let </span>df2: DataFrame = df1.drop_nulls(<span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+<span class="kw">let </span>df2: DataFrame = df1.drop_nulls::&lt;String&gt;(<span class="prelude-val">None</span>)<span class="question-mark">?</span>;
 <span class="macro">assert_eq!</span>(df2.shape(), (<span class="number">1</span>, <span class="number">2</span>));
 <span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, df2);</code></pre></div>
 <p>Output:</p>

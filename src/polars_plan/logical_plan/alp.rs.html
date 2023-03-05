@@ -837,22 +837,6 @@
 <a href="#837" id="837">837</a>
 <a href="#838" id="838">838</a>
 <a href="#839" id="839">839</a>
-<a href="#840" id="840">840</a>
-<a href="#841" id="841">841</a>
-<a href="#842" id="842">842</a>
-<a href="#843" id="843">843</a>
-<a href="#844" id="844">844</a>
-<a href="#845" id="845">845</a>
-<a href="#846" id="846">846</a>
-<a href="#847" id="847">847</a>
-<a href="#848" id="848">848</a>
-<a href="#849" id="849">849</a>
-<a href="#850" id="850">850</a>
-<a href="#851" id="851">851</a>
-<a href="#852" id="852">852</a>
-<a href="#853" id="853">853</a>
-<a href="#854" id="854">854</a>
-<a href="#855" id="855">855</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;csv-file&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>))]
 </span><span class="kw">use </span>std::path::PathBuf;
@@ -956,11 +940,6 @@
         by_column: Vec&lt;Node&gt;,
         args: SortArguments,
     },
-    Explode {
-        input: Node,
-        columns: Vec&lt;String&gt;,
-        schema: SchemaRef,
-    },
     Cache {
         input: Node,
         id: usize,
@@ -1060,7 +1039,6 @@
             Projection { .. } =&gt; <span class="string">&quot;projection&quot;</span>,
             LocalProjection { .. } =&gt; <span class="string">&quot;local_projection&quot;</span>,
             Sort { .. } =&gt; <span class="string">&quot;sort&quot;</span>,
-            Explode { .. } =&gt; <span class="string">&quot;explode&quot;</span>,
             Cache { .. } =&gt; <span class="string">&quot;cache&quot;</span>,
             Aggregate { .. } =&gt; <span class="string">&quot;aggregate&quot;</span>,
             Join { .. } =&gt; <span class="string">&quot;join&quot;</span>,
@@ -1082,7 +1060,6 @@
             Union { inputs, .. } =&gt; <span class="kw">return </span>arena.get(inputs[<span class="number">0</span>]).schema(arena),
             Cache { input, .. } =&gt; <span class="kw">return </span>arena.get(<span class="kw-2">*</span>input).schema(arena),
             Sort { input, .. } =&gt; <span class="kw">return </span>arena.get(<span class="kw-2">*</span>input).schema(arena),
-            Explode { schema, .. } =&gt; schema,
             <span class="attr">#[cfg(feature = <span class="string">&quot;parquet&quot;</span>)]
             </span>ParquetScan {
                 file_info,
@@ -1216,13 +1193,6 @@
                 input: inputs[<span class="number">0</span>],
                 by_column: by_column.clone(),
                 args: args.clone(),
-            },
-            Explode {
-                columns, schema, ..
-            } =&gt; Explode {
-                input: inputs[<span class="number">0</span>],
-                columns: columns.clone(),
-                schema: schema.clone(),
             },
             Cache { id, count, .. } =&gt; Cache {
                 input: inputs[<span class="number">0</span>],
@@ -1368,7 +1338,6 @@
         <span class="kw">match </span><span class="self">self </span>{
             Melt { .. }
             | Slice { .. }
-            | Explode { .. }
             | Cache { .. }
             | Distinct { .. }
             | Union { .. }
@@ -1450,7 +1419,6 @@
             Projection { input, .. } =&gt; <span class="kw-2">*</span>input,
             LocalProjection { input, .. } =&gt; <span class="kw-2">*</span>input,
             Sort { input, .. } =&gt; <span class="kw-2">*</span>input,
-            Explode { input, .. } =&gt; <span class="kw-2">*</span>input,
             Cache { input, .. } =&gt; <span class="kw-2">*</span>input,
             Aggregate { input, .. } =&gt; <span class="kw-2">*</span>input,
             Join {

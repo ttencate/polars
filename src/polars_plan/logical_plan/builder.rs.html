@@ -783,6 +783,8 @@
 <a href="#783" id="783">783</a>
 <a href="#784" id="784">784</a>
 <a href="#785" id="785">785</a>
+<a href="#786" id="786">786</a>
+<a href="#787" id="787">787</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::io::{Read, Seek};
 <span class="kw">use </span>std::ops::Deref;
 <span class="kw">use </span>std::path::PathBuf;
@@ -1406,17 +1408,19 @@
                         <span class="kw">let </span>inner = <span class="kw-2">*</span>inner.clone();
                         schema.with_column(name.as_ref().into(), inner);
                     }
-
-                    (<span class="kw-2">**</span>name).to_owned()
+                    name.clone()
                 } <span class="kw">else </span>{
                     <span class="macro">panic!</span>(<span class="string">&quot;expected column expression&quot;</span>)
                 }
             })
             .collect();
-        LogicalPlan::Explode {
+
+        LogicalPlan::MapFunction {
             input: Box::new(<span class="self">self</span>.<span class="number">0</span>),
-            columns,
-            schema: Arc::new(schema),
+            function: FunctionNode::Explode {
+                columns,
+                schema: Arc::new(schema),
+            },
         }
         .into()
     }

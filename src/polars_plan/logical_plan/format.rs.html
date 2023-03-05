@@ -470,10 +470,6 @@
 <a href="#470" id="470">470</a>
 <a href="#471" id="471">471</a>
 <a href="#472" id="472">472</a>
-<a href="#473" id="473">473</a>
-<a href="#474" id="474">474</a>
-<a href="#475" id="475">475</a>
-<a href="#476" id="476">476</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::fmt::{Debug, Display, Formatter};
@@ -678,10 +674,6 @@
                 input, by_column, ..
             } =&gt; {
                 <span class="macro">writeln!</span>(f, <span class="string">&quot;{:indent$}SORT BY {by_column:?}&quot;</span>, <span class="string">&quot;&quot;</span>)<span class="question-mark">?</span>;
-                input._format(f, indent)
-            }
-            Explode { input, columns, .. } =&gt; {
-                <span class="macro">writeln!</span>(f, <span class="string">&quot;{:indent$}EXPLODE BY {columns:?}&quot;</span>, <span class="string">&quot;&quot;</span>)<span class="question-mark">?</span>;
                 input._format(f, indent)
             }
             Aggregate {
