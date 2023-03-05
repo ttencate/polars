@@ -550,6 +550,7 @@
 <a href="#550" id="550">550</a>
 <a href="#551" id="551">551</a>
 <a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -1006,6 +1007,7 @@
         (<span class="number">1</span>, <span class="number">1</span>) =&gt; {
             <span class="kw">let </span>pat = get_pat(pat)<span class="question-mark">?</span>;
             <span class="kw">let </span>val = val.get(<span class="number">0</span>).ok_or_else(|| PolarsError::ComputeError(<span class="string">&quot;value may not be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>.into()))<span class="question-mark">?</span>;
+            <span class="kw">let </span>literal = literal || pat.chars().all(|c| !c.is_ascii_punctuation());
 
             <span class="kw">match </span>literal {
                 <span class="bool-val">true </span>=&gt; ca.replace_literal(pat, val),

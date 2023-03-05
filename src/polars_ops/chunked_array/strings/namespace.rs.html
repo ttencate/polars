@@ -373,6 +373,28 @@
 <a href="#373" id="373">373</a>
 <a href="#374" id="374">374</a>
 <a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;string_encoding&quot;</span>)]
@@ -618,13 +640,35 @@
 
     <span class="doccomment">/// Replace the leftmost literal (sub)string with another string
     </span><span class="kw">fn </span>replace_literal&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, pat: <span class="kw-2">&amp;</span>str, val: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Utf8Chunked&gt; {
-        <span class="comment">// note: benchmarking shows that using the regex engine for literal
-        // replacement is faster than str::replacen in almost all cases.
-        // ref: https://github.com/pola-rs/polars/pull/6777
-        </span><span class="kw">let </span>reg = Regex::new(escape(pat).as_str())<span class="question-mark">?</span>;
-        <span class="kw">let </span>f = |s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str| reg.replace(s, NoExpand(val));
+        <span class="comment">// amortize allocation
+        </span><span class="kw">let </span><span class="kw-2">mut </span>buf = String::new();
+
+        <span class="kw">let </span>f = <span class="kw">move </span>|s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str| {
+            buf.clear();
+            <span class="kw">let </span><span class="kw-2">mut </span>changed = <span class="bool-val">false</span>;
+
+            <span class="comment">// See: str.replacen
+            </span><span class="kw">let </span><span class="kw-2">mut </span>last_end = <span class="number">0</span>;
+            <span class="kw">if let </span><span class="prelude-val">Some</span>((start, part)) = s.match_indices(pat).next() {
+                changed = <span class="bool-val">true</span>;
+                buf.push_str(<span class="kw">unsafe </span>{ s.get_unchecked(last_end..start) });
+                buf.push_str(val);
+                last_end = start + part.len();
+            }
+            buf.push_str(<span class="kw">unsafe </span>{ s.get_unchecked(last_end..s.len()) });
+
+            <span class="kw">if </span>changed {
+                <span class="comment">// extend lifetime
+                // lifetime is bound to &#39;a
+                </span><span class="kw">let </span>slice = buf.as_str();
+                <span class="kw">let </span>slice = <span class="kw">unsafe </span>{ std::mem::transmute::&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;(slice) };
+                Cow::Borrowed(slice)
+            } <span class="kw">else </span>{
+                Cow::Borrowed(s)
+            }
+        };
         <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
-        <span class="prelude-val">Ok</span>(ca.apply(f))
+        <span class="prelude-val">Ok</span>(ca.apply_mut(f))
     }
 
     <span class="doccomment">/// Replace all regex-matched (sub)strings with another string
