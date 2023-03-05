@@ -390,6 +390,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.read_avro.html">polars.read_avro</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.DataFrame.write_avro.html">polars.DataFrame.write_avro</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.read_excel.html">polars.read_excel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.DataFrame.write_excel.html">polars.DataFrame.write_excel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.scan_delta.html">polars.scan_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.read_delta.html">polars.read_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.scan_pyarrow_dataset.html">polars.scan_pyarrow_dataset</a></li>
@@ -1361,6 +1362,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../config.html">Config</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.Config.activate_decimals.html">polars.Config.activate_decimals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Config.set_ascii_tables.html">polars.Config.set_ascii_tables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Config.set_fmt_float.html">polars.Config.set_fmt_float</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Config.set_fmt_str_lengths.html">polars.Config.set_fmt_str_lengths</a></li>
@@ -1488,7 +1490,7 @@ document.write(`
 <h1>polars.DataFrame.replace<a class="headerlink" href="#polars-dataframe-replace" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.DataFrame.replace">
-<span class="sig-prename descclassname"><span class="pre">DataFrame.</span></span><span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/dataframe/frame.py#L3608-L3637"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.DataFrame.replace" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">DataFrame.</span></span><span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/dataframe/frame.py#L3610-L3639"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.DataFrame.replace" title="Permalink to this definition">#</a></dt>
 <dd><p>Replace a column by a new Series.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

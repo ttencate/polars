@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="polars.Config.set_fmt_float" href="polars.Config.set_fmt_float.html" />
-    <link rel="prev" title="Config" href="../config.html" />
+    <link rel="prev" title="polars.Config.activate_decimals" href="polars.Config.activate_decimals.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -390,6 +390,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.read_avro.html">polars.read_avro</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.DataFrame.write_avro.html">polars.DataFrame.write_avro</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.read_excel.html">polars.read_excel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.DataFrame.write_excel.html">polars.DataFrame.write_excel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.scan_delta.html">polars.scan_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.read_delta.html">polars.read_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.scan_pyarrow_dataset.html">polars.scan_pyarrow_dataset</a></li>
@@ -1361,6 +1362,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../config.html">Config</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="polars.Config.activate_decimals.html">polars.Config.activate_decimals</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.Config.set_ascii_tables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Config.set_fmt_float.html">polars.Config.set_fmt_float</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Config.set_fmt_str_lengths.html">polars.Config.set_fmt_str_lengths</a></li>
@@ -1483,7 +1485,7 @@ document.write(`
 <h1>polars.Config.set_ascii_tables<a class="headerlink" href="#polars-config-set-ascii-tables" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Config.set_ascii_tables">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Config.</span></span><span class="sig-name descname"><span class="pre">set_ascii_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.11)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><span class="pre">polars.cfg.Config</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/cfg.py#L158-L182"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Config.set_ascii_tables" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Config.</span></span><span class="sig-name descname"><span class="pre">set_ascii_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.11)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><span class="pre">polars.cfg.Config</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/cfg.py#L159-L183"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Config.set_ascii_tables" title="Permalink to this definition">#</a></dt>
 <dd><p>Use ASCII characters to print table outlines (set False to revert to UTF8).</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;abc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="s2">&quot;xyz&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]})</span>
@@ -1514,12 +1516,12 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../config.html"
+       href="polars.Config.activate_decimals.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Config</p>
+        <p class="prev-next-title">polars.Config.activate_decimals</p>
       </div>
     </a>
     <a class="right-next"
