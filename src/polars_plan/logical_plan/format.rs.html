@@ -466,10 +466,6 @@
 <a href="#466" id="466">466</a>
 <a href="#467" id="467">467</a>
 <a href="#468" id="468">468</a>
-<a href="#469" id="469">469</a>
-<a href="#470" id="470">470</a>
-<a href="#471" id="471">471</a>
-<a href="#472" id="472">472</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::fmt::{Debug, Display, Formatter};
@@ -607,10 +603,6 @@
             }
             Selection { predicate, input } =&gt; {
                 <span class="macro">writeln!</span>(f, <span class="string">&quot;{:indent$}FILTER {predicate:?} FROM&quot;</span>, <span class="string">&quot;&quot;</span>)<span class="question-mark">?</span>;
-                input._format(f, indent)
-            }
-            Melt { input, .. } =&gt; {
-                <span class="macro">writeln!</span>(f, <span class="string">&quot;{:indent$}MELT&quot;</span>, <span class="string">&quot;&quot;</span>)<span class="question-mark">?</span>;
                 input._format(f, indent)
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]

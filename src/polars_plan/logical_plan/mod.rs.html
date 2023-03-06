@@ -435,14 +435,6 @@
 <a href="#435" id="435">435</a>
 <a href="#436" id="436">436</a>
 <a href="#437" id="437">437</a>
-<a href="#438" id="438">438</a>
-<a href="#439" id="439">439</a>
-<a href="#440" id="440">440</a>
-<a href="#441" id="441">441</a>
-<a href="#442" id="442">442</a>
-<a href="#443" id="443">443</a>
-<a href="#444" id="444">444</a>
-<a href="#445" id="445">445</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::fmt::Debug;
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;csv-file&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>))]
@@ -487,7 +479,6 @@
 <span class="kw">pub use </span>iterator::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>lit::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>optimizer::<span class="kw-2">*</span>;
-<span class="kw">use </span>polars_core::frame::explode::MeltArgs;
 <span class="kw">pub use </span>schema::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
@@ -671,12 +662,6 @@
         offset: i64,
         len: IdxSize,
     },
-    <span class="doccomment">/// A Melt operation
-    </span>Melt {
-        input: Box&lt;LogicalPlan&gt;,
-        args: Arc&lt;MeltArgs&gt;,
-        schema: SchemaRef,
-    },
     <span class="doccomment">/// A (User Defined) Function
     </span>MapFunction {
         input: Box&lt;LogicalPlan&gt;,
@@ -753,7 +738,6 @@
             HStack { schema, .. } =&gt; <span class="prelude-val">Ok</span>(Cow::Borrowed(schema)),
             Distinct { input, .. } | FileSink { input, .. } =&gt; input.schema(),
             Slice { input, .. } =&gt; input.schema(),
-            Melt { schema, .. } =&gt; <span class="prelude-val">Ok</span>(Cow::Borrowed(schema)),
             MapFunction {
                 input, function, ..
             } =&gt; {

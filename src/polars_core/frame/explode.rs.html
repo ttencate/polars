@@ -454,6 +454,8 @@
 <a href="#454" id="454">454</a>
 <a href="#455" id="455">455</a>
 <a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
 </pre><pre class="rust"><code><span class="kw">use </span>arrow::offset::OffsetsBuffer;
 <span class="kw">use </span>polars_arrow::kernels::concatenate::concatenate_owned_unchecked;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde-lazy&quot;</span>)]
@@ -476,13 +478,17 @@
 }
 
 <span class="doccomment">/// Arguments for `[DataFrame::melt]` function
-</span><span class="attr">#[derive(Clone, Default, Debug)]
+</span><span class="attr">#[derive(Clone, Default, Debug, PartialEq)]
 #[cfg_attr(feature = <span class="string">&quot;serde-lazy&quot;</span>, derive(Serialize, Deserialize))]
 </span><span class="kw">pub struct </span>MeltArgs {
     <span class="kw">pub </span>id_vars: Vec&lt;SmartString&gt;,
     <span class="kw">pub </span>value_vars: Vec&lt;SmartString&gt;,
     <span class="kw">pub </span>variable_name: <span class="prelude-ty">Option</span>&lt;SmartString&gt;,
     <span class="kw">pub </span>value_name: <span class="prelude-ty">Option</span>&lt;SmartString&gt;,
+    <span class="doccomment">/// Whether the melt may be done
+    /// in the streaming engine
+    /// This will not have a stable ordering
+    </span><span class="kw">pub </span>streamable: bool,
 }
 
 <span class="kw">impl </span>DataFrame {
@@ -876,8 +882,7 @@
         <span class="kw">let </span>args = MeltArgs {
             id_vars: <span class="macro">vec!</span>[],
             value_vars: <span class="macro">vec!</span>[],
-            variable_name: <span class="prelude-val">None</span>,
-            value_name: <span class="prelude-val">None</span>,
+            ..Default::default()
         };
 
         <span class="kw">let </span>melted = df.melt2(args).unwrap();
@@ -893,8 +898,7 @@
         <span class="kw">let </span>args = MeltArgs {
             id_vars: <span class="macro">vec!</span>[<span class="string">&quot;A&quot;</span>.into()],
             value_vars: <span class="macro">vec!</span>[],
-            variable_name: <span class="prelude-val">None</span>,
-            value_name: <span class="prelude-val">None</span>,
+            ..Default::default()
         };
 
         <span class="kw">let </span>melted = df.melt2(args).unwrap();
