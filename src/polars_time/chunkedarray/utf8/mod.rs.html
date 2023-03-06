@@ -547,7 +547,6 @@
 <a href="#547" id="547">547</a>
 <a href="#548" id="548">548</a>
 <a href="#549" id="549">549</a>
-<a href="#550" id="550">550</a>
 </pre><pre class="rust"><code><span class="kw">pub mod </span>infer;
 <span class="kw">mod </span>patterns;
 <span class="kw">mod </span>strptime;
@@ -1032,7 +1031,6 @@
                         <span class="comment">// Safety:
                         // fmt_len is correct, it was computed with this `fmt` str.
                         </span><span class="kw">unsafe </span>{ <span class="self">self</span>::strptime::parse(s.as_bytes(), fmt.as_bytes(), fmt_len) }
-                            .or_else(|| NaiveDateTime::parse_from_str(s, <span class="kw-2">&amp;</span>fmt).ok())
                             .map(func)
                     };
                     <span class="kw">if </span>utf8_ca.null_count() == <span class="number">0 </span>{
