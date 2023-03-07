@@ -289,6 +289,12 @@
 <a href="#289" id="289">289</a>
 <a href="#290" id="290">290</a>
 <a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>from;
 
 <span class="kw">use </span>std::collections::BTreeMap;
@@ -342,12 +348,16 @@
         <span class="kw">let </span><span class="kw-2">mut </span>max_len = first_len;
 
         <span class="kw">let </span><span class="kw-2">mut </span>all_equal_len = <span class="bool-val">true</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>is_empty = <span class="bool-val">false</span>;
         <span class="kw">for </span>s <span class="kw">in </span>fields {
             <span class="kw">let </span>s_len = s.len();
             max_len = std::cmp::max(max_len, s_len);
 
             <span class="kw">if </span>s_len != first_len {
                 all_equal_len = <span class="bool-val">false</span>;
+            }
+            <span class="kw">if </span>s_len == <span class="number">0 </span>{
+                is_empty = <span class="bool-val">true</span>;
             }
             <span class="kw">let </span>name = s.name();
             <span class="kw">if </span>!names.insert(name) {
@@ -361,7 +371,9 @@
             <span class="kw">let </span><span class="kw-2">mut </span>new_fields = Vec::with_capacity(fields.len());
             <span class="kw">for </span>s <span class="kw">in </span>fields {
                 <span class="kw">let </span>s_len = s.len();
-                <span class="kw">if </span>s_len == max_len {
+                <span class="kw">if </span>is_empty {
+                    new_fields.push(s.clear())
+                } <span class="kw">else if </span>s_len == max_len {
                     new_fields.push(s.clone())
                 } <span class="kw">else if </span>s_len == <span class="number">1 </span>{
                     new_fields.push(s.new_from_index(<span class="number">0</span>, max_len))
