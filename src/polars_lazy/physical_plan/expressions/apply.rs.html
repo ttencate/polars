@@ -504,9 +504,6 @@
 <a href="#504" id="504">504</a>
 <a href="#505" id="505">505</a>
 <a href="#506" id="506">506</a>
-<a href="#507" id="507">507</a>
-<a href="#508" id="508">508</a>
-<a href="#509" id="509">509</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -521,7 +518,6 @@
 </span><span class="kw">use </span>polars_plan::dsl::FunctionExpr;
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 
-<span class="kw">use </span><span class="kw">crate</span>::physical_plan::expression_err;
 <span class="kw">use </span><span class="kw">crate</span>::physical_plan::state::ExecutionState;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
@@ -608,13 +604,11 @@
     ) -&gt; PolarsResult&lt;AggregationContext&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
         <span class="kw">let </span>s = ac.series();
 
-        <span class="kw">if </span><span class="macro">matches!</span>(ac.agg_state(), AggState::AggregatedFlat(<span class="kw">_</span>)) {
-            <span class="kw">let </span>msg = <span class="macro">format!</span>(
-                <span class="string">&quot;Cannot aggregate {:?}. The column is already aggregated.&quot;</span>,
-                <span class="self">self</span>.expr
-            );
-            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">expression_err!</span>(msg, <span class="self">self</span>.expr, ComputeError));
-        }
+        <span class="macro">polars_ensure!</span>(
+            !<span class="macro">matches!</span>(ac.agg_state(), AggState::AggregatedFlat(<span class="kw">_</span>)),
+            expr = <span class="self">self</span>.expr,
+            ComputeError: <span class="string">&quot;cannot aggregate, the column is already aggregated&quot;</span>,
+        );
 
         <span class="kw">let </span>name = s.name().to_string();
         <span class="kw">let </span>agg = ac.aggregated();
@@ -733,12 +727,12 @@
 }
 
 <span class="kw">fn </span>check_map_output_len(input_len: usize, output_len: usize, expr: <span class="kw-2">&amp;</span>Expr) -&gt; PolarsResult&lt;()&gt; {
-    <span class="kw">if </span>input_len != output_len {
-        <span class="kw">let </span>msg = <span class="string">&quot;A &#39;map&#39; functions output length must be equal to that of the input length. Consider using &#39;apply&#39; in favor of &#39;map&#39;.&quot;</span>;
-        <span class="prelude-val">Err</span>(<span class="macro">expression_err!</span>(msg, expr, ComputeError))
-    } <span class="kw">else </span>{
-        <span class="prelude-val">Ok</span>(())
-    }
+    <span class="macro">polars_ensure!</span>(
+        input_len == output_len, expr = expr, ComputeError:
+        <span class="string">&quot;output length of `map` must be equal to that of the input length; \
+        consider using `apply` instead&quot;
+    </span>);
+    <span class="prelude-val">Ok</span>(())
 }
 
 <span class="kw">impl </span>PhysicalExpr <span class="kw">for </span>ApplyExpr {

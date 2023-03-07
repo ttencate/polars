@@ -471,9 +471,9 @@
                     .iter()
                     .map(|name| {
                         <span class="kw">let </span>name = name.as_ref();
-                        input_schema.get_field(name).ok_or_else(|| {
-                            PolarsError::SchemaFieldNotFound(name.to_string().into())
-                        })
+                        input_schema
+                            .get_field(name)
+                            .ok_or_else(|| <span class="macro">polars_err!</span>(SchemaFieldNotFound: <span class="string">&quot;{}&quot;</span>, name))
                     })
                     .collect::&lt;PolarsResult&lt;Schema&gt;&gt;()<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(Cow::Owned(Arc::new(schema)))
@@ -492,9 +492,9 @@
                                         .with_column(fld.name().clone(), fld.data_type().clone());
                                 }
                             } <span class="kw">else </span>{
-                                <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                                    <span class="macro">format!</span>(<span class="string">&quot;expected struct dtype, got: &#39;{dtype:?}&#39;&quot;</span>).into(),
-                                ));
+                                <span class="macro">polars_bail!</span>(
+                                    SchemaMismatch: <span class="string">&quot;expected struct dtype, got: `{}`&quot;</span>, dtype
+                                );
                             }
                         } <span class="kw">else </span>{
                             new_schema.with_column(name.clone(), dtype.clone());

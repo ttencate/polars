@@ -312,6 +312,8 @@
 <a href="#312" id="312">312</a>
 <a href="#313" id="313">313</a>
 <a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub type </span>TimeZone = String;
@@ -361,6 +363,10 @@
     <span class="comment">// some logical types we cannot know statically, e.g. Datetime
     </span><span class="attr">#[default]
     </span>Unknown,
+}
+
+<span class="kw">pub trait </span>AsRefDataType {
+    <span class="kw">fn </span>as_ref_dtype(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>DataType;
 }
 
 <span class="kw">impl </span>Hash <span class="kw">for </span>DataType {
@@ -610,21 +616,19 @@
 <span class="kw">pub fn </span>merge_dtypes(left: <span class="kw-2">&amp;</span>DataType, right: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;DataType&gt; {
     <span class="comment">// TODO! add struct
     </span><span class="kw">use </span>DataType::<span class="kw-2">*</span>;
-    <span class="kw">match </span>(left, right) {
+    <span class="prelude-val">Ok</span>(<span class="kw">match </span>(left, right) {
         <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
         </span>(Categorical(<span class="prelude-val">Some</span>(rev_map_l)), Categorical(<span class="prelude-val">Some</span>(rev_map_r))) =&gt; {
             <span class="kw">let </span>rev_map = merge_categorical_map(rev_map_l, rev_map_r)<span class="question-mark">?</span>;
-            <span class="prelude-val">Ok</span>(DataType::Categorical(<span class="prelude-val">Some</span>(rev_map)))
+            Categorical(<span class="prelude-val">Some</span>(rev_map))
         }
         (List(inner_l), List(inner_r)) =&gt; {
             <span class="kw">let </span>merged = merge_dtypes(inner_l, inner_r)<span class="question-mark">?</span>;
-            <span class="prelude-val">Ok</span>(DataType::List(Box::new(merged)))
+            List(Box::new(merged))
         }
-        (left, right) <span class="kw">if </span>left == right =&gt; <span class="prelude-val">Ok</span>(left.clone()),
-        <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-            <span class="string">&quot;Coult not merge datatypes&quot;</span>.into(),
-        )),
-    }
+        (left, right) <span class="kw">if </span>left == right =&gt; left.clone(),
+        <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;unable to merge datatypes&quot;</span>),
+    })
 }
 </code></pre></div>
 </section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (065852def 2023-02-13)" data-search-js="search-abe1d547ad11c273.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

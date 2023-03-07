@@ -948,6 +948,8 @@
 <a href="#948" id="948">948</a>
 <a href="#949" id="949">949</a>
 <a href="#950" id="950">950</a>
+<a href="#951" id="951">951</a>
+<a href="#952" id="952">952</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::fmt::Debug;
 <span class="kw">use </span>std::hash::Hash;
 <span class="kw">use </span>std::ops::Sub;
@@ -1188,7 +1190,9 @@
 
     <span class="kw">let </span>left_asof = left_asof.rechunk();
     <span class="kw">let </span>err = |<span class="kw">_</span>: PolarsError| {
-        PolarsError::ComputeError(<span class="string">&quot;Keys are not allowed to have null values in asof join.&quot;</span>.into())
+        <span class="macro">polars_err!</span>(
+            ComputeError: <span class="string">&quot;keys are not allowed to have null values in asof join&quot;
+        </span>)
     };
     <span class="kw">let </span>left_asof = left_asof.cont_slice().map_err(err)<span class="question-mark">?</span>;
 

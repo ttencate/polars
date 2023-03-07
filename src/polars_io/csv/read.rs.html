@@ -576,8 +576,6 @@
 <a href="#576" id="576">576</a>
 <a href="#577" id="577">577</a>
 <a href="#578" id="578">578</a>
-<a href="#579" id="579">579</a>
-<a href="#580" id="580">580</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::csv::read_impl::{to_batched_owned, BatchedCsvReader, OwnedBatchedCsvReader};
 <span class="kw">use </span><span class="kw">crate</span>::csv::utils::infer_file_schema;
@@ -1065,8 +1063,6 @@
     </span><span class="kw">fn </span>finish(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; PolarsResult&lt;DataFrame&gt; {
         <span class="kw">let </span>rechunk = <span class="self">self</span>.rechunk;
         <span class="kw">let </span>schema_overwrite = <span class="self">self</span>.schema_overwrite.clone();
-        <span class="kw">let </span>dtype_overwrite = <span class="self">self</span>.dtype_overwrite;
-        <span class="kw">let </span>should_parse_dates = <span class="self">self</span>.try_parse_dates;
         <span class="kw">let </span>low_memory = <span class="self">self</span>.low_memory;
 
         <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -1114,9 +1110,9 @@
 
         <span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
         </span><span class="comment">// only needed until we also can parse time columns in place
-        </span><span class="kw">if </span>should_parse_dates {
+        </span><span class="kw">if </span><span class="self">self</span>.try_parse_dates {
             <span class="comment">// determine the schema that&#39;s given by the user. That should not be changed
-            </span><span class="kw">let </span>fixed_schema = <span class="kw">match </span>(schema_overwrite, dtype_overwrite) {
+            </span><span class="kw">let </span>fixed_schema = <span class="kw">match </span>(schema_overwrite, <span class="self">self</span>.dtype_overwrite) {
                 (<span class="prelude-val">Some</span>(schema), <span class="kw">_</span>) =&gt; schema,
                 (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(dtypes)) =&gt; {
                     <span class="kw">let </span>fields = dtypes

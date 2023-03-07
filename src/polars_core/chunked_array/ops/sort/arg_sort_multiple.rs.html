@@ -120,13 +120,6 @@
 <a href="#120" id="120">120</a>
 <a href="#121" id="121">121</a>
 <a href="#122" id="122">122</a>
-<a href="#123" id="123">123</a>
-<a href="#124" id="124">124</a>
-<a href="#125" id="125">125</a>
-<a href="#126" id="126">126</a>
-<a href="#127" id="127">127</a>
-<a href="#128" id="128">128</a>
-<a href="#129" id="129">129</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_arrow::data_types::IsFloat;
 <span class="kw">use </span>polars_row::{convert_columns, RowsEncoded, SortField};
 <span class="kw">use </span>polars_utils::iter::EnumerateIdxTrait;
@@ -142,18 +135,11 @@
     <span class="kw">for </span>s <span class="kw">in </span>other {
         <span class="macro">assert_eq!</span>(ca.len(), s.len());
     }
-    <span class="kw">if </span>other.len() != (descending.len() - <span class="number">1</span>) {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-            <span class="macro">format!</span>(
-                <span class="string">&quot;The amount of ordering booleans: {} does not match that no. of Series: {}&quot;</span>,
-                descending.len(),
-                other.len() + <span class="number">1
-            </span>)
-            .into(),
-        ));
-    }
-
-    <span class="macro">assert_eq!</span>(other.len(), descending.len() - <span class="number">1</span>);
+    <span class="macro">polars_ensure!</span>(other.len() == (descending.len() - <span class="number">1</span>),
+        ComputeError:
+        <span class="string">&quot;the amount of ordering booleans: {} does not match the number of series: {}&quot;</span>,
+        descending.len(), other.len() + <span class="number">1</span>,
+    );
     <span class="prelude-val">Ok</span>(())
 }
 

@@ -701,8 +701,7 @@
 <a href="#701" id="701">701</a>
 <a href="#702" id="702">702</a>
 <a href="#703" id="703">703</a>
-</pre><pre class="rust"><code><span class="kw">use </span>polars_core::export::chrono;
-<span class="kw">use </span>polars_utils::arena::Arena;
+</pre><pre class="rust"><code><span class="kw">use </span>polars_utils::arena::Arena;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;strings&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::dsl::function_expr::StringFunction;
@@ -1373,6 +1372,7 @@
     <span class="kw">match </span>(input, dtype) {
         <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-duration&quot;</span>)]
         </span>(AExpr::Literal(LiteralValue::Int64(v)), DataType::Duration(tu)) =&gt; {
+            <span class="kw">use </span>polars_core::export::chrono;
             <span class="kw">let </span>dur = <span class="kw">match </span>tu {
                 TimeUnit::Nanoseconds =&gt; chrono::Duration::nanoseconds(<span class="kw-2">*</span>v),
                 TimeUnit::Microseconds =&gt; chrono::Duration::microseconds(<span class="kw-2">*</span>v),

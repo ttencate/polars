@@ -2165,11 +2165,6 @@
 <a href="#2165" id="2165">2165</a>
 <a href="#2166" id="2166">2166</a>
 <a href="#2167" id="2167">2167</a>
-<a href="#2168" id="2168">2168</a>
-<a href="#2169" id="2169">2169</a>
-<a href="#2170" id="2170">2170</a>
-<a href="#2171" id="2171">2171</a>
-<a href="#2172" id="2172">2172</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
 </span><span class="kw">pub mod </span>cat;
@@ -3573,20 +3568,19 @@
                     by = by.rechunk();
                     <span class="kw">let </span>s = <span class="kw-2">&amp;</span>s[<span class="number">0</span>];
 
-                    <span class="kw">if </span>options.weights.is_some() {
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                            <span class="string">&quot;weights not supported in &#39;rolling by&#39; expression&quot;</span>.into(),
-                        ));
-                    }
-
+                    <span class="macro">polars_ensure!</span>(
+                        options.weights.is_none(),
+                        ComputeError: <span class="string">&quot;`weights` is not supported in &#39;rolling by&#39; expression&quot;
+                    </span>);
                     <span class="kw">if </span><span class="macro">matches!</span>(by.dtype(), DataType::Datetime(<span class="kw">_</span>, <span class="kw">_</span>)) {
                         by = by.cast(<span class="kw-2">&amp;</span>DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>))<span class="question-mark">?</span>;
                     }
                     <span class="kw">let </span>by = by.datetime().unwrap();
                     <span class="kw">let </span>by_values = by.cont_slice().map_err(|<span class="kw">_</span>| {
-                        PolarsError::ComputeError(
-                            <span class="string">&quot;&#39;by&#39; column should not have null values in &#39;rolling by&#39;&quot;</span>.into(),
-                        )
+                        <span class="macro">polars_err!</span>(
+                            ComputeError:
+                            <span class="string">&quot;`by` column should not have null values in &#39;rolling by&#39; expression&quot;
+                        </span>)
                     })<span class="question-mark">?</span>;
                     <span class="kw">let </span>tu = by.time_unit();
 
@@ -3880,11 +3874,9 @@
                     UInt64 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[u64::MAX]),
                     Float32 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[f32::INFINITY]),
                     Float64 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[f64::INFINITY]),
-                    dt =&gt; {
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                            <span class="macro">format!</span>(<span class="string">&quot;cannot determine upper bound of dtype {dt}&quot;</span>).into(),
-                        ))
-                    }
+                    dt =&gt; <span class="macro">polars_bail!</span>(
+                        ComputeError: <span class="string">&quot;cannot determine upper bound for dtype `{}`&quot;</span>, dt,
+                    ),
                 };
                 <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s))
             },
@@ -3914,11 +3906,9 @@
                     UInt64 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[u64::MIN]),
                     Float32 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[f32::NEG_INFINITY]),
                     Float64 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[f64::NEG_INFINITY]),
-                    dt =&gt; {
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                            <span class="macro">format!</span>(<span class="string">&quot;cannot determine lower bound of dtype {dt}&quot;</span>).into(),
-                        ))
-                    }
+                    dt =&gt; <span class="macro">polars_bail!</span>(
+                        ComputeError: <span class="string">&quot;cannot determine lower bound for dtype `{}`&quot;</span>, dt,
+                    ),
                 };
                 <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s))
             },

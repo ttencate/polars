@@ -269,10 +269,6 @@
 <a href="#269" id="269">269</a>
 <a href="#270" id="270">270</a>
 <a href="#271" id="271">271</a>
-<a href="#272" id="272">272</a>
-<a href="#273" id="273">273</a>
-<a href="#274" id="274">274</a>
-<a href="#275" id="275">275</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::convert::TryFrom;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -462,14 +458,10 @@
     (<span class="macro-nonterminal">$self</span>:ident, <span class="macro-nonterminal">$index</span>:expr) =&gt; {{
         <span class="kw">let </span>(chunk_idx, idx) = <span class="macro-nonterminal">$self</span>.index_to_chunked_index(<span class="macro-nonterminal">$index</span>);
         <span class="kw">let </span>arr = <span class="kw-2">&amp;*</span><span class="macro-nonterminal">$self</span>.chunks[chunk_idx];
-
-        <span class="kw">if </span>idx &lt; arr.len() {
-            <span class="comment">// SAFETY
-            // bounds are checked
-            </span><span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ arr_to_any_value(arr, idx, <span class="macro-nonterminal">$self</span>.dtype()) })
-        } <span class="kw">else </span>{
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="string">&quot;index is out of bounds&quot;</span>.into()))
-        }
+        <span class="macro">polars_ensure!</span>(idx &lt; arr.len(), oob = idx, arr.len());
+        <span class="comment">// SAFETY
+        // bounds are checked
+        </span><span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ arr_to_any_value(arr, idx, <span class="macro-nonterminal">$self</span>.dtype()) })
     }};
 }
 
@@ -543,7 +535,7 @@
 
     <span class="kw">fn </span>get_any_value(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; PolarsResult&lt;AnyValue&gt; {
         <span class="kw">match </span><span class="self">self</span>.get_object(index) {
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="string">&quot;index is out of bounds&quot;</span>.into())),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;index is out of bounds&quot;</span>)),
             <span class="prelude-val">Some</span>(v) =&gt; <span class="prelude-val">Ok</span>(AnyValue::Object(v)),
         }
     }

@@ -361,10 +361,6 @@
 <a href="#361" id="361">361</a>
 <a href="#362" id="362">362</a>
 <a href="#363" id="363">363</a>
-<a href="#364" id="364">364</a>
-<a href="#365" id="365">365</a>
-<a href="#366" id="366">366</a>
-<a href="#367" id="367">367</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Implementations of the ChunkCast Trait.
 </span><span class="kw">use </span>std::convert::TryFrom;
 
@@ -451,16 +447,14 @@
         <span class="kw">match </span>data_type {
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
             </span>DataType::Categorical(<span class="kw">_</span>) =&gt; {
-                <span class="kw">if </span><span class="self">self</span>.dtype() == <span class="kw-2">&amp;</span>DataType::UInt32 {
-                    <span class="comment">// safety:
-                    // we are guarded by the type system.
-                    </span><span class="kw">let </span>ca = <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(<span class="self">self </span><span class="kw">as </span><span class="kw-2">*const </span>ChunkedArray&lt;T&gt; <span class="kw">as </span><span class="kw-2">*const </span>UInt32Chunked) };
-                    CategoricalChunked::from_global_indices(ca.clone()).map(|ca| ca.into_series())
-                } <span class="kw">else </span>{
-                    <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                        <span class="string">&quot;Cannot cast numeric types to &#39;Categorical&#39;&quot;</span>.into(),
-                    ))
-                }
+                <span class="macro">polars_ensure!</span>(
+                    <span class="self">self</span>.dtype() == <span class="kw-2">&amp;</span>DataType::UInt32,
+                    ComputeError: <span class="string">&quot;cannot cast numeric types to &#39;Categorical&#39;&quot;
+                </span>);
+                <span class="comment">// SAFETY
+                // we are guarded by the type system
+                </span><span class="kw">let </span>ca = <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(<span class="self">self </span><span class="kw">as </span><span class="kw-2">*const </span>ChunkedArray&lt;T&gt; <span class="kw">as </span><span class="kw-2">*const </span>UInt32Chunked) };
+                CategoricalChunked::from_global_indices(ca.clone()).map(|ca| ca.into_series())
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
             </span>DataType::Struct(fields) =&gt; cast_single_to_struct(<span class="self">self</span>.name(), <span class="kw-2">&amp;</span><span class="self">self</span>.chunks, fields),
@@ -504,9 +498,7 @@
                     }
                     .into_series())
                 } <span class="kw">else </span>{
-                    <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                        <span class="string">&quot;Cannot cast numeric types to &#39;Categorical&#39;&quot;</span>.into(),
-                    ))
+                    <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;cannot cast numeric types to &#39;Categorical&#39;&quot;</span>);
                 }
             }
             <span class="kw">_ </span>=&gt; <span class="self">self</span>.cast_impl(data_type, <span class="bool-val">false</span>),
@@ -672,7 +664,7 @@
                     }
                 }
             }
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="string">&quot;Cannot cast list type&quot;</span>.into())),
+            <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;cannot cast list type&quot;</span>),
         }
     }
 

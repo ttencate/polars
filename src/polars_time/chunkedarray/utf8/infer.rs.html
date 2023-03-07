@@ -276,20 +276,6 @@
 <a href="#276" id="276">276</a>
 <a href="#277" id="277">277</a>
 <a href="#278" id="278">278</a>
-<a href="#279" id="279">279</a>
-<a href="#280" id="280">280</a>
-<a href="#281" id="281">281</a>
-<a href="#282" id="282">282</a>
-<a href="#283" id="283">283</a>
-<a href="#284" id="284">284</a>
-<a href="#285" id="285">285</a>
-<a href="#286" id="286">286</a>
-<a href="#287" id="287">287</a>
-<a href="#288" id="288">288</a>
-<a href="#289" id="289">289</a>
-<a href="#290" id="290">290</a>
-<a href="#291" id="291">291</a>
-<a href="#292" id="292">292</a>
 </pre><pre class="rust"><code><span class="kw">use </span>chrono::{NaiveDate, NaiveDateTime};
 <span class="kw">use </span>polars_arrow::export::arrow::array::PrimitiveArray;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
@@ -333,9 +319,7 @@
                 fmt_len: <span class="number">0</span>,
                 logical_type: DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>),
             }),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="string">&quot;could not convert pattern&quot;</span>.into(),
-            )),
+            <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;could not convert pattern&quot;</span>),
         }
     }
 }
@@ -362,9 +346,7 @@
                 fmt_len: <span class="number">0</span>,
                 logical_type: DataType::Date,
             }),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="string">&quot;could not convert pattern&quot;</span>.into(),
-            )),
+            <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;could not convert pattern&quot;</span>),
         }
     }
 }
@@ -538,12 +520,7 @@
             <span class="kw">let </span>pattern = subset
                 .into_iter()
                 .find_map(|opt_val| opt_val.and_then(infer_pattern_datetime_single))
-                .ok_or_else(|| {
-                    PolarsError::ComputeError(
-                        <span class="string">&quot;Could not find an appropriate format to parse dates, please define a fmt&quot;
-                            </span>.into(),
-                    )
-                })<span class="question-mark">?</span>;
+                .ok_or_else(|| <span class="macro">polars_err!</span>(parse_fmt_idk = <span class="string">&quot;date&quot;</span>))<span class="question-mark">?</span>;
             <span class="kw">let </span><span class="kw-2">mut </span>infer = DatetimeInfer::&lt;i64&gt;::try_from(pattern).unwrap();
             <span class="kw">match </span>tu {
                 TimeUnit::Nanoseconds =&gt; infer.transform = transform_datetime_ns,
@@ -571,12 +548,7 @@
             <span class="kw">let </span>pattern = subset
                 .into_iter()
                 .find_map(|opt_val| opt_val.and_then(infer_pattern_date_single))
-                .ok_or_else(|| {
-                    PolarsError::ComputeError(
-                        <span class="string">&quot;Could not find an appropriate format to parse dates, please define a fmt&quot;
-                            </span>.into(),
-                    )
-                })<span class="question-mark">?</span>;
+                .ok_or_else(|| <span class="macro">polars_err!</span>(parse_fmt_idk = <span class="string">&quot;date&quot;</span>))<span class="question-mark">?</span>;
             <span class="kw">let </span><span class="kw-2">mut </span>infer = DatetimeInfer::&lt;i32&gt;::try_from(pattern).unwrap();
             infer.coerce_utf8(ca).date().cloned()
         }

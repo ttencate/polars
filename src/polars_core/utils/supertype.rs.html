@@ -321,18 +321,14 @@
 <a href="#321" id="321">321</a>
 <a href="#322" id="322">322</a>
 <a href="#323" id="323">323</a>
-<a href="#324" id="324">324</a>
-<a href="#325" id="325">325</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Given two datatypes, determine the supertype that both types can safely be cast to
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;private&quot;</span>)]
 </span><span class="kw">pub fn </span>try_get_supertype(l: <span class="kw-2">&amp;</span>DataType, r: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;DataType&gt; {
-    get_supertype(l, r).ok_or_else(|| {
-        PolarsError::ComputeError(
-            <span class="macro">format!</span>(<span class="string">&quot;Failed to determine supertype of {l:?} and {r:?}&quot;</span>).into(),
-        )
-    })
+    get_supertype(l, r).ok_or_else(
+        || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;failed to determine supertype of {} and {}&quot;</span>, l, r),
+    )
 }
 
 <span class="doccomment">/// Given two datatypes, determine the supertype that both types can safely be cast to

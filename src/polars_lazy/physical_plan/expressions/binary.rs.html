@@ -527,14 +527,12 @@
 <a href="#527" id="527">527</a>
 <a href="#528" id="528">528</a>
 <a href="#529" id="529">529</a>
-<a href="#530" id="530">530</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::sync::Arc;
 
 <span class="kw">use </span>polars_core::frame::groupby::GroupsProxy;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::POOL;
 
-<span class="kw">use </span><span class="kw">crate</span>::physical_plan::errors::expression_err;
 <span class="kw">use </span><span class="kw">crate</span>::physical_plan::state::ExecutionState;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
@@ -745,12 +743,12 @@
         });
         <span class="kw">let </span>lhs = lhs<span class="question-mark">?</span>;
         <span class="kw">let </span>rhs = rhs<span class="question-mark">?</span>;
-        <span class="kw">let </span>lhs_len = lhs.len();
-        <span class="kw">let </span>rhs_len = rhs.len();
-        <span class="kw">if </span>lhs_len != rhs_len &amp;&amp; !(lhs_len == <span class="number">1 </span>|| rhs_len == <span class="number">1</span>) {
-            <span class="kw">let </span>msg = <span class="macro">format!</span>(<span class="string">&quot;Cannot evaluate two Series of different length. Got lhs of length: {lhs_len} and rhs of length: {rhs_len}.&quot;</span>);
-            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">expression_err!</span>(msg, <span class="self">self</span>.expr, ComputeError));
-        }
+        <span class="macro">polars_ensure!</span>(
+            lhs.len() == rhs.len() || lhs.len() == <span class="number">1 </span>|| rhs.len() == <span class="number">1</span>,
+            expr = <span class="self">self</span>.expr,
+            ComputeError: <span class="string">&quot;cannot evaluate two series of different lengths ({} and {})&quot;</span>,
+            lhs.len(), rhs.len(),
+        );
         apply_operator_owned(lhs, rhs, <span class="self">self</span>.op)
     }
 

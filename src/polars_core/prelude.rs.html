@@ -82,7 +82,7 @@
 <span class="kw">pub use </span><span class="kw">crate</span>::chunked_array::ChunkedArray;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="kw">crate</span>::chunked_array::{to_array, ChunkIdIter};
 <span class="kw">pub use </span><span class="kw">crate</span>::datatypes::<span class="kw-2">*</span>;
-<span class="kw">pub use </span><span class="kw">crate</span>::error::{PolarsError, PolarsResult};
+<span class="kw">pub use </span><span class="kw">crate</span>::error::{polars_bail, polars_ensure, polars_err, PolarsError, PolarsResult};
 <span class="attr">#[cfg(feature = <span class="string">&quot;asof_join&quot;</span>)]
 </span><span class="kw">pub use </span><span class="kw">crate</span>::frame::asof_join::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="kw">crate</span>::frame::explode::MeltArgs;

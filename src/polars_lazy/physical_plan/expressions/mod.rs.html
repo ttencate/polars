@@ -586,7 +586,6 @@
 <a href="#586" id="586">586</a>
 <a href="#587" id="587">587</a>
 <a href="#588" id="588">588</a>
-<a href="#589" id="589">589</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>aggregation;
 <span class="kw">mod </span>alias;
 <span class="kw">mod </span>apply;
@@ -921,13 +920,12 @@
                     } <span class="kw">else </span>{
                         String::new()
                     };
-
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                        <span class="macro">format!</span>(<span class="string">r#&quot;The aggregation expression {}did produce a different number of elements than
-the number of groups. This likely is an invalid expression.
-Number of groups: {}
-Number of elements: {}&quot;#</span>, fmt_expr, <span class="self">self</span>.groups.len(), series.len()).into()
-                    ));
+                    <span class="macro">polars_bail!</span>(
+                        ComputeError:
+                        <span class="string">&quot;aggregation expression &#39;{}&#39; produced a different number of elements: {} \
+                        than the number of groups: {} (this is likely invalid)&quot;</span>,
+                        fmt_expr, series.len(), <span class="self">self</span>.groups.len(),
+                    );
                 }
                 AggState::AggregatedList(series)
             }

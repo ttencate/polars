@@ -543,13 +543,6 @@
 <a href="#543" id="543">543</a>
 <a href="#544" id="544">544</a>
 <a href="#545" id="545">545</a>
-<a href="#546" id="546">546</a>
-<a href="#547" id="547">547</a>
-<a href="#548" id="548">548</a>
-<a href="#549" id="549">549</a>
-<a href="#550" id="550">550</a>
-<a href="#551" id="551">551</a>
-<a href="#552" id="552">552</a>
 </pre><pre class="rust"><code><span class="kw">pub mod </span>infer;
 <span class="kw">mod </span>patterns;
 <span class="kw">mod </span>strptime;
@@ -652,16 +645,12 @@
 }
 
 <span class="kw">fn </span>get_first_val(ca: <span class="kw-2">&amp;</span>Utf8Chunked) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>str&gt; {
-    <span class="kw">let </span>idx = <span class="kw">match </span>ca.first_non_null() {
-        <span class="prelude-val">Some</span>(idx) =&gt; idx,
-        <span class="prelude-val">None </span>=&gt; {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="string">&quot;Cannot determine date parsing format, all values are null&quot;</span>.into(),
-            ))
-        }
-    };
-    <span class="kw">let </span>val = ca.get(idx).expect(<span class="string">&quot;should not be null&quot;</span>);
-    <span class="prelude-val">Ok</span>(val)
+    <span class="kw">let </span>idx = ca.first_non_null().ok_or_else(|| {
+        <span class="macro">polars_err!</span>(ComputeError:
+            <span class="string">&quot;unable to determine date parsing format, all values are null&quot;</span>,
+        )
+    })<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(ca.get(idx).expect(<span class="string">&quot;should not be null&quot;</span>))
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
@@ -670,9 +659,7 @@
     <span class="kw">if let </span><span class="prelude-val">Some</span>(pattern) = datetime_pattern(val, NaiveDateTime::parse_from_str) {
         <span class="kw">return </span><span class="prelude-val">Ok</span>(pattern);
     }
-    <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-        <span class="string">&quot;Could not find an appropriate format to parse dates, please define a fmt&quot;</span>.into(),
-    ))
+    <span class="macro">polars_bail!</span>(parse_fmt_idk = <span class="string">&quot;date&quot;</span>);
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
@@ -681,9 +668,7 @@
     <span class="kw">if let </span><span class="prelude-val">Some</span>(pattern) = date_pattern(val, NaiveDate::parse_from_str) {
         <span class="kw">return </span><span class="prelude-val">Ok</span>(pattern);
     }
-    <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-        <span class="string">&quot;Could not find an appropriate format to parse dates, please define a fmt&quot;</span>.into(),
-    ))
+    <span class="macro">polars_bail!</span>(parse_fmt_idk = <span class="string">&quot;date&quot;</span>);
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-time&quot;</span>)]
@@ -692,9 +677,7 @@
     <span class="kw">if let </span><span class="prelude-val">Some</span>(pattern) = time_pattern(val, NaiveTime::parse_from_str) {
         <span class="kw">return </span><span class="prelude-val">Ok</span>(pattern);
     }
-    <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-        <span class="string">&quot;Could not find an appropriate format to parse times, please define a fmt&quot;</span>.into(),
-    ))
+    <span class="macro">polars_bail!</span>(parse_fmt_idk = <span class="string">&quot;time&quot;</span>);
 }
 
 <span class="kw">pub trait </span>Utf8Methods: AsUtf8 {
@@ -872,15 +855,15 @@
             <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>infer::to_date(utf8_ca),
         };
         <span class="kw">let </span>cache = cache &amp;&amp; utf8_ca.len() &gt; <span class="number">50</span>;
-        <span class="kw">let </span>fmt = <span class="self">self</span>::strptime::compile_fmt(fmt);
+        <span class="kw">let </span>fmt = strptime::compile_fmt(fmt);
         <span class="kw">let </span><span class="kw-2">mut </span>cache_map = PlHashMap::new();
 
         <span class="comment">// we can use the fast parser
-        </span><span class="kw">let </span><span class="kw-2">mut </span>ca: Int32Chunked = <span class="kw">if let </span><span class="prelude-val">Some</span>(fmt_len) = <span class="self">self</span>::strptime::fmt_len(fmt.as_bytes()) {
+        </span><span class="kw">let </span><span class="kw-2">mut </span>ca: Int32Chunked = <span class="kw">if let </span><span class="prelude-val">Some</span>(fmt_len) = strptime::fmt_len(fmt.as_bytes()) {
             <span class="kw">let </span>convert = |s: <span class="kw-2">&amp;</span>str| {
                 <span class="comment">// Safety:
                 // fmt_len is correct, it was computed with this `fmt` str.
-                </span><span class="kw">match unsafe </span>{ <span class="self">self</span>::strptime::parse(s.as_bytes(), fmt.as_bytes(), fmt_len) } {
+                </span><span class="kw">match unsafe </span>{ strptime::parse(s.as_bytes(), fmt.as_bytes(), fmt_len) } {
                     <span class="comment">// fallback to chrono
                     </span><span class="prelude-val">None </span>=&gt; NaiveDate::parse_from_str(s, <span class="kw-2">&amp;</span>fmt).ok(),
                     <span class="prelude-val">Some</span>(ndt) =&gt; <span class="prelude-val">Some</span>(ndt.date()),
@@ -954,7 +937,7 @@
             <span class="prelude-val">Some</span>(fmt) =&gt; fmt,
             <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>infer::to_datetime(utf8_ca, tu, tz),
         };
-        <span class="kw">let </span>fmt = <span class="self">self</span>::strptime::compile_fmt(fmt);
+        <span class="kw">let </span>fmt = strptime::compile_fmt(fmt);
         <span class="kw">let </span>cache = cache &amp;&amp; utf8_ca.len() &gt; <span class="number">50</span>;
 
         <span class="kw">let </span>func = <span class="kw">match </span>tu {
@@ -972,21 +955,24 @@
                 <span class="kw">let </span><span class="kw-2">mut </span>tz = <span class="prelude-val">None</span>;
 
                 <span class="kw">let </span><span class="kw-2">mut </span>convert = |s: <span class="kw-2">&amp;</span>str| {
-                    DateTime::parse_from_str(s, <span class="kw-2">&amp;</span>fmt).ok().map(|dt| {
-                        <span class="kw">if </span>!_utc {
-                            <span class="kw">match </span>tz {
-                                <span class="prelude-val">None </span>=&gt; tz = <span class="prelude-val">Some</span>(dt.timezone()),
-                                <span class="prelude-val">Some</span>(tz_found) =&gt; {
-                                    <span class="kw">if </span>tz_found != dt.timezone() {
-                                        <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                                            <span class="string">&quot;Different timezones found during &#39;strptime&#39; operation. You might want to use `utc=True` and then set the time zone after parsing&quot;</span>.into()
-                                        ));
-                                    }
+                    DateTime::parse_from_str(s, <span class="kw-2">&amp;</span>fmt)
+                        .ok()
+                        .map(|dt| {
+                            <span class="kw">if </span>!_utc {
+                                <span class="kw">if let </span><span class="prelude-val">Some</span>(tz_found) = tz {
+                                    <span class="macro">polars_ensure!</span>(
+                                        tz_found == dt.timezone(),
+                                        ComputeError: <span class="string">&quot;different timezones found during &#39;strptime&#39; \
+                                        operation (you might want to use `utc=True` and then set \
+                                        the time zone after parsing&quot;
+                                </span>);
+                                } <span class="kw">else </span>{
+                                    tz = <span class="prelude-val">Some</span>(dt.timezone());
                                 }
                             }
-                        }
-                        <span class="prelude-val">Ok</span>(func(dt.naive_utc()))
-                    }).transpose()
+                            <span class="prelude-val">Ok</span>(func(dt.naive_utc()))
+                        })
+                        .transpose()
                 };
 
                 <span class="kw">let </span><span class="kw-2">mut </span>ca: Int64Chunked = utf8_ca

@@ -509,9 +509,9 @@
                     }
                 }
             }
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="string">&quot;Unsupported AnyValue type variant, cannot convert to Literal&quot;</span>.into(),
-            )),
+            v =&gt; <span class="macro">polars_bail!</span>(
+                ComputeError: <span class="string">&quot;cannot convert any-value {:?} to literal&quot;</span>, v
+            ),
         }
     }
 }

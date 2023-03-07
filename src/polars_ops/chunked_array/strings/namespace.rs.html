@@ -417,9 +417,6 @@
 <a href="#417" id="417">417</a>
 <a href="#418" id="418">418</a>
 <a href="#419" id="419">419</a>
-<a href="#420" id="420">420</a>
-<a href="#421" id="421">421</a>
-<a href="#422" id="422">422</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;string_encoding&quot;</span>)]
@@ -498,21 +495,18 @@
                 .get(<span class="number">0</span>)
                 .and_then(|s| &lt;i32 <span class="kw">as </span>Num&gt;::from_str_radix(s, radix).err())
                 .map_or_else(
-                    || <span class="macro">unreachable!</span>(<span class="string">&quot;Could unexpectedly not recreate ParseIntError&quot;</span>),
-                    |err| <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, err),
+                    || <span class="macro">unreachable!</span>(<span class="string">&quot;failed to extract ParseIntError&quot;</span>),
+                    |e| <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, e),
                 );
-
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="macro">format!</span>(
-                    <span class="string">&quot;Strict integer parsing failed for {} value(s): {} \
-                    ParseIntError msg for first shown value: &#39;{}&#39;. Consider non strict parsing.&quot;</span>,
-                    n_failures,
-                    some_failures.into_series().fmt_list(),
-                    some_error_msg
-                )
-                .into(),
-            ))<span class="question-mark">?
-        </span>};
+            <span class="macro">polars_bail!</span>(
+                ComputeError:
+                <span class="string">&quot;strict integer parsing failed for {} value(s): {}; error message for the \
+                first shown value: &#39;{}&#39; (consider non-strict parsing)&quot;</span>,
+                n_failures,
+                some_failures.into_series().fmt_list(),
+                some_error_msg
+            );
+        };
 
         <span class="prelude-val">Ok</span>(out)
     }
@@ -768,11 +762,11 @@
     <span class="doccomment">/// Extract each successive non-overlapping regex match in an individual string as an array
     </span><span class="kw">fn </span>extract_all_many(<span class="kw-2">&amp;</span><span class="self">self</span>, pat: <span class="kw-2">&amp;</span>Utf8Chunked) -&gt; PolarsResult&lt;ListChunked&gt; {
         <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
-        <span class="kw">if </span>ca.len() != pat.len() {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="string">&quot;pattern&#39;s length does not match that of the argument Series&quot;</span>.into(),
-            ));
-        }
+        <span class="macro">polars_ensure!</span>(
+            ca.len() == pat.len(),
+            ComputeError: <span class="string">&quot;pattern&#39;s length: {} does not match that of the argument series: {}&quot;</span>,
+            pat.len(), ca.len(),
+        );
 
         <span class="kw">let </span><span class="kw-2">mut </span>builder = ListUtf8ChunkedBuilder::new(ca.name(), ca.len(), ca.get_values_size());
 

@@ -808,6 +808,10 @@
 <a href="#808" id="808">808</a>
 <a href="#809" id="809">809</a>
 <a href="#810" id="810">810</a>
+<a href="#811" id="811">811</a>
+<a href="#812" id="812">812</a>
+<a href="#813" id="813">813</a>
+<a href="#814" id="814">814</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>batched;
 
 <span class="kw">use </span>std::fmt;
@@ -842,17 +846,15 @@
     to_cast: <span class="kw-2">&amp;</span>[Field],
     parallel: bool,
 ) -&gt; PolarsResult&lt;()&gt; {
-    <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
-
     <span class="kw">let </span>cast_fn = |s: <span class="kw-2">&amp;</span>Series, fld: <span class="kw-2">&amp;</span>Field| <span class="kw">match </span>(s.dtype(), fld.data_type()) {
         <span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
-        </span>(Utf8, Date) =&gt; s
+        </span>(DataType::Utf8, DataType::Date) =&gt; s
             .utf8()
             .unwrap()
             .as_date(<span class="prelude-val">None</span>, <span class="bool-val">false</span>)
             .map(|ca| ca.into_series()),
         <span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
-        </span>(Utf8, Datetime(tu, <span class="kw">_</span>)) =&gt; s
+        </span>(DataType::Utf8, DataType::Datetime(tu, <span class="kw">_</span>)) =&gt; s
             .utf8()
             .unwrap()
             .as_datetime(<span class="prelude-val">None</span>, <span class="kw-2">*</span>tu, <span class="bool-val">false</span>, <span class="bool-val">false</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)
@@ -1007,7 +1009,10 @@
 
         <span class="attr">#[cfg(not(any(feature = <span class="string">&quot;decompress&quot;</span>, feature = <span class="string">&quot;decompress-fast&quot;</span>)))]
         </span><span class="kw">if </span>is_compressed(<span class="kw-2">&amp;</span>reader_bytes) {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="string">&quot;cannot read compressed csv file; compile with feature &#39;decompress&#39; or &#39;decompress-fast&#39;&quot;</span>.into()));
+            <span class="macro">polars_bail!</span>(
+                ComputeError: <span class="string">&quot;cannot read compressed CSV file; \
+                compile with feature &#39;decompress&#39; or &#39;decompress-fast&#39;&quot;
+            </span>);
         }
 
         <span class="comment">// check if schema should be inferred
@@ -1120,7 +1125,7 @@
         <span class="kw">if </span><span class="self">self</span>.skip_rows_before_header &gt; <span class="number">0 </span>{
             <span class="kw">for _ in </span><span class="number">0</span>..<span class="self">self</span>.skip_rows_before_header {
                 <span class="kw">let </span>pos = next_line_position_naive(bytes, eol_char)
-                    .ok_or_else(|| PolarsError::NoData(<span class="string">&quot;not enough lines to skip&quot;</span>.into()))<span class="question-mark">?</span>;
+                    .ok_or_else(|| <span class="macro">polars_err!</span>(NoData: <span class="string">&quot;not enough lines to skip&quot;</span>))<span class="question-mark">?</span>;
                 bytes = <span class="kw-2">&amp;</span>bytes[pos..];
             }
         }
@@ -1136,7 +1141,7 @@
                     // no matter the no. of fields
                     </span><span class="kw">_ </span>=&gt; next_line_position(bytes, <span class="prelude-val">None</span>, <span class="self">self</span>.delimiter, <span class="self">self</span>.quote_char, eol_char),
                 }
-                .ok_or_else(|| PolarsError::NoData(<span class="string">&quot;not enough lines to skip&quot;</span>.into()))<span class="question-mark">?</span>;
+                .ok_or_else(|| <span class="macro">polars_err!</span>(NoData: <span class="string">&quot;not enough lines to skip&quot;</span>))<span class="question-mark">?</span>;
 
                 bytes = <span class="kw-2">&amp;</span>bytes[pos..];
             }
@@ -1272,10 +1277,13 @@
         </span><span class="kw">let </span><span class="kw-2">mut </span>new_projection = Vec::with_capacity(projection.len());
 
         <span class="kw">for </span>i <span class="kw">in </span>projection {
-            <span class="kw">let </span>(<span class="kw">_</span>, dtype) = <span class="self">self</span>.schema.get_index(<span class="kw-2">*</span>i).ok_or_else(||
-                PolarsError::ComputeError(
-                    <span class="macro">format!</span>(<span class="string">&quot;the given projection index: {} is out of bounds for csv schema with {} columns&quot;</span>, i, <span class="self">self</span>.schema.len()).into())
-            )<span class="question-mark">?</span>;
+            <span class="kw">let </span>(<span class="kw">_</span>, dtype) = <span class="self">self</span>.schema.get_index(<span class="kw-2">*</span>i).ok_or_else(|| {
+                <span class="macro">polars_err!</span>(
+                    ComputeError:
+                    <span class="string">&quot;projection index {} is out of bounds for CSV schema with {} columns&quot;</span>,
+                    i, <span class="self">self</span>.schema.len(),
+                )
+            })<span class="question-mark">?</span>;
 
             <span class="kw">if </span>dtype == <span class="kw-2">&amp;</span>DataType::Utf8 {
                 new_projection.push(<span class="kw-2">*</span>i)

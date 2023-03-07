@@ -1697,7 +1697,7 @@
             <span class="kw">let </span>lp = <span class="self">self
                 </span>.clone()
                 .get_plan_builder()
-                .add_err(PolarsError::SchemaFieldNotFound(name.to_string().into()))
+                .add_err(<span class="macro">polars_err!</span>(SchemaFieldNotFound: <span class="string">&quot;{}&quot;</span>, name))
                 .build();
             <span class="prelude-val">Some</span>(<span class="self">Self</span>::from_logical_plan(lp, <span class="self">self</span>.opt_state))
         } <span class="kw">else </span>{
@@ -1953,13 +1953,13 @@
             },
         };
         <span class="kw">let </span>(<span class="kw-2">mut </span>state, <span class="kw-2">mut </span>physical_plan, is_streaming) = <span class="self">self</span>.prepare_collect(<span class="bool-val">true</span>)<span class="question-mark">?</span>;
-
-        <span class="kw">if </span>is_streaming {
-            <span class="kw">let _ </span>= physical_plan.execute(<span class="kw-2">&amp;mut </span>state)<span class="question-mark">?</span>;
-            <span class="prelude-val">Ok</span>(())
-        } <span class="kw">else </span>{
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="string">&quot;Cannot run whole the query in a streaming order. Use `collect().write_parquet()` instead.&quot;</span>.into()))
-        }
+        <span class="macro">polars_ensure!</span>(
+            is_streaming,
+            ComputeError: <span class="string">&quot;cannot run the whole query in a streaming order; \
+            use `collect().write_parquet()` instead&quot;
+        </span>);
+        <span class="kw">let _ </span>= physical_plan.execute(<span class="kw-2">&amp;mut </span>state)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="comment">//// Stream a query result into an ipc/arrow file. This is useful if the final result doesn&#39;t fit
@@ -1976,13 +1976,13 @@
             },
         };
         <span class="kw">let </span>(<span class="kw-2">mut </span>state, <span class="kw-2">mut </span>physical_plan, is_streaming) = <span class="self">self</span>.prepare_collect(<span class="bool-val">true</span>)<span class="question-mark">?</span>;
-
-        <span class="kw">if </span>is_streaming {
-            <span class="kw">let _ </span>= physical_plan.execute(<span class="kw-2">&amp;mut </span>state)<span class="question-mark">?</span>;
-            <span class="prelude-val">Ok</span>(())
-        } <span class="kw">else </span>{
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="string">&quot;Cannot run whole the query in a streaming order. Use `collect().write_parquet()` instead.&quot;</span>.into()))
-        }
+        <span class="macro">polars_ensure!</span>(
+            is_streaming,
+            ComputeError: <span class="string">&quot;cannot run the whole query in a streaming order; \
+            use `collect().write_ipc()` instead&quot;
+        </span>);
+        <span class="kw">let _ </span>= physical_plan.execute(<span class="kw-2">&amp;mut </span>state)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// Filter by some predicate expression.
@@ -2512,8 +2512,7 @@
     /// This can have a negative effect on query performance.
     /// This may for instance block predicate pushdown optimization.
     </span><span class="kw">pub fn </span>with_row_count(<span class="kw-2">mut </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str, offset: <span class="prelude-ty">Option</span>&lt;IdxSize&gt;) -&gt; LazyFrame {
-        <span class="kw">let </span><span class="kw-2">mut </span>add_row_count_in_map = <span class="bool-val">false</span>;
-        <span class="kw">match </span><span class="kw-2">&amp;mut </span><span class="self">self</span>.logical_plan {
+        <span class="kw">let </span>add_row_count_in_map = <span class="kw">match </span><span class="kw-2">&amp;mut </span><span class="self">self</span>.logical_plan {
             <span class="comment">// Do the row count at scan
             </span><span class="attr">#[cfg(feature = <span class="string">&quot;csv-file&quot;</span>)]
             </span>LogicalPlan::CsvScan { options, .. } =&gt; {
@@ -2521,25 +2520,26 @@
                     name: name.to_string(),
                     offset: offset.unwrap_or(<span class="number">0</span>),
                 });
-            }
+                <span class="bool-val">false
+            </span>}
             <span class="attr">#[cfg(feature = <span class="string">&quot;ipc&quot;</span>)]
             </span>LogicalPlan::IpcScan { options, .. } =&gt; {
                 options.row_count = <span class="prelude-val">Some</span>(RowCount {
                     name: name.to_string(),
                     offset: offset.unwrap_or(<span class="number">0</span>),
                 });
-            }
+                <span class="bool-val">false
+            </span>}
             <span class="attr">#[cfg(feature = <span class="string">&quot;parquet&quot;</span>)]
             </span>LogicalPlan::ParquetScan { options, .. } =&gt; {
                 options.row_count = <span class="prelude-val">Some</span>(RowCount {
                     name: name.to_string(),
                     offset: offset.unwrap_or(<span class="number">0</span>),
                 });
-            }
-            <span class="kw">_ </span>=&gt; {
-                add_row_count_in_map = <span class="bool-val">true</span>;
-            }
-        }
+                <span class="bool-val">false
+            </span>}
+            <span class="kw">_ </span>=&gt; <span class="bool-val">true</span>,
+        };
 
         <span class="kw">let </span>name2: SmartString = name.into();
         <span class="kw">let </span>udf_schema = <span class="kw">move </span>|s: <span class="kw-2">&amp;</span>Schema| {

@@ -965,7 +965,6 @@
 <a href="#965" id="965">965</a>
 <a href="#966" id="966">966</a>
 <a href="#967" id="967">967</a>
-<a href="#968" id="968">968</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>arg_sort;
 <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
 </span><span class="kw">pub mod </span>arg_sort_multiple;
@@ -1700,11 +1699,10 @@
         }
         <span class="kw">_ </span>=&gt; {
             <span class="kw">let </span>phys = s.to_physical_repr().into_owned();
-            <span class="kw">if </span>!phys.dtype().is_numeric() {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                    <span class="macro">format!</span>(<span class="string">&quot;Cannot sort column of dtype: {:?}&quot;</span>, s.dtype()).into(),
-                ));
-            }
+            <span class="macro">polars_ensure!</span>(
+                phys.dtype().is_numeric(),
+                ComputeError: <span class="string">&quot;cannot sort column of dtype `{}`&quot;</span>, s.dtype()
+            );
             phys
         }
     };

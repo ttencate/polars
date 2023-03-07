@@ -1159,17 +1159,16 @@
 <a href="#1159" id="1159">1159</a>
 <a href="#1160" id="1160">1160</a>
 <a href="#1161" id="1161">1161</a>
-<a href="#1162" id="1162">1162</a>
-<a href="#1163" id="1163">1163</a>
-<a href="#1164" id="1164">1164</a>
 </pre><pre class="rust"><code><span class="doccomment">//! # Functions
 //!
 //! Functions on expressions that might be useful.
 //!
 </span><span class="kw">use </span>std::ops::{BitAnd, BitOr};
 
-<span class="kw">use </span>polars_core::export::arrow::temporal_conversions::NANOSECONDS;
-<span class="kw">use </span>polars_core::utils::arrow::temporal_conversions::SECONDS_IN_DAY;
+<span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
+</span><span class="kw">use </span>polars_core::export::arrow::temporal_conversions::NANOSECONDS;
+<span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
+</span><span class="kw">use </span>polars_core::utils::arrow::temporal_conversions::SECONDS_IN_DAY;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">use </span>polars_core::utils::get_supertype;
 
@@ -1441,11 +1440,10 @@
     <span class="comment">// Parse the format string, and separate substrings between placeholders
     </span><span class="kw">let </span>segments: Vec&lt;<span class="kw-2">&amp;</span>str&gt; = format.split(<span class="string">&quot;{}&quot;</span>).collect();
 
-    <span class="kw">if </span>segments.len() - <span class="number">1 </span>!= args.len() {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ShapeMisMatch(
-            <span class="string">&quot;number of placeholders should equal the number of arguments&quot;</span>.into(),
-        ));
-    }
+    <span class="macro">polars_ensure!</span>(
+        segments.len() - <span class="number">1 </span>== args.len(),
+        ShapeMismatch: <span class="string">&quot;number of placeholders should equal the number of arguments&quot;
+    </span>);
 
     <span class="kw">let </span><span class="kw-2">mut </span>exprs: Vec&lt;Expr&gt; = Vec::new();
 
@@ -1468,11 +1466,7 @@
 </span><span class="kw">pub fn </span>concat_lst&lt;E: AsRef&lt;[IE]&gt;, IE: Into&lt;Expr&gt; + Clone&gt;(s: E) -&gt; PolarsResult&lt;Expr&gt; {
     <span class="kw">let </span>s: Vec&lt;<span class="kw">_</span>&gt; = s.as_ref().iter().map(|e| e.clone().into()).collect();
 
-    <span class="kw">if </span>s.is_empty() {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-            <span class="string">&quot;concat_list needs one or more expressions&quot;</span>.into(),
-        ));
-    }
+    <span class="macro">polars_ensure!</span>(!s.is_empty(), ComputeError: <span class="string">&quot;`concat_list` needs one or more expressions&quot;</span>);
 
     <span class="prelude-val">Ok</span>(Expr::Function {
         input: s,
@@ -1532,11 +1526,11 @@
             <span class="kw">let </span>low = sa
                 .i64()<span class="question-mark">?
                 </span>.get(<span class="number">0</span>)
-                .ok_or_else(|| PolarsError::NoData(<span class="string">&quot;no data in `low` evaluation&quot;</span>.into()))<span class="question-mark">?</span>;
+                .ok_or_else(|| <span class="macro">polars_err!</span>(NoData: <span class="string">&quot;no data in `low` evaluation&quot;</span>))<span class="question-mark">?</span>;
             <span class="kw">let </span>high = sb
                 .i64()<span class="question-mark">?
                 </span>.get(<span class="number">0</span>)
-                .ok_or_else(|| PolarsError::NoData(<span class="string">&quot;no data in `high` evaluation&quot;</span>.into()))<span class="question-mark">?</span>;
+                .ok_or_else(|| <span class="macro">polars_err!</span>(NoData: <span class="string">&quot;no data in `high` evaluation&quot;</span>))<span class="question-mark">?</span>;
 
             <span class="kw">let </span><span class="kw-2">mut </span>ca = <span class="kw">if </span>step &gt; <span class="number">1 </span>{
                 Int64Chunked::from_iter_values(<span class="string">&quot;arange&quot;</span>, (low..high).step_by(step))
@@ -1568,9 +1562,12 @@
                 } <span class="kw">else if </span>sb.len() == <span class="number">1 </span>{
                     sb = sb.new_from_index(<span class="number">0</span>, sa.len())
                 } <span class="kw">else </span>{
-                    <span class="kw">let </span>msg = <span class="macro">format!</span>(<span class="string">&quot;The length of the &#39;low&#39; and &#39;high&#39; arguments cannot be matched in the &#39;arange&#39; expression.. \
-                    Length of &#39;low&#39;: {}, length of &#39;high&#39;: {}&quot;</span>, sa.len(), sb.len());
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(msg.into()));
+                    <span class="macro">polars_bail!</span>(
+                        ComputeError:
+                        <span class="string">&quot;lengths of `low`: {} and `high`: {} arguments `\
+                        cannot be matched in the `arange` expression&quot;</span>,
+                        sa.len(), sb.len()
+                    );
                 }
             }
 
@@ -2007,9 +2004,7 @@
                 }
                 <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(acc))
             }
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="string">&quot;Reduce did not have any expressions to fold&quot;</span>.into(),
-            )),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;`reduce` did not have any expressions to fold&quot;</span>)),
         }
     }) <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>SeriesUdf&gt;);
 
@@ -2054,9 +2049,7 @@
 
                 StructChunked::new(acc.name(), <span class="kw-2">&amp;</span>result).map(|ca| <span class="prelude-val">Some</span>(ca.into_series()))
             }
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="string">&quot;Reduce did not have any expressions to fold&quot;</span>.into(),
-            )),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(<span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;`reduce` did not have any expressions to fold&quot;</span>)),
         }
     }) <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>SeriesUdf&gt;);
 
@@ -2260,9 +2253,10 @@
 /// number of rows.
 </span><span class="kw">pub fn </span>repeat&lt;L: Literal&gt;(value: L, n_times: Expr) -&gt; Expr {
     <span class="kw">let </span>function = |s: Series, n: Series| {
-        <span class="kw">let </span>n = n.get(<span class="number">0</span>).unwrap().extract::&lt;usize&gt;().ok_or_else(|| {
-            PolarsError::ComputeError(<span class="macro">format!</span>(<span class="string">&quot;could not extract a size from {n:?}&quot;</span>).into())
-        })<span class="question-mark">?</span>;
+        <span class="kw">let </span>n =
+            n.get(<span class="number">0</span>).unwrap().extract::&lt;usize&gt;().ok_or_else(
+                || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;could not extract a size from {:?}&quot;</span>, n),
+            )<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.new_from_index(<span class="number">0</span>, n)))
     };
     apply_binary(lit(value), n_times, function, GetOutput::same_type())

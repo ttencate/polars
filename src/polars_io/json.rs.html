@@ -240,6 +240,7 @@
 <a href="#240" id="240">240</a>
 <a href="#241" id="241">241</a>
 <a href="#242" id="242">242</a>
+<a href="#243" id="243">243</a>
 </pre><pre class="rust"><code><span class="doccomment">//! # (De)serialize JSON files.
 //!
 //! ## Read JSON to a DataFrame
@@ -311,6 +312,7 @@
 <span class="kw">pub use </span>arrow::error::Result <span class="kw">as </span>ArrowResult;
 <span class="kw">pub use </span>arrow::io::json;
 <span class="kw">use </span>polars_arrow::conversion::chunk_to_struct;
+<span class="kw">use </span>polars_core::error::to_compute_err;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::mmap::{MmapBytesReader, ReaderBytes};
@@ -411,14 +413,14 @@
         <span class="kw">let </span>out = <span class="kw">match </span><span class="self">self</span>.json_format {
             JsonFormat::Json =&gt; {
                 <span class="kw">let </span>bytes = rb.deref();
-                <span class="kw">let </span>json_value = json::read::json_deserializer::parse(bytes)
-                    .map_err(|err| PolarsError::ComputeError(<span class="macro">format!</span>(<span class="string">&quot;{err:?}&quot;</span>).into()))<span class="question-mark">?</span>;
+                <span class="kw">let </span>json_value =
+                    json::read::json_deserializer::parse(bytes).map_err(to_compute_err)<span class="question-mark">?</span>;
                 <span class="comment">// likely struct type
                 </span><span class="kw">let </span>dtype = json::read::infer(<span class="kw-2">&amp;</span>json_value)<span class="question-mark">?</span>;
                 <span class="kw">let </span>arr = json::read::deserialize(<span class="kw-2">&amp;</span>json_value, dtype)<span class="question-mark">?</span>;
-                <span class="kw">let </span>arr = arr.as_any().downcast_ref::&lt;StructArray&gt;().ok_or_else(|| {
-                    PolarsError::ComputeError(<span class="string">&quot;only can deserialize json objects&quot;</span>.into())
-                })<span class="question-mark">?</span>;
+                <span class="kw">let </span>arr = arr.as_any().downcast_ref::&lt;StructArray&gt;().ok_or_else(
+                    || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;can only deserialize json objects&quot;</span>),
+                )<span class="question-mark">?</span>;
                 DataFrame::try_from(arr.clone())
             }
             JsonFormat::JsonLines =&gt; {

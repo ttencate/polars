@@ -124,15 +124,10 @@
 <a href="#124" id="124">124</a>
 <a href="#125" id="125">125</a>
 <a href="#126" id="126">126</a>
-<a href="#127" id="127">127</a>
-<a href="#128" id="128">128</a>
-<a href="#129" id="129">129</a>
-<a href="#130" id="130">130</a>
-<a href="#131" id="131">131</a>
-<a href="#132" id="132">132</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::path::{Path, PathBuf};
 
 <span class="kw">use </span>polars_core::cloud::CloudOptions;
+<span class="kw">use </span>polars_core::error::to_compute_err;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_io::{is_cloud_url, RowCount};
 
@@ -153,10 +148,8 @@
         </span><span class="macro">panic!</span>(<span class="string">&quot;Feature `async` must be enabled to use globbing patterns with cloud urls.&quot;</span>)
     } <span class="kw">else </span>{
         <span class="kw">let </span>paths = glob::glob(pattern)
-            .map_err(|<span class="kw">_</span>| PolarsError::ComputeError(<span class="string">&quot;invalid glob pattern given&quot;</span>.into()))<span class="question-mark">?</span>;
-
-        <span class="kw">let </span>paths = paths.map(|v| v.map_err(|e| PolarsError::ComputeError(<span class="macro">format!</span>(<span class="string">&quot;{e}&quot;</span>).into())));
-
+            .map_err(|<span class="kw">_</span>| <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;invalid glob pattern given&quot;</span>))<span class="question-mark">?</span>;
+        <span class="kw">let </span>paths = paths.map(|v| v.map_err(to_compute_err));
         <span class="prelude-val">Ok</span>(Box::new(paths))
     }
 }
@@ -177,22 +170,17 @@
                         .with_rechunk(<span class="bool-val">false</span>)
                         .finish_no_glob()
                         .map_err(|e| {
-                            PolarsError::ComputeError(
-                                <span class="macro">format!</span>(<span class="string">&quot;while reading {} got {e:?}.&quot;</span>, path.display()).into(),
+                            <span class="macro">polars_err!</span>(
+                                ComputeError: <span class="string">&quot;error while reading {}: {}&quot;</span>, path.display(), e
                             )
                         })
                 })
                 .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
 
-            <span class="kw">if </span>lfs.is_empty() {
-                <span class="kw">return </span>PolarsResult::Err(PolarsError::ComputeError(
-                    <span class="macro">format!</span>(
-                        <span class="string">&quot;no matching files found in {}&quot;</span>,
-                        <span class="self">self</span>.path().to_string_lossy()
-                    )
-                    .into(),
-                ));
-            }
+            <span class="macro">polars_ensure!</span>(
+                !lfs.is_empty(),
+                ComputeError: <span class="string">&quot;no matching files found in {}&quot;</span>, <span class="self">self</span>.path().display()
+            );
 
             <span class="kw">let </span><span class="kw-2">mut </span>lf = <span class="self">self</span>.concat_impl(lfs)<span class="question-mark">?</span>;
             <span class="kw">if let </span><span class="prelude-val">Some</span>(n_rows) = <span class="self">self</span>.n_rows() {

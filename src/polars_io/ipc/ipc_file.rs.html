@@ -616,18 +616,18 @@
 }
 
 <span class="kw">fn </span>check_mmap_err(err: PolarsError) -&gt; PolarsResult&lt;()&gt; {
-    <span class="kw">match </span>err {
-        PolarsError::ArrowError(e) =&gt; <span class="kw">match </span>e.as_ref() {
-            arrow::error::Error::NotYetImplemented(s)
-                <span class="kw">if </span>s == <span class="string">&quot;mmap can only be done on uncompressed IPC files&quot; </span>=&gt;
-            {
-                <span class="macro">eprint!</span>(<span class="string">&quot;Could not mmap compressed IPC file, defaulting to normal read. Toggle off &#39;memory_map&#39; to silence this warning.&quot;</span>);
+    <span class="kw">if let </span>PolarsError::ArrowError(<span class="kw-2">ref </span>e) = err {
+        <span class="kw">if let </span>arrow::error::Error::NotYetImplemented(s) = e.as_ref() {
+            <span class="kw">if </span>s == <span class="string">&quot;mmap can only be done on uncompressed IPC files&quot; </span>{
+                <span class="macro">eprint!</span>(
+                    <span class="string">&quot;Could not mmap compressed IPC file, defaulting to normal read. \
+                    Toggle off &#39;memory_map&#39; to silence this warning.&quot;
+                </span>);
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(());
             }
-            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ArrowError(e)),
-        },
-        err =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(err),
+        }
     }
-    <span class="prelude-val">Ok</span>(())
+    <span class="prelude-val">Err</span>(err)
 }
 
 <span class="kw">impl</span>&lt;R: MmapBytesReader&gt; IpcReader&lt;R&gt; {

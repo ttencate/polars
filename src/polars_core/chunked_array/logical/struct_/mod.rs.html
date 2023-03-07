@@ -290,11 +290,6 @@
 <a href="#290" id="290">290</a>
 <a href="#291" id="291">291</a>
 <a href="#292" id="292">292</a>
-<a href="#293" id="293">293</a>
-<a href="#294" id="294">294</a>
-<a href="#295" id="295">295</a>
-<a href="#296" id="296">296</a>
-<a href="#297" id="297">297</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>from;
 
 <span class="kw">use </span>std::collections::BTreeMap;
@@ -359,12 +354,10 @@
             <span class="kw">if </span>s_len == <span class="number">0 </span>{
                 is_empty = <span class="bool-val">true</span>;
             }
-            <span class="kw">let </span>name = s.name();
-            <span class="kw">if </span>!names.insert(name) {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::Duplicate(
-                    <span class="macro">format!</span>(<span class="string">&quot;multiple fields with name &#39;{name}&#39; found&quot;</span>).into(),
-                ));
-            }
+            <span class="macro">polars_ensure!</span>(
+                names.insert(s.name()),
+                Duplicate: <span class="string">&quot;multiple fields with name &#39;{}&#39; found&quot;</span>, s.name()
+            );
         }
 
         <span class="kw">if </span>!all_equal_len {
@@ -378,9 +371,9 @@
                 } <span class="kw">else if </span>s_len == <span class="number">1 </span>{
                     new_fields.push(s.new_from_index(<span class="number">0</span>, max_len))
                 } <span class="kw">else </span>{
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ShapeMisMatch(
-                        <span class="string">&quot;expected all fields to have equal length&quot;</span>.into(),
-                    ));
+                    <span class="macro">polars_bail!</span>(
+                        ShapeMismatch: <span class="string">&quot;expected all fields to have equal length&quot;
+                    </span>);
                 }
             }
             <span class="prelude-val">Ok</span>(<span class="self">Self</span>::new_unchecked(name, <span class="kw-2">&amp;</span>new_fields))
@@ -452,7 +445,7 @@
         <span class="self">self</span>.fields
             .iter()
             .find(|s| s.name() == name)
-            .ok_or_else(|| PolarsError::StructFieldNotFound(name.to_string().into()))
+            .ok_or_else(|| <span class="macro">polars_err!</span>(StructFieldNotFound: <span class="string">&quot;{}&quot;</span>, name))
             .map(|s| s.clone())
     }
 
@@ -515,11 +508,8 @@
 
     <span class="doccomment">/// Gets AnyValue from LogicalType
     </span><span class="kw">fn </span>get_any_value(<span class="kw-2">&amp;</span><span class="self">self</span>, i: usize) -&gt; PolarsResult&lt;AnyValue&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
-        <span class="kw">if </span>i &gt;= <span class="self">self</span>.len() {
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(<span class="string">&quot;Index out of bounds.&quot;</span>.into()))
-        } <span class="kw">else </span>{
-            <span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(<span class="self">self</span>.get_any_value_unchecked(i)) }
-        }
+        <span class="macro">polars_ensure!</span>(i &lt; <span class="self">self</span>.len(), oob = i, <span class="self">self</span>.len());
+        <span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(<span class="self">self</span>.get_any_value_unchecked(i)) }
     }
 
     <span class="kw">unsafe fn </span>get_any_value_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, i: usize) -&gt; AnyValue&lt;<span class="lifetime">&#39;_</span>&gt; {

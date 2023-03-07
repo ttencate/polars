@@ -253,7 +253,6 @@
 <a href="#253" id="253">253</a>
 <a href="#254" id="254">254</a>
 <a href="#255" id="255">255</a>
-<a href="#256" id="256">256</a>
 </pre><pre class="rust"><code><span class="attr">#[derive(Clone)]
 </span><span class="kw">pub struct </span>RollingOptionsFixedWindow {
     <span class="doccomment">/// The length of the window.
@@ -294,13 +293,12 @@
 
     <span class="doccomment">/// utility
     </span><span class="kw">fn </span>check_input(window_size: usize, min_periods: usize) -&gt; PolarsResult&lt;()&gt; {
-        <span class="kw">if </span>min_periods &gt; window_size {
-            <span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="string">&quot;`windows_size` should be &gt;= `min_periods`&quot;</span>.into(),
-            ))
-        } <span class="kw">else </span>{
-            <span class="prelude-val">Ok</span>(())
-        }
+        <span class="macro">polars_ensure!</span>(
+            min_periods &lt;= window_size,
+            ComputeError: <span class="string">&quot;`window_size`: {} should be &gt;= `min_periods`: {}&quot;</span>,
+            window_size, min_periods
+        );
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// utility
@@ -309,7 +307,7 @@
             <span class="kw">let </span>right_window = (window_size + <span class="number">1</span>) / <span class="number">2</span>;
             (
                 idx.saturating_sub(window_size - right_window),
-                std::cmp::min(len, idx + right_window),
+                len.min(idx + right_window),
             )
         } <span class="kw">else </span>{
             (idx.saturating_sub(window_size - <span class="number">1</span>), idx + <span class="number">1</span>)

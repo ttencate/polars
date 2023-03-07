@@ -255,8 +255,6 @@
 <a href="#255" id="255">255</a>
 <a href="#256" id="256">256</a>
 <a href="#257" id="257">257</a>
-<a href="#258" id="258">258</a>
-<a href="#259" id="259">259</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::fmt::{Debug, Formatter};
 
 <span class="kw">use </span>indexmap::IndexMap;
@@ -382,13 +380,13 @@
 
     <span class="kw">pub fn </span>try_get(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>DataType&gt; {
         <span class="self">self</span>.get(name)
-            .ok_or_else(|| PolarsError::SchemaFieldNotFound(name.to_string().into()))
+            .ok_or_else(|| <span class="macro">polars_err!</span>(SchemaFieldNotFound: <span class="string">&quot;{}&quot;</span>, name))
     }
 
     <span class="kw">pub fn </span>try_get_full(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;(usize, <span class="kw-2">&amp;</span>SmartString, <span class="kw-2">&amp;</span>DataType)&gt; {
         <span class="self">self</span>.inner
             .get_full(name)
-            .ok_or_else(|| PolarsError::SchemaFieldNotFound(name.to_string().into()))
+            .ok_or_else(|| <span class="macro">polars_err!</span>(SchemaFieldNotFound: <span class="string">&quot;{}&quot;</span>, name))
     }
 
     <span class="kw">pub fn </span>remove(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;DataType&gt; {
@@ -408,7 +406,7 @@
     <span class="kw">pub fn </span>try_get_field(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Field&gt; {
         <span class="self">self</span>.inner
             .get(name)
-            .ok_or_else(|| PolarsError::SchemaFieldNotFound(name.to_string().into()))
+            .ok_or_else(|| <span class="macro">polars_err!</span>(SchemaFieldNotFound: <span class="string">&quot;{}&quot;</span>, name))
             .map(|dtype| Field::new(name, dtype.clone()))
     }
 
@@ -498,9 +496,7 @@
 
     <span class="kw">fn </span>try_index_of(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;usize&gt; {
         <span class="self">self</span>.index_of(name).ok_or_else(|| {
-            PolarsError::SchemaMisMatch(
-                <span class="macro">format!</span>(<span class="string">&quot;Unable to get field named \&quot;{name}\&quot; from schema: {self:?}&quot;</span>,).into(),
-            )
+            <span class="macro">polars_err!</span>(SchemaMismatch: <span class="string">&quot;unable to get field &#39;{}&#39; from schema: {:?}&quot;</span>, name, <span class="self">self</span>)
         })
     }
 }

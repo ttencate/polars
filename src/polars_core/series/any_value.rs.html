@@ -379,19 +379,6 @@
 <a href="#379" id="379">379</a>
 <a href="#380" id="380">380</a>
 <a href="#381" id="381">381</a>
-<a href="#382" id="382">382</a>
-<a href="#383" id="383">383</a>
-<a href="#384" id="384">384</a>
-<a href="#385" id="385">385</a>
-<a href="#386" id="386">386</a>
-<a href="#387" id="387">387</a>
-<a href="#388" id="388">388</a>
-<a href="#389" id="389">389</a>
-<a href="#390" id="390">390</a>
-<a href="#391" id="391">391</a>
-<a href="#392" id="392">392</a>
-<a href="#393" id="393">393</a>
-<a href="#394" id="394">394</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::fmt::Write;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -440,13 +427,9 @@
         } <span class="kw">else if </span><span class="macro">matches!</span>(av, AnyValue::Null) {
             <span class="kw">continue</span>;
         } <span class="kw">else </span>{
-            <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                <span class="macro">format!</span>(
-                    <span class="string">&quot;Unable to convert any-value of dtype {} to decimal&quot;</span>,
-                    av.dtype()
-                )
-                .into(),
-            ));
+            <span class="macro">polars_bail!</span>(
+                ComputeError: <span class="string">&quot;unable to convert any-value of dtype {} to decimal&quot;</span>, av.dtype(),
+            );
         };
         scale_range = <span class="kw">match </span>scale_range {
             <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Some</span>((s_av, s_av)),
@@ -464,13 +447,10 @@
     <span class="kw">if </span>s_max &gt; scale {
         <span class="comment">// scale is provided but is lower than actual
         // TODO: do we want lossy conversions here or not?
-        </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-            <span class="macro">format!</span>(
-                <span class="string">&quot;Unable to losslessly convert any-value of scale {s_max} to scale {}&quot;</span>,
-                scale
-            )
-            .into(),
-        ))
+        </span><span class="macro">polars_bail!</span>(
+            ComputeError:
+            <span class="string">&quot;unable to losslessly convert any-value of scale {s_max} to scale {}&quot;</span>, scale,
+        );
     } <span class="kw">else if </span>s_min == s_max &amp;&amp; s_max == scale {
         <span class="comment">// no conversions needed; will potentially check values for precision though
         </span>any_values_to_primitive::&lt;Int128Type&gt;(avs).into_decimal(prec, scale)
@@ -492,9 +472,7 @@
             };
             <span class="kw">let </span>factor = <span class="number">10_i128</span>.pow((scale - s_av) <span class="kw">as _</span>); <span class="comment">// this cast is safe
             </span>builder.append_value(v.checked_mul(factor).ok_or_else(|| {
-                PolarsError::ComputeError(
-                    <span class="macro">format!</span>(<span class="string">&quot;Overflow while converting to decimal scale {}&quot;</span>, scale).into(),
-                )
+                <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;overflow while converting to decimal scale {}&quot;</span>, scale)
             })<span class="question-mark">?</span>);
         }
         <span class="comment">// build the array and do a precision check if needed
@@ -695,15 +673,11 @@
                 <span class="kw">let </span>ca = <span class="kw">if let </span><span class="prelude-val">Some</span>(single_av) = av.first() {
                     <span class="kw">match </span>single_av {
                         AnyValue::Utf8(<span class="kw">_</span>) | AnyValue::Utf8Owned(<span class="kw">_</span>) =&gt; any_values_to_utf8(av),
-                        <span class="kw">_ </span>=&gt; {
-                            <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                                <span class="macro">format!</span>(
-                                    <span class="string">&quot;categorical dtype with AnyValues of dtype: {} not supported&quot;</span>,
-                                    single_av.dtype()
-                                )
-                                .into(),
-                            ))
-                        }
+                        <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(
+                             ComputeError:
+                             <span class="string">&quot;categorical dtype with any-values of dtype {} not supported&quot;</span>,
+                             single_av.dtype()
+                        ),
                     }
                 } <span class="kw">else </span>{
                     Utf8Chunked::full(<span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="number">0</span>)

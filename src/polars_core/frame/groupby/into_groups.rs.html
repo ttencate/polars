@@ -379,7 +379,6 @@
 <a href="#379" id="379">379</a>
 <a href="#380" id="380">380</a>
 <a href="#381" id="381">381</a>
-<a href="#382" id="382">382</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;groupby_list&quot;</span>)]
 </span><span class="kw">use </span>polars_arrow::kernels::list_bytes_iter::numeric_list_bytes_iter;
 <span class="kw">use </span>polars_arrow::kernels::sort_partition::{create_clean_partitions, partition_to_groups};
@@ -690,11 +689,10 @@
     </span><span class="kw">fn </span>group_tuples&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, multithreaded: bool, sorted: bool) -&gt; PolarsResult&lt;GroupsProxy&gt; {
         <span class="attr">#[cfg(feature = <span class="string">&quot;groupby_list&quot;</span>)]
         </span>{
-            <span class="kw">if </span>!<span class="self">self</span>.inner_dtype().to_physical().is_numeric() {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
-                    <span class="string">&quot;Grouping on List type is only allowed if the inner type is numeric&quot;</span>.into(),
-                ));
-            }
+            <span class="macro">polars_ensure!</span>(
+                <span class="self">self</span>.inner_dtype().to_physical().is_numeric(),
+                ComputeError: <span class="string">&quot;grouping on list type is only allowed if the inner type is numeric&quot;
+            </span>);
 
             <span class="kw">let </span>hb = RandomState::default();
             <span class="kw">let </span>null_h = get_null_hash_value(hb.clone());

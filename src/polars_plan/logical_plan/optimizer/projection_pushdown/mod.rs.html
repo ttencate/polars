@@ -779,8 +779,6 @@
 <a href="#779" id="779">779</a>
 <a href="#780" id="780">780</a>
 <a href="#781" id="781">781</a>
-<a href="#782" id="782">782</a>
-<a href="#783" id="783">783</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>functions;
 <span class="kw">mod </span>generic;
 <span class="kw">mod </span>groupby;
@@ -910,9 +908,7 @@
     <span class="kw">for </span>node <span class="kw">in </span>acc_projections.iter() {
         <span class="kw">for </span>name <span class="kw">in </span>aexpr_to_leaf_names(<span class="kw-2">*</span>node, expr_arena) {
             <span class="kw">let </span>item = schema.get_full(<span class="kw-2">&amp;</span>name).ok_or_else(|| {
-                PolarsError::ComputeError(
-                    <span class="macro">format!</span>(<span class="string">&quot;column &#39;{name}&#39; not available in schema {schema:?}&quot;</span>).into(),
-                )
+                <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;column &#39;{}&#39; not available in schema {:?}&quot;</span>, name, schema)
             })<span class="question-mark">?</span>;
             new_cols.push(item);
         }
