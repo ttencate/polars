@@ -543,6 +543,9 @@
 <a href="#543" id="543">543</a>
 <a href="#544" id="544">544</a>
 <a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
 </pre><pre class="rust"><code><span class="kw">pub mod </span>infer;
 <span class="kw">mod </span>patterns;
 <span class="kw">mod </span>strptime;
@@ -1013,60 +1016,63 @@
             }
         } <span class="kw">else </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>cache_map = PlHashMap::new();
+            <span class="kw">let </span>transform = <span class="kw">match </span>tu {
+                TimeUnit::Nanoseconds =&gt; infer::transform_datetime_ns,
+                TimeUnit::Microseconds =&gt; infer::transform_datetime_us,
+                TimeUnit::Milliseconds =&gt; infer::transform_datetime_ms,
+            };
             <span class="comment">// we can use the fast parser
-            </span><span class="kw">let </span><span class="kw-2">mut </span>ca: Int64Chunked =
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(fmt_len) = <span class="self">self</span>::strptime::fmt_len(fmt.as_bytes()) {
-                    <span class="kw">let </span>convert = |s: <span class="kw-2">&amp;</span>str| {
-                        <span class="comment">// Safety:
-                        // fmt_len is correct, it was computed with this `fmt` str.
-                        </span><span class="kw">unsafe </span>{ <span class="self">self</span>::strptime::parse(s.as_bytes(), fmt.as_bytes(), fmt_len) }
-                            .map(func)
-                    };
-                    <span class="kw">if </span>utf8_ca.null_count() == <span class="number">0 </span>{
-                        utf8_ca
-                            .into_no_null_iter()
-                            .map(|val| {
+            </span><span class="kw">let </span><span class="kw-2">mut </span>ca: Int64Chunked = <span class="kw">if let </span><span class="prelude-val">Some</span>(fmt_len) =
+                <span class="self">self</span>::strptime::fmt_len(fmt.as_bytes())
+            {
+                <span class="kw">let </span>convert = |s: <span class="kw-2">&amp;</span>str| {
+                    <span class="comment">// Safety:
+                    // fmt_len is correct, it was computed with this `fmt` str.
+                    </span><span class="kw">match unsafe </span>{ <span class="self">self</span>::strptime::parse(s.as_bytes(), fmt.as_bytes(), fmt_len) } {
+                        <span class="prelude-val">None </span>=&gt; transform(s, <span class="kw-2">&amp;</span>fmt),
+                        <span class="prelude-val">Some</span>(ndt) =&gt; <span class="prelude-val">Some</span>(func(ndt)),
+                    }
+                };
+                <span class="kw">if </span>utf8_ca.null_count() == <span class="number">0 </span>{
+                    utf8_ca
+                        .into_no_null_iter()
+                        .map(|val| {
+                            <span class="kw">if </span>cache {
+                                <span class="kw-2">*</span>cache_map.entry(val).or_insert_with(|| convert(val))
+                            } <span class="kw">else </span>{
+                                convert(val)
+                            }
+                        })
+                        .collect_trusted()
+                } <span class="kw">else </span>{
+                    utf8_ca
+                        .into_iter()
+                        .map(|opt_s| {
+                            opt_s.and_then(|val| {
                                 <span class="kw">if </span>cache {
                                     <span class="kw-2">*</span>cache_map.entry(val).or_insert_with(|| convert(val))
                                 } <span class="kw">else </span>{
                                     convert(val)
                                 }
                             })
-                            .collect_trusted()
-                    } <span class="kw">else </span>{
-                        utf8_ca
-                            .into_iter()
-                            .map(|opt_s| {
-                                opt_s.and_then(|val| {
-                                    <span class="kw">if </span>cache {
-                                        <span class="kw-2">*</span>cache_map.entry(val).or_insert_with(|| convert(val))
-                                    } <span class="kw">else </span>{
-                                        convert(val)
-                                    }
-                                })
-                            })
-                            .collect_trusted()
-                    }
-                } <span class="kw">else </span>{
-                    <span class="kw">let </span>transform = <span class="kw">match </span>tu {
-                        TimeUnit::Nanoseconds =&gt; infer::transform_datetime_ns,
-                        TimeUnit::Microseconds =&gt; infer::transform_datetime_us,
-                        TimeUnit::Milliseconds =&gt; infer::transform_datetime_ms,
-                    };
-                    <span class="kw">let </span><span class="kw-2">mut </span>cache_map = PlHashMap::new();
-                    utf8_ca
-                        .into_iter()
-                        .map(|opt_s| {
-                            opt_s.and_then(|s| {
-                                <span class="kw">if </span>cache {
-                                    <span class="kw-2">*</span>cache_map.entry(s).or_insert_with(|| transform(s, <span class="kw-2">&amp;</span>fmt))
-                                } <span class="kw">else </span>{
-                                    transform(s, <span class="kw-2">&amp;</span>fmt)
-                                }
-                            })
                         })
                         .collect_trusted()
-                };
+                }
+            } <span class="kw">else </span>{
+                <span class="kw">let </span><span class="kw-2">mut </span>cache_map = PlHashMap::new();
+                utf8_ca
+                    .into_iter()
+                    .map(|opt_s| {
+                        opt_s.and_then(|s| {
+                            <span class="kw">if </span>cache {
+                                <span class="kw-2">*</span>cache_map.entry(s).or_insert_with(|| transform(s, <span class="kw-2">&amp;</span>fmt))
+                            } <span class="kw">else </span>{
+                                transform(s, <span class="kw-2">&amp;</span>fmt)
+                            }
+                        })
+                    })
+                    .collect_trusted()
+            };
             ca.rename(utf8_ca.name());
             <span class="kw">match </span>tz {
                 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
