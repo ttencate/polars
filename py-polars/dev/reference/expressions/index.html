@@ -1482,7 +1482,7 @@ document.write(`
 </div>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">Expr</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/expr/expr.py#L166-L6635"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">Expr</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/expr/expr.py#L166-L6682"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Expressions that can be used in various contexts.</p>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable table autosummary">
@@ -4889,25 +4889,21 @@ expression with a third-party library.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">map_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/expr/expr.py#L6305-L6516"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">map_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/expr/expr.py#L6305-L6563"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Replace values in column according to remapping dictionary.</p>
 <p>Needs a global string cache for lazily evaluated queries on columns of
-type pl.Categorical.</p>
+type <code class="docutils literal notranslate"><span class="pre">pl.Categorical</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>remapping</strong></dt><dd><p>Dictionary containing the before/after values to map.</p>
 </dd>
-<dt><strong>default</strong></dt><dd><p>Value to use when the remapping dict does not contain the lookup value.</p>
+<dt><strong>default</strong></dt><dd><p>Value to use when the remapping dict does not contain the lookup value.
+Use <code class="docutils literal notranslate"><span class="pre">pl.first()</span></code>, to keep the original value.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This functionality is experimental and may change without it being considered a
-breaking change.</p>
-</div>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">country_code_dict</span> <span class="o">=</span> <span class="p">{</span>
 <span class="gp">... </span>    <span class="s2">&quot;CA&quot;</span><span class="p">:</span> <span class="s2">&quot;Canada&quot;</span><span class="p">,</span>
@@ -4969,7 +4965,26 @@ breaking change.</p>
 <span class="go">└────────┴──────────────┴───────────────┘</span>
 </pre></div>
 </div>
-<p>…or keep the original value:</p>
+<p>…or keep the original value, by making use of <code class="docutils literal notranslate"><span class="pre">pl.first()</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;country_code&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">map_dict</span><span class="p">(</span><span class="n">country_code_dict</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">first</span><span class="p">())</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;remapped&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">shape: (4, 3)</span>
+<span class="go">┌────────┬──────────────┬───────────────┐</span>
+<span class="go">│ row_nr ┆ country_code ┆ remapped      │</span>
+<span class="go">│ ---    ┆ ---          ┆ ---           │</span>
+<span class="go">│ u32    ┆ str          ┆ str           │</span>
+<span class="go">╞════════╪══════════════╪═══════════════╡</span>
+<span class="go">│ 0      ┆ FR           ┆ France        │</span>
+<span class="go">│ 1      ┆ null         ┆ Not specified │</span>
+<span class="go">│ 2      ┆ ES           ┆ ES            │</span>
+<span class="go">│ 3      ┆ DE           ┆ Germany       │</span>
+<span class="go">└────────┴──────────────┴───────────────┘</span>
+</pre></div>
+</div>
+<p>…or keep the original value, by explicitly referring to the column:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;country_code&quot;</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="o">.</span><span class="n">map_dict</span><span class="p">(</span><span class="n">country_code_dict</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;country_code&quot;</span><span class="p">))</span>
