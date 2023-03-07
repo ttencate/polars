@@ -644,6 +644,11 @@
 <a href="#644" id="644">644</a>
 <a href="#645" id="645">645</a>
 <a href="#646" id="646">646</a>
+<a href="#647" id="647">647</a>
+<a href="#648" id="648">648</a>
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::io::Read;
 <span class="kw">use </span>std::mem::MaybeUninit;
@@ -702,13 +707,18 @@
     offsets
 }
 
-<span class="kw">pub fn </span>get_reader_bytes&lt;R: Read + MmapBytesReader + <span class="question-mark">?</span>Sized&gt;(
-    reader: <span class="kw-2">&amp;mut </span>R,
-) -&gt; PolarsResult&lt;ReaderBytes&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
+<span class="kw">pub fn </span>get_reader_bytes&lt;<span class="lifetime">&#39;a</span>, R: Read + MmapBytesReader + <span class="question-mark">?</span>Sized&gt;(
+    reader: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>R,
+) -&gt; PolarsResult&lt;ReaderBytes&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
     <span class="comment">// we have a file so we can mmap
     </span><span class="kw">if let </span><span class="prelude-val">Some</span>(file) = reader.to_file() {
         <span class="kw">let </span>mmap = <span class="kw">unsafe </span>{ memmap::Mmap::map(file)<span class="question-mark">? </span>};
-        <span class="prelude-val">Ok</span>(ReaderBytes::Mapped(mmap))
+
+        <span class="comment">// somehow bck thinks borrows alias
+        // this is sound as file was already bound to &#39;a
+        </span><span class="kw">use </span>std::fs::File;
+        <span class="kw">let </span>file = <span class="kw">unsafe </span>{ std::mem::transmute::&lt;<span class="kw-2">&amp;</span>File, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>File&gt;(file) };
+        <span class="prelude-val">Ok</span>(ReaderBytes::Mapped(mmap, file))
     } <span class="kw">else </span>{
         <span class="comment">// we can get the bytes for free
         </span><span class="kw">if </span>reader.to_bytes().is_some() {

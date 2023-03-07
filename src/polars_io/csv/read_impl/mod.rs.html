@@ -812,14 +812,18 @@
 <a href="#812" id="812">812</a>
 <a href="#813" id="813">813</a>
 <a href="#814" id="814">814</a>
-</pre><pre class="rust"><code><span class="kw">mod </span>batched;
+<a href="#815" id="815">815</a>
+<a href="#816" id="816">816</a>
+</pre><pre class="rust"><code><span class="kw">mod </span>batched_mmap;
+<span class="kw">mod </span>batched_read;
 
 <span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::ops::Deref;
 <span class="kw">use </span>std::sync::atomic::{AtomicUsize, Ordering};
 <span class="kw">use </span>std::sync::Arc;
 
-<span class="kw">pub use </span>batched::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>batched_mmap::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>batched_read::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_arrow::array::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::config::verbose;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
