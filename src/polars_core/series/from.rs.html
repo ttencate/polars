@@ -573,6 +573,7 @@
 <a href="#573" id="573">573</a>
 <a href="#574" id="574">574</a>
 <a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::convert::TryFrom;
 
 <span class="kw">use </span>arrow::compute::cast::utf8_to_large_utf8;
@@ -638,9 +639,9 @@
                 .into_datetime(<span class="kw-2">*</span>tu, tz.clone())
                 .into_series(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
-            </span>Decimal(prec, scale) =&gt; Int128Chunked::from_chunks(name, chunks)
+            </span>Decimal(precision, scale) =&gt; Int128Chunked::from_chunks(name, chunks)
                 .into_decimal_unchecked(
-                    <span class="kw-2">*</span>prec,
+                    <span class="kw-2">*</span>precision,
                     scale.unwrap_or_else(|| <span class="macro">unreachable!</span>(<span class="string">&quot;scale should be set&quot;</span>)),
                 )
                 .into_series(),
@@ -917,12 +918,12 @@
                 <span class="prelude-val">Ok</span>(BinaryChunked::from_chunks(name, chunks).into_series())
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
-            </span>ArrowDataType::Decimal(prec, scale) =&gt; {
+            </span>ArrowDataType::Decimal(precision, scale) =&gt; {
                 <span class="attr">#[cfg(feature = <span class="string">&quot;python&quot;</span>)]
                 </span>{
                     <span class="kw">if </span>std::env::var(<span class="string">&quot;POLARS_ACTIVATE_DECIMAL&quot;</span>).is_ok() {
                         <span class="prelude-val">Ok</span>(Int128Chunked::from_chunks(name, chunks)
-                            .into_decimal_unchecked(<span class="prelude-val">Some</span>(<span class="kw-2">*</span>prec), <span class="kw-2">*</span>scale)
+                            .into_decimal_unchecked(<span class="prelude-val">Some</span>(<span class="kw-2">*</span>precision), <span class="kw-2">*</span>scale)
                             .into_series())
                     } <span class="kw">else </span>{
                         <span class="kw">if </span>verbose() {
@@ -940,12 +941,13 @@
 
                 <span class="attr">#[cfg(not(feature = <span class="string">&quot;python&quot;</span>))]
                 </span>{
-                    <span class="kw">let </span>(prec, scale) = (<span class="prelude-val">Some</span>(<span class="kw-2">*</span>prec), <span class="kw-2">*</span>scale);
+                    <span class="kw">let </span>(precision, scale) = (<span class="prelude-val">Some</span>(<span class="kw-2">*</span>precision), <span class="kw-2">*</span>scale);
                     <span class="kw">let </span>chunks =
-                        cast_chunks(<span class="kw-2">&amp;</span>chunks, <span class="kw-2">&amp;</span>DataType::Decimal(prec, <span class="prelude-val">Some</span>(scale)), <span class="bool-val">false</span>).unwrap();
+                        cast_chunks(<span class="kw-2">&amp;</span>chunks, <span class="kw-2">&amp;</span>DataType::Decimal(precision, <span class="prelude-val">Some</span>(scale)), <span class="bool-val">false</span>)
+                            .unwrap();
                     <span class="comment">// or DecimalChunked?
                     </span><span class="prelude-val">Ok</span>(Int128Chunked::from_chunks(name, chunks)
-                        .into_decimal_unchecked(prec, scale)
+                        .into_decimal_unchecked(precision, scale)
                         .into_series())
                 }
             }

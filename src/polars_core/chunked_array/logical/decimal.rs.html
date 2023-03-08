@@ -110,14 +110,14 @@
         precision: <span class="prelude-ty">Option</span>&lt;usize&gt;,
         scale: usize,
     ) -&gt; PolarsResult&lt;DecimalChunked&gt; {
-        <span class="comment">// TODO: if prec is None, do we check that the value fits within precision of 38?...
+        <span class="comment">// TODO: if precision is None, do we check that the value fits within precision of 38?...
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>(precision) = precision {
-            <span class="kw">let </span>prec_max = <span class="number">10_i128</span>.pow(precision <span class="kw">as </span>u32);
+            <span class="kw">let </span>precision_max = <span class="number">10_i128</span>.pow(precision <span class="kw">as </span>u32);
             <span class="comment">// note: this is not too efficient as it scans through the data twice...
             </span><span class="kw">if let </span>(<span class="prelude-val">Some</span>(min), <span class="prelude-val">Some</span>(max)) = (<span class="self">self</span>.min(), <span class="self">self</span>.max()) {
                 <span class="kw">let </span>max_abs = max.abs().max(min.abs());
                 <span class="macro">polars_ensure!</span>(
-                    max_abs &lt; prec_max,
+                    max_abs &lt; precision_max,
                     ComputeError: <span class="string">&quot;decimal precision {} can&#39;t fit values with {} digits&quot;</span>,
                     precision,
                     max_abs.to_string().len()
@@ -148,16 +148,16 @@
     }
 
     <span class="kw">fn </span>cast(<span class="kw-2">&amp;</span><span class="self">self</span>, dtype: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="kw">let </span>(prec_src, scale_src) = (<span class="self">self</span>.precision(), <span class="self">self</span>.scale());
-        <span class="kw">if let </span><span class="kw-2">&amp;</span>DataType::Decimal(prec_dst, scale_dst) = dtype {
+        <span class="kw">let </span>(precision_src, scale_src) = (<span class="self">self</span>.precision(), <span class="self">self</span>.scale());
+        <span class="kw">if let </span><span class="kw-2">&amp;</span>DataType::Decimal(precision_dst, scale_dst) = dtype {
             <span class="kw">let </span>scale_dst = scale_dst.ok_or_else(
                 || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;cannot cast to Decimal with unknown scale&quot;</span>),
             )<span class="question-mark">?</span>;
             <span class="comment">// for now, let&#39;s just allow same-scale conversions
             // where precision is either the same or bigger or gets converted to `None`
             // (these are the easy cases requiring no checks and arithmetics which we can add later)
-            </span><span class="kw">let </span>is_widen = <span class="kw">match </span>(prec_src, prec_dst) {
-                (<span class="prelude-val">Some</span>(prec_src), <span class="prelude-val">Some</span>(prec_dst)) =&gt; prec_dst &gt;= prec_src,
+            </span><span class="kw">let </span>is_widen = <span class="kw">match </span>(precision_src, precision_dst) {
+                (<span class="prelude-val">Some</span>(precision_src), <span class="prelude-val">Some</span>(precision_dst)) =&gt; precision_dst &gt;= precision_src,
                 (<span class="kw">_</span>, <span class="prelude-val">None</span>) =&gt; <span class="bool-val">true</span>,
                 <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
             };

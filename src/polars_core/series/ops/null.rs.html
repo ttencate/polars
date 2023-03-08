@@ -95,9 +95,9 @@
                 .into_time()
                 .into_series(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
-            </span>DataType::Decimal(prec, scale) =&gt; Int128Chunked::full_null(name, size)
+            </span>DataType::Decimal(precision, scale) =&gt; Int128Chunked::full_null(name, size)
                 .into_decimal_unchecked(
-                    <span class="kw-2">*</span>prec,
+                    <span class="kw-2">*</span>precision,
                     scale.unwrap_or_else(|| <span class="macro">unreachable!</span>(<span class="string">&quot;scale should be set&quot;</span>)),
                 )
                 .into_series(),

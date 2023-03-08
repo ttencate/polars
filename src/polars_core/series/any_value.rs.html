@@ -414,7 +414,7 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
 </span><span class="kw">fn </span>any_values_to_decimal(
     avs: <span class="kw-2">&amp;</span>[AnyValue],
-    prec: <span class="prelude-ty">Option</span>&lt;usize&gt;,
+    precision: <span class="prelude-ty">Option</span>&lt;usize&gt;,
     scale: <span class="prelude-ty">Option</span>&lt;usize&gt;, <span class="comment">// if None, we&#39;re inferring the scale
 </span>) -&gt; PolarsResult&lt;DecimalChunked&gt; {
     <span class="comment">// two-pass approach, first we scan and record the scales, then convert (or not)
@@ -440,7 +440,7 @@
         <span class="comment">// empty array or all nulls, return a decimal array with given scale (or 0 if inferring)
         </span><span class="kw">return </span><span class="prelude-val">Ok</span>(
             Int128Chunked::full_null(<span class="string">&quot;&quot;</span>, avs.len())
-                .into_decimal_unchecked(prec, scale.unwrap_or(<span class="number">0</span>))
+                .into_decimal_unchecked(precision, scale.unwrap_or(<span class="number">0</span>))
         );
     };
     <span class="kw">let </span>scale = scale.unwrap_or(s_max);
@@ -453,7 +453,7 @@
         );
     } <span class="kw">else if </span>s_min == s_max &amp;&amp; s_max == scale {
         <span class="comment">// no conversions needed; will potentially check values for precision though
-        </span>any_values_to_primitive::&lt;Int128Type&gt;(avs).into_decimal(prec, scale)
+        </span>any_values_to_primitive::&lt;Int128Type&gt;(avs).into_decimal(precision, scale)
     } <span class="kw">else </span>{
         <span class="comment">// rescaling is needed
         </span><span class="kw">let </span><span class="kw-2">mut </span>builder = PrimitiveChunkedBuilder::&lt;Int128Type&gt;::new(<span class="string">&quot;&quot;</span>, avs.len());
@@ -476,7 +476,7 @@
             })<span class="question-mark">?</span>);
         }
         <span class="comment">// build the array and do a precision check if needed
-        </span>builder.finish().into_decimal(prec, scale)
+        </span>builder.finish().into_decimal(precision, scale)
     }
 }
 
@@ -577,8 +577,8 @@
                 .into_duration(<span class="kw-2">*</span>tu)
                 .into_series(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
-            </span>DataType::Decimal(prec, scale) =&gt; {
-                any_values_to_decimal(av, <span class="kw-2">*</span>prec, <span class="kw-2">*</span>scale)<span class="question-mark">?</span>.into_series()
+            </span>DataType::Decimal(precision, scale) =&gt; {
+                any_values_to_decimal(av, <span class="kw-2">*</span>precision, <span class="kw-2">*</span>scale)<span class="question-mark">?</span>.into_series()
             }
             DataType::List(inner) =&gt; any_values_to_list(av, inner).into_series(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
