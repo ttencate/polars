@@ -307,8 +307,8 @@
     }
 
     <span class="kw">fn </span>slice(<span class="kw-2">&amp;</span><span class="self">self</span>, offset: i64, length: usize) -&gt; Series {
-        <span class="kw">let </span>(offset, length) = slice_offsets(offset, length, <span class="self">self</span>.len());
-        NullChunked::new(<span class="self">self</span>.name.clone(), length - offset).into_series()
+        <span class="kw">let </span>(<span class="kw">_</span>, length) = slice_offsets(offset, length, <span class="self">self</span>.len());
+        NullChunked::new(<span class="self">self</span>.name.clone(), length).into_series()
     }
 
     <span class="kw">fn </span>is_null(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BooleanChunked {
