@@ -240,6 +240,12 @@
 <a href="#240" id="240">240</a>
 <a href="#241" id="241">241</a>
 <a href="#242" id="242">242</a>
+<a href="#243" id="243">243</a>
+<a href="#244" id="244">244</a>
+<a href="#245" id="245">245</a>
+<a href="#246" id="246">246</a>
+<a href="#247" id="247">247</a>
+<a href="#248" id="248">248</a>
 </pre><pre class="rust"><code><span class="kw">use </span>arrow::array::{Array, BinaryArray, BooleanArray, DictionaryArray, PrimitiveArray, Utf8Array};
 <span class="kw">use </span>arrow::datatypes::{DataType <span class="kw">as </span>ArrowDataType, DataType};
 <span class="kw">use </span>arrow::types::NativeType;
@@ -327,9 +333,12 @@
 }
 
 <span class="kw">pub fn </span>allocate_rows_buf(columns: <span class="kw-2">&amp;</span>[ArrayRef]) -&gt; RowsEncoded {
-    <span class="kw">let </span>has_variable = columns
-        .iter()
-        .any(|arr| <span class="macro">matches!</span>(arr.data_type(), ArrowDataType::LargeBinary));
+    <span class="kw">let </span>has_variable = columns.iter().any(|arr| {
+        <span class="macro">matches!</span>(
+            arr.data_type(),
+            ArrowDataType::LargeBinary | ArrowDataType::Dictionary(<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>)
+        )
+    });
 
     <span class="kw">let </span>num_rows = columns[<span class="number">0</span>].len();
     <span class="kw">if </span>has_variable {
@@ -338,7 +347,10 @@
         </span><span class="kw">let </span>row_size_fixed: usize = columns
             .iter()
             .map(|arr| {
-                <span class="kw">if </span><span class="macro">matches!</span>(arr.data_type(), ArrowDataType::LargeBinary) {
+                <span class="kw">if </span><span class="macro">matches!</span>(
+                    arr.data_type(),
+                    ArrowDataType::LargeBinary | ArrowDataType::Dictionary(<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>)
+                ) {
                     <span class="number">0
                 </span>} <span class="kw">else </span>{
                     encoded_size(arr.data_type())
