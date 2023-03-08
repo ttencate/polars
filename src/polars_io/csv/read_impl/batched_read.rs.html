@@ -429,6 +429,19 @@
 <a href="#429" id="429">429</a>
 <a href="#430" id="430">430</a>
 <a href="#431" id="431">431</a>
+<a href="#432" id="432">432</a>
+<a href="#433" id="433">433</a>
+<a href="#434" id="434">434</a>
+<a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::collections::VecDeque;
 <span class="kw">use </span>std::fs::File;
 <span class="kw">use </span>std::io::{Read, Seek, SeekFrom};
@@ -545,11 +558,13 @@
         <span class="self">self</span>.reslice();
 
         <span class="kw">if </span><span class="self">self</span>.buf.len() &lt;= <span class="self">self</span>.page_size <span class="kw">as </span>usize {
-            <span class="self">self</span>.file
+            <span class="kw">let </span>read = <span class="self">self
+                </span>.file
                 .take(<span class="self">self</span>.page_size)
                 .read_to_end(<span class="kw-2">&amp;mut </span><span class="self">self</span>.buf)
                 .unwrap();
-            <span class="kw">if </span><span class="self">self</span>.buf.is_empty() {
+
+            <span class="kw">if </span>read == <span class="number">0 </span>{
                 <span class="self">self</span>.finished = <span class="bool-val">true</span>;
                 <span class="kw">return </span><span class="bool-val">false</span>;
             }
@@ -569,13 +584,14 @@
                 <span class="kw">if </span>bytes_first_row.is_some() {
                     <span class="kw">break</span>;
                 } <span class="kw">else </span>{
-                    <span class="kw">let </span>read_before = <span class="self">self</span>.buf.len();
-                    <span class="self">self</span>.file
+                    <span class="kw">let </span>read = <span class="self">self
+                        </span>.file
                         .take(<span class="self">self</span>.page_size)
                         .read_to_end(<span class="kw-2">&amp;mut </span><span class="self">self</span>.buf)
                         .unwrap();
-                    <span class="kw">if </span><span class="self">self</span>.buf.len() == read_before {
-                        <span class="kw">break</span>;
+                    <span class="kw">if </span>read == <span class="number">0 </span>{
+                        <span class="self">self</span>.finished = <span class="bool-val">true</span>;
+                        <span class="kw">return </span><span class="bool-val">false</span>;
                     }
                 }
             }
@@ -585,11 +601,20 @@
         </span>};
         <span class="kw">let </span>expected_bytes = <span class="self">self</span>.rows_per_batch * bytes_first_row * (n + <span class="number">1</span>);
         <span class="kw">if </span><span class="self">self</span>.buf.len() &lt; expected_bytes {
-            <span class="kw">let </span>read = expected_bytes - <span class="self">self</span>.buf.len();
-            <span class="self">self</span>.file
-                .take(read <span class="kw">as </span>u64)
+            <span class="kw">let </span>to_read = expected_bytes - <span class="self">self</span>.buf.len();
+            <span class="kw">let </span>read = <span class="self">self
+                </span>.file
+                .take(to_read <span class="kw">as </span>u64)
                 .read_to_end(<span class="kw-2">&amp;mut </span><span class="self">self</span>.buf)
                 .unwrap();
+            <span class="kw">if </span>read == <span class="number">0 </span>{
+                <span class="self">self</span>.finished = <span class="bool-val">true</span>;
+                <span class="comment">// don&#39;t return yet as we initially
+                // read `page_size` len.
+                // This can mean that the whole file
+                // fits into `page_size`, so we continue
+                // to collect offsets
+            </span>}
         }
 
         get_offsets(
@@ -646,7 +671,7 @@
         <span class="prelude-val">Ok</span>(BatchedCsvReaderRead {
             chunk_size: <span class="self">self</span>.chunk_size,
             finished: <span class="bool-val">false</span>,
-            file_chunks_iter: chunk_iter,
+            file_chunk_reader: chunk_iter,
             file_chunks: <span class="macro">vec!</span>[],
             str_capacities: <span class="self">self</span>.init_string_size_stats(<span class="kw-2">&amp;</span>str_columns, <span class="self">self</span>.chunk_size),
             str_columns,
@@ -673,7 +698,7 @@
 <span class="kw">pub struct </span>BatchedCsvReaderRead&lt;<span class="lifetime">&#39;a</span>&gt; {
     chunk_size: usize,
     finished: bool,
-    file_chunks_iter: ChunkReader&lt;<span class="lifetime">&#39;a</span>&gt;,
+    file_chunk_reader: ChunkReader&lt;<span class="lifetime">&#39;a</span>&gt;,
     file_chunks: Vec&lt;(usize, usize)&gt;,
     str_capacities: Vec&lt;RunningSize&gt;,
     str_columns: StringColumns,
@@ -714,20 +739,20 @@
         // This returns pointers into slices into `buf`
         // we must process the slices before the next call
         // as that will overwrite the slices
-        </span><span class="kw">if </span><span class="self">self</span>.file_chunks_iter.read(n) {
+        </span><span class="kw">if </span><span class="self">self</span>.file_chunk_reader.read(n) {
             <span class="kw">let </span><span class="kw-2">mut </span>latest_end = <span class="number">0</span>;
-            <span class="kw">while let </span><span class="prelude-val">Some</span>((start, end)) = <span class="self">self</span>.file_chunks_iter.offsets.pop_front() {
+            <span class="kw">while let </span><span class="prelude-val">Some</span>((start, end)) = <span class="self">self</span>.file_chunk_reader.offsets.pop_front() {
                 latest_end = end;
                 <span class="self">self</span>.file_chunks
-                    .push(<span class="self">self</span>.file_chunks_iter.return_slice(start, end))
+                    .push(<span class="self">self</span>.file_chunk_reader.return_slice(start, end))
             }
             <span class="comment">// ensure that this is set correctly
-            </span><span class="self">self</span>.file_chunks_iter.buf_end = latest_end;
+            </span><span class="self">self</span>.file_chunk_reader.buf_end = latest_end;
         }
         <span class="comment">// ensure we process the final slice as well.
-        </span><span class="kw">if </span><span class="self">self</span>.file_chunks.len() &lt; n {
+        </span><span class="kw">if </span><span class="self">self</span>.file_chunk_reader.finished &amp;&amp; <span class="self">self</span>.file_chunks.len() &lt; n {
             <span class="comment">// get the final slice
-            </span><span class="self">self</span>.file_chunks.push(<span class="self">self</span>.file_chunks_iter.get_buf());
+            </span><span class="self">self</span>.file_chunks.push(<span class="self">self</span>.file_chunk_reader.get_buf());
             <span class="self">self</span>.finished = <span class="bool-val">true
         </span>}
 
@@ -855,6 +880,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>reader = reader.batched_borrowed_read().unwrap();
         <span class="kw">let </span>batches = reader.next_batches(<span class="number">5</span>).unwrap().unwrap();
+        <span class="macro">assert_eq!</span>(batches.len(), <span class="number">5</span>);
         <span class="kw">let </span>df = concat_df(<span class="kw-2">&amp;</span>batches).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>expected = CsvReader::new(file).finish().unwrap();
         <span class="macro">assert!</span>(df.frame_equal(<span class="kw-2">&amp;</span>expected))
