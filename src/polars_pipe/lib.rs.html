@@ -17,6 +17,7 @@
 <a href="#17" id="17">17</a>
 <a href="#18" id="18">18</a>
 <a href="#19" id="19">19</a>
+<a href="#20" id="20">20</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;compile&quot;</span>)]
 </span><span class="kw">mod </span>executors;
 <span class="attr">#[cfg(feature = <span class="string">&quot;compile&quot;</span>)]
@@ -33,8 +34,9 @@
 /// scale the chunk size depending on the number of
 /// columns. With 10 columns we use a chunk size of 40_000
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;compile&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>chunk_size(n_cols: usize) -&gt; usize {
-    std::cmp::max(<span class="number">400_000 </span>/ n_cols, <span class="number">1000</span>)
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>determine_chunk_size(n_cols: usize, n_threads: usize) -&gt; usize {
+    <span class="kw">let </span>thread_factor = std::cmp::max(<span class="number">12 </span>/ n_threads, <span class="number">1</span>);
+    std::cmp::max(<span class="number">400_000 </span>/ n_cols * thread_factor, <span class="number">1000</span>)
 }
 </code></pre></div>
 </section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="polars_pipe" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (065852def 2023-02-13)" data-search-js="search-abe1d547ad11c273.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
