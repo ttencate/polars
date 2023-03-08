@@ -270,6 +270,12 @@
 <a href="#270" id="270">270</a>
 <a href="#271" id="271">271</a>
 <a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::sync::atomic::{AtomicBool, Ordering};
 <span class="kw">use </span>std::sync::Arc;
 
@@ -337,7 +343,13 @@
                 <span class="kw">let </span>s_sort_by = <span class="self">self
                     </span>.by
                     .iter()
-                    .map(|e| e.evaluate(df, state))
+                    .map(|e| {
+                        e.evaluate(df, state).map(|s| <span class="kw">match </span>s.dtype() {
+                            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
+                            </span>DataType::Categorical(<span class="kw">_</span>) =&gt; s,
+                            <span class="kw">_ </span>=&gt; s.to_physical_repr().into_owned(),
+                        })
+                    })
                     .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
 
                 s_sort_by[<span class="number">0</span>].arg_sort_multiple(<span class="kw-2">&amp;</span>s_sort_by[<span class="number">1</span>..], <span class="kw-2">&amp;</span>descending)
