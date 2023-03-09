@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>polars.get_idx_type &#8212; Polars  documentation</title>
+    <title>polars.get_index_type &#8212; Polars  documentation</title>
   
   
   
@@ -49,11 +49,11 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.get_idx_type';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.get_index_type';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Config" href="../config.html" />
-    <link rel="prev" title="polars.Unknown" href="polars.Unknown.html" />
+    <link rel="next" title="polars.show_versions" href="polars.show_versions.html" />
+    <link rel="prev" title="polars.build_info" href="polars.build_info.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -1328,12 +1328,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.threadpool_size.html">polars.threadpool_size</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.toggle_string_cache.html">polars.toggle_string_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.StringCache.html">polars.StringCache</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../datatypes.html">Data types</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-51" name="toctree-checkbox-51" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-51"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../datatypes.html">Data types</a><input class="toctree-checkbox" id="toctree-checkbox-51" name="toctree-checkbox-51" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-51"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="polars.DataType.html">polars.DataType</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Float32.html">polars.Float32</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Float64.html">polars.Float64</a></li>
@@ -1358,7 +1357,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.Object.html">polars.Object</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Utf8.html">polars.Utf8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Unknown.html">polars.Unknown</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.get_idx_type</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../config.html">Config</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1410,9 +1408,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.testing.parametric.columns.html">polars.testing.parametric.columns</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../utils.html">Utils</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="polars.build_info.html">polars.build_info</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.get_index_type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.show_versions.html">polars.show_versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.threadpool_size.html">polars.threadpool_size</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1462,9 +1462,9 @@ document.write(`
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API reference</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../datatypes.html" class="nav-link">Data types</a></li>
+    <li class="breadcrumb-item"><a href="../utils.html" class="nav-link">Utils</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">polars.get_idx_type</li>
+    <li class="breadcrumb-item active" aria-current="page">polars.get_index_type</li>
   </ul>
 </nav>
 </div>
@@ -1481,11 +1481,11 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="polars-get-idx-type">
-<h1>polars.get_idx_type<a class="headerlink" href="#polars-get-idx-type" title="Permalink to this heading">#</a></h1>
+  <section id="polars-get-index-type">
+<h1>polars.get_index_type<a class="headerlink" href="#polars-get-index-type" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="polars.get_idx_type">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">get_idx_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataTypeClass</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/datatypes/utils.py#L13-L22"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.get_idx_type" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="polars.get_index_type">
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">get_index_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataTypeClass</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/utils/meta.py#L16-L25"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.get_index_type" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the datatype used for Polars indexing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1507,20 +1507,20 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.Unknown.html"
+       href="polars.build_info.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.Unknown</p>
+        <p class="prev-next-title">polars.build_info</p>
       </div>
     </a>
     <a class="right-next"
-       href="../config.html"
+       href="polars.show_versions.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Config</p>
+        <p class="prev-next-title">polars.show_versions</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1539,7 +1539,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.get_idx_type"><code class="docutils literal notranslate"><span class="pre">get_idx_type()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.get_index_type"><code class="docutils literal notranslate"><span class="pre">get_index_type()</span></code></a></li>
 </ul>
   </nav></div>
 

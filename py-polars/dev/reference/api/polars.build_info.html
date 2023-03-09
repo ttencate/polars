@@ -52,7 +52,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.build_info';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="polars.show_versions" href="polars.show_versions.html" />
+    <link rel="next" title="polars.get_index_type" href="polars.get_index_type.html" />
     <link rel="prev" title="Utils" href="../utils.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -1328,7 +1328,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.threadpool_size.html">polars.threadpool_size</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.toggle_string_cache.html">polars.toggle_string_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.StringCache.html">polars.StringCache</a></li>
 </ul>
@@ -1358,7 +1357,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.Object.html">polars.Object</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Utf8.html">polars.Utf8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Unknown.html">polars.Unknown</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.get_idx_type.html">polars.get_idx_type</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../config.html">Config</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1412,7 +1410,9 @@ document.write(`
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../utils.html">Utils</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.build_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.get_index_type.html">polars.get_index_type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.show_versions.html">polars.show_versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.threadpool_size.html">polars.threadpool_size</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1485,9 +1485,9 @@ document.write(`
 <h1>polars.build_info<a class="headerlink" href="#polars-build-info" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="polars.build_info">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">build_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/build_info.py#L20-L29"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.build_info" title="Permalink to this definition">#</a></dt>
-<dd><p>Return a dict with polars build information.</p>
-<p>If polars was compiled with “build_info” feature gate return the full build info,
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">build_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/utils/build_info.py#L15-L24"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.build_info" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a dict with Polars build information.</p>
+<p>If Polars was compiled with “build_info” feature gate return the full build info,
 otherwise only version is included. The full build information dict contains
 the following keys [‘build’, ‘info-time’, ‘dependencies’, ‘features’, ‘host’,
 ‘target’, ‘git’, ‘version’].</p>
@@ -1513,11 +1513,11 @@ the following keys [‘build’, ‘info-time’, ‘dependencies’, ‘feature
       </div>
     </a>
     <a class="right-next"
-       href="polars.show_versions.html"
+       href="polars.get_index_type.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.show_versions</p>
+        <p class="prev-next-title">polars.get_index_type</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

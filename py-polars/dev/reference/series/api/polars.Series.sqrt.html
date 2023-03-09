@@ -1328,7 +1328,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/polars.threadpool_size.html">polars.threadpool_size</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.toggle_string_cache.html">polars.toggle_string_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.StringCache.html">polars.StringCache</a></li>
 </ul>
@@ -1358,7 +1357,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Object.html">polars.Object</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Utf8.html">polars.Utf8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Unknown.html">polars.Unknown</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/polars.get_idx_type.html">polars.get_idx_type</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../config.html">Config</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1412,7 +1410,9 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.build_info.html">polars.build_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.get_index_type.html">polars.get_index_type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.show_versions.html">polars.show_versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.threadpool_size.html">polars.threadpool_size</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1490,7 +1490,7 @@ document.write(`
 <h1>polars.Series.sqrt<a class="headerlink" href="#polars-series-sqrt" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.sqrt">
-<span class="sig-prename descclassname"><span class="pre">Series.</span></span><span class="sig-name descname"><span class="pre">sqrt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/series/series.py#L1050-L1064"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.sqrt" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.</span></span><span class="sig-name descname"><span class="pre">sqrt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/series/series.py#L1054-L1068"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.sqrt" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute the square root of the elements.</p>
 <p>Syntactic sugar for</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">**</span> <span class="mf">0.5</span>
