@@ -316,6 +316,7 @@
 <a href="#316" id="316">316</a>
 <a href="#317" id="317">317</a>
 <a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub type </span>TimeZone = String;
@@ -470,6 +471,7 @@
             | DataType::Date
             | DataType::Datetime(<span class="kw">_</span>, <span class="kw">_</span>)
             | DataType::Duration(<span class="kw">_</span>)
+            | DataType::Time
             | DataType::Boolean
             | DataType::Unknown
             | DataType::Null =&gt; <span class="bool-val">false</span>,
