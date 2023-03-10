@@ -618,7 +618,7 @@
             // the bck thinks the lifetime is bounded to write_buffer_pool, but at the time we return
             // the vectors the buffer pool, the series have already been removed from the buffers
             // in other words, the lifetime does not leave this scope
-            </span><span class="kw">let </span>cols = <span class="kw">unsafe </span>{ std::mem::transmute::&lt;<span class="kw-2">&amp;</span>Vec&lt;Series&gt;, <span class="kw-2">&amp;</span>Vec&lt;Series&gt;&gt;(cols) };
+            </span><span class="kw">let </span>cols = <span class="kw">unsafe </span>{ std::mem::transmute::&lt;<span class="kw-2">&amp;</span>[Series], <span class="kw-2">&amp;</span>[Series]&gt;(cols) };
             <span class="kw">let </span><span class="kw-2">mut </span>write_buffer = write_buffer_pool.get();
 
             <span class="comment">// don&#39;t use df.empty, won&#39;t work if there are columns.

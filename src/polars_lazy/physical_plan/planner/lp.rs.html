@@ -972,14 +972,14 @@
                     };
                     <span class="kw">let </span>root = lp_arena.add(lp);
 
-                    <span class="comment">// do not jit insert join streaming nodes
+                    <span class="comment">// do not jit insert if we have joins or distinct
                     // first we have to test them more and ensure solid perf
-                    </span><span class="kw">let </span>has_joins = (<span class="kw-2">&amp;*</span>lp_arena)
+                    </span><span class="kw">let </span>has_joins_or_distinct = (<span class="kw-2">&amp;*</span>lp_arena)
                         .iter(root)
-                        .any(|(<span class="kw">_</span>, lp)| <span class="macro">matches!</span>(lp, Join { .. }));
+                        .any(|(<span class="kw">_</span>, lp)| <span class="macro">matches!</span>(lp, Join { .. } | Distinct { .. }));
                     <span class="kw">if </span>allowed_key
                         &amp;&amp; allowed_aggs
-                        &amp;&amp; !has_joins
+                        &amp;&amp; !has_joins_or_distinct
                         &amp;&amp; insert_streaming_nodes(root, lp_arena, expr_arena, <span class="kw-2">&amp;mut </span><span class="macro">vec!</span>[], <span class="bool-val">false</span>)<span class="question-mark">?
                     </span>{
                         <span class="kw">return </span>create_physical_plan(root, lp_arena, expr_arena);
@@ -987,7 +987,7 @@
                 }
 
                 <span class="kw">let </span>from_partitioned_ds = (<span class="kw-2">&amp;*</span>lp_arena).iter(input).any(|(<span class="kw">_</span>, lp)| {
-                    <span class="kw">if let </span>ALogicalPlan::Union { options, .. } = lp {
+                    <span class="kw">if let </span>Union { options, .. } = lp {
                         options.from_partitioned_ds
                     } <span class="kw">else </span>{
                         <span class="bool-val">false

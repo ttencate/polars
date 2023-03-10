@@ -155,7 +155,11 @@
 <a href="#155" id="155">155</a>
 <a href="#156" id="156">156</a>
 <a href="#157" id="157">157</a>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
+<a href="#158" id="158">158</a>
+<a href="#159" id="159">159</a>
+</pre><pre class="rust"><code><span class="kw">use </span>smartstring::alias::String <span class="kw">as </span>SmartString;
+
+<span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
 <span class="kw">use </span><span class="kw">crate</span>::utils::{concat_df_unchecked, slice_offsets, CustomIterTools, NoNull};
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
@@ -255,7 +259,7 @@
     </span><span class="kw">pub fn </span>_cross_join_with_names(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         other: <span class="kw-2">&amp;</span>DataFrame,
-        names: <span class="kw-2">&amp;</span>[String],
+        names: <span class="kw-2">&amp;</span>[SmartString],
     ) -&gt; PolarsResult&lt;DataFrame&gt; {
         <span class="kw">let </span>(<span class="kw-2">mut </span>l_df, r_df) = <span class="self">self</span>.cross_join_dfs(other, <span class="prelude-val">None</span>, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
         l_df.get_columns_mut().extend_from_slice(<span class="kw-2">&amp;</span>r_df.columns);

@@ -3661,6 +3661,10 @@
 <a href="#3661" id="3661">3661</a>
 <a href="#3662" id="3662">3662</a>
 <a href="#3663" id="3663">3663</a>
+<a href="#3664" id="3664">3664</a>
+<a href="#3665" id="3665">3665</a>
+<a href="#3666" id="3666">3666</a>
+<a href="#3667" id="3667">3667</a>
 </pre><pre class="rust"><code><span class="doccomment">//! DataFrame module.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::iter::{FromIterator, Iterator};
@@ -3690,10 +3694,10 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;rows&quot;</span>)]
 </span><span class="kw">pub mod </span>row;
 <span class="kw">mod </span>upstream_traits;
-
 <span class="kw">pub use </span>chunks::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
+<span class="kw">use </span>smartstring::alias::String <span class="kw">as </span>SmartString;
 
 <span class="kw">use </span><span class="kw">crate</span>::frame::groupby::GroupsIndicator;
 <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
@@ -3714,9 +3718,13 @@
 <span class="attr">#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 </span><span class="kw">pub enum </span>UniqueKeepStrategy {
-    First,
-    Last,
-    <span class="prelude-val">None</span>,
+    <span class="doccomment">/// Keep the first unique row.
+    </span>First,
+    <span class="doccomment">/// Keep the last unique row.
+    </span>Last,
+    <span class="doccomment">/// Keep any of the unique rows.
+    /// This is faster.
+    </span><span class="prelude-val">None</span>,
 }
 
 <span class="doccomment">/// A contiguous growable collection of `Series` that have the same length.
@@ -4170,14 +4178,14 @@
     /// # use polars_core::prelude::*;
     /// let df: DataFrame = df!(&quot;Name&quot; =&gt; &amp;[&quot;Adenine&quot;, &quot;Cytosine&quot;, &quot;Guanine&quot;, &quot;Thymine&quot;],
     ///                         &quot;Symbol&quot; =&gt; &amp;[&quot;A&quot;, &quot;C&quot;, &quot;G&quot;, &quot;T&quot;])?;
-    /// let columns: &amp;Vec&lt;Series&gt; = df.get_columns();
+    /// let columns: &amp;[Series] = df.get_columns();
     ///
     /// assert_eq!(columns[0].name(), &quot;Name&quot;);
     /// assert_eq!(columns[1].name(), &quot;Symbol&quot;);
     /// # Ok::&lt;(), PolarsError&gt;(())
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>get_columns(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Vec&lt;Series&gt; {
+    </span><span class="kw">pub fn </span>get_columns(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Series] {
         <span class="kw-2">&amp;</span><span class="self">self</span>.columns
     }
 
@@ -4223,8 +4231,8 @@
     }
 
     <span class="doccomment">/// Get the `Vec&lt;String&gt;` representing the column names.
-    </span><span class="kw">pub fn </span>get_column_names_owned(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;String&gt; {
-        <span class="self">self</span>.columns.iter().map(|s| s.name().to_string()).collect()
+    </span><span class="kw">pub fn </span>get_column_names_owned(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;SmartString&gt; {
+        <span class="self">self</span>.columns.iter().map(|s| s.name().into()).collect()
     }
 
     <span class="doccomment">/// Set the column names.
@@ -5071,12 +5079,12 @@
     {
         <span class="kw">let </span>cols = selection
             .into_iter()
-            .map(|s| s.as_ref().to_string())
+            .map(|s| SmartString::from(s.as_ref()))
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="self">self</span>.select_impl(<span class="kw-2">&amp;</span>cols)
     }
 
-    <span class="kw">fn </span>select_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, cols: <span class="kw-2">&amp;</span>[String]) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>select_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, cols: <span class="kw-2">&amp;</span>[SmartString]) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
         <span class="self">self</span>.select_check_duplicates(cols)<span class="question-mark">?</span>;
         <span class="kw">let </span>selected = <span class="self">self</span>.select_series_impl(cols)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(DataFrame::new_no_checks(selected))
@@ -5089,18 +5097,18 @@
     {
         <span class="kw">let </span>cols = selection
             .into_iter()
-            .map(|s| s.as_ref().to_string())
+            .map(|s| SmartString::from(s.as_ref()))
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="self">self</span>.select_physical_impl(<span class="kw-2">&amp;</span>cols)
     }
 
-    <span class="kw">fn </span>select_physical_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, cols: <span class="kw-2">&amp;</span>[String]) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>select_physical_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, cols: <span class="kw-2">&amp;</span>[SmartString]) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
         <span class="self">self</span>.select_check_duplicates(cols)<span class="question-mark">?</span>;
         <span class="kw">let </span>selected = <span class="self">self</span>.select_series_physical_impl(cols)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(DataFrame::new_no_checks(selected))
     }
 
-    <span class="kw">fn </span>select_check_duplicates(<span class="kw-2">&amp;</span><span class="self">self</span>, cols: <span class="kw-2">&amp;</span>[String]) -&gt; PolarsResult&lt;()&gt; {
+    <span class="kw">fn </span>select_check_duplicates(<span class="kw-2">&amp;</span><span class="self">self</span>, cols: <span class="kw-2">&amp;</span>[SmartString]) -&gt; PolarsResult&lt;()&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>names = PlHashSet::with_capacity(cols.len());
         <span class="kw">for </span>name <span class="kw">in </span>cols {
             <span class="kw">if </span>!names.insert(name.as_str()) {
@@ -5125,7 +5133,7 @@
     /// assert_eq!(df[&quot;Hydrogen&quot;], sv[1]);
     /// # Ok::&lt;(), PolarsError&gt;(())
     /// ```
-    </span><span class="kw">pub fn </span>select_series(<span class="kw-2">&amp;</span><span class="self">self</span>, selection: <span class="kw">impl </span>IntoVec&lt;String&gt;) -&gt; PolarsResult&lt;Vec&lt;Series&gt;&gt; {
+    </span><span class="kw">pub fn </span>select_series(<span class="kw-2">&amp;</span><span class="self">self</span>, selection: <span class="kw">impl </span>IntoVec&lt;SmartString&gt;) -&gt; PolarsResult&lt;Vec&lt;Series&gt;&gt; {
         <span class="kw">let </span>cols = selection.into_vec();
         <span class="self">self</span>.select_series_impl(<span class="kw-2">&amp;</span>cols)
     }
@@ -5139,7 +5147,7 @@
     }
 
     <span class="doccomment">/// A non generic implementation to reduce compiler bloat.
-    </span><span class="kw">fn </span>select_series_physical_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, cols: <span class="kw-2">&amp;</span>[String]) -&gt; PolarsResult&lt;Vec&lt;Series&gt;&gt; {
+    </span><span class="kw">fn </span>select_series_physical_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, cols: <span class="kw-2">&amp;</span>[SmartString]) -&gt; PolarsResult&lt;Vec&lt;Series&gt;&gt; {
         <span class="kw">let </span>selected = <span class="kw">if </span>cols.len() &gt; <span class="number">1 </span>&amp;&amp; <span class="self">self</span>.columns.len() &gt; <span class="number">10 </span>{
             <span class="kw">let </span>name_to_idx = <span class="self">self</span>._names_to_idx_map();
             cols.iter()
@@ -5164,7 +5172,7 @@
     }
 
     <span class="doccomment">/// A non generic implementation to reduce compiler bloat.
-    </span><span class="kw">fn </span>select_series_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, cols: <span class="kw-2">&amp;</span>[String]) -&gt; PolarsResult&lt;Vec&lt;Series&gt;&gt; {
+    </span><span class="kw">fn </span>select_series_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, cols: <span class="kw-2">&amp;</span>[SmartString]) -&gt; PolarsResult&lt;Vec&lt;Series&gt;&gt; {
         <span class="kw">let </span>selected = <span class="kw">if </span>cols.len() &gt; <span class="number">1 </span>&amp;&amp; <span class="self">self</span>.columns.len() &gt; <span class="number">10 </span>{
             <span class="comment">// we hash, because there are user that having millions of columns.
             // # https://github.com/pola-rs/polars/issues/1023
@@ -5427,7 +5435,7 @@
     <span class="doccomment">/// Sort `DataFrame` in place by a column.
     </span><span class="kw">pub fn </span>sort_in_place(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-        by_column: <span class="kw">impl </span>IntoVec&lt;String&gt;,
+        by_column: <span class="kw">impl </span>IntoVec&lt;SmartString&gt;,
         descending: <span class="kw">impl </span>IntoVec&lt;bool&gt;,
     ) -&gt; PolarsResult&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt; {
         <span class="kw">let </span>by_column = <span class="self">self</span>.select_series(by_column)<span class="question-mark">?</span>;
@@ -5538,7 +5546,7 @@
     /// ```
     </span><span class="kw">pub fn </span>sort(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        by_column: <span class="kw">impl </span>IntoVec&lt;String&gt;,
+        by_column: <span class="kw">impl </span>IntoVec&lt;SmartString&gt;,
         descending: <span class="kw">impl </span>IntoVec&lt;bool&gt;,
     ) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>df = <span class="self">self</span>.clone();
