@@ -1328,7 +1328,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.threadpool_size.html">polars.threadpool_size</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.toggle_string_cache.html">polars.toggle_string_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.StringCache.html">polars.StringCache</a></li>
 </ul>
@@ -1358,7 +1357,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.Object.html">polars.Object</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Utf8.html">polars.Utf8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Unknown.html">polars.Unknown</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.get_idx_type.html">polars.get_idx_type</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../config.html">Config</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
@@ -1412,7 +1410,9 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="polars.build_info.html">polars.build_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.get_index_type.html">polars.get_index_type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.show_versions.html">polars.show_versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.threadpool_size.html">polars.threadpool_size</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1485,7 +1485,7 @@ document.write(`
 <h1>polars.Config.set_tbl_cols<a class="headerlink" href="#polars-config-set-tbl-cols" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Config.set_tbl_cols">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Config.</span></span><span class="sig-name descname"><span class="pre">set_tbl_cols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.11)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><span class="pre">polars.cfg.Config</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/cfg.py#L245-L286"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Config.set_tbl_cols" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Config.</span></span><span class="sig-name descname"><span class="pre">set_tbl_cols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.11)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><span class="pre">polars.config.Config</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/config.py#L245-L286"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Config.set_tbl_cols" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the number of columns used to print tables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

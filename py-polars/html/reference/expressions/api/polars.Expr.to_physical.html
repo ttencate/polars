@@ -1328,7 +1328,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/polars.threadpool_size.html">polars.threadpool_size</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.toggle_string_cache.html">polars.toggle_string_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.StringCache.html">polars.StringCache</a></li>
 </ul>
@@ -1358,7 +1357,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Object.html">polars.Object</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Utf8.html">polars.Utf8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Unknown.html">polars.Unknown</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/polars.get_idx_type.html">polars.get_idx_type</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../config.html">Config</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1412,7 +1410,9 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.build_info.html">polars.build_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.get_index_type.html">polars.get_index_type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.show_versions.html">polars.show_versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.threadpool_size.html">polars.threadpool_size</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1490,14 +1490,14 @@ document.write(`
 <h1>polars.Expr.to_physical<a class="headerlink" href="#polars-expr-to-physical" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.to_physical">
-<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">to_physical</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/expr/expr.py#L332-L372"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.to_physical" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">to_physical</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/expr/expr.py#L329-L369"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.to_physical" title="Permalink to this definition">#</a></dt>
 <dd><p>Cast to physical representation of the logical dtype.</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="../../api/polars.Date.html#polars.Date" title="polars.datatypes.Date"><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Date()</span></code></a> -&gt; <a class="reference internal" href="../../api/polars.Int32.html#polars.Int32" title="polars.datatypes.Int32"><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Int32()</span></code></a></p></li>
-<li><p><a class="reference internal" href="../../api/polars.Datetime.html#polars.Datetime" title="polars.datatypes.Datetime"><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Datetime()</span></code></a> -&gt; <a class="reference internal" href="../../api/polars.Int64.html#polars.Int64" title="polars.datatypes.Int64"><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Int64()</span></code></a></p></li>
-<li><p><a class="reference internal" href="../../api/polars.Time.html#polars.Time" title="polars.datatypes.Time"><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Time()</span></code></a> -&gt; <a class="reference internal" href="../../api/polars.Int64.html#polars.Int64" title="polars.datatypes.Int64"><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Int64()</span></code></a></p></li>
-<li><p><a class="reference internal" href="../../api/polars.Duration.html#polars.Duration" title="polars.datatypes.Duration"><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Duration()</span></code></a> -&gt; <a class="reference internal" href="../../api/polars.Int64.html#polars.Int64" title="polars.datatypes.Int64"><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Int64()</span></code></a></p></li>
-<li><p><a class="reference internal" href="../../api/polars.Categorical.html#polars.Categorical" title="polars.datatypes.Categorical"><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Categorical()</span></code></a> -&gt; <a class="reference internal" href="../../api/polars.UInt32.html#polars.UInt32" title="polars.datatypes.UInt32"><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.UInt32()</span></code></a></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Date()</span></code> -&gt; <code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Int32()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Datetime()</span></code> -&gt; <code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Int64()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Time()</span></code> -&gt; <code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Int64()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Duration()</span></code> -&gt; <code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Int64()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Categorical()</span></code> -&gt; <code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.UInt32()</span></code></p></li>
 <li><p>Other data types will be left unchanged.</p></li>
 </ul>
 <p class="rubric">Examples</p>

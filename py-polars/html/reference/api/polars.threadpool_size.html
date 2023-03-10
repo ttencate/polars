@@ -52,8 +52,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.threadpool_size';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="polars.toggle_string_cache" href="polars.toggle_string_cache.html" />
-    <link rel="prev" title="polars.collect_all" href="polars.collect_all.html" />
+    <link rel="next" title="SQL" href="../sql.html" />
+    <link rel="prev" title="polars.show_versions" href="polars.show_versions.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -1311,7 +1311,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.api.register_series_namespace.html">polars.api.register_series_namespace</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../functions.html">Functions</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-50" name="toctree-checkbox-50" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-50"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../functions.html">Functions</a><input class="toctree-checkbox" id="toctree-checkbox-50" name="toctree-checkbox-50" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-50"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="polars.from_arrow.html">polars.from_arrow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.from_dataframe.html">polars.from_dataframe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.from_dict.html">polars.from_dict</a></li>
@@ -1328,7 +1328,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.threadpool_size</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.toggle_string_cache.html">polars.toggle_string_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.StringCache.html">polars.StringCache</a></li>
 </ul>
@@ -1358,7 +1357,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.Object.html">polars.Object</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Utf8.html">polars.Utf8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Unknown.html">polars.Unknown</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.get_idx_type.html">polars.get_idx_type</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../config.html">Config</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1410,9 +1408,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.testing.parametric.columns.html">polars.testing.parametric.columns</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../utils.html">Utils</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="polars.build_info.html">polars.build_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.get_index_type.html">polars.get_index_type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.show_versions.html">polars.show_versions</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.threadpool_size</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1462,7 +1462,7 @@ document.write(`
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API reference</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../functions.html" class="nav-link">Functions</a></li>
+    <li class="breadcrumb-item"><a href="../utils.html" class="nav-link">Utils</a></li>
     
     <li class="breadcrumb-item active" aria-current="page">polars.threadpool_size</li>
   </ul>
@@ -1485,8 +1485,8 @@ document.write(`
 <h1>polars.threadpool_size<a class="headerlink" href="#polars-threadpool-size" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="polars.threadpool_size">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">threadpool_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/utils.py#L420-L422"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.threadpool_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Get the size of polars’ thread pool.</p>
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">threadpool_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/utils/meta.py#L39-L41"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.threadpool_size" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the number of threads in the Polars thread pool.</p>
 </dd></dl>
 
 </section>
@@ -1500,20 +1500,20 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.collect_all.html"
+       href="polars.show_versions.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.collect_all</p>
+        <p class="prev-next-title">polars.show_versions</p>
       </div>
     </a>
     <a class="right-next"
-       href="polars.toggle_string_cache.html"
+       href="../sql.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.toggle_string_cache</p>
+        <p class="prev-next-title">SQL</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

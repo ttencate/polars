@@ -1328,7 +1328,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/polars.threadpool_size.html">polars.threadpool_size</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.toggle_string_cache.html">polars.toggle_string_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.StringCache.html">polars.StringCache</a></li>
 </ul>
@@ -1358,7 +1357,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Object.html">polars.Object</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Utf8.html">polars.Utf8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Unknown.html">polars.Unknown</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/polars.get_idx_type.html">polars.get_idx_type</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../config.html">Config</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1412,7 +1410,9 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.build_info.html">polars.build_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.get_index_type.html">polars.get_index_type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.show_versions.html">polars.show_versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.threadpool_size.html">polars.threadpool_size</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1490,14 +1490,15 @@ document.write(`
 <h1>polars.Series.map_dict<a class="headerlink" href="#polars-series-map-dict" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.map_dict">
-<span class="sig-prename descclassname"><span class="pre">Series.</span></span><span class="sig-name descname"><span class="pre">map_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/series/series.py#L4981-L5030"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.map_dict" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.</span></span><span class="sig-name descname"><span class="pre">map_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/series/series.py#L4983-L5045"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.map_dict" title="Permalink to this definition">#</a></dt>
 <dd><p>Replace values in the Series using a remapping dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>remapping</strong></dt><dd><p>Dictionary containing the before/after values to map.</p>
 </dd>
-<dt><strong>default</strong></dt><dd><p>Value to use when the remapping dict does not contain the lookup value.</p>
+<dt><strong>default</strong></dt><dd><p>Value to use when the remapping dict does not contain the lookup value.
+Use <code class="docutils literal notranslate"><span class="pre">pl.first()</span></code>, to keep the original value.</p>
 </dd>
 </dl>
 </dd>
@@ -1523,7 +1524,19 @@ document.write(`
 <span class="go">]</span>
 </pre></div>
 </div>
-<p>…or keep the original value:</p>
+<p>…or keep the original value, by making use of <code class="docutils literal notranslate"><span class="pre">pl.first()</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">map_dict</span><span class="p">(</span><span class="n">country_lookup</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">first</span><span class="p">())</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;country_name&quot;</span><span class="p">)</span>
+<span class="go">shape: (4,)</span>
+<span class="go">Series: &#39;country_name&#39; [str]</span>
+<span class="go">[</span>
+<span class="go">    &quot;Türkiye&quot;</span>
+<span class="go">    &quot;???&quot;</span>
+<span class="go">    &quot;Japan&quot;</span>
+<span class="go">    &quot;Netherlands&quot;</span>
+<span class="go">]</span>
+</pre></div>
+</div>
+<p>…or keep the original value, by assigning the input series:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">map_dict</span><span class="p">(</span><span class="n">country_lookup</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;country_name&quot;</span><span class="p">)</span>
 <span class="go">shape: (4,)</span>
 <span class="go">Series: &#39;country_name&#39; [str]</span>

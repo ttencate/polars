@@ -1328,7 +1328,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/polars.threadpool_size.html">polars.threadpool_size</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.toggle_string_cache.html">polars.toggle_string_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.StringCache.html">polars.StringCache</a></li>
 </ul>
@@ -1358,7 +1357,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Object.html">polars.Object</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Utf8.html">polars.Utf8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Unknown.html">polars.Unknown</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/polars.get_idx_type.html">polars.get_idx_type</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="config.html">Config</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1412,7 +1410,9 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.build_info.html">polars.build_info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.get_index_type.html">polars.get_index_type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.show_versions.html">polars.show_versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.threadpool_size.html">polars.threadpool_size</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1484,7 +1484,7 @@ document.write(`
 <h2>Conversion<a class="headerlink" href="#conversion" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.from_arrow.html#polars.from_arrow" title="polars.from_arrow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_arrow</span></code></a>(a, *[, rechunk, schema, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.from_arrow.html#polars.from_arrow" title="polars.from_arrow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_arrow</span></code></a>(data[, schema, rechunk, ...])</p></td>
 <td><p>Create a DataFrame or Series from an Arrow Table or Array.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.from_dataframe.html#polars.from_dataframe" title="polars.from_dataframe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_dataframe</span></code></a>(df, *[, allow_copy])</p></td>
@@ -1493,7 +1493,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.from_dict.html#polars.from_dict" title="polars.from_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_dict</span></code></a>(data[, schema, schema_overrides])</p></td>
 <td><p>Construct a DataFrame from a dictionary of sequences.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.from_dicts.html#polars.from_dicts" title="polars.from_dicts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_dicts</span></code></a>(dicts, *[, infer_schema_length, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.from_dicts.html#polars.from_dicts" title="polars.from_dicts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_dicts</span></code></a>(data, *[, infer_schema_length, ...])</p></td>
 <td><p>Construct a DataFrame from a sequence of dictionaries.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.from_numpy.html#polars.from_numpy" title="polars.from_numpy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_numpy</span></code></a>(data[, schema, schema_overrides, ...])</p></td>
@@ -1552,9 +1552,6 @@ document.write(`
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.collect_all.html#polars.collect_all" title="polars.collect_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">collect_all</span></code></a>(lazy_frames, *[, type_coercion, ...])</p></td>
 <td><p>Collect multiple LazyFrames at the same time.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.threadpool_size.html#polars.threadpool_size" title="polars.threadpool_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">threadpool_size</span></code></a>()</p></td>
-<td><p>Get the size of polars' thread pool.</p></td>
 </tr>
 </tbody>
 </table>
