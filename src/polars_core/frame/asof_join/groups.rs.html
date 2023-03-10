@@ -950,6 +950,16 @@
 <a href="#950" id="950">950</a>
 <a href="#951" id="951">951</a>
 <a href="#952" id="952">952</a>
+<a href="#953" id="953">953</a>
+<a href="#954" id="954">954</a>
+<a href="#955" id="955">955</a>
+<a href="#956" id="956">956</a>
+<a href="#957" id="957">957</a>
+<a href="#958" id="958">958</a>
+<a href="#959" id="959">959</a>
+<a href="#960" id="960">960</a>
+<a href="#961" id="961">961</a>
+<a href="#962" id="962">962</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::fmt::Debug;
 <span class="kw">use </span>std::hash::Hash;
 <span class="kw">use </span>std::ops::Sub;
@@ -1603,8 +1613,18 @@
 
         check_asof_columns(<span class="kw-2">&amp;</span>left_asof, <span class="kw-2">&amp;</span>right_asof)<span class="question-mark">?</span>;
 
-        <span class="kw">let </span><span class="kw-2">mut </span>left_by = <span class="self">self</span>.select_physical(left_by)<span class="question-mark">?</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>right_by = other.select_physical(right_by)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>left_by = <span class="self">self</span>.select(left_by)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>right_by = other.select(right_by)<span class="question-mark">?</span>;
+        <span class="kw">for </span>(l, r) <span class="kw">in </span>left_by
+            .get_columns_mut()
+            .iter_mut()
+            .zip(right_by.get_columns_mut().iter_mut())
+        {
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
+            </span>_check_categorical_src(l.dtype(), r.dtype())<span class="question-mark">?</span>;
+            <span class="kw-2">*</span>l = l.to_physical_repr().into_owned();
+            <span class="kw-2">*</span>r = r.to_physical_repr().into_owned();
+        }
 
         <span class="kw">let </span>left_by_s = left_by.get_columns()[<span class="number">0</span>].to_physical_repr().into_owned();
         <span class="kw">let </span>right_by_s = right_by.get_columns()[<span class="number">0</span>].to_physical_repr().into_owned();

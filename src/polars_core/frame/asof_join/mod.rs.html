@@ -197,6 +197,8 @@
 <a href="#197" id="197">197</a>
 <a href="#198" id="198">198</a>
 <a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>asof;
 <span class="kw">mod </span>groups;
 <span class="kw">use </span>std::borrow::Cow;
@@ -227,8 +229,10 @@
 }
 
 <span class="kw">fn </span>check_asof_columns(a: <span class="kw-2">&amp;</span>Series, b: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;()&gt; {
+    <span class="kw">let </span>dtype_a = a.dtype();
+    <span class="kw">let </span>dtype_b = b.dtype();
     <span class="macro">polars_ensure!</span>(
-        a.dtype() == b.dtype(),
+        dtype_a == dtype_b,
         ComputeError: <span class="string">&quot;mismatching key dtypes in asof-join: `{}` and `{}`&quot;</span>,
         a.dtype(), b.dtype()
     );
