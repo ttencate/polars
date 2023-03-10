@@ -383,6 +383,17 @@
 <a href="#383" id="383">383</a>
 <a href="#384" id="384">384</a>
 <a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -641,6 +652,17 @@
                     apply,
                     maintain_order,
                     options
+                })
+            }
+            (Distinct {input, <span class="kw-2">mut </span>options}, <span class="prelude-val">Some</span>(state)) =&gt; {
+                <span class="comment">// first restart optimization in inputs and get the updated LP
+                </span><span class="kw">let </span>input_lp = lp_arena.take(input);
+                <span class="kw">let </span>input_lp = <span class="self">self</span>.pushdown(input_lp, <span class="prelude-val">None</span>, lp_arena, expr_arena)<span class="question-mark">?</span>;
+                <span class="kw">let </span>input= lp_arena.add(input_lp);
+                options.slice = <span class="prelude-val">Some</span>((state.offset, state.len <span class="kw">as </span>usize));
+                <span class="prelude-val">Ok</span>(Distinct {
+                    input,
+                    options,
                 })
             }
             (Sort {input, by_column, <span class="kw-2">mut </span>args}, <span class="prelude-val">Some</span>(state)) =&gt; {

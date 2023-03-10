@@ -3641,29 +3641,6 @@
 <a href="#3641" id="3641">3641</a>
 <a href="#3642" id="3642">3642</a>
 <a href="#3643" id="3643">3643</a>
-<a href="#3644" id="3644">3644</a>
-<a href="#3645" id="3645">3645</a>
-<a href="#3646" id="3646">3646</a>
-<a href="#3647" id="3647">3647</a>
-<a href="#3648" id="3648">3648</a>
-<a href="#3649" id="3649">3649</a>
-<a href="#3650" id="3650">3650</a>
-<a href="#3651" id="3651">3651</a>
-<a href="#3652" id="3652">3652</a>
-<a href="#3653" id="3653">3653</a>
-<a href="#3654" id="3654">3654</a>
-<a href="#3655" id="3655">3655</a>
-<a href="#3656" id="3656">3656</a>
-<a href="#3657" id="3657">3657</a>
-<a href="#3658" id="3658">3658</a>
-<a href="#3659" id="3659">3659</a>
-<a href="#3660" id="3660">3660</a>
-<a href="#3661" id="3661">3661</a>
-<a href="#3662" id="3662">3662</a>
-<a href="#3663" id="3663">3663</a>
-<a href="#3664" id="3664">3664</a>
-<a href="#3665" id="3665">3665</a>
-<a href="#3666" id="3666">3666</a>
 </pre><pre class="rust"><code><span class="doccomment">//! DataFrame module.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::iter::{FromIterator, Iterator};
@@ -3677,7 +3654,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;describe&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::utils::concat_df_unchecked;
-<span class="kw">use </span><span class="kw">crate</span>::utils::{split_ca, split_df, try_get_supertype, NoNull};
+<span class="kw">use </span><span class="kw">crate</span>::utils::{slice_offsets, split_ca, split_df, try_get_supertype, NoNull};
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dataframe_arithmetic&quot;</span>)]
 </span><span class="kw">mod </span>arithmetic;
@@ -3714,10 +3691,11 @@
     Propagate,
 }
 
-<span class="attr">#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+<span class="attr">#[derive(Copy, Clone, Debug, PartialEq, Eq, Default)]
 #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 </span><span class="kw">pub enum </span>UniqueKeepStrategy {
     <span class="doccomment">/// Keep the first unique row.
+    </span><span class="attr">#[default]
     </span>First,
     <span class="doccomment">/// Keep the last unique row.
     </span>Last,
@@ -6608,49 +6586,6 @@
     <span class="doccomment">/// Drop duplicate rows from a `DataFrame`.
     /// *This fails when there is a column of type List in DataFrame*
     ///
-    /// # Example
-    ///
-    /// ```no_run
-    /// # use polars_core::prelude::*;
-    /// let df = df! {
-    ///               &quot;flt&quot; =&gt; [1., 1., 2., 2., 3., 3.],
-    ///               &quot;int&quot; =&gt; [1, 1, 2, 2, 3, 3, ],
-    ///               &quot;str&quot; =&gt; [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;b&quot;, &quot;c&quot;, &quot;c&quot;]
-    ///           }?;
-    ///
-    /// println!(&quot;{}&quot;, df.drop_duplicates(true, None)?);
-    /// # Ok::&lt;(), PolarsError&gt;(())
-    /// ```
-    /// Returns
-    ///
-    /// ```text
-    /// +-----+-----+-----+
-    /// | flt | int | str |
-    /// | --- | --- | --- |
-    /// | f64 | i32 | str |
-    /// +=====+=====+=====+
-    /// | 1   | 1   | &quot;a&quot; |
-    /// +-----+-----+-----+
-    /// | 2   | 2   | &quot;b&quot; |
-    /// +-----+-----+-----+
-    /// | 3   | 3   | &quot;c&quot; |
-    /// +-----+-----+-----+
-    /// ```
-    </span><span class="attr">#[deprecated(note = <span class="string">&quot;use DataFrame::unique&quot;</span>)]
-    </span><span class="kw">pub fn </span>drop_duplicates(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        maintain_order: bool,
-        subset: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[String]&gt;,
-    ) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>maintain_order {
-            <span class="bool-val">true </span>=&gt; <span class="self">self</span>.unique_stable(subset, UniqueKeepStrategy::First),
-            <span class="bool-val">false </span>=&gt; <span class="self">self</span>.unique(subset, UniqueKeepStrategy::First),
-        }
-    }
-
-    <span class="doccomment">/// Drop duplicate rows from a `DataFrame`.
-    /// *This fails when there is a column of type List in DataFrame*
-    ///
     /// Stable means that the order is maintained. This has a higher cost than an unstable distinct.
     ///
     /// # Example
@@ -6663,7 +6598,7 @@
     ///               &quot;str&quot; =&gt; [&quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;b&quot;, &quot;c&quot;, &quot;c&quot;]
     ///           }?;
     ///
-    /// println!(&quot;{}&quot;, df.unique_stable(None, UniqueKeepStrategy::First)?);
+    /// println!(&quot;{}&quot;, df.unique_stable(None, UniqueKeepStrategy::First, None)?);
     /// # Ok::&lt;(), PolarsError&gt;(())
     /// ```
     /// Returns
@@ -6685,8 +6620,9 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         subset: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[String]&gt;,
         keep: UniqueKeepStrategy,
+        slice: <span class="prelude-ty">Option</span>&lt;(i64, usize)&gt;,
     ) -&gt; PolarsResult&lt;DataFrame&gt; {
-        <span class="self">self</span>.unique_impl(<span class="bool-val">true</span>, subset, keep)
+        <span class="self">self</span>.unique_impl(<span class="bool-val">true</span>, subset, keep, slice)
     }
 
     <span class="doccomment">/// Unstable distinct. See [`DataFrame::unique_stable`].
@@ -6694,15 +6630,17 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         subset: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[String]&gt;,
         keep: UniqueKeepStrategy,
+        slice: <span class="prelude-ty">Option</span>&lt;(i64, usize)&gt;,
     ) -&gt; PolarsResult&lt;DataFrame&gt; {
-        <span class="self">self</span>.unique_impl(<span class="bool-val">false</span>, subset, keep)
+        <span class="self">self</span>.unique_impl(<span class="bool-val">false</span>, subset, keep, slice)
     }
 
-    <span class="kw">fn </span>unique_impl(
+    <span class="kw">pub fn </span>unique_impl(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         maintain_order: bool,
         subset: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[String]&gt;,
         keep: UniqueKeepStrategy,
+        slice: <span class="prelude-ty">Option</span>&lt;(i64, usize)&gt;,
     ) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
         <span class="kw">let </span>names = <span class="kw">match </span><span class="kw-2">&amp;</span>subset {
             <span class="prelude-val">Some</span>(s) =&gt; s.iter().map(|s| <span class="kw-2">&amp;**</span>s).collect(),
@@ -6713,20 +6651,28 @@
             (UniqueKeepStrategy::First, <span class="bool-val">true</span>) =&gt; {
                 <span class="kw">let </span>gb = <span class="self">self</span>.groupby_stable(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>groups = gb.get_groups();
-                <span class="self">self</span>.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_first(groups) })
+                <span class="kw">let </span>(offset, len) = slice.unwrap_or((<span class="number">0</span>, groups.len()));
+                <span class="kw">let </span>groups = groups.slice(offset, len);
+                <span class="self">self</span>.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_first(<span class="kw-2">&amp;</span>groups) })
             }
             (UniqueKeepStrategy::Last, <span class="bool-val">true</span>) =&gt; {
                 <span class="comment">// maintain order by last values, so the sorted groups are not correct as they
                 // are sorted by the first value
                 </span><span class="kw">let </span>gb = <span class="self">self</span>.groupby(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>groups = gb.get_groups();
-                <span class="kw">let </span>last_idx: NoNull&lt;IdxCa&gt; = groups
-                    .iter()
-                    .map(|g| <span class="kw">match </span>g {
-                        GroupsIndicator::Idx((_first, idx)) =&gt; idx[idx.len() - <span class="number">1</span>],
-                        GroupsIndicator::Slice([first, len]) =&gt; first + len - <span class="number">1</span>,
-                    })
-                    .collect();
+
+                <span class="kw">let </span>func = |g: GroupsIndicator| <span class="kw">match </span>g {
+                    GroupsIndicator::Idx((_first, idx)) =&gt; idx[idx.len() - <span class="number">1</span>],
+                    GroupsIndicator::Slice([first, len]) =&gt; first + len - <span class="number">1</span>,
+                };
+
+                <span class="kw">let </span>last_idx: NoNull&lt;IdxCa&gt; = <span class="kw">match </span>slice {
+                    <span class="prelude-val">None </span>=&gt; groups.iter().map(func).collect(),
+                    <span class="prelude-val">Some</span>((offset, len)) =&gt; {
+                        <span class="kw">let </span>(offset, len) = slice_offsets(offset, len, groups.len());
+                        groups.iter().skip(offset).take(len).map(func).collect()
+                    }
+                };
 
                 <span class="kw">let </span>last_idx = last_idx.sort(<span class="bool-val">false</span>);
                 <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ <span class="self">self</span>.take_unchecked(<span class="kw-2">&amp;</span>last_idx) });
@@ -6734,16 +6680,24 @@
             (UniqueKeepStrategy::First, <span class="bool-val">false</span>) =&gt; {
                 <span class="kw">let </span>gb = <span class="self">self</span>.groupby(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>groups = gb.get_groups();
-                <span class="self">self</span>.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_first(groups) })
+                <span class="kw">let </span>(offset, len) = slice.unwrap_or((<span class="number">0</span>, groups.len()));
+                <span class="kw">let </span>groups = groups.slice(offset, len);
+                <span class="self">self</span>.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_first(<span class="kw-2">&amp;</span>groups) })
             }
             (UniqueKeepStrategy::Last, <span class="bool-val">false</span>) =&gt; {
                 <span class="kw">let </span>gb = <span class="self">self</span>.groupby(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>groups = gb.get_groups();
-                <span class="self">self</span>.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_last(groups) })
+                <span class="kw">let </span>(offset, len) = slice.unwrap_or((<span class="number">0</span>, groups.len()));
+                <span class="kw">let </span>groups = groups.slice(offset, len);
+                <span class="self">self</span>.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_last(<span class="kw-2">&amp;</span>groups) })
             }
             (UniqueKeepStrategy::None, <span class="kw">_</span>) =&gt; {
                 <span class="kw">let </span>df_part = <span class="self">self</span>.select(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>mask = df_part.is_unique()<span class="question-mark">?</span>;
+                <span class="kw">let </span>mask = <span class="kw">match </span>slice {
+                    <span class="prelude-val">None </span>=&gt; mask,
+                    <span class="prelude-val">Some</span>((offset, len)) =&gt; mask.slice(offset, len),
+                };
                 <span class="kw">return </span><span class="self">self</span>.filter(<span class="kw-2">&amp;</span>mask);
             }
         };
@@ -7204,7 +7158,7 @@
         }
         .unwrap();
         <span class="kw">let </span>df = df
-            .unique_stable(<span class="prelude-val">None</span>, UniqueKeepStrategy::First)
+            .unique_stable(<span class="prelude-val">None</span>, UniqueKeepStrategy::First, <span class="prelude-val">None</span>)
             .unwrap()
             .sort([<span class="string">&quot;flt&quot;</span>], <span class="bool-val">false</span>)
             .unwrap();

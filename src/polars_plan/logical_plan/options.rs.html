@@ -313,6 +313,9 @@
 <a href="#313" id="313">313</a>
 <a href="#314" id="314">314</a>
 <a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::path::PathBuf;
 
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
@@ -452,10 +455,11 @@
     </span><span class="kw">pub </span>dynamic: <span class="prelude-ty">Option</span>&lt;DynamicGroupOptions&gt;,
     <span class="attr">#[cfg(feature = <span class="string">&quot;dynamic_groupby&quot;</span>)]
     </span><span class="kw">pub </span>rolling: <span class="prelude-ty">Option</span>&lt;RollingGroupOptions&gt;,
-    <span class="kw">pub </span>slice: <span class="prelude-ty">Option</span>&lt;(i64, usize)&gt;,
+    <span class="doccomment">/// Take only a slice of the result
+    </span><span class="kw">pub </span>slice: <span class="prelude-ty">Option</span>&lt;(i64, usize)&gt;,
 }
 
-<span class="attr">#[derive(Clone, Debug, Eq, PartialEq)]
+<span class="attr">#[derive(Clone, Debug, Eq, PartialEq, Default)]
 #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 </span><span class="kw">pub struct </span>DistinctOptions {
     <span class="doccomment">/// Subset of columns that will be taken into account.
@@ -467,6 +471,8 @@
     </span><span class="kw">pub </span>maintain_order: bool,
     <span class="doccomment">/// Which rows to keep.
     </span><span class="kw">pub </span>keep_strategy: UniqueKeepStrategy,
+    <span class="doccomment">/// Take only a slice of the result
+    </span><span class="kw">pub </span>slice: <span class="prelude-ty">Option</span>&lt;(i64, usize)&gt;,
 }
 
 <span class="attr">#[derive(Copy, Clone, Debug, PartialEq, Eq)]
