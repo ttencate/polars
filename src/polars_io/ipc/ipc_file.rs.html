@@ -619,7 +619,7 @@
     <span class="kw">if let </span>PolarsError::ArrowError(<span class="kw-2">ref </span>e) = err {
         <span class="kw">if let </span>arrow::error::Error::NotYetImplemented(s) = e.as_ref() {
             <span class="kw">if </span>s == <span class="string">&quot;mmap can only be done on uncompressed IPC files&quot; </span>{
-                <span class="macro">eprint!</span>(
+                <span class="macro">eprintln!</span>(
                     <span class="string">&quot;Could not mmap compressed IPC file, defaulting to normal read. \
                     Toggle off &#39;memory_map&#39; to silence this warning.&quot;
                 </span>);
