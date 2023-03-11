@@ -1104,7 +1104,7 @@
 
             idx <span class="kw">as </span>usize
         } <span class="kw">else </span>{
-            <span class="kw">match </span>memchr::memchr2(<span class="self">self</span>.delimiter, <span class="self">self</span>.eol_char, <span class="self">self</span>.v) {
+            <span class="kw">match </span><span class="self">self</span>.v.iter().position(|<span class="kw-2">&amp;</span>c| <span class="self">self</span>.eof_oel(c)) {
                 <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="self">self</span>.finish(needs_escaping),
                 <span class="prelude-val">Some</span>(idx) =&gt; <span class="kw">unsafe </span>{
                     <span class="comment">// Safety:
