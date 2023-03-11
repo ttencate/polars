@@ -819,13 +819,13 @@
 <span class="kw">impl </span>PrimitiveParser <span class="kw">for </span>Float32Type {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>parse(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;f32&gt; {
-        lexical::parse(bytes).ok()
+        fast_float::parse(bytes).ok()
     }
 }
 <span class="kw">impl </span>PrimitiveParser <span class="kw">for </span>Float64Type {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>parse(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;f64&gt; {
-        lexical::parse(bytes).ok()
+        fast_float::parse(bytes).ok()
     }
 }
 
