@@ -958,7 +958,7 @@
 
 <span class="attr">#[inline]
 </span><span class="kw">fn </span>validate_utf8(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; bool {
-    bytes.is_ascii() || simdutf8::basic::from_utf8(bytes).is_ok()
+    simdutf8::basic::from_utf8(bytes).is_ok()
 }
 
 <span class="kw">impl </span>ParsedBuffer <span class="kw">for </span>Utf8Field {
