@@ -649,6 +649,7 @@
 <a href="#649" id="649">649</a>
 <a href="#650" id="650">650</a>
 <a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::io::Read;
 <span class="kw">use </span>std::mem::MaybeUninit;
@@ -664,7 +665,8 @@
 
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;decompress&quot;</span>, feature = <span class="string">&quot;decompress-fast&quot;</span>))]
 </span><span class="kw">use </span><span class="kw">crate</span>::csv::parser::next_line_position_naive;
-<span class="kw">use </span><span class="kw">crate</span>::csv::parser::{next_line_position, skip_bom, skip_line_ending, SplitFields, SplitLines};
+<span class="kw">use </span><span class="kw">crate</span>::csv::parser::{next_line_position, skip_bom, skip_line_ending, SplitLines};
+<span class="kw">use </span><span class="kw">crate</span>::csv::splitfields::SplitFields;
 <span class="kw">use </span><span class="kw">crate</span>::csv::CsvEncoding;
 <span class="kw">use </span><span class="kw">crate</span>::mmap::{MmapBytesReader, ReaderBytes};
 <span class="kw">use </span><span class="kw">crate</span>::prelude::NullValues;

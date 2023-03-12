@@ -176,7 +176,9 @@
 <a href="#176" id="176">176</a>
 <a href="#177" id="177">177</a>
 <a href="#178" id="178">178</a>
+<a href="#179" id="179">179</a>
 </pre><pre class="rust"><code><span class="attr">#![cfg_attr(docsrs, feature(doc_auto_cfg))]
+#![cfg_attr(feature = <span class="string">&quot;simd&quot;</span>, feature(portable_simd))]
 
 #[cfg(feature = <span class="string">&quot;avro&quot;</span>)]
 </span><span class="kw">pub mod </span>avro;
