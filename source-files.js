@@ -10,6 +10,7 @@ var sourcesIndex = JSON.parse('{\
 "async_stream":["",[],["async_stream.rs","lib.rs","next.rs","yielder.rs"]],\
 "async_stream_impl":["",[],["lib.rs"]],\
 "async_trait":["",[],["args.rs","bound.rs","expand.rs","lib.rs","lifetime.rs","parse.rs","receiver.rs"]],\
+"atoi":["",[],["lib.rs"]],\
 "base64":["",[["engine",[["general_purpose",[],["decode.rs","decode_suffix.rs","mod.rs"]]],["mod.rs"]],["read",[],["decoder.rs","mod.rs"]],["write",[],["encoder.rs","encoder_string_writer.rs","mod.rs"]]],["alphabet.rs","chunked_encoder.rs","decode.rs","display.rs","encode.rs","lib.rs","prelude.rs"]],\
 "bitflags":["",[],["lib.rs"]],\
 "brotli":["",[["concat",[],["mod.rs"]],["enc",[["backward_references",[],["hash_to_binary_tree.rs","hq.rs","mod.rs"]]],["bit_cost.rs","block_split.rs","block_splitter.rs","brotli_bit_stream.rs","cluster.rs","combined_alloc.rs","command.rs","compat.rs","compress_fragment.rs","compress_fragment_two_pass.rs","constants.rs","context_map_entropy.rs","dictionary_hash.rs","encode.rs","entropy_encode.rs","fast_log.rs","find_stride.rs","fixed_queue.rs","histogram.rs","input_pair.rs","interface.rs","ir_interpret.rs","literal_cost.rs","metablock.rs","mod.rs","multithreading.rs","parameters.rs","pdf.rs","prior_eval.rs","reader.rs","singlethreading.rs","static_dict.rs","static_dict_lut.rs","stride_eval.rs","threading.rs","utf8_util.rs","util.rs","vectorization.rs","weights.rs","worker_pool.rs","writer.rs"]],["ffi",[["multicompress",[],["mod.rs"]]],["alloc_util.rs","broccoli.rs","compressor.rs","decompressor.rs","mod.rs"]]],["lib.rs"]],\

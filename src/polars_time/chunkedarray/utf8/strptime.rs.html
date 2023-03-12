@@ -268,21 +268,39 @@
 <a href="#268" id="268">268</a>
 <a href="#269" id="269">269</a>
 <a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Much more opinionated, but also much faster strptrime than the one given in Chrono.
 //!
-</span><span class="kw">use </span>chrono::{NaiveDate, NaiveDateTime};
+</span><span class="kw">use </span>atoi::FromRadix10;
+<span class="kw">use </span>chrono::{NaiveDate, NaiveDateTime};
+<span class="kw">use </span>polars_utils::slice::GetSaferUnchecked;
 
 <span class="attr">#[inline]
-</span><span class="kw">fn </span>update_and_parse&lt;T: lexical::FromLexical&gt;(
+</span><span class="kw">fn </span>update_and_parse&lt;T: atoi::FromRadix10&gt;(
     incr: usize,
     offset: usize,
     vals: <span class="kw-2">&amp;</span>[u8],
 ) -&gt; <span class="prelude-ty">Option</span>&lt;(T, usize)&gt; {
     <span class="comment">// this maybe oob because we cannot entirely sure about fmt lengths
     </span><span class="kw">let </span>new_offset = offset + incr;
-    lexical::parse(vals.get(offset..new_offset)<span class="question-mark">?</span>)
-        .ok()
-        .map(|v| (v, new_offset))
+    <span class="kw">let </span>bytes = vals.get(offset..new_offset)<span class="question-mark">?</span>;
+    <span class="kw">let </span>(val, parsed) = T::from_radix_10(bytes);
+    <span class="kw">if </span>parsed == <span class="number">0 </span>{
+        <span class="prelude-val">None
+    </span>} <span class="kw">else </span>{
+        <span class="prelude-val">Some</span>((val, new_offset))
+    }
 }
 
 <span class="attr">#[inline]
@@ -374,7 +392,13 @@
                 }
                 <span class="string">b&#39;y&#39; </span>=&gt; {
                     <span class="kw">let </span>new_offset = offset + <span class="number">2</span>;
-                    <span class="kw">let </span>decade = lexical::parse::&lt;i32, <span class="kw">_</span>&gt;(<span class="kw-2">&amp;</span>val[offset..new_offset]).ok()<span class="question-mark">?</span>;
+                    <span class="kw">let </span>bytes = val.get_unchecked_release(offset..new_offset);
+
+                    <span class="kw">let </span>(decade, parsed) = i32::from_radix_10(bytes);
+                    <span class="kw">if </span>parsed == <span class="number">0 </span>{
+                        <span class="kw">return </span><span class="prelude-val">None</span>;
+                    }
+
                     <span class="kw">if </span>decade &lt; <span class="number">50 </span>{
                         year = <span class="number">2000 </span>+ decade;
                     } <span class="kw">else </span>{
