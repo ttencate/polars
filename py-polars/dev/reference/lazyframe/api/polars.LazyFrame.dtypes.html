@@ -1490,7 +1490,7 @@ document.write(`
 <h1>polars.LazyFrame.dtypes<a class="headerlink" href="#polars-lazyframe-dtypes" title="Permalink to this heading">#</a></h1>
 <dl class="py property">
 <dt class="sig sig-object py" id="polars.LazyFrame.dtypes">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LazyFrame.</span></span><span class="sig-name descname"><span class="pre">dtypes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">PolarsDataType</span><span class="p"><span class="pre">]</span></span></em><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/lazyframe/frame.py#L575-L597"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.LazyFrame.dtypes" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">LazyFrame.</span></span><span class="sig-name descname"><span class="pre">dtypes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">PolarsDataType</span><span class="p"><span class="pre">]</span></span></em><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/internals/lazyframe/frame.py#L570-L592"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.LazyFrame.dtypes" title="Permalink to this definition">#</a></dt>
 <dd><p>Get dtypes of columns in LazyFrame.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1500,13 +1500,13 @@ document.write(`
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lf</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lf</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">LazyFrame</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="p">{</span>
 <span class="gp">... </span>        <span class="s2">&quot;foo&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
 <span class="gp">... </span>        <span class="s2">&quot;bar&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">6.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">],</span>
 <span class="gp">... </span>        <span class="s2">&quot;ham&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">],</span>
 <span class="gp">... </span>    <span class="p">}</span>
-<span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">lazy</span><span class="p">()</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lf</span><span class="o">.</span><span class="n">dtypes</span>
 <span class="go">[Int64, Float64, Utf8]</span>
 </pre></div>
