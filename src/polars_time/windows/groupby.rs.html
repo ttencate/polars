@@ -489,6 +489,10 @@
 <a href="#489" id="489">489</a>
 <a href="#490" id="490">490</a>
 <a href="#491" id="491">491</a>
+<a href="#492" id="492">492</a>
+<a href="#493" id="493">493</a>
+<a href="#494" id="494">494</a>
+<a href="#495" id="495">495</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
 
 <span class="kw">use </span>polars_arrow::trusted_len::TrustedLen;
@@ -681,8 +685,9 @@
             }
             last = <span class="kw-2">*</span>lower;
             i += start_offset;
-            <span class="kw">let </span>lower = add(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower);
-            <span class="kw">let </span>upper = add(<span class="kw-2">&amp;</span>period, lower);
+            <span class="comment">// TODO remove unwrap once time zone is respected
+            </span><span class="kw">let </span>lower = add(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower, NO_TIMEZONE).unwrap();
+            <span class="kw">let </span>upper = add(<span class="kw-2">&amp;</span>period, lower, NO_TIMEZONE).unwrap();
 
             <span class="kw">let </span>b = Bounds::new(lower, upper);
 
@@ -735,8 +740,9 @@
             <span class="macro">panic!</span>(<span class="string">&quot;index column of &#39;groupby_rolling&#39; must be sorted!&quot;</span>)
         }
         last = <span class="kw-2">*</span>lower;
-        <span class="kw">let </span>lower = add(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower);
-        <span class="kw">let </span>upper = add(<span class="kw-2">&amp;</span>period, lower);
+        <span class="comment">// TODO remove unwrap once time zone is respected
+        </span><span class="kw">let </span>lower = add(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower, NO_TIMEZONE).unwrap();
+        <span class="kw">let </span>upper = add(<span class="kw-2">&amp;</span>period, lower, NO_TIMEZONE).unwrap();
 
         <span class="kw">let </span>b = Bounds::new(lower, upper);
         <span class="kw">if </span>b.is_future(time[<span class="number">0</span>], closed_window) {
@@ -789,8 +795,9 @@
             <span class="macro">panic!</span>(<span class="string">&quot;index column of &#39;groupby_rolling&#39; must be sorted!&quot;</span>)
         }
         last = <span class="kw-2">*</span>lower;
-        <span class="kw">let </span>lower = add(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower);
-        <span class="kw">let </span>upper = add(<span class="kw-2">&amp;</span>period, lower);
+        <span class="comment">// TODO remove unwrap once time zone is respected
+        </span><span class="kw">let </span>lower = add(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower, NO_TIMEZONE).unwrap();
+        <span class="kw">let </span>upper = add(<span class="kw-2">&amp;</span>period, lower, NO_TIMEZONE).unwrap();
 
         <span class="kw">let </span>b = Bounds::new(lower, upper);
 
@@ -838,8 +845,9 @@
             }
             last = <span class="kw-2">*</span>lower;
             i += start_offset;
-            <span class="kw">let </span>lower = add(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower);
-            <span class="kw">let </span>upper = add(<span class="kw-2">&amp;</span>period, lower);
+            <span class="comment">// TODO remove unwrap once time zone is respected
+            </span><span class="kw">let </span>lower = add(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower, NO_TIMEZONE).unwrap();
+            <span class="kw">let </span>upper = add(<span class="kw-2">&amp;</span>period, lower, NO_TIMEZONE).unwrap();
 
             <span class="kw">let </span>b = Bounds::new(lower, upper);
 
