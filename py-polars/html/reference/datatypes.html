@@ -1334,6 +1334,7 @@ document.write(`
 </li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Data types</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-51" name="toctree-checkbox-51" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-51"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.DataType.html">polars.DataType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.Decimal.html">polars.Decimal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Float32.html">polars.Float32</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Float64.html">polars.Float64</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Int16.html">polars.Int16</a></li>
@@ -1491,41 +1492,44 @@ document.write(`
 <h2>Numeric<a class="headerlink" href="#numeric" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Float32.html#polars.Float32" title="polars.Float32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Float32</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Decimal.html#polars.Decimal" title="polars.Decimal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Decimal</span></code></a></p></td>
+<td><p>Decimal 128-bit type with an optional precision and non-negative scale.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Float32.html#polars.Float32" title="polars.Float32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Float32</span></code></a></p></td>
 <td><p>32-bit floating point type.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Float64.html#polars.Float64" title="polars.Float64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Float64</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Float64.html#polars.Float64" title="polars.Float64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Float64</span></code></a></p></td>
 <td><p>64-bit floating point type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Int16.html#polars.Int16" title="polars.Int16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Int16</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Int16.html#polars.Int16" title="polars.Int16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Int16</span></code></a></p></td>
 <td><p>16-bit signed integer type.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Int32.html#polars.Int32" title="polars.Int32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Int32</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Int32.html#polars.Int32" title="polars.Int32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Int32</span></code></a></p></td>
 <td><p>32-bit signed integer type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Int64.html#polars.Int64" title="polars.Int64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Int64</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Int64.html#polars.Int64" title="polars.Int64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Int64</span></code></a></p></td>
 <td><p>64-bit signed integer type.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Int8.html#polars.Int8" title="polars.Int8"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Int8</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Int8.html#polars.Int8" title="polars.Int8"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Int8</span></code></a></p></td>
 <td><p>8-bit signed integer type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.UInt16.html#polars.UInt16" title="polars.UInt16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UInt16</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.UInt16.html#polars.UInt16" title="polars.UInt16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UInt16</span></code></a></p></td>
 <td><p>16-bit unsigned integer type.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.UInt32.html#polars.UInt32" title="polars.UInt32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UInt32</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.UInt32.html#polars.UInt32" title="polars.UInt32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UInt32</span></code></a></p></td>
 <td><p>32-bit unsigned integer type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.UInt64.html#polars.UInt64" title="polars.UInt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UInt64</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.UInt64.html#polars.UInt64" title="polars.UInt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UInt64</span></code></a></p></td>
 <td><p>64-bit unsigned integer type.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.UInt8.html#polars.UInt8" title="polars.UInt8"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UInt8</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.UInt8.html#polars.UInt8" title="polars.UInt8"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UInt8</span></code></a></p></td>
 <td><p>8-bit unsigned integer type.</p></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="date-time">
-<h2>Date / Time<a class="headerlink" href="#date-time" title="Permalink to this heading">#</a></h2>
+<section id="temporal">
+<h2>Temporal<a class="headerlink" href="#temporal" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Date.html#polars.Date" title="polars.Date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Date</span></code></a></p></td>
@@ -1628,7 +1632,7 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numeric">Numeric</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#date-time">Date / Time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal">Temporal</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nested">Nested</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other">Other</a></li>
 </ul>

@@ -1334,6 +1334,7 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../datatypes.html">Data types</a><input class="toctree-checkbox" id="toctree-checkbox-51" name="toctree-checkbox-51" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-51"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.DataType.html">polars.DataType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.Decimal.html">polars.Decimal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Float32.html">polars.Float32</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Float64.html">polars.Float64</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Int16.html">polars.Int16</a></li>
@@ -1510,13 +1511,13 @@ document.write(`
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lf</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">LazyFrame</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="p">{</span>
 <span class="gp">... </span>        <span class="s2">&quot;foo&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
 <span class="gp">... </span>        <span class="s2">&quot;bar&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
 <span class="gp">... </span>    <span class="p">}</span>
-<span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">lazy</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">write_json</span><span class="p">()</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lf</span><span class="o">.</span><span class="n">write_json</span><span class="p">()</span>
 <span class="go">&#39;{&quot;DataFrameScan&quot;:{&quot;df&quot;:{&quot;columns&quot;:[{&quot;name&quot;:&quot;foo&quot;,&quot;datatype&quot;:&quot;Int64&quot;,&quot;values&quot;:[1,2,3]},{&quot;name&quot;:&quot;bar&quot;,&quot;datatype&quot;:&quot;Int64&quot;,&quot;values&quot;:[6,7,8]}]},&quot;schema&quot;:{&quot;inner&quot;:{&quot;foo&quot;:&quot;Int64&quot;,&quot;bar&quot;:&quot;Int64&quot;}},&quot;output_schema&quot;:null,&quot;projection&quot;:null,&quot;selection&quot;:null}}&#39;</span>
 </pre></div>
 </div>
