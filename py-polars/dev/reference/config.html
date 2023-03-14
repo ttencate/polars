@@ -1365,6 +1365,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Config.set_ascii_tables.html">polars.Config.set_ascii_tables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Config.set_fmt_float.html">polars.Config.set_fmt_float</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Config.set_fmt_str_lengths.html">polars.Config.set_fmt_str_lengths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.Config.set_streaming_chunk_size.html">polars.Config.set_streaming_chunk_size</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Config.set_tbl_cell_alignment.html">polars.Config.set_tbl_cell_alignment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Config.set_tbl_cols.html">polars.Config.set_tbl_cols</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Config.set_tbl_column_data_type_inline.html">polars.Config.set_tbl_column_data_type_inline</a></li>
@@ -1497,40 +1498,43 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.set_fmt_str_lengths.html#polars.Config.set_fmt_str_lengths" title="polars.Config.set_fmt_str_lengths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_fmt_str_lengths</span></code></a>(n)</p></td>
 <td><p>Set the number of characters used to print string values.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_cell_alignment.html#polars.Config.set_tbl_cell_alignment" title="polars.Config.set_tbl_cell_alignment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_cell_alignment</span></code></a>(format)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.set_streaming_chunk_size.html#polars.Config.set_streaming_chunk_size" title="polars.Config.set_streaming_chunk_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_streaming_chunk_size</span></code></a>(size)</p></td>
+<td><p>Overwrite chunk size used in <code class="docutils literal notranslate"><span class="pre">streaming</span></code> engine.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_cell_alignment.html#polars.Config.set_tbl_cell_alignment" title="polars.Config.set_tbl_cell_alignment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_cell_alignment</span></code></a>(format)</p></td>
 <td><p>Set table cell alignment.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_cols.html#polars.Config.set_tbl_cols" title="polars.Config.set_tbl_cols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_cols</span></code></a>(n)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_cols.html#polars.Config.set_tbl_cols" title="polars.Config.set_tbl_cols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_cols</span></code></a>(n)</p></td>
 <td><p>Set the number of columns used to print tables.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_column_data_type_inline.html#polars.Config.set_tbl_column_data_type_inline" title="polars.Config.set_tbl_column_data_type_inline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_column_data_type_inline</span></code></a>([active])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_column_data_type_inline.html#polars.Config.set_tbl_column_data_type_inline" title="polars.Config.set_tbl_column_data_type_inline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_column_data_type_inline</span></code></a>([active])</p></td>
 <td><p>Moves the data type inline with the column name (to the right, in parentheses).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_dataframe_shape_below.html#polars.Config.set_tbl_dataframe_shape_below" title="polars.Config.set_tbl_dataframe_shape_below"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_dataframe_shape_below</span></code></a>([active])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_dataframe_shape_below.html#polars.Config.set_tbl_dataframe_shape_below" title="polars.Config.set_tbl_dataframe_shape_below"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_dataframe_shape_below</span></code></a>([active])</p></td>
 <td><p>Print the dataframe shape below the dataframe when displaying tables.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_formatting.html#polars.Config.set_tbl_formatting" title="polars.Config.set_tbl_formatting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_formatting</span></code></a>([format, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_formatting.html#polars.Config.set_tbl_formatting" title="polars.Config.set_tbl_formatting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_formatting</span></code></a>([format, ...])</p></td>
 <td><p>Set table formatting style.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_hide_column_data_types.html#polars.Config.set_tbl_hide_column_data_types" title="polars.Config.set_tbl_hide_column_data_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_hide_column_data_types</span></code></a>([active])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_hide_column_data_types.html#polars.Config.set_tbl_hide_column_data_types" title="polars.Config.set_tbl_hide_column_data_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_hide_column_data_types</span></code></a>([active])</p></td>
 <td><p>Hide table column data types (i64, f64, str etc.).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_hide_column_names.html#polars.Config.set_tbl_hide_column_names" title="polars.Config.set_tbl_hide_column_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_hide_column_names</span></code></a>([active])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_hide_column_names.html#polars.Config.set_tbl_hide_column_names" title="polars.Config.set_tbl_hide_column_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_hide_column_names</span></code></a>([active])</p></td>
 <td><p>Hide table column names.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_hide_dataframe_shape.html#polars.Config.set_tbl_hide_dataframe_shape" title="polars.Config.set_tbl_hide_dataframe_shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_hide_dataframe_shape</span></code></a>([active])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_hide_dataframe_shape.html#polars.Config.set_tbl_hide_dataframe_shape" title="polars.Config.set_tbl_hide_dataframe_shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_hide_dataframe_shape</span></code></a>([active])</p></td>
 <td><p>Hide the shape information of the dataframe when displaying tables.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_hide_dtype_separator.html#polars.Config.set_tbl_hide_dtype_separator" title="polars.Config.set_tbl_hide_dtype_separator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_hide_dtype_separator</span></code></a>([active])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_hide_dtype_separator.html#polars.Config.set_tbl_hide_dtype_separator" title="polars.Config.set_tbl_hide_dtype_separator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_hide_dtype_separator</span></code></a>([active])</p></td>
 <td><p>Hide the '---' separator between the column names and column types.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_rows.html#polars.Config.set_tbl_rows" title="polars.Config.set_tbl_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_rows</span></code></a>(n)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_rows.html#polars.Config.set_tbl_rows" title="polars.Config.set_tbl_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_rows</span></code></a>(n)</p></td>
 <td><p>Set the max number of rows used to draw the table (both Dataframe and Series).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_width_chars.html#polars.Config.set_tbl_width_chars" title="polars.Config.set_tbl_width_chars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_width_chars</span></code></a>(width)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.set_tbl_width_chars.html#polars.Config.set_tbl_width_chars" title="polars.Config.set_tbl_width_chars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_tbl_width_chars</span></code></a>(width)</p></td>
 <td><p>Set the number of characters used to draw the table.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.set_verbose.html#polars.Config.set_verbose" title="polars.Config.set_verbose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_verbose</span></code></a>([active])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.set_verbose.html#polars.Config.set_verbose" title="polars.Config.set_verbose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.set_verbose</span></code></a>([active])</p></td>
 <td><p>Enable additional verbose/debug logging.</p></td>
 </tr>
 </tbody>
