@@ -1494,7 +1494,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.argsort.html#polars.Series.argsort" title="polars.Series.argsort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.argsort</span></code></a>([descending, nulls_last])</p></td>
 <td><p>Get the index values that would sort this Series.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.cast.html#polars.Series.cast" title="polars.Series.cast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.cast</span></code></a>(dtype[, strict])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.cast.html#polars.Series.cast" title="polars.Series.cast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.cast</span></code></a>(dtype, *[, strict])</p></td>
 <td><p>Cast between data types.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.ceil.html#polars.Series.ceil" title="polars.Series.ceil"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.ceil</span></code></a>()</p></td>
@@ -1557,7 +1557,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.new_from_index.html#polars.Series.new_from_index" title="polars.Series.new_from_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.new_from_index</span></code></a>(index, length)</p></td>
 <td><p>Create a new Series filled with values from the given index.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.rechunk.html#polars.Series.rechunk" title="polars.Series.rechunk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rechunk</span></code></a>([in_place])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.rechunk.html#polars.Series.rechunk" title="polars.Series.rechunk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rechunk</span></code></a>(*[, in_place])</p></td>
 <td><p>Create a single chunk of memory for this Series.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.rename.html#polars.Series.rename" title="polars.Series.rename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rename</span></code></a>(name[, in_place])</p></td>
@@ -1614,7 +1614,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.to_dummies.html#polars.Series.to_dummies" title="polars.Series.to_dummies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.to_dummies</span></code></a>([separator])</p></td>
 <td><p>Get dummy/indicator variables.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.top_k.html#polars.Series.top_k" title="polars.Series.top_k"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.top_k</span></code></a>([k, descending])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.top_k.html#polars.Series.top_k" title="polars.Series.top_k"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.top_k</span></code></a>(*[, k, descending])</p></td>
 <td><p>Return the <cite>k</cite> largest elements.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.unique.html#polars.Series.unique" title="polars.Series.unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.unique</span></code></a>([maintain_order])</p></td>
