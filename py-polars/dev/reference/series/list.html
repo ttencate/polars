@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Strings &#8212; Polars  documentation</title>
+    <title>List &#8212; Polars  documentation</title>
   
   
   
@@ -49,11 +49,11 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/series/strings';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/series/list';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="polars.Series.str.concat" href="api/polars.Series.str.concat.html" />
-    <link rel="prev" title="polars.Series.get_chunks" href="api/polars.Series.get_chunks.html" />
+    <link rel="next" title="polars.Series.arr.arg_max" href="api/polars.Series.arr.arg_max.html" />
+    <link rel="prev" title="polars.Series.to_pandas" href="api/polars.Series.to_pandas.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -411,36 +411,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.var.html">polars.Series.var</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="array.html">Array</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.arg_max.html">polars.Series.arr.arg_max</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.arg_min.html">polars.Series.arr.arg_min</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.concat.html">polars.Series.arr.concat</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.contains.html">polars.Series.arr.contains</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.count_match.html">polars.Series.arr.count_match</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.diff.html">polars.Series.arr.diff</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.eval.html">polars.Series.arr.eval</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.explode.html">polars.Series.arr.explode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.first.html">polars.Series.arr.first</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.get.html">polars.Series.arr.get</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.head.html">polars.Series.arr.head</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.join.html">polars.Series.arr.join</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.last.html">polars.Series.arr.last</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.lengths.html">polars.Series.arr.lengths</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.max.html">polars.Series.arr.max</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.mean.html">polars.Series.arr.mean</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.min.html">polars.Series.arr.min</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.reverse.html">polars.Series.arr.reverse</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.shift.html">polars.Series.arr.shift</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.slice.html">polars.Series.arr.slice</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.sort.html">polars.Series.arr.sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.sum.html">polars.Series.arr.sum</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.tail.html">polars.Series.arr.tail</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.take.html">polars.Series.arr.take</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.to_struct.html">polars.Series.arr.to_struct</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.unique.html">polars.Series.arr.unique</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="attributes.html">Attributes</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="attributes.html">Attributes</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.html">polars.Series.arr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.cat.html">polars.Series.cat</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.dt.html">polars.Series.dt</a></li>
@@ -453,7 +424,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.flags.html">polars.Series.flags</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="binary.html">Binary</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="binary.html">Binary</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.bin.contains.html">polars.Series.bin.contains</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.bin.decode.html">polars.Series.bin.decode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.bin.encode.html">polars.Series.bin.encode</a></li>
@@ -461,16 +432,16 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.bin.starts_with.html">polars.Series.bin.starts_with</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="boolean.html">Boolean</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="boolean.html">Boolean</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.all.html">polars.Series.all</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.any.html">polars.Series.any</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="categories.html">Categories</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="categories.html">Categories</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.cat.set_ordering.html">polars.Series.cat.set_ordering</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="computation.html">Computation</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="computation.html">Computation</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.abs.html">polars.Series.abs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arccos.html">polars.Series.arccos</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arccosh.html">polars.Series.arccosh</a></li>
@@ -524,7 +495,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.tanh.html">polars.Series.tanh</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="descriptive.html">Descriptive</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="descriptive.html">Descriptive</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.chunk_lengths.html">polars.Series.chunk_lengths</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.describe.html">polars.Series.describe</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.estimated_size.html">polars.Series.estimated_size</a></li>
@@ -556,12 +527,41 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.value_counts.html">polars.Series.value_counts</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="export.html">Export</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="export.html">Export</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.to_arrow.html">polars.Series.to_arrow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.to_frame.html">polars.Series.to_frame</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.to_list.html">polars.Series.to_list</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.to_numpy.html">polars.Series.to_numpy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.to_pandas.html">polars.Series.to_pandas</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">List</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.arg_max.html">polars.Series.arr.arg_max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.arg_min.html">polars.Series.arr.arg_min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.concat.html">polars.Series.arr.concat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.contains.html">polars.Series.arr.contains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.count_match.html">polars.Series.arr.count_match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.diff.html">polars.Series.arr.diff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.eval.html">polars.Series.arr.eval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.explode.html">polars.Series.arr.explode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.first.html">polars.Series.arr.first</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.get.html">polars.Series.arr.get</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.head.html">polars.Series.arr.head</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.join.html">polars.Series.arr.join</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.last.html">polars.Series.arr.last</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.lengths.html">polars.Series.arr.lengths</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.max.html">polars.Series.arr.max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.mean.html">polars.Series.arr.mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.min.html">polars.Series.arr.min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.reverse.html">polars.Series.arr.reverse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.shift.html">polars.Series.arr.shift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.slice.html">polars.Series.arr.slice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.sort.html">polars.Series.arr.sort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.sum.html">polars.Series.arr.sum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.tail.html">polars.Series.arr.tail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.take.html">polars.Series.arr.take</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.to_struct.html">polars.Series.arr.to_struct</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.arr.unique.html">polars.Series.arr.unique</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="modify_select.html">Manipulation/selection</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -624,7 +624,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.get_chunks.html">polars.Series.get_chunks</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Strings</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="string.html">String</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.str.concat.html">polars.Series.str.concat</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.str.contains.html">polars.Series.str.contains</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.str.count_match.html">polars.Series.str.count_match</a></li>
@@ -664,7 +664,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.struct.fields.html">polars.Series.struct.fields</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="timeseries.html">Temporal</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="temporal.html">Temporal</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.dt.cast_time_unit.html">polars.Series.dt.cast_time_unit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.dt.replace_time_zone.html">polars.Series.dt.replace_time_zone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.dt.combine.html">polars.Series.dt.combine</a></li>
@@ -964,36 +964,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.var.html">polars.Expr.var</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/array.html">Array</a><input class="toctree-checkbox" id="toctree-checkbox-35" name="toctree-checkbox-35" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-35"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.arg_max.html">polars.Expr.arr.arg_max</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.arg_min.html">polars.Expr.arr.arg_min</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.concat.html">polars.Expr.arr.concat</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.contains.html">polars.Expr.arr.contains</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.count_match.html">polars.Expr.arr.count_match</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.diff.html">polars.Expr.arr.diff</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.eval.html">polars.Expr.arr.eval</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.explode.html">polars.Expr.arr.explode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.first.html">polars.Expr.arr.first</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.get.html">polars.Expr.arr.get</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.head.html">polars.Expr.arr.head</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.join.html">polars.Expr.arr.join</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.last.html">polars.Expr.arr.last</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.lengths.html">polars.Expr.arr.lengths</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.max.html">polars.Expr.arr.max</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.mean.html">polars.Expr.arr.mean</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.min.html">polars.Expr.arr.min</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.reverse.html">polars.Expr.arr.reverse</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.shift.html">polars.Expr.arr.shift</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.slice.html">polars.Expr.arr.slice</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.sort.html">polars.Expr.arr.sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.sum.html">polars.Expr.arr.sum</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.tail.html">polars.Expr.arr.tail</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.take.html">polars.Expr.arr.take</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.to_struct.html">polars.Expr.arr.to_struct</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.unique.html">polars.Expr.arr.unique</a></li>
-</ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/binary.html">Binary</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-36"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/binary.html">Binary</a><input class="toctree-checkbox" id="toctree-checkbox-35" name="toctree-checkbox-35" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-35"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.bin.contains.html">polars.Expr.bin.contains</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.bin.decode.html">polars.Expr.bin.decode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.bin.encode.html">polars.Expr.bin.encode</a></li>
@@ -1001,7 +972,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.bin.starts_with.html">polars.Expr.bin.starts_with</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/boolean.html">Boolean</a><input class="toctree-checkbox" id="toctree-checkbox-37" name="toctree-checkbox-37" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-37"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/boolean.html">Boolean</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-36"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.all.html">polars.Expr.all</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.any.html">polars.Expr.any</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.is_between.html">polars.Expr.is_between</a></li>
@@ -1018,11 +989,11 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.is_unique.html">polars.Expr.is_unique</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/categories.html">Categories</a><input class="toctree-checkbox" id="toctree-checkbox-38" name="toctree-checkbox-38" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-38"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/categories.html">Categories</a><input class="toctree-checkbox" id="toctree-checkbox-37" name="toctree-checkbox-37" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-37"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cat.set_ordering.html">polars.Expr.cat.set_ordering</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/columns.html">Columns / names</a><input class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-39"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/columns.html">Columns / names</a><input class="toctree-checkbox" id="toctree-checkbox-38" name="toctree-checkbox-38" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-38"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.col.html">polars.col</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.alias.html">polars.Expr.alias</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.exclude.html">polars.Expr.exclude</a></li>
@@ -1032,7 +1003,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.suffix.html">polars.Expr.suffix</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/computation.html">Computation</a><input class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-40"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/computation.html">Computation</a><input class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-39"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.abs.html">polars.Expr.abs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arccos.html">polars.Expr.arccos</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arccosh.html">polars.Expr.arccosh</a></li>
@@ -1089,7 +1060,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.value_counts.html">polars.Expr.value_counts</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/functions.html">Functions</a><input class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-41"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/functions.html">Functions</a><input class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-40"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.all.html">polars.all</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.any.html">polars.any</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.apply.html">polars.apply</a></li>
@@ -1158,6 +1129,35 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.var.html">polars.Expr.var</a></li>
 </ul>
 </li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/list.html">List</a><input class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-41"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.arg_max.html">polars.Expr.arr.arg_max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.arg_min.html">polars.Expr.arr.arg_min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.concat.html">polars.Expr.arr.concat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.contains.html">polars.Expr.arr.contains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.count_match.html">polars.Expr.arr.count_match</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.diff.html">polars.Expr.arr.diff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.eval.html">polars.Expr.arr.eval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.explode.html">polars.Expr.arr.explode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.first.html">polars.Expr.arr.first</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.get.html">polars.Expr.arr.get</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.head.html">polars.Expr.arr.head</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.join.html">polars.Expr.arr.join</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.last.html">polars.Expr.arr.last</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.lengths.html">polars.Expr.arr.lengths</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.max.html">polars.Expr.arr.max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.mean.html">polars.Expr.arr.mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.min.html">polars.Expr.arr.min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.reverse.html">polars.Expr.arr.reverse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.shift.html">polars.Expr.arr.shift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.slice.html">polars.Expr.arr.slice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.sort.html">polars.Expr.arr.sort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.sum.html">polars.Expr.arr.sum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.tail.html">polars.Expr.arr.tail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.take.html">polars.Expr.arr.take</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.to_struct.html">polars.Expr.arr.to_struct</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.unique.html">polars.Expr.arr.unique</a></li>
+</ul>
+</li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/modify_select.html">Manipulation/selection</a><input class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-42"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.append.html">polars.Expr.append</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arg_sort.html">polars.Expr.arg_sort</a></li>
@@ -1221,7 +1221,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.set_sorted.html">polars.Expr.set_sorted</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/strings.html">Strings</a><input class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-45"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/string.html">String</a><input class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-45"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.concat.html">polars.Expr.str.concat</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.contains.html">polars.Expr.str.contains</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.str.count_match.html">polars.Expr.str.count_match</a></li>
@@ -1259,7 +1259,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.struct.rename_fields.html">polars.Expr.struct.rename_fields</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/timeseries.html">Temporal</a><input class="toctree-checkbox" id="toctree-checkbox-47" name="toctree-checkbox-47" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-47"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/temporal.html">Temporal</a><input class="toctree-checkbox" id="toctree-checkbox-47" name="toctree-checkbox-47" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-47"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.cast_time_unit.html">polars.Expr.dt.cast_time_unit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.replace_time_zone.html">polars.Expr.dt.replace_time_zone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.combine.html">polars.Expr.dt.combine</a></li>
@@ -1462,7 +1462,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Series</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Strings</li>
+    <li class="breadcrumb-item active" aria-current="page">List</li>
   </ul>
 </nav>
 </div>
@@ -1479,100 +1479,88 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="strings">
-<h1>Strings<a class="headerlink" href="#strings" title="Permalink to this heading">#</a></h1>
-<p>The following methods are available under the <cite>Series.str</cite> attribute.</p>
+  <section id="list">
+<h1>List<a class="headerlink" href="#list" title="Permalink to this heading">#</a></h1>
+<p>The following methods are available under the <cite>Series.arr</cite> attribute.</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.concat.html#polars.Series.str.concat" title="polars.Series.str.concat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.concat</span></code></a>([delimiter])</p></td>
-<td><p>Vertically concat the values in the Series to a single string value.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.arg_max.html#polars.Series.arr.arg_max" title="polars.Series.arr.arg_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.arg_max</span></code></a>()</p></td>
+<td><p>Retrieve the index of the maximum value in every sublist.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.contains.html#polars.Series.str.contains" title="polars.Series.str.contains"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.contains</span></code></a>(pattern[, literal, strict])</p></td>
-<td><p>Check if strings in Series contain a substring that matches a regex.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.arg_min.html#polars.Series.arr.arg_min" title="polars.Series.arr.arg_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.arg_min</span></code></a>()</p></td>
+<td><p>Retrieve the index of the minimal value in every sublist.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.count_match.html#polars.Series.str.count_match" title="polars.Series.str.count_match"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.count_match</span></code></a>(pattern)</p></td>
-<td><p>Count all successive non-overlapping regex matches.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.concat.html#polars.Series.arr.concat" title="polars.Series.arr.concat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.concat</span></code></a>(other)</p></td>
+<td><p>Concat the arrays in a Series dtype List in linear time.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.decode.html#polars.Series.str.decode" title="polars.Series.str.decode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.decode</span></code></a>(encoding, *[, strict])</p></td>
-<td><p>Decode a value using the provided encoding.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.contains.html#polars.Series.arr.contains" title="polars.Series.arr.contains"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.contains</span></code></a>(item)</p></td>
+<td><p>Check if sublists contain the given item.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.encode.html#polars.Series.str.encode" title="polars.Series.str.encode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.encode</span></code></a>(encoding)</p></td>
-<td><p>Encode a value using the provided encoding.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.count_match.html#polars.Series.arr.count_match" title="polars.Series.arr.count_match"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.count_match</span></code></a>(element)</p></td>
+<td><p>Count how often the value produced by <code class="docutils literal notranslate"><span class="pre">element</span></code> occurs.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.ends_with.html#polars.Series.str.ends_with" title="polars.Series.str.ends_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.ends_with</span></code></a>(sub)</p></td>
-<td><p>Check if string values end with a substring.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.diff.html#polars.Series.arr.diff" title="polars.Series.arr.diff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.diff</span></code></a>([n, null_behavior])</p></td>
+<td><p>Calculate the n-th discrete difference of every sublist.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.explode.html#polars.Series.str.explode" title="polars.Series.str.explode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.explode</span></code></a>()</p></td>
-<td><p>Returns a column with a separate row for every string character.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.eval.html#polars.Series.arr.eval" title="polars.Series.arr.eval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.eval</span></code></a>(expr[, parallel])</p></td>
+<td><p>Run any polars expression against the lists' elements.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.extract.html#polars.Series.str.extract" title="polars.Series.str.extract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.extract</span></code></a>(pattern[, group_index])</p></td>
-<td><p>Extract the target capture group from provided patterns.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.explode.html#polars.Series.arr.explode" title="polars.Series.arr.explode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.explode</span></code></a>()</p></td>
+<td><p>Returns a column with a separate row for every list element.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.extract_all.html#polars.Series.str.extract_all" title="polars.Series.str.extract_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.extract_all</span></code></a>(pattern)</p></td>
-<td><p>Extracts all matches for the given regex pattern.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.first.html#polars.Series.arr.first" title="polars.Series.arr.first"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.first</span></code></a>()</p></td>
+<td><p>Get the first value of the sublists.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.json_extract.html#polars.Series.str.json_extract" title="polars.Series.str.json_extract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.json_extract</span></code></a>([dtype])</p></td>
-<td><p>Parse string values as JSON.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.get.html#polars.Series.arr.get" title="polars.Series.arr.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.get</span></code></a>(index)</p></td>
+<td><p>Get the value by index in the sublists.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.json_path_match.html#polars.Series.str.json_path_match" title="polars.Series.str.json_path_match"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.json_path_match</span></code></a>(json_path)</p></td>
-<td><p>Extract the first match of json string with provided JSONPath expression.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.head.html#polars.Series.arr.head" title="polars.Series.arr.head"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.head</span></code></a>([n])</p></td>
+<td><p>Slice the first <cite>n</cite> values of every sublist.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.lengths.html#polars.Series.str.lengths" title="polars.Series.str.lengths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.lengths</span></code></a>()</p></td>
-<td><p>Get length of the string values in the Series (as number of bytes).</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.join.html#polars.Series.arr.join" title="polars.Series.arr.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.join</span></code></a>(separator)</p></td>
+<td><p>Join all string items in a sublist and place a separator between them.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.ljust.html#polars.Series.str.ljust" title="polars.Series.str.ljust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.ljust</span></code></a>(width[, fillchar])</p></td>
-<td><p>Return the string left justified in a string of length <code class="docutils literal notranslate"><span class="pre">width</span></code>.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.last.html#polars.Series.arr.last" title="polars.Series.arr.last"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.last</span></code></a>()</p></td>
+<td><p>Get the last value of the sublists.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.lstrip.html#polars.Series.str.lstrip" title="polars.Series.str.lstrip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.lstrip</span></code></a>([matches])</p></td>
-<td><p>Remove leading characters.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.lengths.html#polars.Series.arr.lengths" title="polars.Series.arr.lengths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.lengths</span></code></a>()</p></td>
+<td><p>Get the length of the arrays as UInt32.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.n_chars.html#polars.Series.str.n_chars" title="polars.Series.str.n_chars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.n_chars</span></code></a>()</p></td>
-<td><p>Get length of the string values in the Series (as number of chars).</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.max.html#polars.Series.arr.max" title="polars.Series.arr.max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.max</span></code></a>()</p></td>
+<td><p>Compute the max value of the arrays in the list.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.replace.html#polars.Series.str.replace" title="polars.Series.str.replace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.replace</span></code></a>(pattern, value[, literal])</p></td>
-<td><p>Replace first matching regex/literal substring with a new string value.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.mean.html#polars.Series.arr.mean" title="polars.Series.arr.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.mean</span></code></a>()</p></td>
+<td><p>Compute the mean value of the arrays in the list.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.replace_all.html#polars.Series.str.replace_all" title="polars.Series.str.replace_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.replace_all</span></code></a>(pattern, value[, literal])</p></td>
-<td><p>Replace all matching regex/literal substrings with a new string value.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.min.html#polars.Series.arr.min" title="polars.Series.arr.min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.min</span></code></a>()</p></td>
+<td><p>Compute the min value of the arrays in the list.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.rjust.html#polars.Series.str.rjust" title="polars.Series.str.rjust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.rjust</span></code></a>(width[, fillchar])</p></td>
-<td><p>Return the string right justified in a string of length <code class="docutils literal notranslate"><span class="pre">width</span></code>.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.reverse.html#polars.Series.arr.reverse" title="polars.Series.arr.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.reverse</span></code></a>()</p></td>
+<td><p>Reverse the arrays in the list.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.rstrip.html#polars.Series.str.rstrip" title="polars.Series.str.rstrip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.rstrip</span></code></a>([matches])</p></td>
-<td><p>Remove trailing characters.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.shift.html#polars.Series.arr.shift" title="polars.Series.arr.shift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.shift</span></code></a>([periods])</p></td>
+<td><p>Shift values by the given period.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.slice.html#polars.Series.str.slice" title="polars.Series.str.slice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.slice</span></code></a>(offset[, length])</p></td>
-<td><p>Create subslices of the string values of a Utf8 Series.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.slice.html#polars.Series.arr.slice" title="polars.Series.arr.slice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.slice</span></code></a>(offset[, length])</p></td>
+<td><p>Slice every sublist.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.split.html#polars.Series.str.split" title="polars.Series.str.split"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.split</span></code></a>(by[, inclusive])</p></td>
-<td><p>Split the string by a substring.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.sort.html#polars.Series.arr.sort" title="polars.Series.arr.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.sort</span></code></a>(*[, descending])</p></td>
+<td><p>Sort the arrays in this column.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.split_exact.html#polars.Series.str.split_exact" title="polars.Series.str.split_exact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.split_exact</span></code></a>(by, n[, inclusive])</p></td>
-<td><p>Split the string by a substring using <code class="docutils literal notranslate"><span class="pre">n</span></code> splits.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.sum.html#polars.Series.arr.sum" title="polars.Series.arr.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.sum</span></code></a>()</p></td>
+<td><p>Sum all the arrays in the list.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.splitn.html#polars.Series.str.splitn" title="polars.Series.str.splitn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.splitn</span></code></a>(by, n)</p></td>
-<td><p>Split the string by a substring, restricted to returning at most <code class="docutils literal notranslate"><span class="pre">n</span></code> items.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.tail.html#polars.Series.arr.tail" title="polars.Series.arr.tail"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.tail</span></code></a>([n])</p></td>
+<td><p>Slice the last <cite>n</cite> values of every sublist.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.starts_with.html#polars.Series.str.starts_with" title="polars.Series.str.starts_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.starts_with</span></code></a>(sub)</p></td>
-<td><p>Check if string values start with a substring.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.take.html#polars.Series.arr.take" title="polars.Series.arr.take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.take</span></code></a>(index[, null_on_oob])</p></td>
+<td><p>Take sublists by multiple indices.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.strip.html#polars.Series.str.strip" title="polars.Series.str.strip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.strip</span></code></a>([matches])</p></td>
-<td><p>Remove leading and trailing characters.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.to_struct.html#polars.Series.arr.to_struct" title="polars.Series.arr.to_struct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.to_struct</span></code></a>([n_field_strategy, ...])</p></td>
+<td><p>Convert the series of type <code class="docutils literal notranslate"><span class="pre">List</span></code> to a series of type <code class="docutils literal notranslate"><span class="pre">Struct</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.strptime.html#polars.Series.str.strptime" title="polars.Series.str.strptime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.strptime</span></code></a>(datatype[, fmt, strict, ...])</p></td>
-<td><p>Parse a Series of dtype Utf8 to a Date/Datetime Series.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.to_lowercase.html#polars.Series.str.to_lowercase" title="polars.Series.str.to_lowercase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.to_lowercase</span></code></a>()</p></td>
-<td><p>Modify the strings to their lowercase equivalent.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.to_uppercase.html#polars.Series.str.to_uppercase" title="polars.Series.str.to_uppercase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.to_uppercase</span></code></a>()</p></td>
-<td><p>Modify the strings to their uppercase equivalent.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.zfill.html#polars.Series.str.zfill" title="polars.Series.str.zfill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.zfill</span></code></a>(alignment)</p></td>
-<td><p>Fills the string with zeroes.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.parse_int.html#polars.Series.str.parse_int" title="polars.Series.str.parse_int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.parse_int</span></code></a>([radix, strict])</p></td>
-<td><p>Parse integers with base radix from strings.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.unique.html#polars.Series.arr.unique" title="polars.Series.arr.unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.unique</span></code></a>()</p></td>
+<td><p>Get the unique/distinct values in the list.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1587,20 +1575,20 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="api/polars.Series.get_chunks.html"
+       href="api/polars.Series.to_pandas.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.Series.get_chunks</p>
+        <p class="prev-next-title">polars.Series.to_pandas</p>
       </div>
     </a>
     <a class="right-next"
-       href="api/polars.Series.str.concat.html"
+       href="api/polars.Series.arr.arg_max.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.Series.str.concat</p>
+        <p class="prev-next-title">polars.Series.arr.arg_max</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
