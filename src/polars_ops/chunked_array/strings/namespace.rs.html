@@ -417,6 +417,15 @@
 <a href="#417" id="417">417</a>
 <a href="#418" id="418">418</a>
 <a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;string_encoding&quot;</span>)]
@@ -659,6 +668,7 @@
 
     <span class="doccomment">/// Replace the leftmost literal (sub)string with another string
     </span><span class="kw">fn </span>replace_literal&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, pat: <span class="kw-2">&amp;</span>str, val: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Utf8Chunked&gt; {
+        <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
         <span class="comment">// amortize allocation
         </span><span class="kw">let </span><span class="kw-2">mut </span>buf = String::new();
 
@@ -685,7 +695,6 @@
                 s
             }
         };
-        <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
         <span class="prelude-val">Ok</span>(ca.apply_mut(f))
     }
 
@@ -698,6 +707,16 @@
 
     <span class="doccomment">/// Replace all matching literal (sub)strings with another string
     </span><span class="kw">fn </span>replace_literal_all&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, pat: <span class="kw-2">&amp;</span>str, val: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Utf8Chunked&gt; {
+        <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
+        <span class="comment">// for single bytes we can replace on the whole values buffer
+        </span><span class="kw">if </span>pat.len() == <span class="number">1 </span>&amp;&amp; val.len() == <span class="number">1 </span>{
+            <span class="kw">let </span>pat = pat.as_bytes()[<span class="number">0</span>];
+            <span class="kw">let </span>val = val.as_bytes()[<span class="number">0</span>];
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(
+                ca.apply_kernel(<span class="kw-2">&amp;</span>|arr| Box::new(replace::replace_lit_single_char(arr, pat, val)))
+            );
+        }
+
         <span class="comment">// amortize allocation
         </span><span class="kw">let </span><span class="kw-2">mut </span>buf = String::new();
 
@@ -725,7 +744,6 @@
             }
         };
 
-        <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
         <span class="prelude-val">Ok</span>(ca.apply_mut(f))
     }
 
