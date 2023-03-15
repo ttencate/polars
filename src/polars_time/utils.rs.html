@@ -115,7 +115,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>_unlocalize_timestamp&lt;T: TimeZoneTrait&gt;(timestamp: i64, tu: TimeUnit, tz: T) -&gt; i64 {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>unlocalize_timestamp&lt;T: TimeZoneTrait&gt;(timestamp: i64, tu: TimeUnit, tz: T) -&gt; i64 {
     <span class="kw">match </span>tu {
         TimeUnit::Nanoseconds =&gt; {
             unlocalize_datetime(timestamp_ns_to_datetime(timestamp), <span class="kw-2">&amp;</span>tz).timestamp_nanos()
