@@ -37,6 +37,8 @@
 <a href="#37" id="37">37</a>
 <a href="#38" id="38">38</a>
 <a href="#39" id="39">39</a>
+<a href="#40" id="40">40</a>
+<a href="#41" id="41">41</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_arrow::export::arrow::temporal_conversions::{MILLISECONDS, SECONDS_IN_DAY};
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
@@ -59,7 +61,8 @@
             TimeUnit::Milliseconds =&gt; Window::round_ms,
         };
 
-        <span class="self">self</span>.apply(|t| func(<span class="kw-2">&amp;</span>w, t))
+        <span class="comment">// TODO remove unwrap once time zone is respected
+        </span><span class="self">self</span>.apply(|t| func(<span class="kw-2">&amp;</span>w, t, NO_TIMEZONE).unwrap())
             .into_datetime(<span class="self">self</span>.time_unit(), <span class="self">self</span>.time_zone().clone())
     }
 }
@@ -71,7 +74,8 @@
         <span class="kw">let </span>w = Window::new(every, every, offset);
         <span class="self">self</span>.apply(|t| {
             <span class="kw">const </span>MSECS_IN_DAY: i64 = MILLISECONDS * SECONDS_IN_DAY;
-            (w.round_ms(MSECS_IN_DAY * t <span class="kw">as </span>i64) / MSECS_IN_DAY) <span class="kw">as </span>i32
+            <span class="comment">// TODO remove unwrap once time zone is respected
+            </span>(w.round_ms(MSECS_IN_DAY * t <span class="kw">as </span>i64, NO_TIMEZONE).unwrap() / MSECS_IN_DAY) <span class="kw">as </span>i32
         })
         .into_date()
     }
