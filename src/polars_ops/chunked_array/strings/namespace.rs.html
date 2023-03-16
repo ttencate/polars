@@ -436,6 +436,16 @@
 <a href="#436" id="436">436</a>
 <a href="#437" id="437">437</a>
 <a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
+<a href="#445" id="445">445</a>
+<a href="#446" id="446">446</a>
+<a href="#447" id="447">447</a>
+<a href="#448" id="448">448</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;string_encoding&quot;</span>)]
@@ -688,6 +698,11 @@
                 ca.apply_kernel(<span class="kw-2">&amp;</span>|arr| Box::new(replace::replace_lit_n_char(arr, n, pat, val)))
             );
         }
+        <span class="kw">if </span>pat.len() == val.len() {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(
+                ca.apply_kernel(<span class="kw-2">&amp;</span>|arr| Box::new(replace::replace_lit_n_str(arr, n, pat, val)))
+            );
+        }
 
         <span class="comment">// amortize allocation
         </span><span class="kw">let </span><span class="kw-2">mut </span>buf = String::new();
@@ -735,6 +750,11 @@
             <span class="kw">return </span><span class="prelude-val">Ok</span>(
                 ca.apply_kernel(<span class="kw-2">&amp;</span>|arr| Box::new(replace::replace_lit_single_char(arr, pat, val)))
             );
+        }
+        <span class="kw">if </span>pat.len() == val.len() {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(ca.apply_kernel(<span class="kw-2">&amp;</span>|arr| {
+                Box::new(replace::replace_lit_n_str(arr, usize::MAX, pat, val))
+            }));
         }
 
         <span class="comment">// amortize allocation
