@@ -1508,26 +1508,26 @@ document.write(`
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">arr</span><span class="o">.</span><span class="n">diff</span><span class="p">())</span>
 <span class="go">shape: (2, 1)</span>
-<span class="go">┌──────────────────┐</span>
-<span class="go">│ n                │</span>
-<span class="go">│ ---              │</span>
-<span class="go">│ list[i64]        │</span>
-<span class="go">╞══════════════════╡</span>
-<span class="go">│ [null, 1, ... 1] │</span>
-<span class="go">│ [null, -8, -1]   │</span>
-<span class="go">└──────────────────┘</span>
+<span class="go">┌────────────────┐</span>
+<span class="go">│ n              │</span>
+<span class="go">│ ---            │</span>
+<span class="go">│ list[i64]      │</span>
+<span class="go">╞════════════════╡</span>
+<span class="go">│ [null, 1, … 1] │</span>
+<span class="go">│ [null, -8, -1] │</span>
+<span class="go">└────────────────┘</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">arr</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 <span class="go">shape: (2, 1)</span>
-<span class="go">┌─────────────────────┐</span>
-<span class="go">│ n                   │</span>
-<span class="go">│ ---                 │</span>
-<span class="go">│ list[i64]           │</span>
-<span class="go">╞═════════════════════╡</span>
-<span class="go">│ [null, null, ... 2] │</span>
-<span class="go">│ [null, null, -9]    │</span>
-<span class="go">└─────────────────────┘</span>
+<span class="go">┌───────────────────┐</span>
+<span class="go">│ n                 │</span>
+<span class="go">│ ---               │</span>
+<span class="go">│ list[i64]         │</span>
+<span class="go">╞═══════════════════╡</span>
+<span class="go">│ [null, null, … 2] │</span>
+<span class="go">│ [null, null, -9]  │</span>
+<span class="go">└───────────────────┘</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">arr</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">null_behavior</span><span class="o">=</span><span class="s2">&quot;drop&quot;</span><span class="p">))</span>
