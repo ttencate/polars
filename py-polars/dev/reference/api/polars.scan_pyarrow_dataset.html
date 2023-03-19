@@ -52,7 +52,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.scan_pyarrow_dataset';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="polars.internals.batched.BatchedCsvReader.next_batches" href="polars.internals.batched.BatchedCsvReader.next_batches.html" />
+    <link rel="next" title="polars.io.csv.batched_reader.BatchedCsvReader.next_batches" href="polars.io.csv.batched_reader.BatchedCsvReader.next_batches.html" />
     <link rel="prev" title="polars.read_delta" href="polars.read_delta.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -394,7 +394,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.scan_delta.html">polars.scan_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.read_delta.html">polars.read_delta</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.scan_pyarrow_dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.internals.batched.BatchedCsvReader.next_batches.html">polars.internals.batched.BatchedCsvReader.next_batches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.io.csv.batched_reader.BatchedCsvReader.next_batches.html">polars.io.csv.batched_reader.BatchedCsvReader.next_batches</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../series/index.html">Series</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1487,7 +1487,7 @@ document.write(`
 <h1>polars.scan_pyarrow_dataset<a class="headerlink" href="#polars-scan-pyarrow-dataset" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="polars.scan_pyarrow_dataset">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">scan_pyarrow_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pa.dataset.Dataset</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_pyarrow_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LazyFrame</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/io/pyarrow_dataset.py#L14-L56"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.scan_pyarrow_dataset" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">scan_pyarrow_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pa.dataset.Dataset</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_pyarrow_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LazyFrame</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/io/pyarrow_dataset/functions.py#L14-L56"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.scan_pyarrow_dataset" title="Permalink to this definition">#</a></dt>
 <dd><p>Scan a pyarrow dataset.</p>
 <p>This can be useful to connect to cloud or partitioned datasets.</p>
 <dl class="field-list simple">
@@ -1548,11 +1548,11 @@ change.</p>
       </div>
     </a>
     <a class="right-next"
-       href="polars.internals.batched.BatchedCsvReader.next_batches.html"
+       href="polars.io.csv.batched_reader.BatchedCsvReader.next_batches.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.internals.batched.BatchedCsvReader.next_batches</p>
+        <p class="prev-next-title">polars.io.csv.batched_reader.BatchedCsvReader.next_batches</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
