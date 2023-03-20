@@ -328,6 +328,11 @@
 <a href="#328" id="328">328</a>
 <a href="#329" id="329">329</a>
 <a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono_tz::Tz;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -342,6 +347,7 @@
 #[derive(Clone, PartialEq, Debug, Eq, Hash)]
 </span><span class="kw">pub enum </span>TemporalFunction {
     Year,
+    IsLeapYear,
     IsoYear,
     Quarter,
     Month,
@@ -376,6 +382,7 @@
         <span class="kw">use </span>TemporalFunction::<span class="kw-2">*</span>;
         <span class="kw">let </span>s = <span class="kw">match </span><span class="self">self </span>{
             Year =&gt; <span class="string">&quot;year&quot;</span>,
+            IsLeapYear =&gt; <span class="string">&quot;is_leap_year&quot;</span>,
             IsoYear =&gt; <span class="string">&quot;iso_year&quot;</span>,
             Quarter =&gt; <span class="string">&quot;quarter&quot;</span>,
             Month =&gt; <span class="string">&quot;month&quot;</span>,
@@ -405,6 +412,9 @@
 
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>year(s: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
     s.year().map(|ca| ca.into_series())
+}
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>is_leap_year(s: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+    s.is_leap_year().map(|ca| ca.into_series())
 }
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>iso_year(s: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
     s.iso_year().map(|ca| ca.into_series())
