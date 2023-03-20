@@ -396,6 +396,12 @@
 <a href="#396" id="396">396</a>
 <a href="#397" id="397">397</a>
 <a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;string_encoding&quot;</span>)]
@@ -589,6 +595,9 @@
     <span class="doccomment">/// Replace the leftmost literal (sub)string with another string
     </span><span class="kw">fn </span>replace_literal&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, pat: <span class="kw-2">&amp;</span>str, val: <span class="kw-2">&amp;</span>str, n: usize) -&gt; PolarsResult&lt;Utf8Chunked&gt; {
         <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
+        <span class="kw">if </span>ca.is_empty() {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(ca.clone());
+        }
 
         <span class="comment">// for single bytes we can replace on the whole values buffer
         </span><span class="kw">if </span>pat.len() == <span class="number">1 </span>&amp;&amp; val.len() == <span class="number">1 </span>{
@@ -643,6 +652,9 @@
     <span class="doccomment">/// Replace all matching literal (sub)strings with another string
     </span><span class="kw">fn </span>replace_literal_all&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, pat: <span class="kw-2">&amp;</span>str, val: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Utf8Chunked&gt; {
         <span class="kw">let </span>ca = <span class="self">self</span>.as_utf8();
+        <span class="kw">if </span>ca.is_empty() {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(ca.clone());
+        }
         <span class="comment">// for single bytes we can replace on the whole values buffer
         </span><span class="kw">if </span>pat.len() == <span class="number">1 </span>&amp;&amp; val.len() == <span class="number">1 </span>{
             <span class="kw">let </span>pat = pat.as_bytes()[<span class="number">0</span>];
