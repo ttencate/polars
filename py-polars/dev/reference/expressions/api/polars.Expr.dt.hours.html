@@ -52,7 +52,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/expressions/api/polars.Expr.dt.hours';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="polars.Expr.dt.iso_year" href="polars.Expr.dt.iso_year.html" />
+    <link rel="next" title="polars.Expr.dt.is_leap_year" href="polars.Expr.dt.is_leap_year.html" />
     <link rel="prev" title="polars.Expr.dt.hour" href="polars.Expr.dt.hour.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -677,6 +677,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.epoch.html">polars.Series.dt.epoch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.hour.html">polars.Series.dt.hour</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.hours.html">polars.Series.dt.hours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.is_leap_year.html">polars.Series.dt.is_leap_year</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.iso_year.html">polars.Series.dt.iso_year</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.max.html">polars.Series.dt.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.mean.html">polars.Series.dt.mean</a></li>
@@ -1272,6 +1273,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.dt.epoch.html">polars.Expr.dt.epoch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.dt.hour.html">polars.Expr.dt.hour</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Expr.dt.hours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.dt.is_leap_year.html">polars.Expr.dt.is_leap_year</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.dt.iso_year.html">polars.Expr.dt.iso_year</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.dt.microsecond.html">polars.Expr.dt.microsecond</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.dt.microseconds.html">polars.Expr.dt.microseconds</a></li>
@@ -1492,7 +1494,7 @@ document.write(`
 <h1>polars.Expr.dt.hours<a class="headerlink" href="#polars-expr-dt-hours" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.dt.hours">
-<span class="sig-prename descclassname"><span class="pre">Expr.dt.</span></span><span class="sig-name descname"><span class="pre">hours</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/expr/datetime.py#L1299-L1336"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.dt.hours" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.dt.</span></span><span class="sig-name descname"><span class="pre">hours</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/expr/datetime.py#L1341-L1378"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.dt.hours" title="Permalink to this definition">#</a></dt>
 <dd><p>Extract the hours from a Duration type.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1551,11 +1553,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="polars.Expr.dt.iso_year.html"
+       href="polars.Expr.dt.is_leap_year.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.Expr.dt.iso_year</p>
+        <p class="prev-next-title">polars.Expr.dt.is_leap_year</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="polars.Expr.dt.microsecond" href="polars.Expr.dt.microsecond.html" />
-    <link rel="prev" title="polars.Expr.dt.hours" href="polars.Expr.dt.hours.html" />
+    <link rel="prev" title="polars.Expr.dt.is_leap_year" href="polars.Expr.dt.is_leap_year.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -677,6 +677,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.epoch.html">polars.Series.dt.epoch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.hour.html">polars.Series.dt.hour</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.hours.html">polars.Series.dt.hours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.is_leap_year.html">polars.Series.dt.is_leap_year</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.iso_year.html">polars.Series.dt.iso_year</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.max.html">polars.Series.dt.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.mean.html">polars.Series.dt.mean</a></li>
@@ -1272,6 +1273,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.dt.epoch.html">polars.Expr.dt.epoch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.dt.hour.html">polars.Expr.dt.hour</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.dt.hours.html">polars.Expr.dt.hours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.dt.is_leap_year.html">polars.Expr.dt.is_leap_year</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Expr.dt.iso_year</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.dt.microsecond.html">polars.Expr.dt.microsecond</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.dt.microseconds.html">polars.Expr.dt.microseconds</a></li>
@@ -1492,7 +1494,7 @@ document.write(`
 <h1>polars.Expr.dt.iso_year<a class="headerlink" href="#polars-expr-dt-iso-year" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.dt.iso_year">
-<span class="sig-prename descclassname"><span class="pre">Expr.dt.</span></span><span class="sig-name descname"><span class="pre">iso_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/expr/datetime.py#L413-L456"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.dt.iso_year" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.dt.</span></span><span class="sig-name descname"><span class="pre">iso_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/expr/datetime.py#L455-L498"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.dt.iso_year" title="Permalink to this definition">#</a></dt>
 <dd><p>Extract ISO year from underlying Date representation.</p>
 <p>Applies to Date and Datetime columns.</p>
 <p>Returns the year number in the ISO standard.
@@ -1546,12 +1548,12 @@ This may not correspond with the calendar year.</p>
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.Expr.dt.hours.html"
+       href="polars.Expr.dt.is_leap_year.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.Expr.dt.hours</p>
+        <p class="prev-next-title">polars.Expr.dt.is_leap_year</p>
       </div>
     </a>
     <a class="right-next"
