@@ -182,7 +182,7 @@
 
 #[cfg(feature = <span class="string">&quot;avro&quot;</span>)]
 </span><span class="kw">pub mod </span>avro;
-<span class="attr">#[cfg(feature = <span class="string">&quot;async&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;cloud&quot;</span>)]
 </span><span class="kw">mod </span>cloud;
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;csv-file&quot;</span>, feature = <span class="string">&quot;json&quot;</span>))]
 </span><span class="kw">pub mod </span>csv;
@@ -194,7 +194,7 @@
 </span><span class="kw">pub mod </span>json;
 <span class="attr">#[cfg(feature = <span class="string">&quot;json&quot;</span>)]
 </span><span class="kw">pub mod </span>ndjson_core;
-<span class="attr">#[cfg(feature = <span class="string">&quot;async&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;cloud&quot;</span>)]
 </span><span class="kw">pub use </span><span class="kw">crate</span>::cloud::glob <span class="kw">as </span>async_glob;
 
 <span class="attr">#[cfg(any(

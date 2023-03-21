@@ -322,7 +322,7 @@
 
 <span class="kw">use </span>arrow::io::parquet::read;
 <span class="kw">use </span>arrow::io::parquet::write::FileMetaData;
-<span class="attr">#[cfg(feature = <span class="string">&quot;async&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;cloud&quot;</span>)]
 </span><span class="kw">use </span>polars_core::cloud::CloudOptions;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
@@ -330,9 +330,9 @@
 
 <span class="kw">use </span><span class="kw">super</span>::read_impl::FetchRowGroupsFromMmapReader;
 <span class="kw">use </span><span class="kw">crate</span>::mmap::MmapBytesReader;
-<span class="attr">#[cfg(feature = <span class="string">&quot;async&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;cloud&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::parquet::async_impl::FetchRowGroupsFromObjectStore;
-<span class="attr">#[cfg(feature = <span class="string">&quot;async&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;cloud&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::parquet::async_impl::ParquetObjectStore;
 <span class="kw">use </span><span class="kw">crate</span>::parquet::read_impl::read_parquet;
 <span class="kw">pub use </span><span class="kw">crate</span>::parquet::read_impl::BatchedParquetReader;
@@ -538,7 +538,7 @@
 
 <span class="doccomment">/// A Parquet reader on top of the async object_store API. Only the batch reader is implemented since
 /// parquet files on cloud storage tend to be big and slow to access.
-</span><span class="attr">#[cfg(feature = <span class="string">&quot;async&quot;</span>)]
+</span><span class="attr">#[cfg(feature = <span class="string">&quot;cloud&quot;</span>)]
 </span><span class="kw">pub struct </span>ParquetAsyncReader {
     reader: ParquetObjectStore,
     rechunk: bool,
@@ -549,7 +549,7 @@
     use_statistics: bool,
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;async&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;cloud&quot;</span>)]
 </span><span class="kw">impl </span>ParquetAsyncReader {
     <span class="kw">pub fn </span>from_uri(
         uri: <span class="kw-2">&amp;</span>str,
