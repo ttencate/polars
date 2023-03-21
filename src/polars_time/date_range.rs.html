@@ -85,6 +85,7 @@
 <a href="#85" id="85">85</a>
 <a href="#86" id="86">86</a>
 <a href="#87" id="87">87</a>
+<a href="#88" id="88">88</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
 <span class="kw">use </span>chrono::{Datelike, NaiveDateTime};
@@ -111,11 +112,12 @@
     tu: TimeUnit,
     _tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
 ) -&gt; PolarsResult&lt;DatetimeChunked&gt; {
-    <span class="kw">let </span>s = <span class="kw">if </span>start &gt; stop {
-        IsSorted::Descending
-    } <span class="kw">else </span>{
-        IsSorted::Ascending
-    };
+    <span class="kw">if </span>start &gt; stop {
+        <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;&#39;start&#39; cannot be greater than &#39;stop&#39;&quot;</span>)
+    }
+    <span class="kw">if </span>every.negative {
+        <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;&#39;interval&#39; cannot be negative&quot;</span>)
+    }
     <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="kw">match </span>_tz {
         <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
         </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="kw">match </span>tz.parse::&lt;chrono_tz::Tz&gt;() {
@@ -148,7 +150,7 @@
         .into_datetime(tu, <span class="prelude-val">None</span>),
     };
 
-    out.set_sorted_flag(s);
+    out.set_sorted_flag(IsSorted::Ascending);
     <span class="prelude-val">Ok</span>(out)
 }
 
