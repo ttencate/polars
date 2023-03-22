@@ -1186,7 +1186,7 @@
 }
 <span class="kw">static </span>FLOAT_FMT: AtomicU8 = AtomicU8::new(FloatFmt::Mixed <span class="kw">as </span>u8);
 
-<span class="kw">fn </span>get_float_fmt() -&gt; FloatFmt {
+<span class="kw">pub fn </span>get_float_fmt() -&gt; FloatFmt {
     <span class="kw">match </span>FLOAT_FMT.load(Ordering::Relaxed) {
         <span class="number">0 </span>=&gt; FloatFmt::Mixed,
         <span class="number">1 </span>=&gt; FloatFmt::Full,
