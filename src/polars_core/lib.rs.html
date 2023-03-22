@@ -64,7 +64,9 @@
 <a href="#64" id="64">64</a>
 <a href="#65" id="65">65</a>
 <a href="#66" id="66">66</a>
+<a href="#67" id="67">67</a>
 </pre><pre class="rust"><code><span class="attr">#![cfg_attr(docsrs, feature(doc_auto_cfg))]
+#![cfg_attr(feature = <span class="string">&quot;simd&quot;</span>, feature(portable_simd))]
 </span><span class="kw">extern crate </span>core;
 
 <span class="attr">#[macro_use]

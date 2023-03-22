@@ -311,10 +311,15 @@
 <a href="#311" id="311">311</a>
 <a href="#312" id="312">312</a>
 <a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::iter::Enumerate;
 
 <span class="kw">use </span>arrow::array::BooleanArray;
 <span class="kw">use </span>arrow::bitmap::utils::BitChunks;
+<span class="attr">#[cfg(feature = <span class="string">&quot;simd&quot;</span>)]
+</span><span class="kw">pub mod </span>agg_mean;
 <span class="kw">pub mod </span>concatenate;
 <span class="kw">pub mod </span>ewm;
 <span class="kw">pub mod </span>float;
@@ -330,6 +335,7 @@
 <span class="kw">pub mod </span>take_agg;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">mod </span>time;
+
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">pub use </span>time::replace_timezone;
 

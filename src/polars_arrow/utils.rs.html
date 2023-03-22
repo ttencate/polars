@@ -187,7 +187,6 @@
 <a href="#187" id="187">187</a>
 <a href="#188" id="188">188</a>
 <a href="#189" id="189">189</a>
-<a href="#190" id="190">190</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::ops::BitAnd;
 
 <span class="kw">use </span>arrow::array::PrimitiveArray;
@@ -359,21 +358,20 @@
 ) =&gt; ({
     <span class="macro">macro_rules! </span>__with_ty__ {( <span class="macro-nonterminal">$</span><span class="kw">_ </span><span class="macro-nonterminal">$T</span>:ident ) =&gt; ( $(<span class="macro-nonterminal">$body</span>)* )}
     <span class="kw">use </span>arrow::datatypes::PrimitiveType::<span class="kw-2">*</span>;
-    <span class="kw">use </span>arrow::types::{days_ms, months_days_ns};
     <span class="kw">match </span><span class="macro-nonterminal">$key_type </span>{
         Int8 =&gt; <span class="macro">__with_ty__! </span>{ i8 },
         Int16 =&gt; <span class="macro">__with_ty__! </span>{ i16 },
         Int32 =&gt; <span class="macro">__with_ty__! </span>{ i32 },
         Int64 =&gt; <span class="macro">__with_ty__! </span>{ i64 },
-        Int128 =&gt; <span class="macro">__with_ty__! </span>{ i128 },
-        DaysMs =&gt; <span class="macro">__with_ty__! </span>{ days_ms },
-        MonthDayNano =&gt; <span class="macro">__with_ty__! </span>{ months_days_ns },
         UInt8 =&gt; <span class="macro">__with_ty__! </span>{ u8 },
         UInt16 =&gt; <span class="macro">__with_ty__! </span>{ u16 },
         UInt32 =&gt; <span class="macro">__with_ty__! </span>{ u32 },
         UInt64 =&gt; <span class="macro">__with_ty__! </span>{ u64 },
         Float32 =&gt; <span class="macro">__with_ty__! </span>{ f32 },
         Float64 =&gt; <span class="macro">__with_ty__! </span>{ f64 },
+        Int128 |
+        DaysMs |
+        MonthDayNano |
         Float16 | Int256 =&gt; <span class="macro">unimplemented!</span>(),
     }
 })}

@@ -15,7 +15,7 @@ automatically written when the sink is closed.</p>
 <span class="kw">let </span><span class="kw-2">mut </span>buffer = Cursor::new(<span class="macro">vec!</span>[]);
 <span class="kw">let </span><span class="kw-2">mut </span>sink = FileSink::new(
     <span class="kw-2">&amp;mut </span>buffer,
-    <span class="kw-2">&amp;</span>schema,
+    schema,
     <span class="prelude-val">None</span>,
     Default::default(),
 );

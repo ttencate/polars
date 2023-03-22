@@ -1042,6 +1042,19 @@
 <a href="#1042" id="1042">1042</a>
 <a href="#1043" id="1043">1043</a>
 <a href="#1044" id="1044">1044</a>
+<a href="#1045" id="1045">1045</a>
+<a href="#1046" id="1046">1046</a>
+<a href="#1047" id="1047">1047</a>
+<a href="#1048" id="1048">1048</a>
+<a href="#1049" id="1049">1049</a>
+<a href="#1050" id="1050">1050</a>
+<a href="#1051" id="1051">1051</a>
+<a href="#1052" id="1052">1052</a>
+<a href="#1053" id="1053">1053</a>
+<a href="#1054" id="1054">1054</a>
+<a href="#1055" id="1055">1055</a>
+<a href="#1056" id="1056">1056</a>
+<a href="#1057" id="1057">1057</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Implementations of the ChunkAgg trait.
 </span><span class="kw">mod </span>quantile;
 <span class="kw">mod </span>var;
@@ -1216,34 +1229,47 @@
             <span class="kw">_ </span>=&gt; {
                 <span class="kw">let </span>null_count = <span class="self">self</span>.null_count();
                 <span class="kw">let </span>len = <span class="self">self</span>.len();
-                <span class="kw">if </span>null_count == len {
-                    <span class="prelude-val">None
-                </span>} <span class="kw">else </span>{
-                    <span class="kw">let </span><span class="kw-2">mut </span>acc = <span class="number">0.0</span>;
-                    <span class="kw">let </span>len = (len - null_count) <span class="kw">as </span>f64;
+                <span class="kw">match </span>null_count {
+                    nc <span class="kw">if </span>nc == len =&gt; <span class="prelude-val">None</span>,
+                    <span class="attr">#[cfg(feature = <span class="string">&quot;simd&quot;</span>)]
+                    </span><span class="kw">_ </span>=&gt; {
+                        <span class="comment">// TODO: investigate if we need a stable mean
+                        // because of SIMD memory locations and associativity.
+                        // similar to sum
+                        </span><span class="kw">let </span><span class="kw-2">mut </span>sum = <span class="number">0.0</span>;
+                        <span class="kw">for </span>arr <span class="kw">in </span><span class="self">self</span>.downcast_iter() {
+                            sum += polars_arrow::kernels::agg_mean::sum_as_f64(arr);
+                        }
+                        <span class="prelude-val">Some</span>(sum / (len - null_count) <span class="kw">as </span>f64)
+                    }
+                    <span class="attr">#[cfg(not(feature = <span class="string">&quot;simd&quot;</span>))]
+                    </span><span class="kw">_ </span>=&gt; {
+                        <span class="kw">let </span><span class="kw-2">mut </span>acc = <span class="number">0.0</span>;
+                        <span class="kw">let </span>len = (len - null_count) <span class="kw">as </span>f64;
 
-                    <span class="kw">for </span>arr <span class="kw">in </span><span class="self">self</span>.downcast_iter() {
-                        <span class="kw">if </span>arr.null_count() &gt; <span class="number">0 </span>{
-                            <span class="kw">for </span>v <span class="kw">in </span>arr.into_iter().flatten() {
-                                <span class="comment">// safety
-                                // all these types can be coerced to f64
-                                </span><span class="kw">unsafe </span>{
-                                    <span class="kw">let </span>val = v.to_f64().unwrap_unchecked();
-                                    acc += val
+                        <span class="kw">for </span>arr <span class="kw">in </span><span class="self">self</span>.downcast_iter() {
+                            <span class="kw">if </span>arr.null_count() &gt; <span class="number">0 </span>{
+                                <span class="kw">for </span>v <span class="kw">in </span>arr.into_iter().flatten() {
+                                    <span class="comment">// safety
+                                    // all these types can be coerced to f64
+                                    </span><span class="kw">unsafe </span>{
+                                        <span class="kw">let </span>val = v.to_f64().unwrap_unchecked();
+                                        acc += val
+                                    }
                                 }
-                            }
-                        } <span class="kw">else </span>{
-                            <span class="kw">for </span>v <span class="kw">in </span>arr.values().as_slice() {
-                                <span class="comment">// safety
-                                // all these types can be coerced to f64
-                                </span><span class="kw">unsafe </span>{
-                                    <span class="kw">let </span>val = v.to_f64().unwrap_unchecked();
-                                    acc += val
+                            } <span class="kw">else </span>{
+                                <span class="kw">for </span>v <span class="kw">in </span>arr.values().as_slice() {
+                                    <span class="comment">// safety
+                                    // all these types can be coerced to f64
+                                    </span><span class="kw">unsafe </span>{
+                                        <span class="kw">let </span>val = v.to_f64().unwrap_unchecked();
+                                        acc += val
+                                    }
                                 }
                             }
                         }
+                        <span class="prelude-val">Some</span>(acc / len)
                     }
-                    <span class="prelude-val">Some</span>(acc / len)
                 }
             }
         }

@@ -67,6 +67,8 @@
 <a href="#67" id="67">67</a>
 <a href="#68" id="68">68</a>
 <a href="#69" id="69">69</a>
+<a href="#70" id="70">70</a>
+<a href="#71" id="71">71</a>
 </pre><pre class="rust"><code><span class="kw">use </span>arrow::array::Array;
 
 <span class="doccomment">/// # Safety
@@ -121,11 +123,13 @@
 <span class="macro">macro_rules! </span>impl_is_float {
     (<span class="macro-nonterminal">$tp</span>:ty) =&gt; {
         <span class="kw">unsafe impl </span>IsFloat <span class="kw">for </span><span class="macro-nonterminal">$tp </span>{
-            <span class="kw">fn </span>is_float() -&gt; bool {
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>is_float() -&gt; bool {
                 <span class="bool-val">true
             </span>}
 
-            <span class="kw">fn </span>is_nan(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span>is_nan(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
                 &lt;<span class="macro-nonterminal">$tp</span>&gt;::is_nan(<span class="kw-2">*</span><span class="self">self</span>)
             }
         }
