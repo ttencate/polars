@@ -826,6 +826,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.DataFrame.sort.html">polars.DataFrame.sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.DataFrame.tail.html">polars.DataFrame.tail</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.DataFrame.take_every.html">polars.DataFrame.take_every</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.DataFrame.top_k.html">polars.DataFrame.top_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.DataFrame.to_dummies.html">polars.DataFrame.to_dummies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.DataFrame.to_series.html">polars.DataFrame.to_series</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.DataFrame.transpose.html">polars.DataFrame.transpose</a></li>
@@ -921,6 +922,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../lazyframe/api/polars.LazyFrame.sort.html">polars.LazyFrame.sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../lazyframe/api/polars.LazyFrame.tail.html">polars.LazyFrame.tail</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../lazyframe/api/polars.LazyFrame.take_every.html">polars.LazyFrame.take_every</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../lazyframe/api/polars.LazyFrame.top_k.html">polars.LazyFrame.top_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../lazyframe/api/polars.LazyFrame.unique.html">polars.LazyFrame.unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../lazyframe/api/polars.LazyFrame.unnest.html">polars.LazyFrame.unnest</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../lazyframe/api/polars.LazyFrame.update.html">polars.LazyFrame.update</a></li>
@@ -1494,7 +1496,7 @@ document.write(`
 <h1>polars.DataFrame.to_struct<a class="headerlink" href="#polars-dataframe-to-struct" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.DataFrame.to_struct">
-<span class="sig-prename descclassname"><span class="pre">DataFrame.</span></span><span class="sig-name descname"><span class="pre">to_struct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/dataframe/frame.py#L7904-L7933"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.DataFrame.to_struct" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">DataFrame.</span></span><span class="sig-name descname"><span class="pre">to_struct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/dataframe/frame.py#L7942-L7971"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.DataFrame.to_struct" title="Permalink to this definition">#</a></dt>
 <dd><p>Convert a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> to a <code class="docutils literal notranslate"><span class="pre">Series</span></code> of type <code class="docutils literal notranslate"><span class="pre">Struct</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
