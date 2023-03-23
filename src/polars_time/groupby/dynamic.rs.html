@@ -883,9 +883,9 @@
 <a href="#883" id="883">883</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
-<span class="kw">use </span>chrono::TimeZone <span class="kw">as </span>TimeZoneTrait;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono_tz::Tz;
+<span class="kw">use </span>polars_arrow::time_zone::PolarsTimeZone;
 <span class="kw">use </span>polars_arrow::utils::CustomIterTools;
 <span class="kw">use </span>polars_core::export::rayon::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::frame::groupby::GroupsProxy;
@@ -1340,7 +1340,7 @@
         by: Vec&lt;Series&gt;,
         options: <span class="kw-2">&amp;</span>RollingGroupOptions,
         tu: TimeUnit,
-        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>TimeZoneTrait + std::marker::Sync + std::marker::Send&gt;,
+        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone&gt;,
         time_type: <span class="kw-2">&amp;</span>DataType,
     ) -&gt; PolarsResult&lt;(Series, Vec&lt;Series&gt;, GroupsProxy)&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>dt = dt.rechunk();

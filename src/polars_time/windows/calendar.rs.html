@@ -87,7 +87,7 @@
 <a href="#87" id="87">87</a>
 <a href="#88" id="88">88</a>
 <a href="#89" id="89">89</a>
-</pre><pre class="rust"><code><span class="kw">use </span>chrono::TimeZone <span class="kw">as </span>TimeZoneTrait;
+</pre><pre class="rust"><code><span class="kw">use </span>polars_arrow::time_zone::PolarsTimeZone;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -130,7 +130,7 @@
     every: Duration,
     closed: ClosedWindow,
     tu: TimeUnit,
-    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;,
+    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>PolarsTimeZone&gt;,
 ) -&gt; PolarsResult&lt;Vec&lt;i64&gt;&gt; {
     <span class="kw">let </span>size = <span class="kw">match </span>tu {
         TimeUnit::Nanoseconds =&gt; ((stop - start) / every.duration_ns() + <span class="number">1</span>) <span class="kw">as </span>usize,

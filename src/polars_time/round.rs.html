@@ -53,8 +53,8 @@
 <a href="#53" id="53">53</a>
 <a href="#54" id="54">54</a>
 <a href="#55" id="55">55</a>
-</pre><pre class="rust"><code><span class="kw">use </span>chrono::TimeZone <span class="kw">as </span>TimeZoneTrait;
-<span class="kw">use </span>polars_arrow::export::arrow::temporal_conversions::{MILLISECONDS, SECONDS_IN_DAY};
+</pre><pre class="rust"><code><span class="kw">use </span>polars_arrow::export::arrow::temporal_conversions::{MILLISECONDS, SECONDS_IN_DAY};
+<span class="kw">use </span>polars_arrow::time_zone::PolarsTimeZone;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -64,7 +64,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         every: Duration,
         offset: Duration,
-        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;,
+        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>PolarsTimeZone&gt;,
     ) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: Sized;
@@ -76,7 +76,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         every: Duration,
         offset: Duration,
-        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;,
+        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>PolarsTimeZone&gt;,
     ) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
         <span class="kw">let </span>w = Window::new(every, every, offset);
 
@@ -97,7 +97,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         every: Duration,
         offset: Duration,
-        _tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>TimeZoneTrait&gt;,
+        _tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>PolarsTimeZone&gt;,
     ) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
         <span class="kw">let </span>w = Window::new(every, every, offset);
         <span class="prelude-val">Ok</span>(<span class="self">self

@@ -4,7 +4,7 @@
     time: &amp;'a [<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i64.html">i64</a>],
     closed_window: <a class="enum" href="enum.ClosedWindow.html" title="enum polars_time::prelude::ClosedWindow">ClosedWindow</a>,
     tu: <a class="enum" href="../../polars_core/datatypes/time_unit/enum.TimeUnit.html" title="enum polars_core::datatypes::time_unit::TimeUnit">TimeUnit</a>,
-    tz: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;impl <a class="trait" href="../../chrono/offset/trait.TimeZone.html" title="trait chrono::offset::TimeZone">TimeZoneTrait</a> + 'a + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt;
+    tz: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;impl <a class="trait" href="../../polars_arrow/time_zone/trait.PolarsTimeZone.html" title="trait polars_arrow::time_zone::PolarsTimeZone">PolarsTimeZone</a> + 'a&gt;
 ) -&gt; <a class="type" href="../../polars_core/frame/groupby/proxy/type.GroupsSlice.html" title="type polars_core::frame::groupby::proxy::GroupsSlice">GroupsSlice</a></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Different from <code>groupby_windows</code>, where define window buckets and search which values fit that
 pre-defined bucket, this function defines every window based on the:
 - timestamp (lower bound)

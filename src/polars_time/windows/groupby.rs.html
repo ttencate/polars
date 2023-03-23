@@ -598,9 +598,9 @@
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
-<span class="kw">use </span>chrono::TimeZone <span class="kw">as </span>TimeZoneTrait;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono_tz::Tz;
+<span class="kw">use </span>polars_arrow::time_zone::PolarsTimeZone;
 <span class="kw">use </span>polars_arrow::trusted_len::TrustedLen;
 <span class="kw">use </span>polars_arrow::utils::CustomIterTools;
 <span class="kw">use </span>polars_core::export::rayon::prelude::<span class="kw-2">*</span>;
@@ -638,7 +638,7 @@
 }
 
 <span class="attr">#[allow(clippy::too_many_arguments)]
-</span><span class="kw">fn </span>update_groups_and_bounds&lt;T: TimeZoneTrait&gt;(
+</span><span class="kw">fn </span>update_groups_and_bounds&lt;T: PolarsTimeZone&gt;(
     bounds_iter: BoundsIter&lt;<span class="lifetime">&#39;_</span>, T&gt;,
     <span class="kw-2">mut </span>start_offset: usize,
     time: <span class="kw-2">&amp;</span>[i64],
@@ -839,12 +839,12 @@
     time: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[i64],
     closed_window: ClosedWindow,
     tu: TimeUnit,
-    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>TimeZoneTrait + <span class="lifetime">&#39;a</span>&gt;,
+    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
     start_offset: usize,
 ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (IdxSize, IdxSize)&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
     <span class="macro">debug_assert!</span>(offset.duration_ns() &gt;= period.duration_ns());
     <span class="macro">debug_assert!</span>(offset.negative);
-    <span class="kw">fn </span>add&lt;T: TimeZoneTrait&gt;(tu: TimeUnit) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt; {
+    <span class="kw">fn </span>add&lt;T: PolarsTimeZone&gt;(tu: TimeUnit) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt; {
         <span class="kw">match </span>tu {
             TimeUnit::Nanoseconds =&gt; Duration::add_ns,
             TimeUnit::Microseconds =&gt; Duration::add_us,
@@ -903,9 +903,9 @@
     time: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[i64],
     closed_window: ClosedWindow,
     tu: TimeUnit,
-    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>TimeZoneTrait + <span class="lifetime">&#39;a</span>&gt;,
+    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
 ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (IdxSize, IdxSize)&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
-    <span class="kw">fn </span>add&lt;T: TimeZoneTrait&gt;(tu: TimeUnit) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt; {
+    <span class="kw">fn </span>add&lt;T: PolarsTimeZone&gt;(tu: TimeUnit) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt; {
         <span class="kw">match </span>tu {
             TimeUnit::Nanoseconds =&gt; Duration::add_ns,
             TimeUnit::Microseconds =&gt; Duration::add_us,
@@ -960,9 +960,9 @@
     time: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[i64],
     closed_window: ClosedWindow,
     tu: TimeUnit,
-    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>TimeZoneTrait + <span class="lifetime">&#39;a</span>&gt;,
+    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
 ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (IdxSize, IdxSize)&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
-    <span class="kw">fn </span>add&lt;T: TimeZoneTrait&gt;(tu: TimeUnit) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt; {
+    <span class="kw">fn </span>add&lt;T: PolarsTimeZone&gt;(tu: TimeUnit) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt; {
         <span class="kw">match </span>tu {
             TimeUnit::Nanoseconds =&gt; Duration::add_ns,
             TimeUnit::Microseconds =&gt; Duration::add_us,
@@ -1005,14 +1005,14 @@
     time: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[i64],
     closed_window: ClosedWindow,
     tu: TimeUnit,
-    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>TimeZoneTrait + <span class="lifetime">&#39;a</span>&gt;,
+    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
     start_offset: usize,
     upper_bound: <span class="prelude-ty">Option</span>&lt;usize&gt;,
 ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (IdxSize, IdxSize)&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
     <span class="kw">let </span>upper_bound = upper_bound.unwrap_or(time.len());
     <span class="macro">debug_assert!</span>(!offset.negative);
 
-    <span class="kw">fn </span>add&lt;T: TimeZoneTrait&gt;(tu: TimeUnit) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt; {
+    <span class="kw">fn </span>add&lt;T: PolarsTimeZone&gt;(tu: TimeUnit) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt; {
         <span class="kw">match </span>tu {
             TimeUnit::Nanoseconds =&gt; Duration::add_ns,
             TimeUnit::Microseconds =&gt; Duration::add_us,
@@ -1060,7 +1060,7 @@
     time: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[i64],
     closed_window: ClosedWindow,
     tu: TimeUnit,
-    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>TimeZoneTrait + <span class="lifetime">&#39;a</span>&gt;,
+    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
 ) -&gt; Box&lt;<span class="kw">dyn </span>TrustedLen&lt;Item = (IdxSize, IdxSize)&gt; + <span class="lifetime">&#39;a</span>&gt; {
     partially_check_sorted(time);
     <span class="comment">// we have a (partial) lookbehind window
@@ -1103,7 +1103,7 @@
     time: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[i64],
     closed_window: ClosedWindow,
     tu: TimeUnit,
-    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>TimeZoneTrait + <span class="lifetime">&#39;a </span>+ std::marker::Sync + std::marker::Send&gt;,
+    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
 ) -&gt; GroupsSlice {
     partially_check_sorted(time);
     <span class="kw">let </span>thread_offsets = _split_offsets(time.len(), POOL.current_num_threads());
