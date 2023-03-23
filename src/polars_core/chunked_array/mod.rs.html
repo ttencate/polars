@@ -816,6 +816,7 @@
 <a href="#816" id="816">816</a>
 <a href="#817" id="817">817</a>
 <a href="#818" id="818">818</a>
+<a href="#819" id="819">819</a>
 </pre><pre class="rust"><code><span class="doccomment">//! The typed heart of every Series column.
 </span><span class="kw">use </span>std::iter::Map;
 <span class="kw">use </span>std::marker::PhantomData;
@@ -855,6 +856,7 @@
     feature = <span class="string">&quot;dtype-date&quot;
 </span>))]
 </span><span class="kw">pub mod </span>temporal;
+<span class="kw">mod </span>to_vec;
 <span class="kw">mod </span>trusted_len;
 <span class="kw">pub mod </span>upstream_traits;
 

@@ -958,18 +958,12 @@
 <a href="#958" id="958">958</a>
 <a href="#959" id="959">959</a>
 <a href="#960" id="960">960</a>
-<a href="#961" id="961">961</a>
-<a href="#962" id="962">962</a>
-<a href="#963" id="963">963</a>
-<a href="#964" id="964">964</a>
-<a href="#965" id="965">965</a>
-<a href="#966" id="966">966</a>
-<a href="#967" id="967">967</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>arg_sort;
 <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
 </span><span class="kw">pub mod </span>arg_sort_multiple;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
 </span><span class="kw">mod </span>categorical;
+<span class="kw">mod </span>slice;
 
 <span class="kw">use </span>std::cmp::Ordering;
 <span class="kw">use </span>std::hint::unreachable_unchecked;
@@ -985,6 +979,7 @@
 <span class="kw">use </span>polars_arrow::prelude::{FromData, ValueSize};
 <span class="kw">use </span>polars_arrow::trusted_len::PushUnchecked;
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>slice::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::compare_inner::PartialOrdInner;
 <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
@@ -995,16 +990,19 @@
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
 
 <span class="doccomment">/// Reverse sorting when there are no nulls
+</span><span class="attr">#[inline]
 </span><span class="kw">fn </span>order_descending&lt;T: Ord&gt;(a: <span class="kw-2">&amp;</span>T, b: <span class="kw-2">&amp;</span>T) -&gt; Ordering {
     b.cmp(a)
 }
 
 <span class="doccomment">/// Default sorting when there are no nulls
+</span><span class="attr">#[inline]
 </span><span class="kw">fn </span>order_ascending&lt;T: Ord&gt;(a: <span class="kw-2">&amp;</span>T, b: <span class="kw-2">&amp;</span>T) -&gt; Ordering {
     a.cmp(b)
 }
 
-<span class="kw">fn </span>order_ascending_flt&lt;T: Float&gt;(a: <span class="kw-2">&amp;</span>T, b: <span class="kw-2">&amp;</span>T) -&gt; Ordering {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>order_ascending_flt&lt;T: Float&gt;(a: <span class="kw-2">&amp;</span>T, b: <span class="kw-2">&amp;</span>T) -&gt; Ordering {
     a.partial_cmp(b).unwrap_or_else(|| {
         <span class="kw">match </span>(a.is_nan(), b.is_nan()) {
             (<span class="bool-val">true</span>, <span class="bool-val">true</span>) =&gt; Ordering::Equal,
@@ -1016,11 +1014,13 @@
     })
 }
 
-<span class="kw">fn </span>order_descending_flt&lt;T: Float&gt;(a: <span class="kw-2">&amp;</span>T, b: <span class="kw-2">&amp;</span>T) -&gt; Ordering {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>order_descending_flt&lt;T: Float&gt;(a: <span class="kw-2">&amp;</span>T, b: <span class="kw-2">&amp;</span>T) -&gt; Ordering {
     order_ascending_flt(b, a)
 }
 
-<span class="kw">fn </span>sort_branch&lt;T, Fd, Fr&gt;(
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>sort_branch&lt;T, Fd, Fr&gt;(
     slice: <span class="kw-2">&amp;mut </span>[T],
     descending: bool,
     ascending_order_fn: Fd,
@@ -1059,7 +1059,7 @@
     );
 }
 
-<span class="kw">pub fn </span>arg_sort_branch&lt;T, Fd, Fr&gt;(
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>arg_sort_branch&lt;T, Fd, Fr&gt;(
     slice: <span class="kw-2">&amp;mut </span>[T],
     descending: bool,
     ascending_order_fn: Fd,
@@ -1081,20 +1081,6 @@
             <span class="bool-val">false </span>=&gt; slice.sort_by(ascending_order_fn),
         }
     }
-}
-
-<span class="kw">fn </span>memcpy_values&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; Vec&lt;T::Native&gt;
-<span class="kw">where
-    </span>T: PolarsNumericType,
-{
-    <span class="kw">let </span>len = ca.len();
-    <span class="kw">let </span><span class="kw-2">mut </span>vals = Vec::with_capacity(len);
-
-    ca.downcast_iter().for_each(|arr| {
-        <span class="kw">let </span>values = arr.values().as_slice();
-        vals.extend_from_slice(values);
-    });
-    vals
 }
 
 <span class="macro">macro_rules! </span>sort_with_fast_path {
@@ -1141,7 +1127,7 @@
 {
     <span class="macro">sort_with_fast_path!</span>(ca, options);
     <span class="kw">if </span>ca.null_count() == <span class="number">0 </span>{
-        <span class="kw">let </span><span class="kw-2">mut </span>vals = memcpy_values(ca);
+        <span class="kw">let </span><span class="kw-2">mut </span>vals = ca.to_vec_null_aware().left().unwrap();
 
         sort_branch(
             vals.as_mut_slice(),
