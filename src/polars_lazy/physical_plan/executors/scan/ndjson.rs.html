@@ -30,12 +30,18 @@
 <a href="#30" id="30">30</a>
 <a href="#31" id="31">31</a>
 <a href="#32" id="32">32</a>
+<a href="#33" id="33">33</a>
+<a href="#34" id="34">34</a>
+<a href="#35" id="35">35</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_core::error::to_compute_err;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::{AnonymousScan, AnonymousScanOptions, LazyJsonLineReader};
 
 <span class="kw">impl </span>AnonymousScan <span class="kw">for </span>LazyJsonLineReader {
+    <span class="kw">fn </span>as_any(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw">dyn </span>std::any::Any {
+        <span class="self">self
+    </span>}
     <span class="kw">fn </span>scan(<span class="kw-2">&amp;</span><span class="self">self</span>, scan_opts: AnonymousScanOptions) -&gt; PolarsResult&lt;DataFrame&gt; {
         <span class="kw">let </span>schema = scan_opts.output_schema.unwrap_or(scan_opts.schema);
         JsonLineReader::from_path(<span class="kw-2">&amp;</span><span class="self">self</span>.path)<span class="question-mark">?
