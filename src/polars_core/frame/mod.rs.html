@@ -3651,6 +3651,9 @@
 <a href="#3651" id="3651">3651</a>
 <a href="#3652" id="3652">3652</a>
 <a href="#3653" id="3653">3653</a>
+<a href="#3654" id="3654">3654</a>
+<a href="#3655" id="3655">3655</a>
+<a href="#3656" id="3656">3656</a>
 </pre><pre class="rust"><code><span class="doccomment">//! DataFrame module.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::iter::{FromIterator, Iterator};
@@ -3713,6 +3716,9 @@
     </span>Last,
     <span class="doccomment">/// Keep None of the unique rows.
     </span><span class="prelude-val">None</span>,
+    <span class="doccomment">/// Keep any of the unique rows
+    /// This allows more optimizations
+    </span>Any,
 }
 
 <span class="doccomment">/// A contiguous growable collection of `Series` that have the same length.
@@ -6668,7 +6674,7 @@
         };
 
         <span class="kw">let </span>columns = <span class="kw">match </span>(keep, maintain_order) {
-            (UniqueKeepStrategy::First, <span class="bool-val">true</span>) =&gt; {
+            (UniqueKeepStrategy::First | UniqueKeepStrategy::Any, <span class="bool-val">true</span>) =&gt; {
                 <span class="kw">let </span>gb = <span class="self">self</span>.groupby_stable(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>groups = gb.get_groups();
                 <span class="kw">let </span>(offset, len) = slice.unwrap_or((<span class="number">0</span>, groups.len()));
@@ -6697,7 +6703,7 @@
                 <span class="kw">let </span>last_idx = last_idx.sort(<span class="bool-val">false</span>);
                 <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ <span class="self">self</span>.take_unchecked(<span class="kw-2">&amp;</span>last_idx) });
             }
-            (UniqueKeepStrategy::First, <span class="bool-val">false</span>) =&gt; {
+            (UniqueKeepStrategy::First | UniqueKeepStrategy::Any, <span class="bool-val">false</span>) =&gt; {
                 <span class="kw">let </span>gb = <span class="self">self</span>.groupby(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>groups = gb.get_groups();
                 <span class="kw">let </span>(offset, len) = slice.unwrap_or((<span class="number">0</span>, groups.len()));
