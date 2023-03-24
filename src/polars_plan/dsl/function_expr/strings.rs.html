@@ -969,7 +969,7 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
 </span><span class="kw">fn </span>get_pat(pat: <span class="kw-2">&amp;</span>Utf8Chunked) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>str&gt; {
     pat.get(<span class="number">0</span>).ok_or_else(
-        || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;pattern may not be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>),
+        || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;pattern cannot be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>),
     )
 }
 
@@ -1009,7 +1009,7 @@
         (<span class="number">1</span>, <span class="number">1</span>) =&gt; {
             <span class="kw">let </span>pat = get_pat(pat)<span class="question-mark">?</span>;
             <span class="kw">let </span>val = val.get(<span class="number">0</span>).ok_or_else(
-                || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;value may not be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>),
+                || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;value cannot be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>),
             )<span class="question-mark">?</span>;
             <span class="kw">let </span>literal = literal || is_literal_pat(pat);
 
@@ -1069,7 +1069,7 @@
         (<span class="number">1</span>, <span class="number">1</span>) =&gt; {
             <span class="kw">let </span>pat = get_pat(pat)<span class="question-mark">?</span>;
             <span class="kw">let </span>val = val.get(<span class="number">0</span>).ok_or_else(
-                || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;value may not be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>),
+                || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;value cannot be &#39;null&#39; in &#39;replace&#39; expression&quot;</span>),
             )<span class="question-mark">?</span>;
             <span class="kw">let </span>literal = literal || is_literal_pat(pat);
 
