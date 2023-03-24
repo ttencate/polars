@@ -1514,8 +1514,8 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.coalesce.html#polars.coalesce" title="polars.coalesce"><code class="xref py py-obj docutils literal notranslate"><span class="pre">coalesce</span></code></a>(exprs, *more_exprs)</p></td>
 <td><p>Folds the columns from left to right, keeping the first non-null value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.concat_list.html#polars.concat_list" title="polars.concat_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_list</span></code></a>(exprs)</p></td>
-<td><p>Concat the arrays in a Series dtype List in linear time.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.concat_list.html#polars.concat_list" title="polars.concat_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_list</span></code></a>(exprs, *more_exprs)</p></td>
+<td><p>Horizontally concatenate columns into a single list column.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.concat_str.html#polars.concat_str" title="polars.concat_str"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_str</span></code></a>(exprs, *[, separator])</p></td>
 <td><p>Horizontally concatenate columns into a single string column.</p></td>
