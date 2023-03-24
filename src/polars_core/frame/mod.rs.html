@@ -4108,13 +4108,13 @@
 
     <span class="doccomment">/// Returns true if the chunks of the columns do not align and re-chunking should be done
     </span><span class="kw">pub fn </span>should_rechunk(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="kw">let </span><span class="kw-2">mut </span>chunk_lenghts = <span class="self">self</span>.columns.iter().map(|s| s.chunk_lengths());
-        <span class="kw">match </span>chunk_lenghts.next() {
+        <span class="kw">let </span><span class="kw-2">mut </span>chunk_lengths = <span class="self">self</span>.columns.iter().map(|s| s.chunk_lengths());
+        <span class="kw">match </span>chunk_lengths.next() {
             <span class="prelude-val">None </span>=&gt; <span class="bool-val">false</span>,
             <span class="prelude-val">Some</span>(first_column_chunk_lengths) =&gt; {
                 <span class="comment">// Fast Path for single Chunk Series
                 </span><span class="kw">if </span>first_column_chunk_lengths.len() == <span class="number">1 </span>{
-                    <span class="kw">return </span>chunk_lenghts.any(|cl| cl.len() != <span class="number">1</span>);
+                    <span class="kw">return </span>chunk_lengths.any(|cl| cl.len() != <span class="number">1</span>);
                 }
                 <span class="comment">// Always rechunk if we have more chunks than rows.
                 // except when we have an empty df containing a single chunk
@@ -4125,7 +4125,7 @@
                 }
                 <span class="comment">// Slow Path for multi Chunk series
                 </span><span class="kw">let </span>v: Vec&lt;<span class="kw">_</span>&gt; = first_column_chunk_lengths.collect();
-                <span class="kw">for </span>cl <span class="kw">in </span>chunk_lenghts {
+                <span class="kw">for </span>cl <span class="kw">in </span>chunk_lengths {
                     <span class="kw">if </span>cl.enumerate().any(|(idx, el)| <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>el) != v.get(idx)) {
                         <span class="kw">return </span><span class="bool-val">true</span>;
                     }

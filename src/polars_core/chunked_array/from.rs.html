@@ -134,7 +134,7 @@
     <span class="kw">match </span>dtype {
         <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
         </span><span class="comment">// arrow dictionaries are not nested as dictionaries, but only by their keys, so we must
-        // change the list-value array to the keys and store the dicitonary values in the datatype.
+        // change the list-value array to the keys and store the dictionary values in the datatype.
         // if a global string cache is set, we also must modify the keys.
         </span>DataType::List(inner) <span class="kw">if </span><span class="kw-2">*</span>inner == DataType::Categorical(<span class="prelude-val">None</span>) =&gt; {
             <span class="kw">use </span>polars_arrow::kernels::concatenate::concatenate_owned_unchecked;

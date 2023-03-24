@@ -873,7 +873,7 @@
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
             </span>ArrowDataType::Struct(<span class="kw">_</span>) =&gt; {
                 <span class="kw">let </span>arr = <span class="kw">if </span>chunks.len() &gt; <span class="number">1 </span>{
-                    <span class="comment">// don&#39;t spuriously call this. This triggers a read on mmaped data
+                    <span class="comment">// don&#39;t spuriously call this. This triggers a read on memmapped data
                     </span>concatenate_owned_unchecked(<span class="kw-2">&amp;</span>chunks).unwrap() <span class="kw">as </span>ArrayRef
                 } <span class="kw">else </span>{
                     chunks[<span class="number">0</span>].clone()

@@ -151,7 +151,7 @@ rows (selection) before the join, thereby reducing the amount of work done by th
      )
 }</code></pre></div>
 </div></details><h2 id="modules" class="small-section-header"><a href="#modules">Modules</a></h2><ul class="item-table"><li><div class="item-name"><a class="mod" href="dsl/index.html" title="mod polars_lazy::dsl">dsl</a></div><div class="desc docblock-short">Domain specific language for the Lazy API. This DSL revolves around the <a href="dsl/enum.Expr.html" title="enum polars_lazy::dsl::Expr"><code>Expr</code></a> type, which represents an abstract
-operaton on a DataFrame, such as mapping over a column, filtering, groupby, or aggregation.
+operation on a DataFrame, such as mapping over a column, filtering, groupby, or aggregation.
 In general, functions on <a href="frame/struct.LazyFrame.html" title="struct polars_lazy::frame::LazyFrame"><code>LazyFrame</code></a>s consume the LazyFrame and produce a new LazyFrame representing
 the result of applying the function and passed expressions to the consumed LazyFrame.
 At runtime, when <a href="frame/struct.LazyFrame.html#method.collect" title="method polars_lazy::frame::LazyFrame::collect"><code>LazyFrame::collect</code></a> is called, the expressions that comprise
