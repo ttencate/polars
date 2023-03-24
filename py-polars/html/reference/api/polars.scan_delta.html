@@ -394,7 +394,7 @@ document.write(`
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.scan_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.read_delta.html">polars.read_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.scan_pyarrow_dataset.html">polars.scan_pyarrow_dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.internals.batched.BatchedCsvReader.next_batches.html">polars.internals.batched.BatchedCsvReader.next_batches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.io.csv.batched_reader.BatchedCsvReader.next_batches.html">polars.io.csv.batched_reader.BatchedCsvReader.next_batches</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../series/index.html">Series</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -590,10 +590,12 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.filter.html">polars.Series.filter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.floor.html">polars.Series.floor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.head.html">polars.Series.head</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.hist.html">polars.Series.hist</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.interpolate.html">polars.Series.interpolate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.item.html">polars.Series.item</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.limit.html">polars.Series.limit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.new_from_index.html">polars.Series.new_from_index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.qcut.html">polars.Series.qcut</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.rechunk.html">polars.Series.rechunk</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.rename.html">polars.Series.rename</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.reshape.html">polars.Series.reshape</a></li>
@@ -672,11 +674,14 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.cast_time_unit.html">polars.Series.dt.cast_time_unit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.replace_time_zone.html">polars.Series.dt.replace_time_zone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.combine.html">polars.Series.dt.combine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.date.html">polars.Series.dt.date</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.datetime.html">polars.Series.dt.datetime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.day.html">polars.Series.dt.day</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.days.html">polars.Series.dt.days</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.epoch.html">polars.Series.dt.epoch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.hour.html">polars.Series.dt.hour</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.hours.html">polars.Series.dt.hours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.is_leap_year.html">polars.Series.dt.is_leap_year</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.iso_year.html">polars.Series.dt.iso_year</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.max.html">polars.Series.dt.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.mean.html">polars.Series.dt.mean</a></li>
@@ -698,6 +703,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.second.html">polars.Series.dt.second</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.seconds.html">polars.Series.dt.seconds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.strftime.html">polars.Series.dt.strftime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.time.html">polars.Series.dt.time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.timestamp.html">polars.Series.dt.timestamp</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.truncate.html">polars.Series.dt.truncate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.week.html">polars.Series.dt.week</a></li>
@@ -825,6 +831,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.sort.html">polars.DataFrame.sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.tail.html">polars.DataFrame.tail</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.take_every.html">polars.DataFrame.take_every</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.top_k.html">polars.DataFrame.top_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.to_dummies.html">polars.DataFrame.to_dummies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.to_series.html">polars.DataFrame.to_series</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../dataframe/api/polars.DataFrame.transpose.html">polars.DataFrame.transpose</a></li>
@@ -920,6 +927,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.sort.html">polars.LazyFrame.sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.tail.html">polars.LazyFrame.tail</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.take_every.html">polars.LazyFrame.take_every</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.top_k.html">polars.LazyFrame.top_k</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.unique.html">polars.LazyFrame.unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.unnest.html">polars.LazyFrame.unnest</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.update.html">polars.LazyFrame.update</a></li>
@@ -1189,6 +1197,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.limit.html">polars.Expr.limit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.lower_bound.html">polars.Expr.lower_bound</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.map_dict.html">polars.Expr.map_dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.pipe.html">polars.Expr.pipe</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.rechunk.html">polars.Expr.rechunk</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.reinterpret.html">polars.Expr.reinterpret</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.repeat_by.html">polars.Expr.repeat_by</a></li>
@@ -1267,11 +1276,14 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.cast_time_unit.html">polars.Expr.dt.cast_time_unit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.replace_time_zone.html">polars.Expr.dt.replace_time_zone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.combine.html">polars.Expr.dt.combine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.date.html">polars.Expr.dt.date</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.datetime.html">polars.Expr.dt.datetime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.day.html">polars.Expr.dt.day</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.days.html">polars.Expr.dt.days</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.epoch.html">polars.Expr.dt.epoch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.hour.html">polars.Expr.dt.hour</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.hours.html">polars.Expr.dt.hours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.is_leap_year.html">polars.Expr.dt.is_leap_year</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.iso_year.html">polars.Expr.dt.iso_year</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.microsecond.html">polars.Expr.dt.microsecond</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.microseconds.html">polars.Expr.dt.microseconds</a></li>
@@ -1289,6 +1301,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.second.html">polars.Expr.dt.second</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.seconds.html">polars.Expr.dt.seconds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.strftime.html">polars.Expr.dt.strftime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.time.html">polars.Expr.dt.time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.timestamp.html">polars.Expr.dt.timestamp</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.truncate.html">polars.Expr.dt.truncate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.week.html">polars.Expr.dt.week</a></li>
@@ -1487,25 +1500,18 @@ document.write(`
 <h1>polars.scan_delta<a class="headerlink" href="#polars-scan-delta" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="polars.scan_delta">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">scan_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_filesystem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pa.fs.FileSystem</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_table_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pyarrow_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LazyFrame</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/io/delta.py#L147-L328"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.scan_delta" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">scan_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_table_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pyarrow_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LazyFrame</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/io/delta.py#L144-L270"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.scan_delta" title="Permalink to this definition">#</a></dt>
 <dd><p>Lazily read from a Delta lake table.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
 <dt><strong>source</strong></dt><dd><p>Path or URI to the root of the Delta lake table.</p>
-<p>Note: For Local filesystem, absolute and relative paths are supported. But
-for the supported object storages - GCS, Azure and S3, there is no relative
-path support, and thus full URI must be provided.</p>
+<p>Note: For Local filesystem, absolute and relative paths are supported but
+for the supported object storages - GCS, Azure and S3 full URI must be provided.</p>
 </dd>
 <dt><strong>version</strong></dt><dd><p>Version of the Delta lake table.</p>
-<p>Note: If <code class="docutils literal notranslate"><span class="pre">version</span></code> is not provided, latest version of delta lake
+<p>Note: If <code class="docutils literal notranslate"><span class="pre">version</span></code> is not provided, the latest version of delta lake
 table is read.</p>
-</dd>
-<dt><strong>raw_filesystem</strong></dt><dd><p>A <cite>pyarrow.fs.FileSystem</cite> to read files from.</p>
-<p>Note: The root of the filesystem has to be adjusted to point at the root of
-the Delta lake table. The provided <code class="docutils literal notranslate"><span class="pre">raw_filesystem</span></code> is wrapped into a
-<cite>pyarrow.fs.SubTreeFileSystem</cite></p>
-<p>More info is available <a class="reference external" href="https://delta-io.github.io/delta-rs/python/usage.html?highlight=backend#custom-storage-backends">here</a>.</p>
 </dd>
 <dt><strong>storage_options</strong></dt><dd><p>Extra options for the storage backends supported by <cite>deltalake</cite>.
 For cloud storages, this may include configurations for authentication etc.</p>
@@ -1514,7 +1520,8 @@ For cloud storages, this may include configurations for authentication etc.</p>
 <dt><strong>delta_table_options</strong></dt><dd><p>Additional keyword arguments while reading a Delta lake Table.</p>
 </dd>
 <dt><strong>pyarrow_options</strong></dt><dd><p>Keyword arguments while converting a Delta lake Table to pyarrow table.
-Use this parameter when filtering on partitioned columns.</p>
+Use this parameter when filtering on partitioned columns or to read
+from a ‘fsspec’ supported filesystem.</p>
 </dd>
 </dl>
 </dd>
@@ -1526,7 +1533,7 @@ Use this parameter when filtering on partitioned columns.</p>
 </dl>
 <p class="rubric">Examples</p>
 <p>Creates a scan for a Delta table from local filesystem.
-Note: Since version is not provided, latest version of the delta table is read.</p>
+Note: Since version is not provided, the latest version of the delta table is read.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">table_path</span> <span class="o">=</span> <span class="s2">&quot;/path/to/delta-table/&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pl</span><span class="o">.</span><span class="n">scan_delta</span><span class="p">(</span><span class="n">table_path</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>  
 </pre></div>
@@ -1544,9 +1551,10 @@ Note: This will fail if the provided version of the delta table does not exist.<
 </pre></div>
 </div>
 <p>Creates a scan for a Delta table from AWS S3.
-See a list of supported storage options for S3 <a class="reference external" href="https://github.com/delta-io/delta-rs/blob/17999d24a58fb4c98c6280b9e57842c346b4603a/rust/src/builder.rs#L423-L491">here</a>.</p>
+See a list of supported storage options for S3 <a class="reference external" href="https://docs.rs/object_store/latest/object_store/aws/enum.AmazonS3ConfigKey.html#variants">here</a>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">table_path</span> <span class="o">=</span> <span class="s2">&quot;s3://bucket/path/to/delta-table/&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">storage_options</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s2">&quot;AWS_REGION&quot;</span><span class="p">:</span> <span class="s2">&quot;eu-central-1&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s2">&quot;AWS_ACCESS_KEY_ID&quot;</span><span class="p">:</span> <span class="s2">&quot;THE_AWS_ACCESS_KEY_ID&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s2">&quot;AWS_SECRET_ACCESS_KEY&quot;</span><span class="p">:</span> <span class="s2">&quot;THE_AWS_SECRET_ACCESS_KEY&quot;</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">}</span>
@@ -1555,52 +1563,28 @@ See a list of supported storage options for S3 <a class="reference external" hre
 <span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>  
 </pre></div>
 </div>
-<p>Creates a scan for a Delta table from Google Cloud storage (GCS).</p>
-<p>Note: This implementation relies on <cite>pyarrow.fs</cite> and thus has to rely on fsspec
-compatible filesystems as mentioned <a class="reference external" href="https://arrow.apache.org/docs/python/filesystems.html#using-fsspec-compatible-filesystems-with-arrow">here</a>.
-So please ensure that <cite>pyarrow</cite> ,`fsspec` and <cite>gcsfs</cite> are installed.</p>
-<p>See a list of supported storage options for GCS <a class="reference external" href="https://github.com/delta-io/delta-rs/blob/17999d24a58fb4c98c6280b9e57842c346b4603a/rust/src/builder.rs#L570-L577">here</a>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">gcsfs</span>  
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyarrow.fs</span> <span class="kn">import</span> <span class="n">PyFileSystem</span><span class="p">,</span> <span class="n">FSSpecHandler</span>  
+<p>Creates a scan for a Delta table from Google Cloud storage (GCS).
+See a list of supported storage options for GCS <a class="reference external" href="https://docs.rs/object_store/latest/object_store/gcp/enum.GoogleConfigKey.html#variants">here</a>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">table_path</span> <span class="o">=</span> <span class="s2">&quot;gs://bucket/path/to/delta-table/&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">storage_options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;SERVICE_ACCOUNT&quot;</span><span class="p">:</span> <span class="s2">&quot;SERVICE_ACCOUNT_JSON_ABSOLUTE_PATH&quot;</span><span class="p">}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fs</span> <span class="o">=</span> <span class="n">gcsfs</span><span class="o">.</span><span class="n">GCSFileSystem</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">project</span><span class="o">=</span><span class="s2">&quot;my-project-id&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">token</span><span class="o">=</span><span class="n">storage_options</span><span class="p">[</span><span class="s2">&quot;SERVICE_ACCOUNT&quot;</span><span class="p">],</span>
-<span class="gp">... </span><span class="p">)</span>  
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># this pyarrow fs must be created and passed to scan_delta for GCS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pa_fs</span> <span class="o">=</span> <span class="n">PyFileSystem</span><span class="p">(</span><span class="n">FSSpecHandler</span><span class="p">(</span><span class="n">fs</span><span class="p">))</span>  
-<span class="gp">&gt;&gt;&gt; </span><span class="n">table_path</span> <span class="o">=</span> <span class="s2">&quot;gs://bucket/path/to/delta-table/&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pl</span><span class="o">.</span><span class="n">scan_delta</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">table_path</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="n">storage_options</span><span class="p">,</span> <span class="n">raw_filesystem</span><span class="o">=</span><span class="n">pa_fs</span>
+<span class="gp">... </span>    <span class="n">table_path</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="n">storage_options</span>
 <span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>  
 </pre></div>
 </div>
-<p>Creates a scan for a Delta table from Azure.</p>
-<p>Note: This implementation relies on <cite>pyarrow.fs</cite> and thus has to rely on fsspec
-compatible filesystems as mentioned <a class="reference external" href="https://arrow.apache.org/docs/python/filesystems.html#using-fsspec-compatible-filesystems-with-arrow">here</a>.
-So please ensure that <cite>pyarrow</cite> ,`fsspec` and <cite>adlfs</cite> are installed.</p>
-<p>Following type of table paths are supported,</p>
-<ul class="simple">
-<li><p>az://&lt;container&gt;/&lt;path&gt;</p></li>
-<li><p>adl://&lt;container&gt;/&lt;path&gt;</p></li>
-<li><p>abfs://&lt;container&gt;/&lt;path&gt;</p></li>
-</ul>
-<p>See a list of supported storage options for Azure <a class="reference external" href="https://github.com/delta-io/delta-rs/blob/17999d24a58fb4c98c6280b9e57842c346b4603a/rust/src/builder.rs#L524-L539">here</a>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">adlfs</span>  
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyarrow.fs</span> <span class="kn">import</span> <span class="n">PyFileSystem</span><span class="p">,</span> <span class="n">FSSpecHandler</span>  
+<p>Creates a scan for a Delta table from Azure.
+Supported options for Azure are available <a class="reference external" href="https://docs.rs/object_store/latest/object_store/azure/enum.AzureConfigKey.html#variants">here</a>.</p>
+<p>Following type of table paths are supported,
+* az://&lt;container&gt;/&lt;path&gt;
+* adl://&lt;container&gt;/&lt;path&gt;
+* abfs[s]://&lt;container&gt;/&lt;path&gt;</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">table_path</span> <span class="o">=</span> <span class="s2">&quot;az://container/path/to/delta-table/&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">storage_options</span> <span class="o">=</span> <span class="p">{</span>
 <span class="gp">... </span>    <span class="s2">&quot;AZURE_STORAGE_ACCOUNT_NAME&quot;</span><span class="p">:</span> <span class="s2">&quot;AZURE_STORAGE_ACCOUNT_NAME&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s2">&quot;AZURE_STORAGE_ACCOUNT_KEY&quot;</span><span class="p">:</span> <span class="s2">&quot;AZURE_STORAGE_ACCOUNT_KEY&quot;</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fs</span> <span class="o">=</span> <span class="n">adlfs</span><span class="o">.</span><span class="n">AzureBlobFileSystem</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">account_name</span><span class="o">=</span><span class="n">storage_options</span><span class="p">[</span><span class="s2">&quot;AZURE_STORAGE_ACCOUNT_NAME&quot;</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="n">account_key</span><span class="o">=</span><span class="n">storage_options</span><span class="p">[</span><span class="s2">&quot;AZURE_STORAGE_ACCOUNT_KEY&quot;</span><span class="p">],</span>
-<span class="gp">... </span><span class="p">)</span>  
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># this pyarrow fs must be created and passed to scan_delta for Azure</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pa_fs</span> <span class="o">=</span> <span class="n">PyFileSystem</span><span class="p">(</span><span class="n">FSSpecHandler</span><span class="p">(</span><span class="n">fs</span><span class="p">))</span>  
-<span class="gp">&gt;&gt;&gt; </span><span class="n">table_path</span> <span class="o">=</span> <span class="s2">&quot;az://container/path/to/delta-table/&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pl</span><span class="o">.</span><span class="n">scan_delta</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">table_path</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="n">storage_options</span><span class="p">,</span> <span class="n">raw_filesystem</span><span class="o">=</span><span class="n">pa_fs</span>
+<span class="gp">... </span>    <span class="n">table_path</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="n">storage_options</span>
 <span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>  
 </pre></div>
 </div>

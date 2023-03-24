@@ -12,11 +12,14 @@ The following methods are available under the `expr.dt` attribute.
     Expr.dt.cast_time_unit
     Expr.dt.replace_time_zone
     Expr.dt.combine
+    Expr.dt.date
+    Expr.dt.datetime
     Expr.dt.day
     Expr.dt.days
     Expr.dt.epoch
     Expr.dt.hour
     Expr.dt.hours
+    Expr.dt.is_leap_year
     Expr.dt.iso_year
     Expr.dt.microsecond
     Expr.dt.microseconds
@@ -34,6 +37,7 @@ The following methods are available under the `expr.dt` attribute.
     Expr.dt.second
     Expr.dt.seconds
     Expr.dt.strftime
+    Expr.dt.time
     Expr.dt.timestamp
     Expr.dt.truncate
     Expr.dt.week
