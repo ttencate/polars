@@ -549,8 +549,6 @@
 <a href="#549" id="549">549</a>
 <a href="#550" id="550">550</a>
 <a href="#551" id="551">551</a>
-<a href="#552" id="552">552</a>
-<a href="#553" id="553">553</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::any::Any;
 <span class="kw">use </span>std::borrow::Cow;
 <span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
@@ -717,9 +715,7 @@
             <span class="kw-2">&amp;</span><span class="self">self</span>,
             _mask: <span class="kw-2">&amp;</span>BooleanChunked,
             _other: <span class="kw-2">&amp;</span>Series,
-        ) -&gt; PolarsResult&lt;Series&gt; {
-            <span class="macro">invalid_operation_panic!</span>(zip_with_same_type, <span class="self">self</span>)
-        }
+        ) -&gt; PolarsResult&lt;Series&gt;;
         <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
         </span><span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, _by: <span class="kw-2">&amp;</span>[Series], _descending: <span class="kw-2">&amp;</span>[bool]) -&gt; PolarsResult&lt;IdxCa&gt; {
             <span class="macro">polars_bail!</span>(opq = arg_sort_multiple, <span class="self">self</span>._dtype());
