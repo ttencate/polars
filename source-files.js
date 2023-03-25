@@ -9,7 +9,7 @@ var sourcesIndex = JSON.parse('{\
 "arrow_format":["",[["ipc",[],["generated.rs","mod.rs"]]],["lib.rs"]],\
 "async_stream":["",[],["async_stream.rs","lib.rs","next.rs","yielder.rs"]],\
 "async_stream_impl":["",[],["lib.rs"]],\
-"async_trait":["",[],["args.rs","bound.rs","expand.rs","lib.rs","lifetime.rs","parse.rs","receiver.rs"]],\
+"async_trait":["",[],["args.rs","bound.rs","expand.rs","lib.rs","lifetime.rs","parse.rs","receiver.rs","verbatim.rs"]],\
 "atoi":["",[],["lib.rs"]],\
 "base64":["",[["engine",[["general_purpose",[],["decode.rs","decode_suffix.rs","mod.rs"]]],["mod.rs"]],["read",[],["decoder.rs","mod.rs"]],["write",[],["encoder.rs","encoder_string_writer.rs","mod.rs"]]],["alphabet.rs","chunked_encoder.rs","decode.rs","display.rs","encode.rs","lib.rs","prelude.rs"]],\
 "bitflags":["",[],["lib.rs"]],\

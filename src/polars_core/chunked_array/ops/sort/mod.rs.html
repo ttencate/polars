@@ -947,20 +947,9 @@
 <a href="#947" id="947">947</a>
 <a href="#948" id="948">948</a>
 <a href="#949" id="949">949</a>
-<a href="#950" id="950">950</a>
-<a href="#951" id="951">951</a>
-<a href="#952" id="952">952</a>
-<a href="#953" id="953">953</a>
-<a href="#954" id="954">954</a>
-<a href="#955" id="955">955</a>
-<a href="#956" id="956">956</a>
-<a href="#957" id="957">957</a>
-<a href="#958" id="958">958</a>
-<a href="#959" id="959">959</a>
-<a href="#960" id="960">960</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>arg_sort;
-<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">pub mod </span>arg_sort_multiple;
+
+<span class="kw">pub mod </span>arg_sort_multiple;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
 </span><span class="kw">mod </span>categorical;
 <span class="kw">mod </span>slice;
@@ -969,8 +958,7 @@
 <span class="kw">use </span>std::hint::unreachable_unchecked;
 <span class="kw">use </span>std::iter::FromIterator;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>arg_sort_multiple::argsort_multiple_row_fmt;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>arg_sort_multiple::argsort_multiple_row_fmt;
 <span class="kw">use </span>arrow::bitmap::MutableBitmap;
 <span class="kw">use </span>arrow::buffer::Buffer;
 <span class="kw">use </span>num_traits::Float;
@@ -982,8 +970,7 @@
 <span class="kw">pub use </span>slice::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::compare_inner::PartialOrdInner;
-<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::prelude::sort::arg_sort_multiple::{arg_sort_multiple_impl, args_validate};
+<span class="kw">use </span><span class="kw">crate</span>::prelude::sort::arg_sort_multiple::{arg_sort_multiple_impl, args_validate};
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
 <span class="kw">use </span><span class="kw">crate</span>::utils::{CustomIterTools, NoNull};
@@ -1247,8 +1234,7 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">fn </span>arg_sort_multiple_numeric&lt;T: PolarsNumericType&gt;(
+<span class="kw">fn </span>arg_sort_multiple_numeric&lt;T: PolarsNumericType&gt;(
     ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;,
     other: <span class="kw-2">&amp;</span>[Series],
     descending: <span class="kw-2">&amp;</span>[bool],
@@ -1287,8 +1273,7 @@
         arg_sort_numeric(<span class="self">self</span>, options)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-    </span><span class="doccomment">/// # Panics
+    <span class="doccomment">/// # Panics
     ///
     /// This function is very opinionated.
     /// We assume that all numeric `Series` are of the same type, if not it will panic
@@ -1313,8 +1298,7 @@
         arg_sort_numeric(<span class="self">self</span>, options)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-    </span><span class="doccomment">/// # Panics
+    <span class="doccomment">/// # Panics
     ///
     /// This function is very opinionated.
     /// We assume that all numeric `Series` are of the same type, if not it will panic
@@ -1339,8 +1323,7 @@
         arg_sort_numeric(<span class="self">self</span>, options)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-    </span><span class="doccomment">/// # Panics
+    <span class="doccomment">/// # Panics
     ///
     /// This function is very opinionated.
     /// We assume that all numeric `Series` are of the same type, if not it will panic
@@ -1475,8 +1458,7 @@
         <span class="self">self</span>.as_binary().arg_sort(options)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-    </span><span class="doccomment">/// # Panics
+    <span class="doccomment">/// # Panics
     ///
     /// This function is very opinionated. On the implementation of `ChunkedArray&lt;T&gt;` for numeric types,
     /// we assume that all numeric `Series` are of the same type.
@@ -1601,8 +1583,7 @@
         )
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-    </span><span class="doccomment">/// # Panics
+    <span class="doccomment">/// # Panics
     ///
     /// This function is very opinionated. On the implementation of `ChunkedArray&lt;T&gt;` for numeric types,
     /// we assume that all numeric `Series` are of the same type.
@@ -1665,8 +1646,7 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>convert_sort_column_multi_sort(
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>convert_sort_column_multi_sort(
     s: <span class="kw-2">&amp;</span>Series,
     row_ordering: bool,
 ) -&gt; PolarsResult&lt;Series&gt; {
@@ -1703,8 +1683,7 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>prepare_arg_sort(
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>prepare_arg_sort(
     columns: Vec&lt;Series&gt;,
     <span class="kw-2">mut </span>descending: Vec&lt;bool&gt;,
 ) -&gt; PolarsResult&lt;(Series, Vec&lt;Series&gt;, Vec&lt;bool&gt;)&gt; {
@@ -1814,7 +1793,6 @@
     }
 
     <span class="attr">#[test]
-    #[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
     #[cfg_attr(miri, ignore)]
     </span><span class="kw">fn </span>test_arg_sort_multiple() -&gt; PolarsResult&lt;()&gt; {
         <span class="kw">let </span>a = Int32Chunked::new(<span class="string">&quot;a&quot;</span>, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">3</span>]);

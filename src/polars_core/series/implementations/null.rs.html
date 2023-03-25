@@ -178,6 +178,7 @@
 <a href="#178" id="178">178</a>
 <a href="#179" id="179">179</a>
 <a href="#180" id="180">180</a>
+<a href="#181" id="181">181</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -229,7 +230,8 @@
         <span class="kw-2">&amp;</span>DataType::Null
     }
 
-    <span class="kw">fn </span>zip_with_same_type(<span class="kw-2">&amp;</span><span class="self">self</span>, _mask: <span class="kw-2">&amp;</span>BooleanChunked, _other: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="attr">#[cfg(feature = <span class="string">&quot;zip_with&quot;</span>)]
+    </span><span class="kw">fn </span>zip_with_same_type(<span class="kw-2">&amp;</span><span class="self">self</span>, _mask: <span class="kw-2">&amp;</span>BooleanChunked, _other: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
         <span class="prelude-val">Ok</span>(<span class="self">self</span>.clone().into_series())
     }
 }

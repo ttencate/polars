@@ -3643,17 +3643,6 @@
 <a href="#3643" id="3643">3643</a>
 <a href="#3644" id="3644">3644</a>
 <a href="#3645" id="3645">3645</a>
-<a href="#3646" id="3646">3646</a>
-<a href="#3647" id="3647">3647</a>
-<a href="#3648" id="3648">3648</a>
-<a href="#3649" id="3649">3649</a>
-<a href="#3650" id="3650">3650</a>
-<a href="#3651" id="3651">3651</a>
-<a href="#3652" id="3652">3652</a>
-<a href="#3653" id="3653">3653</a>
-<a href="#3654" id="3654">3654</a>
-<a href="#3655" id="3655">3655</a>
-<a href="#3656" id="3656">3656</a>
 </pre><pre class="rust"><code><span class="doccomment">//! DataFrame module.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::iter::{FromIterator, Iterator};
@@ -3691,10 +3680,7 @@
 <span class="kw">use </span>smartstring::alias::String <span class="kw">as </span>SmartString;
 
 <span class="kw">use </span><span class="kw">crate</span>::frame::groupby::GroupsIndicator;
-<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::prelude::sort::argsort_multiple_row_fmt;
-<span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::prelude::sort::prepare_arg_sort;
+<span class="kw">use </span><span class="kw">crate</span>::prelude::sort::{argsort_multiple_row_fmt, prepare_arg_sort};
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
 <span class="attr">#[cfg(feature = <span class="string">&quot;row_hash&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::vector_hasher::df_rows_to_hashes_threaded;
@@ -5493,20 +5479,12 @@
                 s.arg_sort(options)
             }
             <span class="kw">_ </span>=&gt; {
-                <span class="attr">#[cfg(feature = <span class="string">&quot;sort_multiple&quot;</span>)]
-                </span>{
-                    <span class="kw">if </span>nulls_last || std::env::var(<span class="string">&quot;POLARS_ROW_FMT_SORT&quot;</span>).is_ok() {
-                        argsort_multiple_row_fmt(<span class="kw-2">&amp;</span>by_column, descending, nulls_last, parallel)<span class="question-mark">?
-                    </span>} <span class="kw">else </span>{
-                        <span class="kw">let </span>(first, by_column, descending) =
-                            prepare_arg_sort(by_column, descending)<span class="question-mark">?</span>;
-                        first.arg_sort_multiple(<span class="kw-2">&amp;</span>by_column, <span class="kw-2">&amp;</span>descending)<span class="question-mark">?
-                    </span>}
-                }
-                <span class="attr">#[cfg(not(feature = <span class="string">&quot;sort_multiple&quot;</span>))]
-                </span>{
-                    <span class="macro">panic!</span>(<span class="string">&quot;activate `sort_multiple` feature gate to enable this functionality&quot;</span>);
-                }
+                <span class="kw">if </span>nulls_last || std::env::var(<span class="string">&quot;POLARS_ROW_FMT_SORT&quot;</span>).is_ok() {
+                    argsort_multiple_row_fmt(<span class="kw-2">&amp;</span>by_column, descending, nulls_last, parallel)<span class="question-mark">?
+                </span>} <span class="kw">else </span>{
+                    <span class="kw">let </span>(first, by_column, descending) = prepare_arg_sort(by_column, descending)<span class="question-mark">?</span>;
+                    first.arg_sort_multiple(<span class="kw-2">&amp;</span>by_column, <span class="kw-2">&amp;</span>descending)<span class="question-mark">?
+                </span>}
             }
         };
 
