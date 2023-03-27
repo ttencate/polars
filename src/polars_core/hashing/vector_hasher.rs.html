@@ -490,6 +490,9 @@
 <a href="#490" id="490">490</a>
 <a href="#491" id="491">491</a>
 <a href="#492" id="492">492</a>
+<a href="#493" id="493">493</a>
+<a href="#494" id="494">494</a>
+<a href="#495" id="495">495</a>
 </pre><pre class="rust"><code><span class="kw">use </span>arrow::bitmap::utils::get_bit_unchecked;
 <span class="kw">use </span>hashbrown::hash_map::RawEntryMut;
 <span class="kw">use </span>hashbrown::HashMap;
@@ -503,6 +506,9 @@
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utils::arrow::array::Array;
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
+
+<span class="comment">// See: https://github.com/tkaitchuck/aHash/blob/f9acd508bd89e7c5b2877a9510098100f9018d64/src/operations.rs#L4
+</span><span class="kw">const </span>MULTIPLE: u64 = <span class="number">6364136223846793005</span>;
 
 <span class="comment">// Read more:
 //  https://www.cockroachlabs.com/blog/vectorized-hash-joiner/
@@ -519,6 +525,11 @@
     <span class="kw">fn </span>vec_hash_combine(<span class="kw-2">&amp;</span><span class="self">self</span>, _random_state: RandomState, _hashes: <span class="kw-2">&amp;mut </span>[u64]) {
         <span class="macro">unimplemented!</span>()
     }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>folded_multiply(s: u64, by: u64) -&gt; u64 {
+    <span class="kw">let </span>result = (s <span class="kw">as </span>u128).wrapping_mul(by <span class="kw">as </span>u128);
+    ((result &amp; <span class="number">0xffff_ffff_ffff_ffff</span>) <span class="kw">as </span>u64) ^ ((result &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>u64)
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>get_null_hash_value(random_state: RandomState) -&gt; u64 {
@@ -555,7 +566,7 @@
 <span class="kw">fn </span>integer_vec_hash&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;)
 <span class="kw">where
     </span>T: PolarsIntegerType,
-    T::Native: Hash + FxHash,
+    T::Native: Hash + AsU64,
 {
     <span class="comment">// Note that we don&#39;t use the no null branch! This can break in unexpected ways.
     // for instance with threading we split an array in n_threads, this may lead to
@@ -566,18 +577,13 @@
     </span>buf.clear();
     buf.reserve(ca.len());
 
-    <span class="kw">let </span>k = random_state.hash_one(FXHASH_K);
-
     <span class="attr">#[allow(unused_unsafe)]
     #[allow(clippy::useless_transmute)]
     </span>ca.downcast_iter().for_each(|arr| {
-        buf.extend(
-            arr.values()
-                .as_slice()
-                .iter()
-                .copied()
-                .map(|v| <span class="kw">unsafe </span>{ v._fx_hash(k) }),
-        );
+        buf.extend(arr.values().as_slice().iter().copied().map(|v| {
+            <span class="comment">// we save an xor because we don&#39;t have initial state
+            </span>folded_multiply(v.as_u64(), MULTIPLE)
+        }));
     });
     insert_null_hash(<span class="kw-2">&amp;</span>ca.chunks, random_state, buf)
 }
@@ -585,10 +591,9 @@
 <span class="kw">fn </span>integer_vec_hash_combine&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;, random_state: RandomState, hashes: <span class="kw-2">&amp;mut </span>[u64])
 <span class="kw">where
     </span>T: PolarsIntegerType,
-    T::Native: Hash + FxHash,
+    T::Native: Hash + AsU64,
 {
-    <span class="kw">let </span>null_h = get_null_hash_value(random_state.clone());
-    <span class="kw">let </span>k = random_state.hash_one(FXHASH_K);
+    <span class="kw">let </span>null_h = get_null_hash_value(random_state);
 
     <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
     ca.downcast_iter().for_each(|arr| {
@@ -599,8 +604,8 @@
                 .iter()
                 .zip(<span class="kw-2">&amp;mut </span>hashes[offset..])
                 .for_each(|(v, h)| {
-                    <span class="kw">let </span>l = v._fx_hash(k);
-                    <span class="kw-2">*</span>h = _boost_hash_combine(l, <span class="kw-2">*</span>h)
+                    <span class="comment">// inlined from ahash. This ensures we combine with the previous state
+                    </span><span class="kw-2">*</span>h = folded_multiply(v.as_u64() ^ <span class="kw-2">*</span>h, MULTIPLE);
                 }),
             <span class="kw">_ </span>=&gt; {
                 <span class="kw">let </span>validity = arr.validity().unwrap();
@@ -610,8 +615,9 @@
                     .zip(<span class="kw-2">&amp;mut </span>hashes[offset..])
                     .zip(arr.values().as_slice())
                     .for_each(|((valid, h), l)| {
-                        <span class="kw">let </span>l = l._fx_hash(k);
-                        <span class="kw-2">*</span>h = _boost_hash_combine([null_h, l][valid <span class="kw">as </span>usize], <span class="kw-2">*</span>h)
+                        <span class="comment">// inlined from ahash. This ensures we combine with the previous state
+                        </span><span class="kw">let </span>new = folded_multiply(l.as_u64() ^ <span class="kw-2">*</span>h, MULTIPLE);
+                        <span class="kw-2">*</span>h = [null_h, new][valid <span class="kw">as </span>usize];
                     });
             }
         }
@@ -620,7 +626,7 @@
 }
 
 <span class="macro">macro_rules! </span>vec_hash_int {
-    (<span class="macro-nonterminal">$ca</span>:ident, <span class="macro-nonterminal">$fx_hash</span>:ident) =&gt; {
+    (<span class="macro-nonterminal">$ca</span>:ident) =&gt; {
         <span class="kw">impl </span>VecHash <span class="kw">for </span><span class="macro-nonterminal">$ca </span>{
             <span class="kw">fn </span>vec_hash(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;) {
                 integer_vec_hash(<span class="self">self</span>, random_state, buf)
@@ -633,14 +639,14 @@
     };
 }
 
-<span class="macro">vec_hash_int!</span>(Int64Chunked, fx_hash_64_bit);
-<span class="macro">vec_hash_int!</span>(Int32Chunked, fx_hash_32_bit);
-<span class="macro">vec_hash_int!</span>(Int16Chunked, fx_hash_16_bit);
-<span class="macro">vec_hash_int!</span>(Int8Chunked, fx_hash_8_bit);
-<span class="macro">vec_hash_int!</span>(UInt64Chunked, fx_hash_64_bit);
-<span class="macro">vec_hash_int!</span>(UInt32Chunked, fx_hash_32_bit);
-<span class="macro">vec_hash_int!</span>(UInt16Chunked, fx_hash_16_bit);
-<span class="macro">vec_hash_int!</span>(UInt8Chunked, fx_hash_8_bit);
+<span class="macro">vec_hash_int!</span>(Int64Chunked);
+<span class="macro">vec_hash_int!</span>(Int32Chunked);
+<span class="macro">vec_hash_int!</span>(Int16Chunked);
+<span class="macro">vec_hash_int!</span>(Int8Chunked);
+<span class="macro">vec_hash_int!</span>(UInt64Chunked);
+<span class="macro">vec_hash_int!</span>(UInt32Chunked);
+<span class="macro">vec_hash_int!</span>(UInt16Chunked);
+<span class="macro">vec_hash_int!</span>(UInt8Chunked);
 
 <span class="kw">impl </span>VecHash <span class="kw">for </span>Utf8Chunked {
     <span class="kw">fn </span>vec_hash(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;) {
