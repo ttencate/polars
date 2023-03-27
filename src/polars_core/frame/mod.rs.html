@@ -3643,6 +3643,9 @@
 <a href="#3643" id="3643">3643</a>
 <a href="#3644" id="3644">3644</a>
 <a href="#3645" id="3645">3645</a>
+<a href="#3646" id="3646">3646</a>
+<a href="#3647" id="3647">3647</a>
+<a href="#3648" id="3648">3648</a>
 </pre><pre class="rust"><code><span class="doccomment">//! DataFrame module.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::iter::{FromIterator, Iterator};
@@ -6650,19 +6653,22 @@
             <span class="prelude-val">Some</span>(s) =&gt; s.iter().map(|s| <span class="kw-2">&amp;**</span>s).collect(),
             <span class="prelude-val">None </span>=&gt; <span class="self">self</span>.get_column_names(),
         };
+        <span class="kw">let </span><span class="kw-2">mut </span>df = <span class="self">self</span>.clone();
+        <span class="comment">// take on multiple chunks is terrible
+        </span>df.as_single_chunk_par();
 
         <span class="kw">let </span>columns = <span class="kw">match </span>(keep, maintain_order) {
             (UniqueKeepStrategy::First | UniqueKeepStrategy::Any, <span class="bool-val">true</span>) =&gt; {
-                <span class="kw">let </span>gb = <span class="self">self</span>.groupby_stable(names)<span class="question-mark">?</span>;
+                <span class="kw">let </span>gb = df.groupby_stable(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>groups = gb.get_groups();
                 <span class="kw">let </span>(offset, len) = slice.unwrap_or((<span class="number">0</span>, groups.len()));
                 <span class="kw">let </span>groups = groups.slice(offset, len);
-                <span class="self">self</span>.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_first(<span class="kw-2">&amp;</span>groups) })
+                df.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_first(<span class="kw-2">&amp;</span>groups) })
             }
             (UniqueKeepStrategy::Last, <span class="bool-val">true</span>) =&gt; {
                 <span class="comment">// maintain order by last values, so the sorted groups are not correct as they
                 // are sorted by the first value
-                </span><span class="kw">let </span>gb = <span class="self">self</span>.groupby(names)<span class="question-mark">?</span>;
+                </span><span class="kw">let </span>gb = df.groupby(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>groups = gb.get_groups();
 
                 <span class="kw">let </span>func = |g: GroupsIndicator| <span class="kw">match </span>g {
@@ -6679,30 +6685,30 @@
                 };
 
                 <span class="kw">let </span>last_idx = last_idx.sort(<span class="bool-val">false</span>);
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ <span class="self">self</span>.take_unchecked(<span class="kw-2">&amp;</span>last_idx) });
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ df.take_unchecked(<span class="kw-2">&amp;</span>last_idx) });
             }
             (UniqueKeepStrategy::First | UniqueKeepStrategy::Any, <span class="bool-val">false</span>) =&gt; {
-                <span class="kw">let </span>gb = <span class="self">self</span>.groupby(names)<span class="question-mark">?</span>;
+                <span class="kw">let </span>gb = df.groupby(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>groups = gb.get_groups();
                 <span class="kw">let </span>(offset, len) = slice.unwrap_or((<span class="number">0</span>, groups.len()));
                 <span class="kw">let </span>groups = groups.slice(offset, len);
-                <span class="self">self</span>.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_first(<span class="kw-2">&amp;</span>groups) })
+                df.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_first(<span class="kw-2">&amp;</span>groups) })
             }
             (UniqueKeepStrategy::Last, <span class="bool-val">false</span>) =&gt; {
-                <span class="kw">let </span>gb = <span class="self">self</span>.groupby(names)<span class="question-mark">?</span>;
+                <span class="kw">let </span>gb = df.groupby(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>groups = gb.get_groups();
                 <span class="kw">let </span>(offset, len) = slice.unwrap_or((<span class="number">0</span>, groups.len()));
                 <span class="kw">let </span>groups = groups.slice(offset, len);
-                <span class="self">self</span>.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_last(<span class="kw-2">&amp;</span>groups) })
+                df.apply_columns_par(<span class="kw-2">&amp;</span>|s| <span class="kw">unsafe </span>{ s.agg_last(<span class="kw-2">&amp;</span>groups) })
             }
             (UniqueKeepStrategy::None, <span class="kw">_</span>) =&gt; {
-                <span class="kw">let </span>df_part = <span class="self">self</span>.select(names)<span class="question-mark">?</span>;
+                <span class="kw">let </span>df_part = df.select(names)<span class="question-mark">?</span>;
                 <span class="kw">let </span>mask = df_part.is_unique()<span class="question-mark">?</span>;
                 <span class="kw">let </span>mask = <span class="kw">match </span>slice {
                     <span class="prelude-val">None </span>=&gt; mask,
                     <span class="prelude-val">Some</span>((offset, len)) =&gt; mask.slice(offset, len),
                 };
-                <span class="kw">return </span><span class="self">self</span>.filter(<span class="kw-2">&amp;</span>mask);
+                <span class="kw">return </span>df.filter(<span class="kw-2">&amp;</span>mask);
             }
         };
         <span class="prelude-val">Ok</span>(DataFrame::new_no_checks(columns))
