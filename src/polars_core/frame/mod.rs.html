@@ -3680,10 +3680,10 @@
 <span class="kw">use </span>smartstring::alias::String <span class="kw">as </span>SmartString;
 
 <span class="kw">use </span><span class="kw">crate</span>::frame::groupby::GroupsIndicator;
+<span class="attr">#[cfg(feature = <span class="string">&quot;row_hash&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::hashing::df_rows_to_hashes_threaded;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::sort::{argsort_multiple_row_fmt, prepare_arg_sort};
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
-<span class="attr">#[cfg(feature = <span class="string">&quot;row_hash&quot;</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::vector_hasher::df_rows_to_hashes_threaded;
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
 
 <span class="attr">#[derive(Copy, Clone, Debug)]
