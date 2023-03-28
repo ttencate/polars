@@ -493,6 +493,7 @@
 <a href="#493" id="493">493</a>
 <a href="#494" id="494">494</a>
 <a href="#495" id="495">495</a>
+<a href="#496" id="496">496</a>
 </pre><pre class="rust"><code><span class="kw">use </span>arrow::bitmap::utils::get_bit_unchecked;
 <span class="kw">use </span>hashbrown::hash_map::RawEntryMut;
 <span class="kw">use </span>hashbrown::HashMap;
@@ -615,9 +616,10 @@
                     .zip(<span class="kw-2">&amp;mut </span>hashes[offset..])
                     .zip(arr.values().as_slice())
                     .for_each(|((valid, h), l)| {
+                        <span class="kw">let </span>to_hash = [null_h, l.as_u64()][valid <span class="kw">as </span>usize];
+
                         <span class="comment">// inlined from ahash. This ensures we combine with the previous state
-                        </span><span class="kw">let </span>new = folded_multiply(l.as_u64() ^ <span class="kw-2">*</span>h, MULTIPLE);
-                        <span class="kw-2">*</span>h = [null_h, new][valid <span class="kw">as </span>usize];
+                        </span><span class="kw-2">*</span>h = folded_multiply(to_hash ^ <span class="kw-2">*</span>h, MULTIPLE);
                     });
             }
         }
