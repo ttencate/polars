@@ -3646,6 +3646,15 @@
 <a href="#3646" id="3646">3646</a>
 <a href="#3647" id="3647">3647</a>
 <a href="#3648" id="3648">3648</a>
+<a href="#3649" id="3649">3649</a>
+<a href="#3650" id="3650">3650</a>
+<a href="#3651" id="3651">3651</a>
+<a href="#3652" id="3652">3652</a>
+<a href="#3653" id="3653">3653</a>
+<a href="#3654" id="3654">3654</a>
+<a href="#3655" id="3655">3655</a>
+<a href="#3656" id="3656">3656</a>
+<a href="#3657" id="3657">3657</a>
 </pre><pre class="rust"><code><span class="doccomment">//! DataFrame module.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::iter::{FromIterator, Iterator};
@@ -5450,6 +5459,15 @@
             <span class="kw">return </span><span class="self">self</span>.top_k_impl(k, descending, by_column, nulls_last);
         }
 
+        <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+        </span><span class="kw">let </span>has_struct = by_column
+            .iter()
+            .any(|s| <span class="macro">matches!</span>(s.dtype(), DataType::Struct(<span class="kw">_</span>)));
+
+        <span class="attr">#[cfg(not(feature = <span class="string">&quot;dtype-struct&quot;</span>))]
+        #[allow(non_upper_case_globals)]
+        </span><span class="kw">const </span>has_struct: bool = <span class="bool-val">false</span>;
+
         <span class="comment">// a lot of indirection in both sorting and take
         </span><span class="kw">let </span><span class="kw-2">mut </span>df = <span class="self">self</span>.clone();
         <span class="kw">let </span>df = df.as_single_chunk_par();
@@ -5460,8 +5478,8 @@
         // as expressions are not present (they are renamed to _POLARS_SORT_COLUMN_i.
         </span><span class="kw">let </span>first_descending = descending[<span class="number">0</span>];
         <span class="kw">let </span>first_by_column = by_column[<span class="number">0</span>].name().to_string();
-        <span class="kw">let </span><span class="kw-2">mut </span>take = <span class="kw">match </span>by_column.len() {
-            <span class="number">1 </span>=&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>take = <span class="kw">match </span>(by_column.len(), has_struct) {
+            (<span class="number">1</span>, <span class="bool-val">false</span>) =&gt; {
                 <span class="kw">let </span>s = <span class="kw-2">&amp;</span>by_column[<span class="number">0</span>];
                 <span class="kw">let </span>options = SortOptions {
                     descending: descending[<span class="number">0</span>],
@@ -5482,7 +5500,7 @@
                 s.arg_sort(options)
             }
             <span class="kw">_ </span>=&gt; {
-                <span class="kw">if </span>nulls_last || std::env::var(<span class="string">&quot;POLARS_ROW_FMT_SORT&quot;</span>).is_ok() {
+                <span class="kw">if </span>nulls_last || has_struct || std::env::var(<span class="string">&quot;POLARS_ROW_FMT_SORT&quot;</span>).is_ok() {
                     argsort_multiple_row_fmt(<span class="kw-2">&amp;</span>by_column, descending, nulls_last, parallel)<span class="question-mark">?
                 </span>} <span class="kw">else </span>{
                     <span class="kw">let </span>(first, by_column, descending) = prepare_arg_sort(by_column, descending)<span class="question-mark">?</span>;
