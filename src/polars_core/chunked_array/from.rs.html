@@ -139,6 +139,21 @@
 <a href="#139" id="139">139</a>
 <a href="#140" id="140">140</a>
 <a href="#141" id="141">141</a>
+<a href="#142" id="142">142</a>
+<a href="#143" id="143">143</a>
+<a href="#144" id="144">144</a>
+<a href="#145" id="145">145</a>
+<a href="#146" id="146">146</a>
+<a href="#147" id="147">147</a>
+<a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
+<a href="#152" id="152">152</a>
+<a href="#153" id="153">153</a>
+<a href="#154" id="154">154</a>
+<a href="#155" id="155">155</a>
+<a href="#156" id="156">156</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="attr">#[allow(clippy::ptr_arg)]
@@ -200,6 +215,21 @@
             dt =&gt; dt,
         };
         <span class="kw">let </span>field = Arc::new(Field::new(name, dtype));
+        <span class="kw">let </span><span class="kw-2">mut </span>out = ChunkedArray {
+            field,
+            chunks,
+            phantom: PhantomData,
+            bit_settings: Default::default(),
+            length: <span class="number">0</span>,
+        };
+        out.compute_len();
+        out
+    }
+
+    <span class="doccomment">/// # Safety
+    /// The Arrow datatype of all chunks must match the [`PolarsDataType`] `T`.
+    </span><span class="kw">pub unsafe fn </span>with_chunks(<span class="kw-2">&amp;</span><span class="self">self</span>, chunks: Vec&lt;ArrayRef&gt;) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>field = <span class="self">self</span>.field.clone();
         <span class="kw">let </span><span class="kw-2">mut </span>out = ChunkedArray {
             field,
             chunks,
