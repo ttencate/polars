@@ -1436,7 +1436,7 @@
                     <span class="comment">// TODO! optimize this
                     // can just check if any is false and early stop
                     </span><span class="kw">let </span>take = { <span class="self">self</span>.take_unchecked(idx.into()) };
-                    take.min().map(|v| v == <span class="number">1</span>)
+                    take.min()
                 }
             }),
             GroupsProxy::Slice {
@@ -1449,7 +1449,7 @@
                     <span class="number">1 </span>=&gt; <span class="self">self</span>.get(first <span class="kw">as </span>usize),
                     <span class="kw">_ </span>=&gt; {
                         <span class="kw">let </span>arr_group = _slice_from_offsets(<span class="self">self</span>, first, len);
-                        arr_group.min().map(|v| v == <span class="number">1</span>)
+                        arr_group.min()
                     }
                 }
             }),
@@ -1478,7 +1478,7 @@
                     <span class="comment">// TODO! optimize this
                     // can just check if any is true and early stop
                     </span><span class="kw">let </span>take = { <span class="self">self</span>.take_unchecked(idx.into()) };
-                    take.max().map(|v| v == <span class="number">1</span>)
+                    take.max()
                 }
             }),
             GroupsProxy::Slice {
@@ -1491,7 +1491,7 @@
                     <span class="number">1 </span>=&gt; <span class="self">self</span>.get(first <span class="kw">as </span>usize),
                     <span class="kw">_ </span>=&gt; {
                         <span class="kw">let </span>arr_group = _slice_from_offsets(<span class="self">self</span>, first, len);
-                        arr_group.max().map(|v| v == <span class="number">1</span>)
+                        arr_group.max()
                     }
                 }
             }),
