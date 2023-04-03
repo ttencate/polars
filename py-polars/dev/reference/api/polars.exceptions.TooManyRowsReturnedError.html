@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>polars.exceptions.NoRowsReturned &#8212; Polars  documentation</title>
+    <title>polars.exceptions.TooManyRowsReturnedError &#8212; Polars  documentation</title>
   
   
   
@@ -49,11 +49,11 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.exceptions.NoRowsReturned';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.exceptions.TooManyRowsReturnedError';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="polars.exceptions.PanicException" href="polars.exceptions.PanicException.html" />
-    <link rel="prev" title="polars.exceptions.NoDataError" href="polars.exceptions.NoDataError.html" />
+    <link rel="next" title="Testing" href="../testing.html" />
+    <link rel="prev" title="polars.exceptions.StructFieldNotFoundError" href="polars.exceptions.StructFieldNotFoundError.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -1423,14 +1423,14 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.exceptions.DuplicateError.html">polars.exceptions.DuplicateError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.exceptions.InvalidOperationError.html">polars.exceptions.InvalidOperationError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.exceptions.NoDataError.html">polars.exceptions.NoDataError</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.exceptions.NoRowsReturned</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.PanicException.html">polars.exceptions.PanicException</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.RowsException.html">polars.exceptions.RowsException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.NoRowsReturnedError.html">polars.exceptions.NoRowsReturnedError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.PolarsPanicError.html">polars.exceptions.PolarsPanicError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.RowsError.html">polars.exceptions.RowsError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.exceptions.SchemaError.html">polars.exceptions.SchemaError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.exceptions.SchemaFieldNotFoundError.html">polars.exceptions.SchemaFieldNotFoundError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.exceptions.ShapeError.html">polars.exceptions.ShapeError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.exceptions.StructFieldNotFoundError.html">polars.exceptions.StructFieldNotFoundError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.TooManyRowsReturned.html">polars.exceptions.TooManyRowsReturned</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.exceptions.TooManyRowsReturnedError</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../testing.html">Testing</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1498,7 +1498,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../exceptions.html" class="nav-link">Exceptions</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">polars.exceptions.NoRowsReturned</li>
+    <li class="breadcrumb-item active" aria-current="page">polars.exceptions.TooManyRowsReturnedError</li>
   </ul>
 </nav>
 </div>
@@ -1515,12 +1515,12 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="polars-exceptions-norowsreturned">
-<h1>polars.exceptions.NoRowsReturned<a class="headerlink" href="#polars-exceptions-norowsreturned" title="Permalink to this heading">#</a></h1>
+  <section id="polars-exceptions-toomanyrowsreturnederror">
+<h1>polars.exceptions.TooManyRowsReturnedError<a class="headerlink" href="#polars-exceptions-toomanyrowsreturnederror" title="Permalink to this heading">#</a></h1>
 <dl class="py exception">
-<dt class="sig sig-object py" id="polars.exceptions.NoRowsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.exceptions.</span></span><span class="sig-name descname"><span class="pre">NoRowsReturned</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/exceptions.py#L61-L62"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.exceptions.NoRowsReturned" title="Permalink to this definition">#</a></dt>
-<dd><p>Exception raised when no rows are returned, but at least one row is expected.</p>
+<dt class="sig sig-object py" id="polars.exceptions.TooManyRowsReturnedError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.exceptions.</span></span><span class="sig-name descname"><span class="pre">TooManyRowsReturnedError</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/exceptions.py#L65-L66"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.exceptions.TooManyRowsReturnedError" title="Permalink to this definition">#</a></dt>
+<dd><p>Exception raised when more rows than expected are returned.</p>
 </dd></dl>
 
 </section>
@@ -1534,20 +1534,20 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.exceptions.NoDataError.html"
+       href="polars.exceptions.StructFieldNotFoundError.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.exceptions.NoDataError</p>
+        <p class="prev-next-title">polars.exceptions.StructFieldNotFoundError</p>
       </div>
     </a>
     <a class="right-next"
-       href="polars.exceptions.PanicException.html"
+       href="../testing.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.exceptions.PanicException</p>
+        <p class="prev-next-title">Testing</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1566,7 +1566,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.exceptions.NoRowsReturned"><code class="docutils literal notranslate"><span class="pre">NoRowsReturned</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.exceptions.TooManyRowsReturnedError"><code class="docutils literal notranslate"><span class="pre">TooManyRowsReturnedError</span></code></a></li>
 </ul>
   </nav></div>
 

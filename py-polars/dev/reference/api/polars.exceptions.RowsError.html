@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>polars.exceptions.PanicException &#8212; Polars  documentation</title>
+    <title>polars.exceptions.RowsError &#8212; Polars  documentation</title>
   
   
   
@@ -49,11 +49,11 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.exceptions.PanicException';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.exceptions.RowsError';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="polars.exceptions.RowsException" href="polars.exceptions.RowsException.html" />
-    <link rel="prev" title="polars.exceptions.NoRowsReturned" href="polars.exceptions.NoRowsReturned.html" />
+    <link rel="next" title="polars.exceptions.SchemaError" href="polars.exceptions.SchemaError.html" />
+    <link rel="prev" title="polars.exceptions.PolarsPanicError" href="polars.exceptions.PolarsPanicError.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -1423,14 +1423,14 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.exceptions.DuplicateError.html">polars.exceptions.DuplicateError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.exceptions.InvalidOperationError.html">polars.exceptions.InvalidOperationError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.exceptions.NoDataError.html">polars.exceptions.NoDataError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.NoRowsReturned.html">polars.exceptions.NoRowsReturned</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.exceptions.PanicException</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.RowsException.html">polars.exceptions.RowsException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.NoRowsReturnedError.html">polars.exceptions.NoRowsReturnedError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.PolarsPanicError.html">polars.exceptions.PolarsPanicError</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.exceptions.RowsError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.exceptions.SchemaError.html">polars.exceptions.SchemaError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.exceptions.SchemaFieldNotFoundError.html">polars.exceptions.SchemaFieldNotFoundError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.exceptions.ShapeError.html">polars.exceptions.ShapeError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.exceptions.StructFieldNotFoundError.html">polars.exceptions.StructFieldNotFoundError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.TooManyRowsReturned.html">polars.exceptions.TooManyRowsReturned</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.exceptions.TooManyRowsReturnedError.html">polars.exceptions.TooManyRowsReturnedError</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../testing.html">Testing</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1498,7 +1498,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../exceptions.html" class="nav-link">Exceptions</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">polars.exceptions.PanicException</li>
+    <li class="breadcrumb-item active" aria-current="page">polars.exceptions.RowsError</li>
   </ul>
 </nav>
 </div>
@@ -1515,12 +1515,12 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="polars-exceptions-panicexception">
-<h1>polars.exceptions.PanicException<a class="headerlink" href="#polars-exceptions-panicexception" title="Permalink to this heading">#</a></h1>
+  <section id="polars-exceptions-rowserror">
+<h1>polars.exceptions.RowsError<a class="headerlink" href="#polars-exceptions-rowserror" title="Permalink to this heading">#</a></h1>
 <dl class="py exception">
-<dt class="sig sig-object py" id="polars.exceptions.PanicException">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.exceptions.</span></span><span class="sig-name descname"><span class="pre">PanicException</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/exceptions.py#L49-L50"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.exceptions.PanicException" title="Permalink to this definition">#</a></dt>
-<dd><p>Exception raised when an unexpected state causes a panic in the underlying Rust library.</p>
+<dt class="sig sig-object py" id="polars.exceptions.RowsError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.exceptions.</span></span><span class="sig-name descname"><span class="pre">RowsError</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/exceptions.py#L57-L58"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.exceptions.RowsError" title="Permalink to this definition">#</a></dt>
+<dd><p>Exception raised when the number of returned rows does not match expectation.</p>
 </dd></dl>
 
 </section>
@@ -1534,20 +1534,20 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.exceptions.NoRowsReturned.html"
+       href="polars.exceptions.PolarsPanicError.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.exceptions.NoRowsReturned</p>
+        <p class="prev-next-title">polars.exceptions.PolarsPanicError</p>
       </div>
     </a>
     <a class="right-next"
-       href="polars.exceptions.RowsException.html"
+       href="polars.exceptions.SchemaError.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.exceptions.RowsException</p>
+        <p class="prev-next-title">polars.exceptions.SchemaError</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1566,7 +1566,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.exceptions.PanicException"><code class="docutils literal notranslate"><span class="pre">PanicException</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.exceptions.RowsError"><code class="docutils literal notranslate"><span class="pre">RowsError</span></code></a></li>
 </ul>
   </nav></div>
 

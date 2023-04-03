@@ -1419,14 +1419,14 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.DuplicateError.html">polars.exceptions.DuplicateError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.InvalidOperationError.html">polars.exceptions.InvalidOperationError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.NoDataError.html">polars.exceptions.NoDataError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.NoRowsReturned.html">polars.exceptions.NoRowsReturned</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.PanicException.html">polars.exceptions.PanicException</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.RowsException.html">polars.exceptions.RowsException</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.NoRowsReturnedError.html">polars.exceptions.NoRowsReturnedError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.PolarsPanicError.html">polars.exceptions.PolarsPanicError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.RowsError.html">polars.exceptions.RowsError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.SchemaError.html">polars.exceptions.SchemaError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.SchemaFieldNotFoundError.html">polars.exceptions.SchemaFieldNotFoundError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.ShapeError.html">polars.exceptions.ShapeError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.StructFieldNotFoundError.html">polars.exceptions.StructFieldNotFoundError</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.TooManyRowsReturned.html">polars.exceptions.TooManyRowsReturned</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.exceptions.TooManyRowsReturnedError.html">polars.exceptions.TooManyRowsReturnedError</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="testing.html">Testing</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-55"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1530,13 +1530,13 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.exceptions.NoDataError.html#polars.exceptions.NoDataError" title="polars.exceptions.NoDataError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NoDataError</span></code></a></p></td>
 <td><p>Exception raised when an operation can not be performed on an empty data structure.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.exceptions.NoRowsReturned.html#polars.exceptions.NoRowsReturned" title="polars.exceptions.NoRowsReturned"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NoRowsReturned</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.exceptions.NoRowsReturnedError.html#polars.exceptions.NoRowsReturnedError" title="polars.exceptions.NoRowsReturnedError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NoRowsReturnedError</span></code></a></p></td>
 <td><p>Exception raised when no rows are returned, but at least one row is expected.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.exceptions.PanicException.html#polars.exceptions.PanicException" title="polars.exceptions.PanicException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PanicException</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.exceptions.PolarsPanicError.html#polars.exceptions.PolarsPanicError" title="polars.exceptions.PolarsPanicError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolarsPanicError</span></code></a></p></td>
 <td><p>Exception raised when an unexpected state causes a panic in the underlying Rust library.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.exceptions.RowsException.html#polars.exceptions.RowsException" title="polars.exceptions.RowsException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RowsException</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.exceptions.RowsError.html#polars.exceptions.RowsError" title="polars.exceptions.RowsError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RowsError</span></code></a></p></td>
 <td><p>Exception raised when the number of returned rows does not match expectation.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.exceptions.SchemaError.html#polars.exceptions.SchemaError" title="polars.exceptions.SchemaError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SchemaError</span></code></a></p></td>
@@ -1551,7 +1551,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.exceptions.StructFieldNotFoundError.html#polars.exceptions.StructFieldNotFoundError" title="polars.exceptions.StructFieldNotFoundError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StructFieldNotFoundError</span></code></a></p></td>
 <td><p>Exception raised when a specified schema field is not found.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.exceptions.TooManyRowsReturned.html#polars.exceptions.TooManyRowsReturned" title="polars.exceptions.TooManyRowsReturned"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TooManyRowsReturned</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.exceptions.TooManyRowsReturnedError.html#polars.exceptions.TooManyRowsReturnedError" title="polars.exceptions.TooManyRowsReturnedError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TooManyRowsReturnedError</span></code></a></p></td>
 <td><p>Exception raised when more rows than expected are returned.</p></td>
 </tr>
 </tbody>
