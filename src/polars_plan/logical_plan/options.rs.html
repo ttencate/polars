@@ -316,6 +316,7 @@
 <a href="#316" id="316">316</a>
 <a href="#317" id="317">317</a>
 <a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::path::PathBuf;
 
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
@@ -446,6 +447,7 @@
     <span class="comment">// known row_output, estimated row output
     </span><span class="kw">pub </span>rows: (<span class="prelude-ty">Option</span>&lt;usize&gt;, usize),
     <span class="kw">pub </span>from_partitioned_ds: bool,
+    <span class="kw">pub </span>flattened_by_opt: bool,
 }
 
 <span class="attr">#[derive(Clone, Debug, PartialEq, Eq, Default)]

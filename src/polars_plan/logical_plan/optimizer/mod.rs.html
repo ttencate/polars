@@ -195,6 +195,8 @@
 <a href="#195" id="195">195</a>
 <a href="#196" id="196">196</a>
 <a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a>
+<a href="#199" id="199">199</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_core::datatypes::PlHashMap;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
@@ -213,6 +215,7 @@
     feature = <span class="string">&quot;cse&quot;
 </span>))]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>file_caching;
+<span class="kw">mod </span>flatten_union;
 <span class="kw">mod </span>predicate_pushdown;
 <span class="kw">mod </span>projection_pushdown;
 <span class="kw">mod </span>simplify_expr;
@@ -233,6 +236,7 @@
 <span class="kw">pub use </span>stack_opt::{OptimizationRule, StackOptimizer};
 <span class="kw">pub use </span>type_coercion::TypeCoercionRule;
 
+<span class="kw">use </span><span class="self">self</span>::flatten_union::FlattenUnionRule;
 <span class="kw">pub use </span><span class="kw">crate</span>::frame::{AllowedOptimizations, OptState};
 
 <span class="kw">pub trait </span>Optimize {
@@ -269,7 +273,6 @@
     <span class="comment">// gradually fill the rules passed to the optimizer
     </span><span class="kw">let </span>opt = StackOptimizer {};
     <span class="kw">let </span><span class="kw-2">mut </span>rules: Vec&lt;Box&lt;<span class="kw">dyn </span>OptimizationRule&gt;&gt; = Vec::with_capacity(<span class="number">8</span>);
-
     <span class="comment">// during debug we check if the optimizations have not modified the final schema
     </span><span class="attr">#[cfg(debug_assertions)]
     </span><span class="kw">let </span>prev_schema = logical_plan.schema()<span class="question-mark">?</span>.into_owned();
@@ -373,6 +376,7 @@
     }
 
     rules.push(Box::new(ReplaceDropNulls {}));
+    rules.push(Box::new(FlattenUnionRule {}));
 
     lp_top = opt.optimize_loop(<span class="kw-2">&amp;mut </span>rules, expr_arena, lp_arena, lp_top)<span class="question-mark">?</span>;
 
