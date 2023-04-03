@@ -569,7 +569,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.alias.html">polars.Series.alias</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.append.html">polars.Series.append</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.arg_sort.html">polars.Series.arg_sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.argsort.html">polars.Series.argsort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.cast.html">polars.Series.cast</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.ceil.html">polars.Series.ceil</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.clear.html">polars.Series.clear</a></li>
@@ -1171,7 +1170,6 @@ document.write(`
 <li class="toctree-l2 has-children"><a class="reference internal" href="modify_select.html">Manipulation/selection</a><input class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-42"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.append.html">polars.Expr.append</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arg_sort.html">polars.Expr.arg_sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.argsort.html">polars.Expr.argsort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.arg_true.html">polars.Expr.arg_true</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.backward_fill.html">polars.Expr.backward_fill</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.cast.html">polars.Expr.cast</a></li>
@@ -1518,7 +1516,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.arr.diff.html#polars.Expr.arr.diff" title="polars.Expr.arr.diff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.arr.diff</span></code></a>([n, null_behavior])</p></td>
 <td><p>Calculate the n-th discrete difference of every sublist.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.arr.eval.html#polars.Expr.arr.eval" title="polars.Expr.arr.eval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.arr.eval</span></code></a>(expr[, parallel])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.arr.eval.html#polars.Expr.arr.eval" title="polars.Expr.arr.eval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.arr.eval</span></code></a>(expr, *[, parallel])</p></td>
 <td><p>Run any polars expression against the lists' elements.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.arr.explode.html#polars.Expr.arr.explode" title="polars.Expr.arr.explode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.arr.explode</span></code></a>()</p></td>
@@ -1569,13 +1567,13 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.arr.tail.html#polars.Expr.arr.tail" title="polars.Expr.arr.tail"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.arr.tail</span></code></a>([n])</p></td>
 <td><p>Slice the last <cite>n</cite> values of every sublist.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.arr.take.html#polars.Expr.arr.take" title="polars.Expr.arr.take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.arr.take</span></code></a>(index[, null_on_oob])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.arr.take.html#polars.Expr.arr.take" title="polars.Expr.arr.take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.arr.take</span></code></a>(index, *[, null_on_oob])</p></td>
 <td><p>Take sublists by multiple indices.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.arr.to_struct.html#polars.Expr.arr.to_struct" title="polars.Expr.arr.to_struct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.arr.to_struct</span></code></a>([n_field_strategy, ...])</p></td>
 <td><p>Convert the series of type <code class="docutils literal notranslate"><span class="pre">List</span></code> to a series of type <code class="docutils literal notranslate"><span class="pre">Struct</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.arr.unique.html#polars.Expr.arr.unique" title="polars.Expr.arr.unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.arr.unique</span></code></a>([maintain_order])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.arr.unique.html#polars.Expr.arr.unique" title="polars.Expr.arr.unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.arr.unique</span></code></a>(*[, maintain_order])</p></td>
 <td><p>Get the unique/distinct values in the list.</p></td>
 </tr>
 </tbody>

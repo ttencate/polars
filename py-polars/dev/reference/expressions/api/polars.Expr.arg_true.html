@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="polars.Expr.backward_fill" href="polars.Expr.backward_fill.html" />
-    <link rel="prev" title="polars.Expr.argsort" href="polars.Expr.argsort.html" />
+    <link rel="prev" title="polars.Expr.arg_sort" href="polars.Expr.arg_sort.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -573,7 +573,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.alias.html">polars.Series.alias</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.append.html">polars.Series.append</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.arg_sort.html">polars.Series.arg_sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.argsort.html">polars.Series.argsort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.cast.html">polars.Series.cast</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.ceil.html">polars.Series.ceil</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.clear.html">polars.Series.clear</a></li>
@@ -1175,7 +1174,6 @@ document.write(`
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../modify_select.html">Manipulation/selection</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-42"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.append.html">polars.Expr.append</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.arg_sort.html">polars.Expr.arg_sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.Expr.argsort.html">polars.Expr.argsort</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Expr.arg_true</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.backward_fill.html">polars.Expr.backward_fill</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.cast.html">polars.Expr.cast</a></li>
@@ -1508,7 +1506,7 @@ document.write(`
 <h1>polars.Expr.arg_true<a class="headerlink" href="#polars-expr-arg-true" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.arg_true">
-<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">arg_true</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/expr/expr.py#L332-L361"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.arg_true" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">arg_true</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/expr/expr.py#L331-L360"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.arg_true" title="Permalink to this definition">#</a></dt>
 <dd><p>Return indices where expression evaluates <cite>True</cite>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -1551,12 +1549,12 @@ expressions. Use as only expression in <cite>select</cite> / <cite>with_columns<
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.Expr.argsort.html"
+       href="polars.Expr.arg_sort.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.Expr.argsort</p>
+        <p class="prev-next-title">polars.Expr.arg_sort</p>
       </div>
     </a>
     <a class="right-next"

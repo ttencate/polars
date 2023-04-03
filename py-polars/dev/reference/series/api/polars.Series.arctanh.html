@@ -573,7 +573,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.alias.html">polars.Series.alias</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.append.html">polars.Series.append</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.arg_sort.html">polars.Series.arg_sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.Series.argsort.html">polars.Series.argsort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.cast.html">polars.Series.cast</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.ceil.html">polars.Series.ceil</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.clear.html">polars.Series.clear</a></li>
@@ -1175,7 +1174,6 @@ document.write(`
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../expressions/modify_select.html">Manipulation/selection</a><input class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-42"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.append.html">polars.Expr.append</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.arg_sort.html">polars.Expr.arg_sort</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.argsort.html">polars.Expr.argsort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.arg_true.html">polars.Expr.arg_true</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.backward_fill.html">polars.Expr.backward_fill</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.cast.html">polars.Expr.cast</a></li>
@@ -1508,7 +1506,7 @@ document.write(`
 <h1>polars.Series.arctanh<a class="headerlink" href="#polars-series-arctanh" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.arctanh">
-<span class="sig-prename descclassname"><span class="pre">Series.</span></span><span class="sig-name descname"><span class="pre">arctanh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/series/series.py#L3885-L3905"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.arctanh" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.</span></span><span class="sig-name descname"><span class="pre">arctanh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/series/series.py#L3845-L3865"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.arctanh" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute the element-wise value for the inverse hyperbolic tangent.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1</span><span class="p">])</span>
