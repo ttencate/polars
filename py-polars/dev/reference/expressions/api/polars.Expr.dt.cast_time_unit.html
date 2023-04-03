@@ -1506,12 +1506,12 @@ document.write(`
 <h1>polars.Expr.dt.cast_time_unit<a class="headerlink" href="#polars-expr-dt-cast-time-unit" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.dt.cast_time_unit">
-<span class="sig-prename descclassname"><span class="pre">Expr.dt.</span></span><span class="sig-name descname"><span class="pre">cast_time_unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TimeUnit</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/expr/datetime.py#L1173-L1211"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.dt.cast_time_unit" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.dt.</span></span><span class="sig-name descname"><span class="pre">cast_time_unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TimeUnit</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/expr/datetime.py#L1173-L1211"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.dt.cast_time_unit" title="Permalink to this definition">#</a></dt>
 <dd><p>Cast the underlying data to another time unit. This may lose precision.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>tu</strong><span class="classifier">{‘ns’, ‘us’, ‘ms’}</span></dt><dd><p>Time unit for the <code class="docutils literal notranslate"><span class="pre">Datetime</span></code> Series.</p>
+<dt><strong>time_unit</strong><span class="classifier">{‘ns’, ‘us’, ‘ms’}</span></dt><dd><p>Time unit for the <code class="docutils literal notranslate"><span class="pre">Datetime</span></code> Series.</p>
 </dd>
 </dl>
 </dd>
@@ -1528,13 +1528,13 @@ document.write(`
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="p">[</span>
 <span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">),</span>
-<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">cast_time_unit</span><span class="p">(</span><span class="n">tu</span><span class="o">=</span><span class="s2">&quot;ms&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;tu_ms&quot;</span><span class="p">),</span>
-<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">cast_time_unit</span><span class="p">(</span><span class="n">tu</span><span class="o">=</span><span class="s2">&quot;ns&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;tu_ns&quot;</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">cast_time_unit</span><span class="p">(</span><span class="s2">&quot;ms&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;time_unit_ms&quot;</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">cast_time_unit</span><span class="p">(</span><span class="s2">&quot;ns&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;time_unit_ns&quot;</span><span class="p">),</span>
 <span class="gp">... </span>    <span class="p">]</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="go">shape: (3, 3)</span>
 <span class="go">┌─────────────────────┬─────────────────────┬─────────────────────┐</span>
-<span class="go">│ date                ┆ tu_ms               ┆ tu_ns               │</span>
+<span class="go">│ date                ┆ time_unit_ms        ┆ time_unit_ns        │</span>
 <span class="go">│ ---                 ┆ ---                 ┆ ---                 │</span>
 <span class="go">│ datetime[μs]        ┆ datetime[ms]        ┆ datetime[ns]        │</span>
 <span class="go">╞═════════════════════╪═════════════════════╪═════════════════════╡</span>

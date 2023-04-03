@@ -1501,7 +1501,7 @@ document.write(`
 <h1>polars.Datetime<a class="headerlink" href="#polars-datetime" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="polars.Datetime">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">Datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/datatypes/classes.py#L192-L233"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Datetime" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">Datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/datatypes/classes.py#L192-L237"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Datetime" title="Permalink to this definition">#</a></dt>
 <dd><p>Calendar date and time type.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Datetime.__init__">
@@ -1510,9 +1510,9 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>time_unit</strong><span class="classifier">{‘us’, ‘ns’, ‘ms’}</span></dt><dd><p>Time unit.</p>
+<dt><strong>time_unit</strong><span class="classifier">{‘us’, ‘ns’, ‘ms’}</span></dt><dd><p>Unit of time.</p>
 </dd>
-<dt><strong>time_zone</strong></dt><dd><p>Timezone string as defined in zoneinfo (run
+<dt><strong>time_zone</strong></dt><dd><p>Time zone string as defined in zoneinfo (run
 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">zoneinfo;</span> <span class="pre">zoneinfo.available_timezones()</span></code> for a full list).</p>
 </dd>
 </dl>
@@ -1534,10 +1534,10 @@ document.write(`
 <p class="rubric">Attributes</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tu</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_unit</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tz</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_zone</span></code></p></td>
 <td><p></p></td>
 </tr>
 </tbody>

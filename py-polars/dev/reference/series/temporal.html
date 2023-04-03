@@ -1498,13 +1498,13 @@ document.write(`
 <p>The following methods are available under the <cite>Series.dt</cite> attribute.</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.dt.cast_time_unit.html#polars.Series.dt.cast_time_unit" title="polars.Series.dt.cast_time_unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.cast_time_unit</span></code></a>(tu)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.dt.cast_time_unit.html#polars.Series.dt.cast_time_unit" title="polars.Series.dt.cast_time_unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.cast_time_unit</span></code></a>(time_unit)</p></td>
 <td><p>Cast the underlying data to another time unit.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.dt.replace_time_zone.html#polars.Series.dt.replace_time_zone" title="polars.Series.dt.replace_time_zone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.replace_time_zone</span></code></a>(time_zone)</p></td>
 <td><p>Replace time zone for a Series of type Datetime.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.dt.combine.html#polars.Series.dt.combine" title="polars.Series.dt.combine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.combine</span></code></a>(tm[, tu])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.dt.combine.html#polars.Series.dt.combine" title="polars.Series.dt.combine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.combine</span></code></a>(time[, time_unit])</p></td>
 <td><p>Create a naive Datetime from an existing Date/Datetime expression and a Time.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.dt.date.html#polars.Series.dt.date" title="polars.Series.dt.date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.date</span></code></a>()</p></td>
@@ -1519,7 +1519,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.dt.days.html#polars.Series.dt.days" title="polars.Series.dt.days"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.days</span></code></a>()</p></td>
 <td><p>Extract the days from a Duration type.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.dt.epoch.html#polars.Series.dt.epoch" title="polars.Series.dt.epoch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.epoch</span></code></a>([tu])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.dt.epoch.html#polars.Series.dt.epoch" title="polars.Series.dt.epoch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.epoch</span></code></a>([time_unit])</p></td>
 <td><p>Get the time passed since the Unix EPOCH in the give time unit.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.dt.hour.html#polars.Series.dt.hour" title="polars.Series.dt.hour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.hour</span></code></a>()</p></td>
@@ -1597,7 +1597,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.dt.time.html#polars.Series.dt.time" title="polars.Series.dt.time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.time</span></code></a>()</p></td>
 <td><p>Extract (local) time.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.dt.timestamp.html#polars.Series.dt.timestamp" title="polars.Series.dt.timestamp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.timestamp</span></code></a>([tu])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.dt.timestamp.html#polars.Series.dt.timestamp" title="polars.Series.dt.timestamp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.timestamp</span></code></a>([time_unit])</p></td>
 <td><p>Return a timestamp in the given time unit.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.dt.truncate.html#polars.Series.dt.truncate" title="polars.Series.dt.truncate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.truncate</span></code></a>(every[, offset])</p></td>
@@ -1609,7 +1609,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.dt.weekday.html#polars.Series.dt.weekday" title="polars.Series.dt.weekday"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.weekday</span></code></a>()</p></td>
 <td><p>Extract the week day from the underlying date representation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.dt.with_time_unit.html#polars.Series.dt.with_time_unit" title="polars.Series.dt.with_time_unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.with_time_unit</span></code></a>(tu)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.dt.with_time_unit.html#polars.Series.dt.with_time_unit" title="polars.Series.dt.with_time_unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.with_time_unit</span></code></a>(time_unit)</p></td>
 <td><p>Set time unit a Series of dtype Datetime or Duration.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.dt.convert_time_zone.html#polars.Series.dt.convert_time_zone" title="polars.Series.dt.convert_time_zone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.dt.convert_time_zone</span></code></a>(time_zone)</p></td>

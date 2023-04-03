@@ -1506,14 +1506,14 @@ document.write(`
 <h1>polars.Series.dt.with_time_unit<a class="headerlink" href="#polars-series-dt-with-time-unit" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.dt.with_time_unit">
-<span class="sig-prename descclassname"><span class="pre">Series.dt.</span></span><span class="sig-name descname"><span class="pre">with_time_unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TimeUnit</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/series/datetime.py#L961-L996"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.dt.with_time_unit" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.dt.</span></span><span class="sig-name descname"><span class="pre">with_time_unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TimeUnit</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/series/datetime.py#L961-L996"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.dt.with_time_unit" title="Permalink to this definition">#</a></dt>
 <dd><p>Set time unit a Series of dtype Datetime or Duration.</p>
 <p>This does not modify underlying data, and should be used to fix an incorrect
 time unit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>tu</strong><span class="classifier">{‘ns’, ‘us’, ‘ms’}</span></dt><dd><p>Time unit for the <code class="docutils literal notranslate"><span class="pre">Datetime</span></code> Series.</p>
+<dt><strong>time_unit</strong><span class="classifier">{‘ns’, ‘us’, ‘ms’}</span></dt><dd><p>Unit of time for the <code class="docutils literal notranslate"><span class="pre">Datetime</span></code> Series.</p>
 </dd>
 </dl>
 </dd>
@@ -1531,9 +1531,9 @@ time unit.</p>
 <span class="go">        2001-01-02 00:00:00</span>
 <span class="go">        2001-01-03 00:00:00</span>
 <span class="go">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">with_time_unit</span><span class="p">(</span><span class="n">tu</span><span class="o">=</span><span class="s2">&quot;us&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;tu_us&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">with_time_unit</span><span class="p">(</span><span class="s2">&quot;us&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;time_unit_us&quot;</span><span class="p">)</span>
 <span class="go">shape: (3,)</span>
-<span class="go">Series: &#39;tu_us&#39; [datetime[μs]]</span>
+<span class="go">Series: &#39;time_unit_us&#39; [datetime[μs]]</span>
 <span class="go">[</span>
 <span class="go">        +32971-04-28 00:00:00</span>
 <span class="go">        +32974-01-22 00:00:00</span>

@@ -1531,7 +1531,7 @@ the underlying timestamp and will ignore the original time zone.</p>
 <span class="go">        2020-04-01 00:00:00 UTC</span>
 <span class="go">        2020-05-01 00:00:00 UTC</span>
 <span class="go">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">epoch</span><span class="p">(</span><span class="n">tu</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">epoch</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
 <span class="go">shape: (3,)</span>
 <span class="go">Series: &#39;&#39; [i64]</span>
 <span class="go">[</span>
@@ -1549,7 +1549,7 @@ the underlying timestamp and will ignore the original time zone.</p>
 <span class="go">    2020-05-01 01:00:00 BST</span>
 <span class="go">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Timestamps have not changed after convert_time_zone</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">epoch</span><span class="p">(</span><span class="n">tu</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">epoch</span><span class="p">(</span><span class="n">time_unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
 <span class="go">shape: (3,)</span>
 <span class="go">Series: &#39;London&#39; [i64]</span>
 <span class="go">[</span>
@@ -1567,7 +1567,7 @@ the underlying timestamp and will ignore the original time zone.</p>
 <span class="go">    2020-05-01 01:00:00 EDT</span>
 <span class="go">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Timestamps have changed after replace_time_zone</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">epoch</span><span class="p">(</span><span class="n">tu</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">epoch</span><span class="p">(</span><span class="n">time_unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
 <span class="go">shape: (3,)</span>
 <span class="go">Series: &#39;NYC&#39; [i64]</span>
 <span class="go">[</span>
