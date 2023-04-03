@@ -123,7 +123,7 @@
 
 <span class="comment">// Used to to get a u64 from the hashing keys
 // We need to modify the hashing algorithm to use the hash for this and only compute the hash once.
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait </span>AsU64 {
+</span><span class="kw">pub trait </span>AsU64 {
     <span class="attr">#[allow(clippy::wrong_self_convention)]
     </span><span class="kw">fn </span>as_u64(<span class="self">self</span>) -&gt; u64;
 }

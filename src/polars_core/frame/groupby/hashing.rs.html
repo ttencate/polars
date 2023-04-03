@@ -341,8 +341,6 @@
 <a href="#341" id="341">341</a>
 <a href="#342" id="342">342</a>
 <a href="#343" id="343">343</a>
-<a href="#344" id="344">344</a>
-<a href="#345" id="345">345</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::hash::{BuildHasher, Hash};
 
 <span class="kw">use </span>hashbrown::hash_map::{Entry, RawEntryMut};
@@ -436,7 +434,6 @@
 /// The hash will be used to rehash, and the str will be used for equality.
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_threaded_num&lt;T, IntoSlice&gt;(
     keys: Vec&lt;IntoSlice&gt;,
-    group_size_hint: usize,
     n_partitions: u64,
     sorted: bool,
 ) -&gt; GroupsProxy
@@ -473,8 +470,7 @@
 
                             <span class="kw">match </span>entry {
                                 RawEntryMut::Vacant(entry) =&gt; {
-                                    <span class="kw">let </span><span class="kw-2">mut </span>tuples = Vec::with_capacity(group_size_hint);
-                                    tuples.push(idx);
+                                    <span class="kw">let </span>tuples = <span class="macro">vec!</span>[idx];
                                     entry.insert_with_hasher(hash, <span class="kw-2">*</span>k, (idx, tuples), |k| {
                                         hasher.hash_single(k)
                                     });

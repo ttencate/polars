@@ -2301,7 +2301,7 @@
             <span class="kw">let </span>a = groupby(ca.into_iter(), <span class="bool-val">true</span>).into_idx();
 
             <span class="kw">let </span>keys = split.iter().map(|ca| ca.cont_slice().unwrap()).collect();
-            <span class="kw">let </span>b = groupby_threaded_num(keys, <span class="number">0</span>, split.len() <span class="kw">as </span>u64, <span class="bool-val">true</span>).into_idx();
+            <span class="kw">let </span>b = groupby_threaded_num(keys, split.len() <span class="kw">as </span>u64, <span class="bool-val">true</span>).into_idx();
 
             <span class="macro">assert_eq!</span>(a, b);
         }
