@@ -366,13 +366,6 @@
 <a href="#366" id="366">366</a>
 <a href="#367" id="367">367</a>
 <a href="#368" id="368">368</a>
-<a href="#369" id="369">369</a>
-<a href="#370" id="370">370</a>
-<a href="#371" id="371">371</a>
-<a href="#372" id="372">372</a>
-<a href="#373" id="373">373</a>
-<a href="#374" id="374">374</a>
-<a href="#375" id="375">375</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;groupby_list&quot;</span>)]
 </span><span class="kw">use </span>polars_arrow::kernels::list_bytes_iter::numeric_list_bytes_iter;
 <span class="kw">use </span>polars_arrow::kernels::sort_partition::{create_clean_partitions, partition_to_groups};
@@ -408,24 +401,15 @@
         <span class="kw">let </span>n_partitions = _set_partition_size() <span class="kw">as </span>u64;
 
         <span class="comment">// use the arrays as iterators
-        </span><span class="kw">if </span>ca.chunks.len() == <span class="number">1 </span>{
-            <span class="kw">if </span>!ca.has_validity() {
-                <span class="kw">let </span>keys = <span class="macro">vec!</span>[ca.cont_slice().unwrap()];
-                groupby_threaded_num(keys, n_partitions, sorted)
-            } <span class="kw">else </span>{
-                <span class="kw">let </span>keys = ca
-                    .downcast_iter()
-                    .map(|arr| arr.into_iter().map(|x| x.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;())
-                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-                groupby_threaded_num(keys, n_partitions, sorted)
-            }
-            <span class="comment">// use the polars-iterators
-        </span>} <span class="kw">else if </span>!ca.has_validity() {
-            <span class="kw">let </span>keys = <span class="macro">vec!</span>[ca.into_no_null_iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()];
-            groupby_threaded_num(keys, n_partitions, sorted)
+        </span><span class="kw">if </span>ca.null_count() == <span class="number">0 </span>{
+            <span class="kw">let </span>keys = ca
+                .downcast_iter()
+                .map(|arr| arr.values().as_slice())
+                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+            groupby_threaded_num2(<span class="kw-2">&amp;</span>keys, n_partitions, sorted)
         } <span class="kw">else </span>{
-            <span class="kw">let </span>keys = <span class="macro">vec!</span>[ca.into_iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()];
-            groupby_threaded_num(keys, n_partitions, sorted)
+            <span class="kw">let </span>keys = ca.downcast_iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+            groupby_threaded_num2(<span class="kw-2">&amp;</span>keys, n_partitions, sorted)
         }
     } <span class="kw">else if </span>!ca.has_validity() {
         groupby(ca.into_no_null_iter(), sorted)
@@ -654,7 +638,8 @@
                     })
                     .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
             });
-            groupby_threaded_num(byte_hashes, n_partitions <span class="kw">as </span>u64, sorted)
+            <span class="kw">let </span>byte_hashes = byte_hashes.iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+            groupby_threaded_num2(<span class="kw-2">&amp;</span>byte_hashes, n_partitions <span class="kw">as </span>u64, sorted)
         } <span class="kw">else </span>{
             <span class="kw">let </span>byte_hashes = <span class="self">self
                 </span>.into_iter()
@@ -720,8 +705,9 @@
                             arr_to_hashes(<span class="kw-2">&amp;</span>ca)
                         })
                         .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
-                    <span class="prelude-val">Ok</span>(groupby_threaded_num(
-                        bytes_hashes,
+                    <span class="kw">let </span>bytes_hashes = bytes_hashes.iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+                    <span class="prelude-val">Ok</span>(groupby_threaded_num2(
+                        <span class="kw-2">&amp;</span>bytes_hashes,
                         n_partitions <span class="kw">as </span>u64,
                         sorted,
                     ))

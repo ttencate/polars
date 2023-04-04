@@ -1174,26 +1174,6 @@
 <a href="#1174" id="1174">1174</a>
 <a href="#1175" id="1175">1175</a>
 <a href="#1176" id="1176">1176</a>
-<a href="#1177" id="1177">1177</a>
-<a href="#1178" id="1178">1178</a>
-<a href="#1179" id="1179">1179</a>
-<a href="#1180" id="1180">1180</a>
-<a href="#1181" id="1181">1181</a>
-<a href="#1182" id="1182">1182</a>
-<a href="#1183" id="1183">1183</a>
-<a href="#1184" id="1184">1184</a>
-<a href="#1185" id="1185">1185</a>
-<a href="#1186" id="1186">1186</a>
-<a href="#1187" id="1187">1187</a>
-<a href="#1188" id="1188">1188</a>
-<a href="#1189" id="1189">1189</a>
-<a href="#1190" id="1190">1190</a>
-<a href="#1191" id="1191">1191</a>
-<a href="#1192" id="1192">1192</a>
-<a href="#1193" id="1193">1193</a>
-<a href="#1194" id="1194">1194</a>
-<a href="#1195" id="1195">1195</a>
-<a href="#1196" id="1196">1196</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::fmt::{Debug, Display, Formatter};
 <span class="kw">use </span>std::hash::Hash;
 
@@ -2106,7 +2086,7 @@
 </span><span class="kw">mod </span>test {
     <span class="kw">use </span>num_traits::FloatConst;
 
-    <span class="kw">use </span><span class="kw">crate</span>::frame::groupby::{groupby, groupby_threaded_num};
+    <span class="kw">use </span><span class="kw">crate</span>::frame::groupby::groupby;
     <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::utils::split_ca;
 
@@ -2307,26 +2287,6 @@
             Vec::from(res.column(<span class="string">&quot;bar_sum&quot;</span>).unwrap().i32().unwrap()),
             <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">2</span>), <span class="prelude-val">Some</span>(<span class="number">2</span>), <span class="prelude-val">Some</span>(<span class="number">1</span>)]
         );
-    }
-
-    <span class="attr">#[test]
-    #[cfg_attr(miri, ignore)]
-    </span><span class="kw">fn </span>test_groupby_threaded() {
-        <span class="kw">for </span>slice <span class="kw">in </span><span class="kw-2">&amp;</span>[
-            <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>],
-            <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>],
-            <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>],
-        ] {
-            <span class="kw">let </span>ca = UInt32Chunked::new(<span class="string">&quot;&quot;</span>, slice);
-            <span class="kw">let </span>split = split_ca(<span class="kw-2">&amp;</span>ca, <span class="number">4</span>).unwrap();
-
-            <span class="kw">let </span>a = groupby(ca.into_iter(), <span class="bool-val">true</span>).into_idx();
-
-            <span class="kw">let </span>keys = split.iter().map(|ca| ca.cont_slice().unwrap()).collect();
-            <span class="kw">let </span>b = groupby_threaded_num(keys, split.len() <span class="kw">as </span>u64, <span class="bool-val">true</span>).into_idx();
-
-            <span class="macro">assert_eq!</span>(a, b);
-        }
     }
 
     <span class="attr">#[test]

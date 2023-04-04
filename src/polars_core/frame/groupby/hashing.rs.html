@@ -339,10 +339,6 @@
 <a href="#339" id="339">339</a>
 <a href="#340" id="340">340</a>
 <a href="#341" id="341">341</a>
-<a href="#342" id="342">342</a>
-<a href="#343" id="343">343</a>
-<a href="#344" id="344">344</a>
-<a href="#345" id="345">345</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::hash::{BuildHasher, Hash};
 
 <span class="kw">use </span>hashbrown::hash_map::{Entry, RawEntryMut};
@@ -431,19 +427,15 @@
     }
 }
 
-<span class="doccomment">/// Determine group tuples over different threads. The hash of the key is used to determine the partitions.
-/// Note that rehashing of the keys should be cheap and the keys small to allow efficient rehashing and improved cache locality.
-///
-/// Besides numeric values, we can also use this for pre hashed strings. The keys are simply a ptr to the str + precomputed hash.
-/// The hash will be used to rehash, and the str will be used for equality.
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_threaded_num&lt;T, IntoSlice&gt;(
-    keys: Vec&lt;IntoSlice&gt;,
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_threaded_num2&lt;T, I&gt;(
+    keys: <span class="kw-2">&amp;</span>[I],
     n_partitions: u64,
     sorted: bool,
 ) -&gt; GroupsProxy
 <span class="kw">where
-    </span>T: Send + Hash + Eq + Sync + Copy + AsU64,
-    IntoSlice: AsRef&lt;[T]&gt; + Send + Sync,
+    </span>I: IntoIterator&lt;Item = T&gt; + Send + Sync + Copy,
+    I::IntoIter: ExactSizeIterator,
+    T: Send + Hash + Eq + Sync + Copy + AsU64,
 {
     <span class="macro">assert!</span>(n_partitions.is_power_of_two());
 
@@ -458,24 +450,24 @@
                     PlHashMap::with_capacity(HASHMAP_INIT_SIZE);
 
                 <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
-                <span class="kw">for </span>keys <span class="kw">in </span><span class="kw-2">&amp;</span>keys {
-                    <span class="kw">let </span>keys = keys.as_ref();
+                <span class="kw">for </span>keys <span class="kw">in </span>keys {
+                    <span class="kw">let </span>keys = keys.into_iter();
                     <span class="kw">let </span>len = keys.len() <span class="kw">as </span>IdxSize;
                     <span class="kw">let </span>hasher = hash_tbl.hasher().clone();
 
                     <span class="kw">let </span><span class="kw-2">mut </span>cnt = <span class="number">0</span>;
-                    keys.iter().for_each(|k| {
+                    keys.for_each(|k| {
                         <span class="kw">let </span>idx = cnt + offset;
                         cnt += <span class="number">1</span>;
 
                         <span class="kw">if </span>this_partition(k.as_u64(), thread_no, n_partitions) {
                             <span class="kw">let </span>hash = hasher.hash_single(k);
-                            <span class="kw">let </span>entry = hash_tbl.raw_entry_mut().from_key_hashed_nocheck(hash, k);
+                            <span class="kw">let </span>entry = hash_tbl.raw_entry_mut().from_key_hashed_nocheck(hash, <span class="kw-2">&amp;</span>k);
 
                             <span class="kw">match </span>entry {
                                 RawEntryMut::Vacant(entry) =&gt; {
                                     <span class="kw">let </span>tuples = <span class="macro">vec!</span>[idx];
-                                    entry.insert_with_hasher(hash, <span class="kw-2">*</span>k, (idx, tuples), |k| {
+                                    entry.insert_with_hasher(hash, k, (idx, tuples), |k| {
                                         hasher.hash_single(k)
                                     });
                                 }
