@@ -383,9 +383,23 @@
 <a href="#383" id="383">383</a>
 <a href="#384" id="384">384</a>
 <a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::any::Any;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::hashing::series_to_hashes;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::series::private::{PrivateSeries, PrivateSeriesNumeric};
 
@@ -447,6 +461,18 @@
             .groupby_with_series(<span class="self">self</span>.<span class="number">0</span>.fields().to_vec(), multithreaded, sorted)
             .unwrap();
         <span class="prelude-val">Ok</span>(gb.take_groups())
+    }
+
+    <span class="kw">fn </span>vec_hash(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;) -&gt; PolarsResult&lt;()&gt; {
+        series_to_hashes(<span class="self">self</span>.<span class="number">0</span>.fields(), <span class="prelude-val">Some</span>(random_state), buf)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="kw">fn </span>vec_hash_combine(<span class="kw-2">&amp;</span><span class="self">self</span>, build_hasher: RandomState, hashes: <span class="kw-2">&amp;mut </span>[u64]) -&gt; PolarsResult&lt;()&gt; {
+        <span class="kw">for </span>field <span class="kw">in </span><span class="self">self</span>.<span class="number">0</span>.fields() {
+            field.vec_hash_combine(build_hasher.clone(), hashes)<span class="question-mark">?</span>;
+        }
+        <span class="prelude-val">Ok</span>(())
     }
 }
 

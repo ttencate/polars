@@ -133,11 +133,37 @@
 <a href="#133" id="133">133</a>
 <a href="#134" id="134">134</a>
 <a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
+<a href="#139" id="139">139</a>
+<a href="#140" id="140">140</a>
+<a href="#141" id="141">141</a>
+<a href="#142" id="142">142</a>
+<a href="#143" id="143">143</a>
+<a href="#144" id="144">144</a>
+<a href="#145" id="145">145</a>
+<a href="#146" id="146">146</a>
+<a href="#147" id="147">147</a>
+<a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
+<a href="#152" id="152">152</a>
+<a href="#153" id="153">153</a>
+<a href="#154" id="154">154</a>
+<a href="#155" id="155">155</a>
+<a href="#156" id="156">156</a>
+<a href="#157" id="157">157</a>
+<a href="#158" id="158">158</a>
+<a href="#159" id="159">159</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_arrow::data_types::IsFloat;
 <span class="kw">use </span>polars_row::{convert_columns, RowsEncoded, SortField};
 <span class="kw">use </span>polars_utils::iter::EnumerateIdxTrait;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::utils::_split_offsets;
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>args_validate&lt;T: PolarsDataType&gt;(
@@ -213,6 +239,28 @@
         <span class="kw">_ </span>=&gt; by.to_arrow(<span class="number">0</span>),
     };
     <span class="prelude-val">Ok</span>(out)
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>encode_rows_vertical(by: <span class="kw-2">&amp;</span>[Series]) -&gt; PolarsResult&lt;BinaryChunked&gt; {
+    <span class="kw">let </span>n_threads = POOL.current_num_threads();
+    <span class="kw">let </span>len = by[<span class="number">0</span>].len();
+    <span class="kw">let </span>splits = _split_offsets(len, n_threads);
+    <span class="kw">let </span>descending = <span class="macro">vec!</span>[<span class="bool-val">false</span>; by.len()];
+
+    <span class="kw">let </span>chunks = splits
+        .into_par_iter()
+        .map(|(offset, len)| {
+            <span class="kw">let </span>sliced = by
+                .iter()
+                .map(|s| s.slice(offset <span class="kw">as </span>i64, len))
+                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+            <span class="kw">let </span>rows = _get_rows_encoded(<span class="kw-2">&amp;</span>sliced, <span class="kw-2">&amp;</span>descending, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
+            <span class="prelude-val">Ok</span>(Box::new(rows.into_array()) <span class="kw">as </span>ArrayRef)
+        })
+        .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
+
+    <span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(BinaryChunked::from_chunks(<span class="string">&quot;&quot;</span>, chunks)) }
 }
 
 <span class="kw">pub fn </span>_get_rows_encoded(

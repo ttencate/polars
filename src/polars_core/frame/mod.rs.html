@@ -3693,7 +3693,7 @@
 
 <span class="kw">use </span><span class="kw">crate</span>::frame::groupby::GroupsIndicator;
 <span class="attr">#[cfg(feature = <span class="string">&quot;row_hash&quot;</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::hashing::df_rows_to_hashes_threaded;
+</span><span class="kw">use </span><span class="kw">crate</span>::hashing::df_rows_to_hashes_threaded_vertical;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::sort::{argsort_multiple_row_fmt, prepare_arg_sort};
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
@@ -6798,7 +6798,7 @@
         hasher_builder: <span class="prelude-ty">Option</span>&lt;ahash::RandomState&gt;,
     ) -&gt; PolarsResult&lt;UInt64Chunked&gt; {
         <span class="kw">let </span>dfs = split_df(<span class="self">self</span>, POOL.current_num_threads())<span class="question-mark">?</span>;
-        <span class="kw">let </span>(cas, <span class="kw">_</span>) = df_rows_to_hashes_threaded(<span class="kw-2">&amp;</span>dfs, hasher_builder)<span class="question-mark">?</span>;
+        <span class="kw">let </span>(cas, <span class="kw">_</span>) = df_rows_to_hashes_threaded_vertical(<span class="kw-2">&amp;</span>dfs, hasher_builder)<span class="question-mark">?</span>;
 
         <span class="kw">let </span><span class="kw-2">mut </span>iter = cas.into_iter();
         <span class="kw">let </span><span class="kw-2">mut </span>acc_ca = iter.next().unwrap();
