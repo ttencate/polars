@@ -139,7 +139,7 @@
         <span class="kw">match </span><span class="self">self</span>.agg_state() {
             AggState::Literal(<span class="kw">_</span>) =&gt; {
                 <span class="self">self</span>.groups();
-                <span class="kw">let </span>s = <span class="self">self</span>.series();
+                <span class="kw">let </span>s = <span class="self">self</span>.series().rechunk();
                 Box::new(LitIter::new(s.array_ref(<span class="number">0</span>).clone(), <span class="self">self</span>.groups.len()))
             }
             AggState::AggregatedFlat(<span class="kw">_</span>) =&gt; {
