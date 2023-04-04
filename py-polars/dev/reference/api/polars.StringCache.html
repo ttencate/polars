@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Data types" href="../datatypes.html" />
-    <link rel="prev" title="polars.toggle_string_cache" href="polars.toggle_string_cache.html" />
+    <link rel="prev" title="polars.enable_string_cache" href="polars.enable_string_cache.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -1364,7 +1364,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.toggle_string_cache.html">polars.toggle_string_cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.enable_string_cache.html">polars.enable_string_cache</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.StringCache</a></li>
 </ul>
 </li>
@@ -1523,7 +1523,7 @@ document.write(`
 <h1>polars.StringCache<a class="headerlink" href="#polars-stringcache" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="polars.StringCache">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">StringCache</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/string_cache.py#L14-L77"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.StringCache" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">StringCache</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/string_cache.py#L15-L74"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.StringCache" title="Permalink to this definition">#</a></dt>
 <dd><p>Context manager that allows data sources to share the same categorical features.</p>
 <p>This will temporarily cache the string categories until the context manager is
 finished. If StringCaches are nested, the global cache will only be invalidated
@@ -1531,22 +1531,18 @@ when the outermost context exits.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">pl</span><span class="o">.</span><span class="n">StringCache</span><span class="p">():</span>
 <span class="gp">... </span>    <span class="n">df1</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="p">[</span>
-<span class="gp">... </span>            <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
-<span class="gp">... </span>                <span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">],</span> <span class="n">pl</span><span class="o">.</span><span class="n">Categorical</span>
-<span class="gp">... </span>            <span class="p">),</span>
-<span class="gp">... </span>            <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="s2">&quot;uint8&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">pl</span><span class="o">.</span><span class="n">UInt8</span><span class="p">),</span>
-<span class="gp">... </span>        <span class="p">]</span>
+<span class="gp">... </span>        <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+<span class="gp">... </span>            <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">],</span>
+<span class="gp">... </span>            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="p">},</span>
+<span class="gp">... </span>        <span class="n">schema</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Categorical</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">UInt8</span><span class="p">},</span>
 <span class="gp">... </span>    <span class="p">)</span>
 <span class="gp">... </span>    <span class="n">df2</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="p">[</span>
-<span class="gp">... </span>            <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
-<span class="gp">... </span>                <span class="s2">&quot;color&quot;</span><span class="p">,</span>
-<span class="gp">... </span>                <span class="p">[</span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">],</span>
-<span class="gp">... </span>                <span class="n">pl</span><span class="o">.</span><span class="n">Categorical</span><span class="p">,</span>
-<span class="gp">... </span>            <span class="p">),</span>
-<span class="gp">... </span>            <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="s2">&quot;char&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">],</span> <span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">),</span>
-<span class="gp">... </span>        <span class="p">]</span>
+<span class="gp">... </span>        <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+<span class="gp">... </span>            <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">],</span>
+<span class="gp">... </span>            <span class="s2">&quot;char&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="p">},</span>
+<span class="gp">... </span>        <span class="n">schema</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Categorical</span><span class="p">,</span> <span class="s2">&quot;char&quot;</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">},</span>
 <span class="gp">... </span>    <span class="p">)</span>
 <span class="gp">...</span>
 <span class="gp">... </span>    <span class="c1"># Both dataframes use the same string cache for the categorical column,</span>
@@ -1556,7 +1552,7 @@ when the outermost context exits.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df_join</span>
 <span class="go">shape: (3, 3)</span>
 <span class="go">┌────────┬───────┬──────┐</span>
-<span class="go">│ color  ┆ uint8 ┆ char │</span>
+<span class="go">│ color  ┆ value ┆ char │</span>
 <span class="go">│ ---    ┆ ---   ┆ ---  │</span>
 <span class="go">│ cat    ┆ u8    ┆ str  │</span>
 <span class="go">╞════════╪═══════╪══════╡</span>
@@ -1592,12 +1588,12 @@ when the outermost context exits.</p>
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.toggle_string_cache.html"
+       href="polars.enable_string_cache.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.toggle_string_cache</p>
+        <p class="prev-next-title">polars.enable_string_cache</p>
       </div>
     </a>
     <a class="right-next"

@@ -1364,7 +1364,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/polars.toggle_string_cache.html">polars.toggle_string_cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.enable_string_cache.html">polars.enable_string_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.StringCache.html">polars.StringCache</a></li>
 </ul>
 </li>
@@ -1528,7 +1528,7 @@ document.write(`
 <h1>polars.Expr.to_physical<a class="headerlink" href="#polars-expr-to-physical" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.to_physical">
-<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">to_physical</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/expr/expr.py#L236-L276"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.to_physical" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">to_physical</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/expr/expr.py#L236-L277"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.to_physical" title="Permalink to this definition">#</a></dt>
 <dd><p>Cast to physical representation of the logical dtype.</p>
 <ul class="simple">
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Date()</span></code> -&gt; <code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Int32()</span></code></p></li>
@@ -1536,8 +1536,8 @@ document.write(`
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Time()</span></code> -&gt; <code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Int64()</span></code></p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Duration()</span></code> -&gt; <code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Int64()</span></code></p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Categorical()</span></code> -&gt; <code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.UInt32()</span></code></p></li>
-<li><p>Other data types will be left unchanged.</p></li>
 </ul>
+<p>Other data types will be left unchanged.</p>
 <p class="rubric">Examples</p>
 <p>Replicating the pandas
 <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.factorize.html">pd.factorize</a>

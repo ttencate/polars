@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>polars.toggle_string_cache &#8212; Polars  documentation</title>
+    <title>polars.enable_string_cache &#8212; Polars  documentation</title>
   
   
   
@@ -49,7 +49,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.toggle_string_cache';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.enable_string_cache';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="polars.StringCache" href="polars.StringCache.html" />
@@ -1364,7 +1364,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.toggle_string_cache</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.enable_string_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.StringCache.html">polars.StringCache</a></li>
 </ul>
 </li>
@@ -1502,7 +1502,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../functions.html" class="nav-link">Functions</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">polars.toggle_string_cache</li>
+    <li class="breadcrumb-item active" aria-current="page">polars.enable_string_cache</li>
   </ul>
 </nav>
 </div>
@@ -1519,14 +1519,49 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="polars-toggle-string-cache">
-<h1>polars.toggle_string_cache<a class="headerlink" href="#polars-toggle-string-cache" title="Permalink to this heading">#</a></h1>
+  <section id="polars-enable-string-cache">
+<h1>polars.enable_string_cache<a class="headerlink" href="#polars-enable-string-cache" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="polars.toggle_string_cache">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">toggle_string_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">toggle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/string_cache.py#L80-L88"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.toggle_string_cache" title="Permalink to this definition">#</a></dt>
-<dd><p>Turn on/off the global string cache.</p>
-<p>This ensures that casts to Categorical types have the categories when string values
-are equal.</p>
+<dt class="sig sig-object py" id="polars.enable_string_cache">
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">enable_string_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/string_cache.py#L77-L117"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.enable_string_cache" title="Permalink to this definition">#</a></dt>
+<dd><p>Enable (or disable) the global string cache.</p>
+<p>This ensures that casts to Categorical dtypes will have
+the same category values when string values are equal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>enable</strong></dt><dd><p>Enable or disable the global string cache.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pl</span><span class="o">.</span><span class="n">enable_string_cache</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df1</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">],</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]},</span>
+<span class="gp">... </span>    <span class="n">schema</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Categorical</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">UInt8</span><span class="p">},</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="s2">&quot;char&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">},</span>
+<span class="gp">... </span>    <span class="n">schema</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Categorical</span><span class="p">,</span> <span class="s2">&quot;char&quot;</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Utf8</span><span class="p">},</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df_join</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;color&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df_join</span>
+<span class="go">shape: (3, 3)</span>
+<span class="go">┌────────┬───────┬──────┐</span>
+<span class="go">│ color  ┆ value ┆ char │</span>
+<span class="go">│ ---    ┆ ---   ┆ ---  │</span>
+<span class="go">│ cat    ┆ u8    ┆ str  │</span>
+<span class="go">╞════════╪═══════╪══════╡</span>
+<span class="go">│ green  ┆ 2     ┆ b    │</span>
+<span class="go">│ orange ┆ 4     ┆ c    │</span>
+<span class="go">│ red    ┆ 1     ┆ e    │</span>
+<span class="go">└────────┴───────┴──────┘</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -1572,7 +1607,7 @@ are equal.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.toggle_string_cache"><code class="docutils literal notranslate"><span class="pre">toggle_string_cache()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.enable_string_cache"><code class="docutils literal notranslate"><span class="pre">enable_string_cache()</span></code></a></li>
 </ul>
   </nav></div>
 
