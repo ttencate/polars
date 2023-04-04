@@ -210,13 +210,13 @@
 </span><span class="kw">mod </span>test {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::chunked_array::categorical::CategoricalChunkedBuilder;
-    <span class="kw">use crate</span>::{reset_string_cache, toggle_string_cache};
+    <span class="kw">use crate</span>::{enable_string_cache, reset_string_cache};
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_merge_rev_map() {
         <span class="kw">let </span>_lock = SINGLE_LOCK.lock();
         reset_string_cache();
-        toggle_string_cache(<span class="bool-val">true</span>);
+        enable_string_cache(<span class="bool-val">true</span>);
 
         <span class="kw">let </span><span class="kw-2">mut </span>builder1 = CategoricalChunkedBuilder::new(<span class="string">&quot;foo&quot;</span>, <span class="number">10</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>builder2 = CategoricalChunkedBuilder::new(<span class="string">&quot;foo&quot;</span>, <span class="number">10</span>);

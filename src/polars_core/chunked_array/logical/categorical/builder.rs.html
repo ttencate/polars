@@ -1033,7 +1033,7 @@
 </span><span class="kw">mod </span>test {
     <span class="kw">use </span><span class="kw">crate</span>::chunked_array::categorical::CategoricalChunkedBuilder;
     <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
-    <span class="kw">use crate</span>::{reset_string_cache, toggle_string_cache, SINGLE_LOCK};
+    <span class="kw">use crate</span>::{enable_string_cache, reset_string_cache, SINGLE_LOCK};
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_categorical_rev() -&gt; PolarsResult&lt;()&gt; {
@@ -1053,7 +1053,7 @@
         <span class="macro">assert_eq!</span>(out.get_rev_map().len(), <span class="number">2</span>);
 
         <span class="comment">// test the global branch
-        </span>toggle_string_cache(<span class="bool-val">true</span>);
+        </span>enable_string_cache(<span class="bool-val">true</span>);
         <span class="comment">// empty global cache
         </span><span class="kw">let </span>out = ca.cast(<span class="kw-2">&amp;</span>DataType::Categorical(<span class="prelude-val">None</span>))<span class="question-mark">?</span>;
         <span class="kw">let </span>out = out.categorical().unwrap().clone();
@@ -1077,11 +1077,11 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_categorical_builder() {
-        <span class="kw">use crate</span>::{reset_string_cache, toggle_string_cache};
+        <span class="kw">use crate</span>::{enable_string_cache, reset_string_cache};
         <span class="kw">let </span>_lock = <span class="kw">crate</span>::SINGLE_LOCK.lock();
         <span class="kw">for </span>b <span class="kw">in </span><span class="kw-2">&amp;</span>[<span class="bool-val">false</span>, <span class="bool-val">true</span>] {
             reset_string_cache();
-            toggle_string_cache(<span class="kw-2">*</span>b);
+            enable_string_cache(<span class="kw-2">*</span>b);
 
             <span class="comment">// Use 2 builders to check if the global string cache
             // does not interfere with the index mapping

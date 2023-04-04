@@ -256,21 +256,21 @@
 <span class="kw">impl </span>IUseStringCache {
     <span class="doccomment">/// Hold the StringCache
     </span><span class="kw">pub fn </span>new() -&gt; IUseStringCache {
-        toggle_string_cache(<span class="bool-val">true</span>);
+        enable_string_cache(<span class="bool-val">true</span>);
         IUseStringCache { private_zst: () }
     }
 }
 
 <span class="kw">impl </span>Drop <span class="kw">for </span>IUseStringCache {
     <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        toggle_string_cache(<span class="bool-val">false</span>)
+        enable_string_cache(<span class="bool-val">false</span>)
     }
 }
 
 <span class="kw">pub fn </span>with_string_cache&lt;F: FnOnce() -&gt; T, T&gt;(func: F) -&gt; T {
-    toggle_string_cache(<span class="bool-val">true</span>);
+    enable_string_cache(<span class="bool-val">true</span>);
     <span class="kw">let </span>out = func();
-    toggle_string_cache(<span class="bool-val">false</span>);
+    enable_string_cache(<span class="bool-val">false</span>);
     out
 }
 
@@ -278,7 +278,7 @@
 ///
 /// This is used to cache the string categories locally.
 /// This allows join operations on categorical types.
-</span><span class="kw">pub fn </span>toggle_string_cache(toggle: bool) {
+</span><span class="kw">pub fn </span>enable_string_cache(toggle: bool) {
     <span class="kw">if </span>toggle {
         USE_STRING_CACHE.fetch_add(<span class="number">1</span>, Ordering::Release);
     } <span class="kw">else </span>{

@@ -43,11 +43,11 @@ underlying string data as Categories in df B). You can do that by turning the gl
 on.</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>polars::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span>polars::toggle_string_cache;
+<span class="kw">use </span>polars::enable_string_cache;
 
 <span class="kw">fn </span>example(<span class="kw-2">mut </span>df_a: DataFrame, <span class="kw-2">mut </span>df_b: DataFrame) -&gt; PolarsResult&lt;DataFrame&gt; {
     <span class="comment">// Set a global string cache
-    </span>toggle_string_cache(<span class="bool-val">true</span>);
+    </span>enable_string_cache(<span class="bool-val">true</span>);
 
     df_a.try_apply(<span class="string">&quot;a&quot;</span>, |s| s.categorical().cloned())<span class="question-mark">?</span>;
     df_b.try_apply(<span class="string">&quot;b&quot;</span>, |s| s.categorical().cloned())<span class="question-mark">?</span>;

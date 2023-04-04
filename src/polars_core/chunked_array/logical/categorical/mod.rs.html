@@ -555,7 +555,7 @@
     <span class="kw">use </span>std::convert::TryFrom;
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use crate</span>::{reset_string_cache, toggle_string_cache, SINGLE_LOCK};
+    <span class="kw">use crate</span>::{enable_string_cache, reset_string_cache, SINGLE_LOCK};
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_categorical_round_trip() -&gt; PolarsResult&lt;()&gt; {
@@ -586,7 +586,7 @@
     </span><span class="kw">fn </span>test_append_categorical() {
         <span class="kw">let </span>_lock = SINGLE_LOCK.lock();
         reset_string_cache();
-        toggle_string_cache(<span class="bool-val">true</span>);
+        enable_string_cache(<span class="bool-val">true</span>);
 
         <span class="kw">let </span><span class="kw-2">mut </span>s1 = Series::new(<span class="string">&quot;1&quot;</span>, <span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>])
             .cast(<span class="kw-2">&amp;</span>DataType::Categorical(<span class="prelude-val">None</span>))
@@ -620,7 +620,7 @@
     </span><span class="kw">fn </span>test_categorical_flow() -&gt; PolarsResult&lt;()&gt; {
         <span class="kw">let </span>_lock = SINGLE_LOCK.lock();
         reset_string_cache();
-        toggle_string_cache(<span class="bool-val">false</span>);
+        enable_string_cache(<span class="bool-val">false</span>);
 
         <span class="comment">// tests several things that may loose the dtype information
         </span><span class="kw">let </span>s = Series::new(<span class="string">&quot;a&quot;</span>, <span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>]).cast(<span class="kw-2">&amp;</span>DataType::Categorical(<span class="prelude-val">None</span>))<span class="question-mark">?</span>;
