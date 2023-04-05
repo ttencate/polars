@@ -1591,7 +1591,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.iter_slices.html#polars.DataFrame.iter_slices" title="polars.DataFrame.iter_slices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.iter_slices</span></code></a>([n_rows])</p></td>
 <td><p>Returns a non-copying iterator of slices over the underlying DataFrame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.join.html#polars.DataFrame.join" title="polars.DataFrame.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.join</span></code></a>(other, *[, left_on, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.join.html#polars.DataFrame.join" title="polars.DataFrame.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.join</span></code></a>(other[, on, how, left_on, ...])</p></td>
 <td><p>Join in SQL-like fashion.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.join_asof.html#polars.DataFrame.join_asof" title="polars.DataFrame.join_asof"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.join_asof</span></code></a>(other, *[, left_on, ...])</p></td>
@@ -1675,7 +1675,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.transpose.html#polars.DataFrame.transpose" title="polars.DataFrame.transpose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.transpose</span></code></a>(*[, include_header, ...])</p></td>
 <td><p>Transpose a DataFrame over the diagonal.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.unique.html#polars.DataFrame.unique" title="polars.DataFrame.unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.unique</span></code></a>(*[, maintain_order, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.unique.html#polars.DataFrame.unique" title="polars.DataFrame.unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.unique</span></code></a>([subset, keep, maintain_order])</p></td>
 <td><p>Drop duplicate rows from this dataframe.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.unnest.html#polars.DataFrame.unnest" title="polars.DataFrame.unnest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.unnest</span></code></a>(columns, *more_columns)</p></td>

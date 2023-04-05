@@ -1567,7 +1567,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.LazyFrame.interpolate.html#polars.LazyFrame.interpolate" title="polars.LazyFrame.interpolate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.interpolate</span></code></a>()</p></td>
 <td><p>Interpolate intermediate values.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.LazyFrame.join.html#polars.LazyFrame.join" title="polars.LazyFrame.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.join</span></code></a>(other, *[, left_on, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.LazyFrame.join.html#polars.LazyFrame.join" title="polars.LazyFrame.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.join</span></code></a>(other[, on, how, left_on, ...])</p></td>
 <td><p>Add a join operation to the Logical Plan.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.LazyFrame.join_asof.html#polars.LazyFrame.join_asof" title="polars.LazyFrame.join_asof"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.join_asof</span></code></a>(other, *[, left_on, ...])</p></td>
@@ -1615,7 +1615,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.LazyFrame.top_k.html#polars.LazyFrame.top_k" title="polars.LazyFrame.top_k"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.top_k</span></code></a>(k, *, by[, descending, ...])</p></td>
 <td><p>Return the <cite>k</cite> largest elements.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.LazyFrame.unique.html#polars.LazyFrame.unique" title="polars.LazyFrame.unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.unique</span></code></a>(*[, maintain_order, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.LazyFrame.unique.html#polars.LazyFrame.unique" title="polars.LazyFrame.unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.unique</span></code></a>([subset, keep, maintain_order])</p></td>
 <td><p>Drop duplicate rows from this dataframe.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.LazyFrame.unnest.html#polars.LazyFrame.unnest" title="polars.LazyFrame.unnest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.unnest</span></code></a>(columns, *more_columns)</p></td>
