@@ -198,25 +198,6 @@
 <a href="#198" id="198">198</a>
 <a href="#199" id="199">199</a>
 <a href="#200" id="200">200</a>
-<a href="#201" id="201">201</a>
-<a href="#202" id="202">202</a>
-<a href="#203" id="203">203</a>
-<a href="#204" id="204">204</a>
-<a href="#205" id="205">205</a>
-<a href="#206" id="206">206</a>
-<a href="#207" id="207">207</a>
-<a href="#208" id="208">208</a>
-<a href="#209" id="209">209</a>
-<a href="#210" id="210">210</a>
-<a href="#211" id="211">211</a>
-<a href="#212" id="212">212</a>
-<a href="#213" id="213">213</a>
-<a href="#214" id="214">214</a>
-<a href="#215" id="215">215</a>
-<a href="#216" id="216">216</a>
-<a href="#217" id="217">217</a>
-<a href="#218" id="218">218</a>
-<a href="#219" id="219">219</a>
 </pre><pre class="rust"><code><span class="kw">mod </span>av_buffer;
 <span class="kw">mod </span>dataframe;
 <span class="kw">mod </span>transpose;
@@ -312,30 +293,12 @@
     }
 }
 
-<span class="comment">// nested dtypes that are all null, will be set as null leave dtype
-</span><span class="kw">fn </span>infer_dtype_dynamic(av: <span class="kw-2">&amp;</span>AnyValue) -&gt; DataType {
-    <span class="kw">match </span>av {
-        AnyValue::List(s) <span class="kw">if </span>s.null_count() == s.len() =&gt; DataType::List(Box::new(DataType::Null)),
-        <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
-        </span>AnyValue::Struct(<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>) =&gt; DataType::Struct(
-            av._iter_struct_av()
-                .map(|av| {
-                    <span class="kw">let </span>dtype = infer_dtype_dynamic(<span class="kw-2">&amp;</span>av);
-                    Field::new(<span class="string">&quot;&quot;</span>, dtype)
-                })
-                .collect(),
-        ),
-        av =&gt; av.into(),
-    }
-}
-
 <span class="kw">pub fn </span>any_values_to_dtype(column: <span class="kw-2">&amp;</span>[AnyValue]) -&gt; PolarsResult&lt;DataType&gt; {
     <span class="comment">// we need an index-map as the order of dtypes influences how the
     // struct fields are constructed.
     </span><span class="kw">let </span><span class="kw-2">mut </span>types_set = PlIndexSet::new();
     <span class="kw">for </span>val <span class="kw">in </span>column.iter() {
-        <span class="kw">let </span>dtype = infer_dtype_dynamic(val);
-        types_set.insert(dtype);
+        types_set.insert(val.into());
     }
     types_set_to_dtype(types_set)
 }
@@ -360,8 +323,7 @@
 
     <span class="kw">for </span>row <span class="kw">in </span>rows.iter().take(max_infer) {
         <span class="kw">for </span>(val, types_set) <span class="kw">in </span>row.<span class="number">0</span>.iter().zip(dtypes.iter_mut()) {
-            <span class="kw">let </span>dtype = infer_dtype_dynamic(val);
-            types_set.insert(dtype);
+            types_set.insert(val.into());
         }
     }
 
