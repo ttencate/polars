@@ -415,10 +415,13 @@
 <a href="#415" id="415">415</a>
 <a href="#416" id="416">416</a>
 <a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
-</span><span class="kw">use </span>polars_utils::format_smartstring;
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">use </span>polars_utils::slice::GetSaferUnchecked;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+</span><span class="kw">use </span>smartstring::alias::String <span class="kw">as </span>SmartString;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
@@ -639,11 +642,15 @@
     Utf8(Utf8ChunkedBuilder),
     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
     </span><span class="comment">// not the trusted variant!
-    </span>Struct(Vec&lt;AnyValueBuffer&lt;<span class="lifetime">&#39;a</span>&gt;&gt;),
+    </span>Struct(Vec&lt;(AnyValueBuffer&lt;<span class="lifetime">&#39;a</span>&gt;, SmartString)&gt;),
     All(DataType, Vec&lt;AnyValue&lt;<span class="lifetime">&#39;a</span>&gt;&gt;),
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; AnyValueBufferTrusted&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">pub fn </span>new(dtype: <span class="kw-2">&amp;</span>DataType, len: usize) -&gt; <span class="self">Self </span>{
+        (dtype, len).into()
+    }
+
     <span class="doccomment">/// Will add the AnyValue into `Self` and unpack as the physical type
     /// belonging to `Self`. This should only be used with physical buffers
     ///
@@ -673,7 +680,7 @@
                 Utf8(builder) =&gt; builder.append_null(),
                 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
                 </span>Struct(builders) =&gt; {
-                    <span class="kw">for </span>b <span class="kw">in </span>builders.iter_mut() {
+                    <span class="kw">for </span>(b, <span class="kw">_</span>) <span class="kw">in </span>builders.iter_mut() {
                         b.add(AnyValue::Null);
                     }
                 }
@@ -742,7 +749,7 @@
                             <span class="kw">unsafe </span>{
                                 <span class="kw">let </span>array = arrays.get_unchecked_release(i);
                                 <span class="kw">let </span>field = fields.get_unchecked_release(i);
-                                <span class="kw">let </span>builder = builders.get_unchecked_release_mut(i);
+                                <span class="kw">let </span>(builder, <span class="kw">_</span>) = builders.get_unchecked_release_mut(i);
                                 <span class="kw">let </span>av = arr_to_any_value(<span class="kw-2">&amp;**</span>array, <span class="kw-2">*</span>idx, <span class="kw-2">&amp;</span>field.dtype);
                                 <span class="comment">// lifetime is bound to &#39;a
                                 </span><span class="kw">let </span>av = std::mem::transmute::&lt;AnyValue&lt;<span class="lifetime">&#39;_</span>&gt;, AnyValue&lt;<span class="lifetime">&#39;a</span>&gt;&gt;(av);
@@ -779,10 +786,9 @@
             </span>Struct(b) =&gt; {
                 <span class="kw">let </span>v = b
                     .into_iter()
-                    .enumerate()
-                    .map(|(i, b)| {
+                    .map(|(b, name)| {
                         <span class="kw">let </span><span class="kw-2">mut </span>s = b.into_series();
-                        s.rename(<span class="macro">format_smartstring!</span>(<span class="string">&quot;field_{}&quot;</span>, i).as_str());
+                        s.rename(name.as_str());
                         s
                     })
                     .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
@@ -822,7 +828,7 @@
                     .map(|field| {
                         <span class="kw">let </span>dtype = field.data_type().to_physical();
                         <span class="kw">let </span>buffer: AnyValueBuffer = (<span class="kw-2">&amp;</span>dtype, len).into();
-                        buffer
+                        (buffer, field.name.clone())
                     })
                     .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
                 AnyValueBufferTrusted::Struct(buffers)

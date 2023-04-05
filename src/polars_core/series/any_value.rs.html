@@ -761,7 +761,7 @@
 
     <span class="kw">pub fn </span>from_any_values(name: <span class="kw-2">&amp;</span>str, avs: <span class="kw-2">&amp;</span>[AnyValue], strict: bool) -&gt; PolarsResult&lt;Series&gt; {
         <span class="kw">match </span>avs.iter().find(|av| !<span class="macro">matches!</span>(av, AnyValue::Null)) {
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(Series::full_null(name, avs.len(), <span class="kw-2">&amp;</span>DataType::Int32)),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(Series::full_null(name, avs.len(), <span class="kw-2">&amp;</span>DataType::Null)),
             <span class="prelude-val">Some</span>(av) =&gt; {
                 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
                 </span>{
