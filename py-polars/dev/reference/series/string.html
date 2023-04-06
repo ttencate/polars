@@ -1535,7 +1535,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.encode.html#polars.Series.str.encode" title="polars.Series.str.encode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.encode</span></code></a>(encoding)</p></td>
 <td><p>Encode a value using the provided encoding.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.ends_with.html#polars.Series.str.ends_with" title="polars.Series.str.ends_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.ends_with</span></code></a>(sub)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.ends_with.html#polars.Series.str.ends_with" title="polars.Series.str.ends_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.ends_with</span></code></a>(suffix)</p></td>
 <td><p>Check if string values end with a substring.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.explode.html#polars.Series.str.explode" title="polars.Series.str.explode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.explode</span></code></a>()</p></td>
@@ -1556,10 +1556,10 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.lengths.html#polars.Series.str.lengths" title="polars.Series.str.lengths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.lengths</span></code></a>()</p></td>
 <td><p>Get length of the string values in the Series (as number of bytes).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.ljust.html#polars.Series.str.ljust" title="polars.Series.str.ljust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.ljust</span></code></a>(width[, fillchar])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.ljust.html#polars.Series.str.ljust" title="polars.Series.str.ljust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.ljust</span></code></a>(width[, fill_char])</p></td>
 <td><p>Return the string left justified in a string of length <code class="docutils literal notranslate"><span class="pre">width</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.lstrip.html#polars.Series.str.lstrip" title="polars.Series.str.lstrip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.lstrip</span></code></a>([matches])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.lstrip.html#polars.Series.str.lstrip" title="polars.Series.str.lstrip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.lstrip</span></code></a>([characters])</p></td>
 <td><p>Remove leading characters.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.n_chars.html#polars.Series.str.n_chars" title="polars.Series.str.n_chars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.n_chars</span></code></a>()</p></td>
@@ -1571,10 +1571,10 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.replace_all.html#polars.Series.str.replace_all" title="polars.Series.str.replace_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.replace_all</span></code></a>(pattern, value, *[, ...])</p></td>
 <td><p>Replace all matching regex/literal substrings with a new string value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.rjust.html#polars.Series.str.rjust" title="polars.Series.str.rjust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.rjust</span></code></a>(width[, fillchar])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.rjust.html#polars.Series.str.rjust" title="polars.Series.str.rjust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.rjust</span></code></a>(width[, fill_char])</p></td>
 <td><p>Return the string right justified in a string of length <code class="docutils literal notranslate"><span class="pre">width</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.rstrip.html#polars.Series.str.rstrip" title="polars.Series.str.rstrip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.rstrip</span></code></a>([matches])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.rstrip.html#polars.Series.str.rstrip" title="polars.Series.str.rstrip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.rstrip</span></code></a>([characters])</p></td>
 <td><p>Remove trailing characters.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.slice.html#polars.Series.str.slice" title="polars.Series.str.slice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.slice</span></code></a>(offset[, length])</p></td>
@@ -1589,10 +1589,10 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.splitn.html#polars.Series.str.splitn" title="polars.Series.str.splitn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.splitn</span></code></a>(by, n)</p></td>
 <td><p>Split the string by a substring, restricted to returning at most <code class="docutils literal notranslate"><span class="pre">n</span></code> items.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.starts_with.html#polars.Series.str.starts_with" title="polars.Series.str.starts_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.starts_with</span></code></a>(sub)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.starts_with.html#polars.Series.str.starts_with" title="polars.Series.str.starts_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.starts_with</span></code></a>(prefix)</p></td>
 <td><p>Check if string values start with a substring.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.strip.html#polars.Series.str.strip" title="polars.Series.str.strip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.strip</span></code></a>([matches])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.str.strip.html#polars.Series.str.strip" title="polars.Series.str.strip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.strip</span></code></a>([characters])</p></td>
 <td><p>Remove leading and trailing characters.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.str.strptime.html#polars.Series.str.strptime" title="polars.Series.str.strptime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.str.strptime</span></code></a>(datatype[, fmt, strict, ...])</p></td>

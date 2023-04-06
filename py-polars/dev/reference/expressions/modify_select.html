@@ -1540,13 +1540,13 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.ceil.html#polars.Expr.ceil" title="polars.Expr.ceil"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.ceil</span></code></a>()</p></td>
 <td><p>Rounds up to the nearest integer value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.clip.html#polars.Expr.clip" title="polars.Expr.clip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.clip</span></code></a>(min_val, max_val)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.clip.html#polars.Expr.clip" title="polars.Expr.clip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.clip</span></code></a>(lower_bound, upper_bound)</p></td>
 <td><p>Clip (limit) the values in an array to a <cite>min</cite> and <cite>max</cite> boundary.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.clip_max.html#polars.Expr.clip_max" title="polars.Expr.clip_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.clip_max</span></code></a>(max_val)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.clip_max.html#polars.Expr.clip_max" title="polars.Expr.clip_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.clip_max</span></code></a>(upper_bound)</p></td>
 <td><p>Clip (limit) the values in an array to a <cite>max</cite> boundary.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.clip_min.html#polars.Expr.clip_min" title="polars.Expr.clip_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.clip_min</span></code></a>(min_val)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.clip_min.html#polars.Expr.clip_min" title="polars.Expr.clip_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.clip_min</span></code></a>(lower_bound)</p></td>
 <td><p>Clip (limit) the values in an array to a <cite>min</cite> boundary.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.drop_nans.html#polars.Expr.drop_nans" title="polars.Expr.drop_nans"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.drop_nans</span></code></a>()</p></td>
@@ -1594,7 +1594,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.lower_bound.html#polars.Expr.lower_bound" title="polars.Expr.lower_bound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.lower_bound</span></code></a>()</p></td>
 <td><p>Calculate the lower bound.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.map_dict.html#polars.Expr.map_dict" title="polars.Expr.map_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.map_dict</span></code></a>(remapping, *[, default, dtype])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.map_dict.html#polars.Expr.map_dict" title="polars.Expr.map_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.map_dict</span></code></a>(remapping, *[, default, ...])</p></td>
 <td><p>Replace values in column according to remapping dictionary.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.pipe.html#polars.Expr.pipe" title="polars.Expr.pipe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.pipe</span></code></a>(function, *args, **kwargs)</p></td>
@@ -1609,7 +1609,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.repeat_by.html#polars.Expr.repeat_by" title="polars.Expr.repeat_by"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.repeat_by</span></code></a>(by)</p></td>
 <td><p>Repeat the elements in this Series as specified in the given expression.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.reshape.html#polars.Expr.reshape" title="polars.Expr.reshape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.reshape</span></code></a>(dims)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.reshape.html#polars.Expr.reshape" title="polars.Expr.reshape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.reshape</span></code></a>(dimensions)</p></td>
 <td><p>Reshape this Expr to a flat Series or a Series of Lists.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.reverse.html#polars.Expr.reverse" title="polars.Expr.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.reverse</span></code></a>()</p></td>
@@ -1618,7 +1618,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.round.html#polars.Expr.round" title="polars.Expr.round"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.round</span></code></a>(decimals)</p></td>
 <td><p>Round underlying floating point data by <cite>decimals</cite> digits.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.sample.html#polars.Expr.sample" title="polars.Expr.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.sample</span></code></a>([n, frac, with_replacement, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.sample.html#polars.Expr.sample" title="polars.Expr.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.sample</span></code></a>([n, fraction, with_replacement, ...])</p></td>
 <td><p>Sample from this expression.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.shift.html#polars.Expr.shift" title="polars.Expr.shift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.shift</span></code></a>([periods])</p></td>

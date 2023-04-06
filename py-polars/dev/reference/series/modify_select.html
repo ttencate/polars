@@ -1540,13 +1540,13 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.clear.html#polars.Series.clear" title="polars.Series.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.clear</span></code></a>([n])</p></td>
 <td><p>Create an empty copy of the current Series, with zero to 'n' elements.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.clip.html#polars.Series.clip" title="polars.Series.clip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.clip</span></code></a>(min_val, max_val)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.clip.html#polars.Series.clip" title="polars.Series.clip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.clip</span></code></a>(lower_bound, upper_bound)</p></td>
 <td><p>Clip (limit) the values in an array to a <cite>min</cite> and <cite>max</cite> boundary.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.clip_max.html#polars.Series.clip_max" title="polars.Series.clip_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.clip_max</span></code></a>(max_val)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.clip_max.html#polars.Series.clip_max" title="polars.Series.clip_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.clip_max</span></code></a>(upper_bound)</p></td>
 <td><p>Clip (limit) the values in an array to a <cite>max</cite> boundary.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.clip_min.html#polars.Series.clip_min" title="polars.Series.clip_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.clip_min</span></code></a>(min_val)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.clip_min.html#polars.Series.clip_min" title="polars.Series.clip_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.clip_min</span></code></a>(lower_bound)</p></td>
 <td><p>Clip (limit) the values in an array to a <cite>min</cite> boundary.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.clone.html#polars.Series.clone" title="polars.Series.clone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.clone</span></code></a>()</p></td>
@@ -1606,7 +1606,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.rename.html#polars.Series.rename" title="polars.Series.rename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rename</span></code></a>(name, *[, in_place])</p></td>
 <td><p>Rename this Series.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.reshape.html#polars.Series.reshape" title="polars.Series.reshape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.reshape</span></code></a>(dims)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.reshape.html#polars.Series.reshape" title="polars.Series.reshape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.reshape</span></code></a>(dimensions)</p></td>
 <td><p>Reshape this Series to a flat Series or a Series of Lists.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.reverse.html#polars.Series.reverse" title="polars.Series.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.reverse</span></code></a>()</p></td>
@@ -1615,7 +1615,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.round.html#polars.Series.round" title="polars.Series.round"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.round</span></code></a>(decimals)</p></td>
 <td><p>Round underlying floating point data by <cite>decimals</cite> digits.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.sample.html#polars.Series.sample" title="polars.Series.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.sample</span></code></a>([n, frac, with_replacement, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.sample.html#polars.Series.sample" title="polars.Series.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.sample</span></code></a>([n, fraction, ...])</p></td>
 <td><p>Sample from this Series.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.set.html#polars.Series.set" title="polars.Series.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.set</span></code></a>(filter, value)</p></td>

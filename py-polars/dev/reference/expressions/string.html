@@ -1535,7 +1535,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.encode.html#polars.Expr.str.encode" title="polars.Expr.str.encode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.encode</span></code></a>(encoding)</p></td>
 <td><p>Encode a value using the provided encoding.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.ends_with.html#polars.Expr.str.ends_with" title="polars.Expr.str.ends_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.ends_with</span></code></a>(sub)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.ends_with.html#polars.Expr.str.ends_with" title="polars.Expr.str.ends_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.ends_with</span></code></a>(suffix)</p></td>
 <td><p>Check if string values end with a substring.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.explode.html#polars.Expr.str.explode" title="polars.Expr.str.explode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.explode</span></code></a>()</p></td>
@@ -1556,10 +1556,10 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.lengths.html#polars.Expr.str.lengths" title="polars.Expr.str.lengths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.lengths</span></code></a>()</p></td>
 <td><p>Get length of the strings as UInt32 (as number of bytes).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.ljust.html#polars.Expr.str.ljust" title="polars.Expr.str.ljust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.ljust</span></code></a>(width[, fillchar])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.ljust.html#polars.Expr.str.ljust" title="polars.Expr.str.ljust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.ljust</span></code></a>(width[, fill_char])</p></td>
 <td><p>Return the string left justified in a string of length <code class="docutils literal notranslate"><span class="pre">width</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.lstrip.html#polars.Expr.str.lstrip" title="polars.Expr.str.lstrip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.lstrip</span></code></a>([matches])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.lstrip.html#polars.Expr.str.lstrip" title="polars.Expr.str.lstrip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.lstrip</span></code></a>([characters])</p></td>
 <td><p>Remove leading characters.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.n_chars.html#polars.Expr.str.n_chars" title="polars.Expr.str.n_chars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.n_chars</span></code></a>()</p></td>
@@ -1571,10 +1571,10 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.replace_all.html#polars.Expr.str.replace_all" title="polars.Expr.str.replace_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.replace_all</span></code></a>(pattern, value, *[, ...])</p></td>
 <td><p>Replace all matching regex/literal substrings with a new string value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.rjust.html#polars.Expr.str.rjust" title="polars.Expr.str.rjust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.rjust</span></code></a>(width[, fillchar])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.rjust.html#polars.Expr.str.rjust" title="polars.Expr.str.rjust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.rjust</span></code></a>(width[, fill_char])</p></td>
 <td><p>Return the string right justified in a string of length <code class="docutils literal notranslate"><span class="pre">width</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.rstrip.html#polars.Expr.str.rstrip" title="polars.Expr.str.rstrip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.rstrip</span></code></a>([matches])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.rstrip.html#polars.Expr.str.rstrip" title="polars.Expr.str.rstrip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.rstrip</span></code></a>([characters])</p></td>
 <td><p>Remove trailing characters.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.slice.html#polars.Expr.str.slice" title="polars.Expr.str.slice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.slice</span></code></a>(offset[, length])</p></td>
@@ -1589,10 +1589,10 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.splitn.html#polars.Expr.str.splitn" title="polars.Expr.str.splitn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.splitn</span></code></a>(by, n)</p></td>
 <td><p>Split the string by a substring, restricted to returning at most <code class="docutils literal notranslate"><span class="pre">n</span></code> items.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.starts_with.html#polars.Expr.str.starts_with" title="polars.Expr.str.starts_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.starts_with</span></code></a>(sub)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.starts_with.html#polars.Expr.str.starts_with" title="polars.Expr.str.starts_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.starts_with</span></code></a>(prefix)</p></td>
 <td><p>Check if string values start with a substring.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.strip.html#polars.Expr.str.strip" title="polars.Expr.str.strip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.strip</span></code></a>([matches])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.strip.html#polars.Expr.str.strip" title="polars.Expr.str.strip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.strip</span></code></a>([characters])</p></td>
 <td><p>Remove leading and trailing characters.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.strptime.html#polars.Expr.str.strptime" title="polars.Expr.str.strptime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.strptime</span></code></a>(datatype[, fmt, strict, ...])</p></td>
