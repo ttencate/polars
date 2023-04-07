@@ -2119,7 +2119,7 @@
         </span><span class="comment">// Select multiple
         </span><span class="kw">let </span>out = df
             .groupby_stable([<span class="string">&quot;date&quot;</span>])<span class="question-mark">?
-            </span>.select(<span class="kw-2">&amp;</span>[<span class="string">&quot;temp&quot;</span>, <span class="string">&quot;rain&quot;</span>])
+            </span>.select([<span class="string">&quot;temp&quot;</span>, <span class="string">&quot;rain&quot;</span>])
             .mean()<span class="question-mark">?</span>;
         <span class="macro">assert_eq!</span>(
             out.column(<span class="string">&quot;temp_mean&quot;</span>)<span class="question-mark">?</span>,
@@ -2130,7 +2130,7 @@
         </span><span class="attr">#[allow(deprecated)]
         </span><span class="comment">// Group by multiple
         </span><span class="kw">let </span>out = df
-            .groupby_stable(<span class="kw-2">&amp;</span>[<span class="string">&quot;date&quot;</span>, <span class="string">&quot;temp&quot;</span>])<span class="question-mark">?
+            .groupby_stable([<span class="string">&quot;date&quot;</span>, <span class="string">&quot;temp&quot;</span>])<span class="question-mark">?
             </span>.select([<span class="string">&quot;rain&quot;</span>])
             .mean()<span class="question-mark">?</span>;
         <span class="macro">assert!</span>(out.column(<span class="string">&quot;rain_mean&quot;</span>).is_ok());
@@ -2176,7 +2176,7 @@
         <span class="comment">// Use of deprecated `sum()` for testing purposes
         </span><span class="attr">#[allow(deprecated)]
         </span><span class="kw">let </span>adf = df
-            .groupby(<span class="kw-2">&amp;</span>[
+            .groupby([
                 <span class="string">&quot;G1&quot;</span>, <span class="string">&quot;G2&quot;</span>, <span class="string">&quot;G3&quot;</span>, <span class="string">&quot;G4&quot;</span>, <span class="string">&quot;G5&quot;</span>, <span class="string">&quot;G6&quot;</span>, <span class="string">&quot;G7&quot;</span>, <span class="string">&quot;G8&quot;</span>, <span class="string">&quot;G9&quot;</span>, <span class="string">&quot;G10&quot;</span>, <span class="string">&quot;G11&quot;</span>, <span class="string">&quot;G12&quot;</span>,
             ])
             .unwrap()
@@ -2221,7 +2221,7 @@
         </span><span class="attr">#[allow(deprecated)]
         </span><span class="comment">// Compute the aggregated DataFrame by the 13 columns defined in `series_names`.
         </span><span class="kw">let </span>adf = df
-            .groupby(<span class="kw-2">&amp;</span>series_names)
+            .groupby(series_names)
             .unwrap()
             .select([<span class="string">&quot;N&quot;</span>])
             .sum()

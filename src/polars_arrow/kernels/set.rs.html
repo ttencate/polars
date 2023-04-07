@@ -259,10 +259,10 @@
         <span class="macro">assert_eq!</span>(slice[<span class="number">1</span>], <span class="number">1</span>);
         <span class="macro">assert_eq!</span>(slice[<span class="number">0</span>], <span class="number">0</span>);
 
-        <span class="kw">let </span>mask = BooleanArray::from_slice(<span class="kw-2">&amp;</span>[
+        <span class="kw">let </span>mask = BooleanArray::from_slice([
             <span class="bool-val">false</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>, <span class="bool-val">false</span>,
         ]);
-        <span class="kw">let </span>val = UInt32Array::from_slice(<span class="kw-2">&amp;</span>[<span class="number">0</span>; <span class="number">10</span>]);
+        <span class="kw">let </span>val = UInt32Array::from_slice([<span class="number">0</span>; <span class="number">10</span>]);
         <span class="kw">let </span>out = set_with_mask(<span class="kw-2">&amp;</span>val, <span class="kw-2">&amp;</span>mask, <span class="number">1</span>, DataType::UInt32);
         <span class="macro">assert_eq!</span>(out.values().as_slice(), <span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>]);
 
@@ -275,7 +275,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_set_at_idx() {
-        <span class="kw">let </span>val = UInt32Array::from_slice(<span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
+        <span class="kw">let </span>val = UInt32Array::from_slice([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
         <span class="kw">let </span>out = set_at_idx_no_null(<span class="kw-2">&amp;</span>val, std::iter::once(<span class="number">1</span>), <span class="number">100</span>, DataType::UInt32).unwrap();
         <span class="macro">assert_eq!</span>(out.values().as_slice(), <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">100</span>, <span class="number">3</span>]);
         <span class="kw">let </span>out = set_at_idx_no_null(<span class="kw-2">&amp;</span>val, std::iter::once(<span class="number">100</span>), <span class="number">100</span>, DataType::UInt32);

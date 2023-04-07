@@ -2139,7 +2139,7 @@
     }
     <span class="attr">#[test]
     </span><span class="kw">fn </span>new_series_from_arrow_primitive_array() {
-        <span class="kw">let </span>array = UInt32Array::from_slice(<span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]);
+        <span class="kw">let </span>array = UInt32Array::from_slice([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]);
         <span class="kw">let </span>array_ref: ArrayRef = Box::new(array);
 
         <span class="kw">let _ </span>= Series::try_from((<span class="string">&quot;foo&quot;</span>, array_ref)).unwrap();

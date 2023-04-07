@@ -265,7 +265,7 @@
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
     <span class="kw">fn </span>get_array() -&gt; ListArray&lt;i64&gt; {
-        <span class="kw">let </span>values = Int32Array::from_slice(<span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]);
+        <span class="kw">let </span>values = Int32Array::from_slice([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]);
         <span class="kw">let </span>offsets = OffsetsBuffer::try_from(<span class="macro">vec!</span>[<span class="number">0i64</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>]).unwrap();
 
         <span class="kw">let </span>dtype = ListArray::&lt;i64&gt;::default_datatype(DataType::Int32);

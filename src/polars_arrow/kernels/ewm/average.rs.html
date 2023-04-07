@@ -235,9 +235,9 @@
                     <span class="kw">let </span>expected = <span class="kw">match </span>adjust {
                         <span class="bool-val">false </span>=&gt; PrimitiveArray::from([<span class="prelude-val">Some</span>(<span class="number">1.0f64</span>), <span class="prelude-val">Some</span>(<span class="number">1.5f64</span>), <span class="prelude-val">Some</span>(<span class="number">2.25f64</span>)]),
                         <span class="bool-val">true </span>=&gt; PrimitiveArray::from([
-                            <span class="prelude-val">Some</span>(<span class="number">1.00000000000000000000</span>),
-                            <span class="prelude-val">Some</span>(<span class="number">1.66666666666666674068</span>),
-                            <span class="prelude-val">Some</span>(<span class="number">2.42857142857142838110</span>),
+                            <span class="prelude-val">Some</span>(<span class="number">1.0</span>),
+                            <span class="prelude-val">Some</span>(<span class="number">1.666_666_666_666_666_7</span>),
+                            <span class="prelude-val">Some</span>(<span class="number">2.428_571_428_571_428_4</span>),
                         ]),
                     };
                     <span class="macro">assert_allclose!</span>(result, expected, <span class="number">1e-15</span>);
@@ -247,8 +247,8 @@
                     <span class="bool-val">false </span>=&gt; PrimitiveArray::from([<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">1.5f64</span>), <span class="prelude-val">Some</span>(<span class="number">2.25f64</span>)]),
                     <span class="bool-val">true </span>=&gt; PrimitiveArray::from([
                         <span class="prelude-val">None</span>,
-                        <span class="prelude-val">Some</span>(<span class="number">1.66666666666666674068</span>),
-                        <span class="prelude-val">Some</span>(<span class="number">2.42857142857142838110</span>),
+                        <span class="prelude-val">Some</span>(<span class="number">1.666_666_666_666_666_7</span>),
+                        <span class="prelude-val">Some</span>(<span class="number">2.428_571_428_571_428_4</span>),
                     ]),
                 };
                 <span class="macro">assert_allclose!</span>(result, expected, EPS);
@@ -273,12 +273,12 @@
             PrimitiveArray::from([
                 <span class="prelude-val">None</span>,
                 <span class="prelude-val">None</span>,
-                <span class="prelude-val">Some</span>(<span class="number">5.00000000000000000000</span>),
-                <span class="prelude-val">Some</span>(<span class="number">6.33333333333333303727</span>),
-                <span class="prelude-val">Some</span>(<span class="number">6.33333333333333303727</span>),
-                <span class="prelude-val">Some</span>(<span class="number">3.85714285714285720630</span>),
-                <span class="prelude-val">Some</span>(<span class="number">2.33333333333333348136</span>),
-                <span class="prelude-val">Some</span>(<span class="number">3.19354838709677402164</span>),
+                <span class="prelude-val">Some</span>(<span class="number">5.0</span>),
+                <span class="prelude-val">Some</span>(<span class="number">6.333_333_333_333_333</span>),
+                <span class="prelude-val">Some</span>(<span class="number">6.333_333_333_333_333</span>),
+                <span class="prelude-val">Some</span>(<span class="number">3.857_142_857_142_857</span>),
+                <span class="prelude-val">Some</span>(<span class="number">2.333_333_333_333_333_5</span>),
+                <span class="prelude-val">Some</span>(<span class="number">3.193_548_387_096_774</span>),
             ]),
             EPS
         );
@@ -287,12 +287,12 @@
             PrimitiveArray::from([
                 <span class="prelude-val">None</span>,
                 <span class="prelude-val">None</span>,
-                <span class="prelude-val">Some</span>(<span class="number">5.00000000000000000000</span>),
-                <span class="prelude-val">Some</span>(<span class="number">6.33333333333333303727</span>),
-                <span class="prelude-val">Some</span>(<span class="number">6.33333333333333303727</span>),
-                <span class="prelude-val">Some</span>(<span class="number">3.18181818181818165669</span>),
-                <span class="prelude-val">Some</span>(<span class="number">1.88888888888888883955</span>),
-                <span class="prelude-val">Some</span>(<span class="number">3.03389830508474567239</span>),
+                <span class="prelude-val">Some</span>(<span class="number">5.0</span>),
+                <span class="prelude-val">Some</span>(<span class="number">6.333_333_333_333_333</span>),
+                <span class="prelude-val">Some</span>(<span class="number">6.333_333_333_333_333</span>),
+                <span class="prelude-val">Some</span>(<span class="number">3.181_818_181_818_181_7</span>),
+                <span class="prelude-val">Some</span>(<span class="number">1.888_888_888_888_888_8</span>),
+                <span class="prelude-val">Some</span>(<span class="number">3.033_898_305_084_745_7</span>),
             ]),
             EPS
         );
@@ -301,12 +301,12 @@
             PrimitiveArray::from([
                 <span class="prelude-val">None</span>,
                 <span class="prelude-val">None</span>,
-                <span class="prelude-val">Some</span>(<span class="number">5.00000000000000000000</span>),
-                <span class="prelude-val">Some</span>(<span class="number">6.00000000000000000000</span>),
-                <span class="prelude-val">Some</span>(<span class="number">6.00000000000000000000</span>),
-                <span class="prelude-val">Some</span>(<span class="number">4.00000000000000000000</span>),
-                <span class="prelude-val">Some</span>(<span class="number">2.50000000000000000000</span>),
-                <span class="prelude-val">Some</span>(<span class="number">3.25000000000000000000</span>),
+                <span class="prelude-val">Some</span>(<span class="number">5.0</span>),
+                <span class="prelude-val">Some</span>(<span class="number">6.0</span>),
+                <span class="prelude-val">Some</span>(<span class="number">6.0</span>),
+                <span class="prelude-val">Some</span>(<span class="number">4.0</span>),
+                <span class="prelude-val">Some</span>(<span class="number">2.5</span>),
+                <span class="prelude-val">Some</span>(<span class="number">3.25</span>),
             ]),
             EPS
         );
@@ -315,12 +315,12 @@
             PrimitiveArray::from([
                 <span class="prelude-val">None</span>,
                 <span class="prelude-val">None</span>,
-                <span class="prelude-val">Some</span>(<span class="number">5.00000000000000000000</span>),
-                <span class="prelude-val">Some</span>(<span class="number">6.00000000000000000000</span>),
-                <span class="prelude-val">Some</span>(<span class="number">6.00000000000000000000</span>),
-                <span class="prelude-val">Some</span>(<span class="number">3.33333333333333348136</span>),
-                <span class="prelude-val">Some</span>(<span class="number">2.16666666666666696273</span>),
-                <span class="prelude-val">Some</span>(<span class="number">3.08333333333333348136</span>),
+                <span class="prelude-val">Some</span>(<span class="number">5.0</span>),
+                <span class="prelude-val">Some</span>(<span class="number">6.0</span>),
+                <span class="prelude-val">Some</span>(<span class="number">6.0</span>),
+                <span class="prelude-val">Some</span>(<span class="number">3.333_333_333_333_333_5</span>),
+                <span class="prelude-val">Some</span>(<span class="number">2.166_666_666_666_667</span>),
+                <span class="prelude-val">Some</span>(<span class="number">3.083_333_333_333_333_5</span>),
             ]),
             EPS
         );

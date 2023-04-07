@@ -743,12 +743,12 @@
     </span><span class="kw">fn </span>mode() {
         <span class="kw">let </span>ca = Int32Chunked::from_slice(<span class="string">&quot;a&quot;</span>, <span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">0</span>]);
         <span class="kw">let </span><span class="kw-2">mut </span>result = Vec::from(<span class="kw-2">&amp;</span>ca.mode().unwrap());
-        result.sort_by(|a, b| a.unwrap().cmp(<span class="kw-2">&amp;</span>b.unwrap()));
+        result.sort_by_key(|a| a.unwrap());
         <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>result, <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">0</span>), <span class="prelude-val">Some</span>(<span class="number">4</span>), <span class="prelude-val">Some</span>(<span class="number">5</span>)]);
 
         <span class="kw">let </span>ca2 = Int32Chunked::from_slice(<span class="string">&quot;b&quot;</span>, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">1</span>]);
         <span class="kw">let </span><span class="kw-2">mut </span>result2 = Vec::from(<span class="kw-2">&amp;</span>ca2.mode().unwrap());
-        result2.sort_by(|a, b| a.unwrap().cmp(<span class="kw-2">&amp;</span>b.unwrap()));
+        result2.sort_by_key(|a| a.unwrap());
         <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>result2, <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1</span>)]);
 
         <span class="kw">let </span>ca3 = Int32Chunked::from_slice(<span class="string">&quot;c&quot;</span>, <span class="kw-2">&amp;</span>[]);

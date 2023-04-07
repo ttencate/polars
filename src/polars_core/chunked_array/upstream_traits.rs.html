@@ -1153,7 +1153,7 @@
         <span class="kw">let </span>ll: ListChunked = [<span class="kw-2">&amp;</span>s1, <span class="kw-2">&amp;</span>s2].iter().copied().collect();
         <span class="macro">assert_eq!</span>(ll.len(), <span class="number">2</span>);
         <span class="macro">assert_eq!</span>(ll.null_count(), <span class="number">0</span>);
-        <span class="kw">let </span>ll: ListChunked = [<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(s2)].iter().map(|opt| opt.clone()).collect();
+        <span class="kw">let </span>ll: ListChunked = [<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(s2)].into_iter().collect();
         <span class="macro">assert_eq!</span>(ll.len(), <span class="number">2</span>);
         <span class="macro">assert_eq!</span>(ll.null_count(), <span class="number">1</span>);
     }

@@ -1348,7 +1348,7 @@
         <span class="kw">let </span>a = a.sort(<span class="bool-val">false</span>);
         <span class="kw">let </span>b = a.into_iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(b, [<span class="prelude-val">Some</span>(<span class="string">&quot;a&quot;</span>), <span class="prelude-val">Some</span>(<span class="string">&quot;b&quot;</span>), <span class="prelude-val">Some</span>(<span class="string">&quot;c&quot;</span>)]);
-        <span class="macro">assert_eq!</span>(a.is_sorted_ascending_flag(), <span class="bool-val">true</span>);
+        <span class="macro">assert!</span>(a.is_sorted_ascending_flag());
     }
 
     <span class="attr">#[test]

@@ -825,7 +825,7 @@
 
         <span class="macro">assert!</span>(out.frame_equal_missing(<span class="kw-2">&amp;</span>expected));
 
-        <span class="kw">let </span>list = Series::new(<span class="string">&quot;foo&quot;</span>, <span class="kw-2">&amp;</span>[s0.clone(), s1.clear(), s1.clone()]);
+        <span class="kw">let </span>list = Series::new(<span class="string">&quot;foo&quot;</span>, [s0.clone(), s1.clear(), s1.clone()]);
         <span class="kw">let </span>df = DataFrame::new(<span class="macro">vec!</span>[list, s0.clone(), s1.clone()])<span class="question-mark">?</span>;
         <span class="kw">let </span>out = df.explode([<span class="string">&quot;foo&quot;</span>])<span class="question-mark">?</span>;
         <span class="kw">let </span>expected = <span class="macro">df!</span>[
@@ -846,7 +846,7 @@
         <span class="kw">let </span>list = Series::new(<span class="string">&quot;foo&quot;</span>, <span class="kw-2">&amp;</span>[s0, s1]);
         <span class="kw">let </span>df = DataFrame::new(<span class="macro">vec!</span>[list])<span class="question-mark">?</span>;
 
-        <span class="kw">let </span>out = df.explode(<span class="kw-2">&amp;</span>[<span class="string">&quot;foo&quot;</span>])<span class="question-mark">?</span>;
+        <span class="kw">let </span>out = df.explode([<span class="string">&quot;foo&quot;</span>])<span class="question-mark">?</span>;
         <span class="kw">let </span>out = out
             .column(<span class="string">&quot;foo&quot;</span>)<span class="question-mark">?
             </span>.i32()<span class="question-mark">?
@@ -867,7 +867,7 @@
         )
         .unwrap();
 
-        <span class="kw">let </span>melted = df.melt(<span class="kw-2">&amp;</span>[<span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>], <span class="kw-2">&amp;</span>[<span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>])<span class="question-mark">?</span>;
+        <span class="kw">let </span>melted = df.melt([<span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>], [<span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>])<span class="question-mark">?</span>;
         <span class="macro">assert_eq!</span>(
             Vec::from(melted.column(<span class="string">&quot;value&quot;</span>)<span class="question-mark">?</span>.i32()<span class="question-mark">?</span>),
             <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">10</span>), <span class="prelude-val">Some</span>(<span class="number">11</span>), <span class="prelude-val">Some</span>(<span class="number">12</span>), <span class="prelude-val">Some</span>(<span class="number">2</span>), <span class="prelude-val">Some</span>(<span class="number">4</span>), <span class="prelude-val">Some</span>(<span class="number">6</span>)]

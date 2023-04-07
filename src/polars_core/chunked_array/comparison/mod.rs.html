@@ -2458,11 +2458,11 @@
         // chunked array comparison.
 
         // two same chunked arrays
-        </span><span class="kw">let </span>a1: Int32Chunked = (<span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">3</span>)]).iter().copied().collect();
-        <span class="kw">let </span>a2: Int32Chunked = (<span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">Some</span>(<span class="number">2</span>), <span class="prelude-val">Some</span>(<span class="number">3</span>)]).iter().copied().collect();
+        </span><span class="kw">let </span>a1: Int32Chunked = [<span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">3</span>)].iter().copied().collect();
+        <span class="kw">let </span>a2: Int32Chunked = [<span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">Some</span>(<span class="number">2</span>), <span class="prelude-val">Some</span>(<span class="number">3</span>)].iter().copied().collect();
 
-        <span class="kw">let </span><span class="kw-2">mut </span>a2_2chunks: Int32Chunked = (<span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">Some</span>(<span class="number">2</span>)]).iter().copied().collect();
-        a2_2chunks.append(<span class="kw-2">&amp;</span>(<span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">3</span>)]).iter().copied().collect());
+        <span class="kw">let </span><span class="kw-2">mut </span>a2_2chunks: Int32Chunked = [<span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">Some</span>(<span class="number">2</span>)].iter().copied().collect();
+        a2_2chunks.append(<span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">3</span>)].iter().copied().collect());
 
         <span class="macro">assert_eq!</span>(
             a1.equal(<span class="kw-2">&amp;</span>a2).into_iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;(),
@@ -2519,9 +2519,9 @@
     </span><span class="kw">fn </span>test_left_right() {
         <span class="comment">// This failed with arrow comparisons.
         // sliced
-        </span><span class="kw">let </span>a1: Int32Chunked = (<span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">Some</span>(<span class="number">2</span>)]).iter().copied().collect();
+        </span><span class="kw">let </span>a1: Int32Chunked = [<span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">Some</span>(<span class="number">2</span>)].iter().copied().collect();
         <span class="kw">let </span>a1 = a1.slice(<span class="number">1</span>, <span class="number">1</span>);
-        <span class="kw">let </span>a2: Int32Chunked = (<span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">2</span>)]).iter().copied().collect();
+        <span class="kw">let </span>a2: Int32Chunked = [<span class="prelude-val">Some</span>(<span class="number">2</span>)].iter().copied().collect();
         <span class="macro">assert_eq!</span>(a1.equal(<span class="kw-2">&amp;</span>a2).sum(), a2.equal(<span class="kw-2">&amp;</span>a1).sum());
         <span class="macro">assert_eq!</span>(a1.not_equal(<span class="kw-2">&amp;</span>a2).sum(), a2.not_equal(<span class="kw-2">&amp;</span>a1).sum());
         <span class="macro">assert_eq!</span>(a1.gt(<span class="kw-2">&amp;</span>a2).sum(), a2.gt(<span class="kw-2">&amp;</span>a1).sum());
@@ -2529,9 +2529,9 @@
         <span class="macro">assert_eq!</span>(a1.lt_eq(<span class="kw-2">&amp;</span>a2).sum(), a2.lt_eq(<span class="kw-2">&amp;</span>a1).sum());
         <span class="macro">assert_eq!</span>(a1.gt_eq(<span class="kw-2">&amp;</span>a2).sum(), a2.gt_eq(<span class="kw-2">&amp;</span>a1).sum());
 
-        <span class="kw">let </span>a1: Utf8Chunked = (<span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>]).iter().copied().collect();
+        <span class="kw">let </span>a1: Utf8Chunked = [<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>].iter().copied().collect();
         <span class="kw">let </span>a1 = a1.slice(<span class="number">1</span>, <span class="number">1</span>);
-        <span class="kw">let </span>a2: Utf8Chunked = (<span class="kw-2">&amp;</span>[<span class="string">&quot;b&quot;</span>]).iter().copied().collect();
+        <span class="kw">let </span>a2: Utf8Chunked = [<span class="string">&quot;b&quot;</span>].iter().copied().collect();
         <span class="macro">assert_eq!</span>(a1.equal(<span class="kw-2">&amp;</span>a2).sum(), a2.equal(<span class="kw-2">&amp;</span>a1).sum());
         <span class="macro">assert_eq!</span>(a1.not_equal(<span class="kw-2">&amp;</span>a2).sum(), a2.not_equal(<span class="kw-2">&amp;</span>a1).sum());
         <span class="macro">assert_eq!</span>(a1.gt(<span class="kw-2">&amp;</span>a2).sum(), a2.gt(<span class="kw-2">&amp;</span>a1).sum());
