@@ -157,6 +157,16 @@
 <a href="#157" id="157">157</a>
 <a href="#158" id="158">158</a>
 <a href="#159" id="159">159</a>
+<a href="#160" id="160">160</a>
+<a href="#161" id="161">161</a>
+<a href="#162" id="162">162</a>
+<a href="#163" id="163">163</a>
+<a href="#164" id="164">164</a>
+<a href="#165" id="165">165</a>
+<a href="#166" id="166">166</a>
+<a href="#167" id="167">167</a>
+<a href="#168" id="168">168</a>
+<a href="#169" id="169">169</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_arrow::data_types::IsFloat;
 <span class="kw">use </span>polars_row::{convert_columns, RowsEncoded, SortField};
 <span class="kw">use </span>polars_utils::iter::EnumerateIdxTrait;
@@ -294,6 +304,16 @@
         }
     }
     <span class="prelude-val">Ok</span>(convert_columns(<span class="kw-2">&amp;</span>cols, <span class="kw-2">&amp;</span>fields))
+}
+
+<span class="kw">pub fn </span>_get_rows_encoded_ca(
+    name: <span class="kw-2">&amp;</span>str,
+    by: <span class="kw-2">&amp;</span>[Series],
+    descending: <span class="kw-2">&amp;</span>[bool],
+    nulls_last: bool,
+) -&gt; PolarsResult&lt;BinaryChunked&gt; {
+    _get_rows_encoded(by, descending, nulls_last)
+        .map(|rows| <span class="kw">unsafe </span>{ BinaryChunked::from_chunks(name, <span class="macro">vec!</span>[Box::new(rows.into_array())]) })
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>argsort_multiple_row_fmt(
