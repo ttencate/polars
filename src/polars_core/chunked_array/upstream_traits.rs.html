@@ -650,6 +650,92 @@
 <a href="#650" id="650">650</a>
 <a href="#651" id="651">651</a>
 <a href="#652" id="652">652</a>
+<a href="#653" id="653">653</a>
+<a href="#654" id="654">654</a>
+<a href="#655" id="655">655</a>
+<a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
+<a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
+<a href="#663" id="663">663</a>
+<a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
+<a href="#671" id="671">671</a>
+<a href="#672" id="672">672</a>
+<a href="#673" id="673">673</a>
+<a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a>
+<a href="#691" id="691">691</a>
+<a href="#692" id="692">692</a>
+<a href="#693" id="693">693</a>
+<a href="#694" id="694">694</a>
+<a href="#695" id="695">695</a>
+<a href="#696" id="696">696</a>
+<a href="#697" id="697">697</a>
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
+<a href="#701" id="701">701</a>
+<a href="#702" id="702">702</a>
+<a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
+<a href="#711" id="711">711</a>
+<a href="#712" id="712">712</a>
+<a href="#713" id="713">713</a>
+<a href="#714" id="714">714</a>
+<a href="#715" id="715">715</a>
+<a href="#716" id="716">716</a>
+<a href="#717" id="717">717</a>
+<a href="#718" id="718">718</a>
+<a href="#719" id="719">719</a>
+<a href="#720" id="720">720</a>
+<a href="#721" id="721">721</a>
+<a href="#722" id="722">722</a>
+<a href="#723" id="723">723</a>
+<a href="#724" id="724">724</a>
+<a href="#725" id="725">725</a>
+<a href="#726" id="726">726</a>
+<a href="#727" id="727">727</a>
+<a href="#728" id="728">728</a>
+<a href="#729" id="729">729</a>
+<a href="#730" id="730">730</a>
+<a href="#731" id="731">731</a>
+<a href="#732" id="732">732</a>
+<a href="#733" id="733">733</a>
+<a href="#734" id="734">734</a>
+<a href="#735" id="735">735</a>
+<a href="#736" id="736">736</a>
+<a href="#737" id="737">737</a>
+<a href="#738" id="738">738</a>
 </pre><pre class="rust"><code><span class="doccomment">//! Implementations of upstream traits for ChunkedArray&lt;T&gt;
 </span><span class="kw">use </span>std::borrow::{Borrow, Cow};
 <span class="kw">use </span>std::collections::LinkedList;
@@ -658,9 +744,8 @@
 <span class="kw">use </span>std::sync::Arc;
 
 <span class="kw">use </span>arrow::array::{BooleanArray, PrimitiveArray, Utf8Array};
-<span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
-</span><span class="kw">use </span>arrow::bitmap::Bitmap;
-<span class="kw">use </span>arrow::bitmap::MutableBitmap;
+<span class="kw">use </span>arrow::bitmap::{Bitmap, MutableBitmap};
+<span class="kw">use </span>polars_arrow::bit_util::{set_bit_raw, unset_bit_raw};
 <span class="kw">use </span>polars_utils::sync::SyncPtr;
 <span class="kw">use </span>rayon::iter::{FromParallelIterator, IntoParallelIterator};
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
@@ -1062,6 +1147,25 @@
     }
 }
 
+<span class="kw">fn </span>finish_validities(
+    validities: Vec&lt;(<span class="prelude-ty">Option</span>&lt;MutableBitmap&gt;, usize)&gt;,
+    capacity: usize,
+) -&gt; <span class="prelude-ty">Option</span>&lt;Bitmap&gt; {
+    <span class="kw">if </span>validities.iter().any(|(v, <span class="kw">_</span>)| v.is_some()) {
+        <span class="kw">let </span><span class="kw-2">mut </span>bitmap = MutableBitmap::with_capacity(capacity);
+        <span class="kw">for </span>(valids, len) <span class="kw">in </span>validities {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(valids) = valids {
+                bitmap.extend_from_bitmap(<span class="kw-2">&amp;</span>(valids.into()))
+            } <span class="kw">else </span>{
+                bitmap.extend_constant(len, <span class="bool-val">true</span>)
+            }
+        }
+        <span class="prelude-val">Some</span>(bitmap.into())
+    } <span class="kw">else </span>{
+        <span class="prelude-val">None
+    </span>}
+}
+
 <span class="kw">impl</span>&lt;T&gt; FromParallelIterator&lt;<span class="prelude-ty">Option</span>&lt;T::Native&gt;&gt; <span class="kw">for </span>ChunkedArray&lt;T&gt;
 <span class="kw">where
     </span>T: PolarsNumericType,
@@ -1118,19 +1222,7 @@
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="kw">unsafe </span>{ values_buf.set_len(capacity) };
 
-        <span class="kw">let </span>validity = <span class="kw">if </span>validities.iter().any(|(v, <span class="kw">_</span>)| v.is_some()) {
-            <span class="kw">let </span><span class="kw-2">mut </span>bitmap = MutableBitmap::with_capacity(capacity);
-            <span class="kw">for </span>(valids, len) <span class="kw">in </span>validities {
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(valids) = valids {
-                    bitmap.extend_from_bitmap(<span class="kw-2">&amp;</span>(valids.into()))
-                } <span class="kw">else </span>{
-                    bitmap.extend_constant(len, <span class="bool-val">true</span>)
-                }
-            }
-            <span class="prelude-val">Some</span>(bitmap.into())
-        } <span class="kw">else </span>{
-            <span class="prelude-val">None
-        </span>};
+        <span class="kw">let </span>validity = finish_validities(validities, capacity);
 
         <span class="kw">let </span>arr = PrimitiveArray::from_data_default(values_buf.into(), validity);
         <span class="kw">unsafe </span>{ <span class="self">Self</span>::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[Box::new(arr)]) }
@@ -1154,15 +1246,95 @@
 
 <span class="kw">impl </span>FromParallelIterator&lt;<span class="prelude-ty">Option</span>&lt;bool&gt;&gt; <span class="kw">for </span>BooleanChunked {
     <span class="kw">fn </span>from_par_iter&lt;I: IntoParallelIterator&lt;Item = <span class="prelude-ty">Option</span>&lt;bool&gt;&gt;&gt;(iter: I) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span>vectors = collect_into_linked_list(iter);
+        <span class="comment">// Get linkedlist filled with different vec result from different threads
+        </span><span class="kw">let </span>vectors = collect_into_linked_list(iter);
 
-        <span class="kw">let </span>capacity: usize = get_capacity_from_par_results(<span class="kw-2">&amp;</span>vectors);
+        <span class="kw">let </span>vectors = vectors.into_iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        <span class="kw">let </span>capacity: usize = get_capacity_from_par_results_slice(<span class="kw-2">&amp;</span>vectors);
+        <span class="kw">let </span>offsets = get_offsets(<span class="kw-2">&amp;</span>vectors);
 
-        <span class="kw">let </span>arr = <span class="kw">unsafe </span>{
-            BooleanArray::from_trusted_len_iter(
-                vectors.into_iter().flatten().trust_my_length(capacity),
-            )
-        };
+        <span class="comment">// We initialize the vec, as setting bits only doesn&#39;t seem to initialize the memory
+        </span><span class="kw">let </span><span class="kw-2">mut </span>values_buf: Vec&lt;u8&gt; = <span class="macro">vec!</span>[<span class="number">0</span>; capacity.saturating_add(<span class="number">7</span>) / <span class="number">8</span>];
+        <span class="kw">let </span>values_buf_ptr = <span class="kw">unsafe </span>{ SyncPtr::new(values_buf.as_mut_ptr()) };
+
+        <span class="kw">let </span>validities = offsets
+            .par_iter()
+            .zip(vectors.par_iter())
+            .map(|(<span class="kw-2">&amp;</span>offset, vector)| {
+                <span class="kw">let </span><span class="kw-2">mut </span>local_validity = <span class="prelude-val">None</span>;
+                <span class="kw">let </span>local_len = vector.len();
+                <span class="kw">let </span><span class="kw-2">mut </span>latest_validy_written = <span class="number">0</span>;
+                <span class="kw">unsafe </span>{
+                    <span class="comment">// don&#39;t add the offset here, we set bits, not bytes!
+                    </span><span class="kw">let </span>values_buf_ptr = values_buf_ptr.get();
+
+                    <span class="comment">// this may/will race on the leading and trailing bits
+                    // we allow this racing and set the bits to the correct value in a second
+                    // single threaded pass
+                    </span><span class="kw">for </span>(i, opt_v) <span class="kw">in </span>vector.iter().enumerate() {
+                        <span class="kw">match </span>opt_v {
+                            <span class="prelude-val">Some</span>(v) =&gt; {
+                                <span class="kw">if </span><span class="kw-2">*</span>v {
+                                    set_bit_raw(values_buf_ptr, i + offset);
+                                };
+                            }
+                            <span class="prelude-val">None </span>=&gt; {
+                                <span class="kw">let </span>validity = <span class="kw">match </span><span class="kw-2">&amp;mut </span>local_validity {
+                                    <span class="prelude-val">None </span>=&gt; {
+                                        <span class="kw">let </span>validity = MutableBitmap::with_capacity(local_len);
+                                        local_validity = <span class="prelude-val">Some</span>(validity);
+                                        local_validity.as_mut().unwrap_unchecked()
+                                    }
+                                    <span class="prelude-val">Some</span>(validity) =&gt; validity,
+                                };
+                                validity.extend_constant(i - latest_validy_written, <span class="bool-val">true</span>);
+                                latest_validy_written = i + <span class="number">1</span>;
+                                validity.push_unchecked(<span class="bool-val">false</span>);
+                            }
+                        }
+                    }
+                }
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(validity) = <span class="kw-2">&amp;mut </span>local_validity {
+                    validity.extend_constant(local_len - latest_validy_written, <span class="bool-val">true</span>);
+                }
+                (local_validity, local_len)
+            })
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        <span class="kw">unsafe </span>{ values_buf.set_len(capacity.saturating_add(<span class="number">7</span>) / <span class="number">8</span>) };
+
+        <span class="comment">// set the leading and trailing bits
+        // those can be in an invalid state due to racing threads
+        </span><span class="kw">let </span>ptr = values_buf_ptr.get();
+        <span class="kw">for </span>(vector, offset) <span class="kw">in </span>vectors.into_iter().zip(offsets) {
+            <span class="comment">// set leading bits
+            </span><span class="kw">for </span>(i, opt_v) <span class="kw">in </span>vector.iter().enumerate().take(<span class="number">8</span>) {
+                <span class="kw">unsafe </span>{
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(v) = opt_v {
+                        <span class="kw">if </span><span class="kw-2">*</span>v {
+                            set_bit_raw(ptr, i + offset)
+                        } <span class="kw">else </span>{
+                            unset_bit_raw(ptr, i + offset)
+                        }
+                    }
+                }
+            }
+            <span class="comment">// set trailing bits
+            </span><span class="kw">for </span>(i, opt_v) <span class="kw">in </span>vector.iter().enumerate().rev().take(<span class="number">8</span>) {
+                <span class="kw">unsafe </span>{
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(v) = opt_v {
+                        <span class="kw">if </span><span class="kw-2">*</span>v {
+                            set_bit_raw(ptr, i + offset)
+                        } <span class="kw">else </span>{
+                            unset_bit_raw(ptr, i + offset)
+                        }
+                    }
+                }
+            }
+        }
+
+        <span class="kw">let </span>validity = finish_validities(validities, capacity);
+        <span class="kw">let </span>values = Bitmap::from_u8_vec(values_buf, capacity);
+        <span class="kw">let </span>arr = BooleanArray::from_data_default(values, validity);
         <span class="kw">unsafe </span>{ <span class="self">Self</span>::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[Box::new(arr)]) }
     }
 }
