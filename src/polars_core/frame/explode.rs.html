@@ -453,8 +453,37 @@
 <a href="#453" id="453">453</a>
 <a href="#454" id="454">454</a>
 <a href="#455" id="455">455</a>
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
+<a href="#460" id="460">460</a>
+<a href="#461" id="461">461</a>
+<a href="#462" id="462">462</a>
+<a href="#463" id="463">463</a>
+<a href="#464" id="464">464</a>
+<a href="#465" id="465">465</a>
+<a href="#466" id="466">466</a>
+<a href="#467" id="467">467</a>
+<a href="#468" id="468">468</a>
+<a href="#469" id="469">469</a>
+<a href="#470" id="470">470</a>
+<a href="#471" id="471">471</a>
+<a href="#472" id="472">472</a>
+<a href="#473" id="473">473</a>
+<a href="#474" id="474">474</a>
+<a href="#475" id="475">475</a>
+<a href="#476" id="476">476</a>
+<a href="#477" id="477">477</a>
+<a href="#478" id="478">478</a>
+<a href="#479" id="479">479</a>
+<a href="#480" id="480">480</a>
+<a href="#481" id="481">481</a>
+<a href="#482" id="482">482</a>
+<a href="#483" id="483">483</a>
 </pre><pre class="rust"><code><span class="kw">use </span>arrow::offset::OffsetsBuffer;
 <span class="kw">use </span>polars_arrow::kernels::concatenate::concatenate_owned_unchecked;
+<span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde-lazy&quot;</span>)]
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
 <span class="kw">use </span>smartstring::alias::String <span class="kw">as </span>SmartString;
@@ -463,6 +492,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
 <span class="kw">use </span><span class="kw">crate</span>::utils::try_get_supertype;
+<span class="kw">use </span><span class="kw">crate</span>::POOL;
 
 <span class="kw">fn </span>get_exploded(series: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;(Series, OffsetsBuffer&lt;i64&gt;)&gt; {
     <span class="kw">match </span>series.dtype() {
@@ -507,34 +537,60 @@
             df = df.drop(s.name())<span class="question-mark">?</span>;
         }
 
-        <span class="kw">for </span>(i, s) <span class="kw">in </span>columns.iter().enumerate() {
-            <span class="comment">// Safety:
-            // offsets don&#39;t have indices exceeding Series length.
-            </span><span class="kw">if let </span><span class="prelude-val">Ok</span>((exploded, offsets)) = get_exploded(s) {
-                <span class="kw">let </span>col_idx = <span class="self">self</span>.check_name_to_idx(s.name())<span class="question-mark">?</span>;
+        <span class="kw">let </span>exploded_columns = POOL.install(|| {
+            columns
+                .par_iter()
+                .map(get_exploded)
+                .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
+        })<span class="question-mark">?</span>;
 
-                <span class="comment">// expand all the other columns based the exploded first column
-                </span><span class="kw">if </span>i == <span class="number">0 </span>{
-                    <span class="kw">let </span>row_idx = offsets_to_indexes(offsets.as_slice(), exploded.len());
-                    <span class="kw">let </span><span class="kw-2">mut </span>row_idx = IdxCa::from_vec(<span class="string">&quot;&quot;</span>, row_idx);
-                    row_idx.set_sorted_flag(IsSorted::Ascending);
-
-                    <span class="comment">// Safety
-                    // We just created indices that are in bounds.
-                    </span>df = <span class="kw">unsafe </span>{ df.take_unchecked(<span class="kw-2">&amp;</span>row_idx) };
-                }
-                <span class="kw">if </span>exploded.len() == df.height() || df.width() == <span class="number">0 </span>{
-                    df.columns.insert(col_idx, exploded);
-                } <span class="kw">else </span>{
-                    <span class="macro">polars_bail!</span>(
-                        ShapeMismatch: <span class="string">&quot;exploded column(s) {:?} doesn&#39;t have the same length: {} \
-                        as the dataframe: {}&quot;</span>, exploded.name(), exploded.name(), df.height(),
-                    );
-                }
+        <span class="kw">fn </span>process_column(
+            original_df: <span class="kw-2">&amp;</span>DataFrame,
+            df: <span class="kw-2">&amp;mut </span>DataFrame,
+            exploded: Series,
+        ) -&gt; PolarsResult&lt;()&gt; {
+            <span class="kw">if </span>exploded.len() == df.height() || df.width() == <span class="number">0 </span>{
+                <span class="kw">let </span>col_idx = original_df.check_name_to_idx(exploded.name())<span class="question-mark">?</span>;
+                df.columns.insert(col_idx, exploded);
             } <span class="kw">else </span>{
-                <span class="macro">polars_bail!</span>(opq = explode, s.dtype());
+                <span class="macro">polars_bail!</span>(
+                    ShapeMismatch: <span class="string">&quot;exploded column(s) {:?} doesn&#39;t have the same length: {} \
+                    as the dataframe: {}&quot;</span>, exploded.name(), exploded.name(), df.height(),
+                );
             }
+            <span class="prelude-val">Ok</span>(())
         }
+
+        <span class="kw">let </span>check_offsets = || {
+            <span class="kw">let </span>first_offsets = exploded_columns[<span class="number">0</span>].<span class="number">1</span>.as_slice();
+            <span class="kw">for </span>(<span class="kw">_</span>, offsets) <span class="kw">in </span><span class="kw-2">&amp;</span>exploded_columns[<span class="number">1</span>..] {
+                <span class="macro">polars_ensure!</span>(first_offsets == offsets.as_slice(),
+                    ShapeMismatch: <span class="string">&quot;exploded columns must have matching element counts&quot;
+                </span>)
+            }
+            <span class="prelude-val">Ok</span>(())
+        };
+        <span class="kw">let </span>process_first = || {
+            <span class="kw">let </span>(exploded, offsets) = <span class="kw-2">&amp;</span>exploded_columns[<span class="number">0</span>];
+
+            <span class="kw">let </span>row_idx = offsets_to_indexes(offsets.as_slice(), exploded.len());
+            <span class="kw">let </span><span class="kw-2">mut </span>row_idx = IdxCa::from_vec(<span class="string">&quot;&quot;</span>, row_idx);
+            row_idx.set_sorted_flag(IsSorted::Ascending);
+
+            <span class="comment">// Safety
+            // We just created indices that are in bounds.
+            </span><span class="kw">let </span><span class="kw-2">mut </span>df = <span class="kw">unsafe </span>{ df.take_unchecked(<span class="kw-2">&amp;</span>row_idx) };
+            process_column(<span class="self">self</span>, <span class="kw-2">&amp;mut </span>df, exploded.clone())<span class="question-mark">?</span>;
+            PolarsResult::Ok(df)
+        };
+        <span class="kw">let </span>(df, result) = POOL.join(process_first, check_offsets);
+        <span class="kw">let </span><span class="kw-2">mut </span>df = df<span class="question-mark">?</span>;
+        result<span class="question-mark">?</span>;
+
+        <span class="kw">for </span>(exploded, <span class="kw">_</span>) <span class="kw">in </span>exploded_columns.into_iter().skip(<span class="number">1</span>) {
+            process_column(<span class="self">self</span>, <span class="kw-2">&amp;mut </span>df, exploded)<span class="question-mark">?
+        </span>}
+
         <span class="prelude-val">Ok</span>(df)
     }
     <span class="doccomment">/// Explode `DataFrame` to long format by exploding a column with Lists.
