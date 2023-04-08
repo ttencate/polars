@@ -2330,8 +2330,8 @@ Applies a python function over each group.</p>
 <dt><strong>function</strong></dt><dd><p>Lambda/ function to apply.</p>
 </dd>
 <dt><strong>return_dtype</strong></dt><dd><p>Dtype of the output Series.
-If not set, polars will assume that
-the dtype remains unchanged.</p>
+If not set, the dtype will be
+<code class="docutils literal notranslate"><span class="pre">polars.Unknown</span></code>.</p>
 </dd>
 <dt><strong>skip_nulls</strong></dt><dd><p>Don’t apply the function over values
 that contain nulls. This is faster.</p>
