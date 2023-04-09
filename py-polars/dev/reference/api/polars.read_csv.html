@@ -1577,7 +1577,7 @@ inference for specific columns with the <code class="docutils literal notranslat
 <code class="docutils literal notranslate"><span class="pre">infer_schema_length=0</span></code> to read all columns as <code class="docutils literal notranslate"><span class="pre">pl.Utf8</span></code> to check which
 values might cause an issue.</p>
 </dd>
-<dt><strong>try_parse_dates</strong></dt><dd><p>Try to automatically parse dates. Most ISO8601-like time zone naive formats can
+<dt><strong>try_parse_dates</strong></dt><dd><p>Try to automatically parse dates. Most ISO8601-like formats can
 be inferred, as well as a handful of others. If this does not succeed,
 the column remains of data type <code class="docutils literal notranslate"><span class="pre">pl.Utf8</span></code>.
 If <code class="docutils literal notranslate"><span class="pre">use_pyarrow=True</span></code>, dates will always be parsed.</p>
