@@ -800,6 +800,8 @@
 <a href="#800" id="800">800</a>
 <a href="#801" id="801">801</a>
 <a href="#802" id="802">802</a>
+<a href="#803" id="803">803</a>
+<a href="#804" id="804">804</a>
 </pre><pre class="rust"><code><span class="kw">use </span>arrow::array::Utf8Array;
 <span class="kw">use </span>arrow::bitmap::MutableBitmap;
 <span class="kw">use </span>polars_arrow::prelude::FromDataUtf8;
@@ -1324,9 +1326,10 @@
                     ignore_errors,
                 )),
                 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
-                </span><span class="kw-2">&amp;</span>DataType::Datetime(tu, <span class="kw">_</span>) =&gt; Buffer::Datetime {
+                </span>DataType::Datetime(tu, offset) =&gt; Buffer::Datetime {
                     buf: DatetimeField::new(name, capacity),
-                    tu,
+                    tu: <span class="kw-2">*</span>tu,
+                    offset: offset.clone(),
                 },
                 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
                 </span><span class="kw-2">&amp;</span>DataType::Date =&gt; Buffer::Date(DatetimeField::new(name, capacity)),
@@ -1358,6 +1361,7 @@
     </span>Datetime {
         buf: DatetimeField&lt;Int64Type&gt;,
         tu: TimeUnit,
+        offset: <span class="prelude-ty">Option</span>&lt;String&gt;,
     },
     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
     </span>Date(DatetimeField&lt;Int32Type&gt;),
@@ -1376,11 +1380,11 @@
             Buffer::Float32(v) =&gt; v.finish().into_series(),
             Buffer::Float64(v) =&gt; v.finish().into_series(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
-            </span>Buffer::Datetime { buf, tu } =&gt; buf
+            </span>Buffer::Datetime { buf, tu, offset } =&gt; buf
                 .builder
                 .finish()
                 .into_series()
-                .cast(<span class="kw-2">&amp;</span>DataType::Datetime(tu, <span class="prelude-val">None</span>))
+                .cast(<span class="kw-2">&amp;</span>DataType::Datetime(tu, offset))
                 .unwrap(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
             </span>Buffer::Date(v) =&gt; v
