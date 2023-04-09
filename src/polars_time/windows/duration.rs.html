@@ -703,15 +703,11 @@
 <a href="#703" id="703">703</a>
 <a href="#704" id="704">704</a>
 <a href="#705" id="705">705</a>
-<a href="#706" id="706">706</a>
-<a href="#707" id="707">707</a>
-<a href="#708" id="708">708</a>
-<a href="#709" id="709">709</a>
-<a href="#710" id="710">710</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
 <span class="kw">use </span>std::ops::Mul;
 
 <span class="kw">use </span>chrono::{Datelike, NaiveDate, NaiveDateTime, NaiveTime, Timelike, Weekday};
+<span class="kw">use </span>polars_arrow::error::polars_err;
 <span class="kw">use </span>polars_arrow::export::arrow::temporal_conversions::{
     timestamp_ms_to_datetime, timestamp_ns_to_datetime, timestamp_us_to_datetime, MILLISECONDS,
 };
@@ -726,8 +722,7 @@
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
 
 <span class="kw">use </span><span class="kw">super</span>::calendar::{
-    is_leap_year, last_day_of_month, NS_DAY, NS_HOUR, NS_MICROSECOND, NS_MILLISECOND, NS_MINUTE,
-    NS_SECOND, NS_WEEK,
+    NS_DAY, NS_HOUR, NS_MICROSECOND, NS_MILLISECOND, NS_MINUTE, NS_SECOND, NS_WEEK,
 };
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::utils::{localize_datetime, unlocalize_datetime};
@@ -1149,7 +1144,9 @@
                 <span class="comment">// recreate a new time from the year and month combination
                 </span><span class="kw">let </span>(year, month) = ((total / <span class="number">12</span>), ((total % <span class="number">12</span>) + <span class="number">1</span>) <span class="kw">as </span>u32);
 
-                <span class="kw">let </span>dt = new_datetime(year, month, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
+                <span class="kw">let </span>dt = new_datetime(year, month, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>).ok_or(<span class="macro">polars_err!</span>(
+                    ComputeError: <span class="macro">format!</span>(<span class="string">&quot;date &#39;{}-{}-1&#39; does not exist&quot;</span>, year, month)
+                ))<span class="question-mark">?</span>;
                 <span class="kw">match </span>tz {
                     <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
                     </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="prelude-val">Ok</span>(datetime_to_timestamp(localize_datetime(dt, tz)<span class="question-mark">?</span>)),
@@ -1229,7 +1226,7 @@
             };
             <span class="kw">let </span><span class="kw-2">mut </span>year = ts.year();
             <span class="kw">let </span><span class="kw-2">mut </span>month = ts.month() <span class="kw">as </span>i32;
-            <span class="kw">let </span><span class="kw-2">mut </span>day = ts.day();
+            <span class="kw">let </span>day = ts.day();
             year += (months / <span class="number">12</span>) <span class="kw">as </span>i32;
             month += (months % <span class="number">12</span>) <span class="kw">as </span>i32;
 
@@ -1244,23 +1241,17 @@
                 month += <span class="number">12</span>;
             }
 
-            <span class="comment">// Normalize the day if we are past the end of the month.
-            </span><span class="kw">let </span><span class="kw-2">mut </span>last_day_of_month = last_day_of_month(month);
-            <span class="kw">if </span>month == (chrono::Month::February.number_from_month() <span class="kw">as </span>i32) &amp;&amp; is_leap_year(year) {
-                last_day_of_month += <span class="number">1</span>;
-            }
-
-            <span class="kw">if </span>day &gt; last_day_of_month {
-                day = last_day_of_month
-            }
-
             <span class="comment">// Retrieve the original time and construct a data
             // with the new year, month and day
             </span><span class="kw">let </span>hour = ts.hour();
             <span class="kw">let </span>minute = ts.minute();
             <span class="kw">let </span>sec = ts.second();
             <span class="kw">let </span>nsec = ts.nanosecond();
-            <span class="kw">let </span>dt = new_datetime(year, month <span class="kw">as </span>u32, day, hour, minute, sec, nsec);
+            <span class="kw">let </span>dt = new_datetime(year, month <span class="kw">as </span>u32, day, hour, minute, sec, nsec).ok_or(
+                <span class="macro">polars_err!</span>(
+                    ComputeError: <span class="macro">format!</span>(<span class="string">&quot;cannot advance &#39;{}&#39; by {} month(s)&quot;</span>, ts, d.months)
+                ),
+            )<span class="question-mark">?</span>;
             new_t = <span class="kw">match </span>tz {
                 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
                 </span><span class="prelude-val">Some</span>(tz) =&gt; datetime_to_timestamp(localize_datetime(dt, tz)<span class="question-mark">?</span>),
@@ -1365,11 +1356,10 @@
     min: u32,
     sec: u32,
     nano: u32,
-) -&gt; NaiveDateTime {
-    <span class="kw">let </span>date = NaiveDate::from_ymd_opt(year, month, days).unwrap();
-    <span class="kw">let </span>time = NaiveTime::from_hms_nano_opt(hour, min, sec, nano).unwrap();
-
-    NaiveDateTime::new(date, time)
+) -&gt; <span class="prelude-ty">Option</span>&lt;NaiveDateTime&gt; {
+    <span class="kw">let </span>date = NaiveDate::from_ymd_opt(year, month, days)<span class="question-mark">?</span>;
+    <span class="kw">let </span>time = NaiveTime::from_hms_nano_opt(hour, min, sec, nano)<span class="question-mark">?</span>;
+    <span class="prelude-val">Some</span>(NaiveDateTime::new(date, time))
 }
 
 <span class="attr">#[cfg(test)]
