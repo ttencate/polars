@@ -272,6 +272,29 @@
 <a href="#272" id="272">272</a>
 <a href="#273" id="273">273</a>
 <a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::fmt::Debug;
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;csv-file&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>))]
 </span><span class="kw">use </span>std::path::PathBuf;
@@ -344,7 +367,20 @@
     AlreadyEncountered { prev_err_msg: String },
 }
 
-<span class="attr">#[derive(Debug, Clone)]
+<span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>ErrorState {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+        <span class="kw">match </span><span class="self">self </span>{
+            ErrorState::NotYetEncountered { err } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;NotYetEncountered({err})&quot;</span>)<span class="question-mark">?</span>,
+            ErrorState::AlreadyEncountered { prev_err_msg } =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">&quot;AlreadyEncountered({prev_err_msg})&quot;</span>)<span class="question-mark">?
+            </span>}
+        };
+
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="attr">#[derive(Clone)]
 </span><span class="kw">pub struct </span>ErrorStateSync(Arc&lt;Mutex&lt;ErrorState&gt;&gt;);
 
 <span class="kw">impl </span>std::ops::Deref <span class="kw">for </span>ErrorStateSync {
@@ -355,20 +391,30 @@
     </span>}
 }
 
+<span class="kw">impl </span>std::fmt::Debug <span class="kw">for </span>ErrorStateSync {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">&quot;ErrorStateSync({})&quot;</span>, <span class="kw-2">&amp;*</span><span class="self">self</span>.<span class="number">0</span>.lock().unwrap())
+    }
+}
+
 <span class="kw">impl </span>ErrorStateSync {
     <span class="kw">fn </span>take(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsError {
-        <span class="kw">let </span><span class="kw-2">mut </span>err = <span class="self">self</span>.<span class="number">0</span>.lock().unwrap();
-        <span class="kw">match </span><span class="kw-2">&amp;*</span>err {
+        <span class="kw">let </span><span class="kw-2">mut </span>curr_err = <span class="self">self</span>.<span class="number">0</span>.lock().unwrap();
+
+        <span class="kw">match </span><span class="kw-2">&amp;*</span>curr_err {
             ErrorState::NotYetEncountered { err: polars_err } =&gt; {
-                <span class="kw">let </span>msg = <span class="macro">format!</span>(<span class="string">&quot;{polars_err:?}&quot;</span>);
-                <span class="kw">let </span>err = std::mem::replace(
-                    <span class="kw-2">&amp;mut *</span>err,
-                    ErrorState::AlreadyEncountered { prev_err_msg: msg },
+                <span class="comment">// Need to finish using `polars_err` here so that NLL considers `err` dropped
+                </span><span class="kw">let </span>prev_err_msg = polars_err.to_string();
+                <span class="comment">// Place AlreadyEncountered in `self` for future users of `self`
+                </span><span class="kw">let </span>prev_err = std::mem::replace(
+                    <span class="kw-2">&amp;mut *</span>curr_err,
+                    ErrorState::AlreadyEncountered { prev_err_msg },
                 );
-                <span class="kw">let </span>ErrorState::NotYetEncountered { err } = err <span class="kw">else </span>{
-                    <span class="macro">unreachable!</span>(<span class="string">&quot;polars bug in LogicalPlan error handling&quot;</span>)
-                };
-                err
+                <span class="comment">// Since we&#39;re in this branch, we know err was a NotYetEncountered
+                </span><span class="kw">match </span>prev_err {
+                    ErrorState::NotYetEncountered { err } =&gt; err,
+                    ErrorState::AlreadyEncountered { .. } =&gt; <span class="macro">unreachable!</span>(),
+                }
             }
             ErrorState::AlreadyEncountered { prev_err_msg } =&gt; {
                 <span class="macro">polars_err!</span>(
