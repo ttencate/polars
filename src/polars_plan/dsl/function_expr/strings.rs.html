@@ -562,6 +562,12 @@
 <a href="#562" id="562">562</a>
 <a href="#563" id="563">563</a>
 <a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -942,8 +948,14 @@
     <span class="kw">if </span>options.strict {
         <span class="macro">polars_ensure!</span>(
             out.null_count() == ca.null_count(),
-            ComputeError: <span class="string">&quot;strict conversion to dates failed, try setting strict=False&quot;</span>,
-        );
+            ComputeError:
+            <span class="string">&quot;strict conversion to date(time)s failed.\n\
+            \n\
+            You might want to try:\n\
+            - setting `strict=False`,\n\
+            - explicitly specifying a `fmt`,\n\
+            - setting `utf=True` (if you are parsing datetimes with multiple offsets).&quot;
+        </span>);
     }
     <span class="prelude-val">Ok</span>(out.into_series())
 }
