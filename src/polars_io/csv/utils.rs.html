@@ -662,6 +662,12 @@
 <a href="#662" id="662">662</a>
 <a href="#663" id="663">663</a>
 <a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::io::Read;
 <span class="kw">use </span>std::mem::MaybeUninit;
@@ -774,10 +780,13 @@
             <span class="attr">#[cfg(feature = <span class="string">&quot;polars-time&quot;</span>)]
             </span>{
                 <span class="kw">match </span>date_infer::infer_pattern_single(<span class="kw-2">&amp;</span>string[<span class="number">1</span>..string.len() - <span class="number">1</span>]) {
-                    <span class="prelude-val">Some</span>(Pattern::DatetimeYMD | Pattern::DatetimeDMY) =&gt; {
-                        DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>)
-                    }
-                    <span class="prelude-val">Some</span>(Pattern::DateYMD | Pattern::DateDMY) =&gt; DataType::Date,
+                    <span class="prelude-val">Some</span>(pattern_with_offset) =&gt; <span class="kw">match </span>pattern_with_offset.pattern {
+                        Pattern::DatetimeYMD | Pattern::DatetimeDMY =&gt; {
+                            DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>)
+                        }
+                        Pattern::DateYMD | Pattern::DateDMY =&gt; DataType::Date,
+                        <span class="kw">_ </span>=&gt; DataType::Utf8, <span class="comment">// TODO: support tz-aware patterns
+                    </span>},
                     <span class="prelude-val">None </span>=&gt; DataType::Utf8,
                 }
             }
@@ -800,10 +809,13 @@
         <span class="attr">#[cfg(feature = <span class="string">&quot;polars-time&quot;</span>)]
         </span>{
             <span class="kw">match </span>date_infer::infer_pattern_single(string) {
-                <span class="prelude-val">Some</span>(Pattern::DatetimeYMD | Pattern::DatetimeDMY) =&gt; {
-                    DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>)
-                }
-                <span class="prelude-val">Some</span>(Pattern::DateYMD | Pattern::DateDMY) =&gt; DataType::Date,
+                <span class="prelude-val">Some</span>(pattern_with_offset) =&gt; <span class="kw">match </span>pattern_with_offset.pattern {
+                    Pattern::DatetimeYMD | Pattern::DatetimeDMY =&gt; {
+                        DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>)
+                    }
+                    Pattern::DateYMD | Pattern::DateDMY =&gt; DataType::Date,
+                    <span class="kw">_ </span>=&gt; DataType::Utf8, <span class="comment">// TODO: support tz-aware patterns
+                </span>},
                 <span class="prelude-val">None </span>=&gt; DataType::Utf8,
             }
         }

@@ -140,7 +140,7 @@
                     )
                     .into_datetime(tu, _tz.cloned())
                 }
-                <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;unable to parse time zone: {}&quot;</span>, tz),
+                <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;unable to parse time zone: &#39;{}&#39;&quot;</span>, tz),
             },
         },
         <span class="kw">_ </span>=&gt; Int64Chunked::new_vec(

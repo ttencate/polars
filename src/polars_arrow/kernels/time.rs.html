@@ -197,7 +197,7 @@
             <span class="prelude-val">Ok</span>(to_tz) =&gt; convert_to_timestamp(from_tz, to_tz, arr, tu)<span class="question-mark">?</span>,
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(to) {
                 <span class="prelude-val">Ok</span>(to_tz) =&gt; convert_to_timestamp(from_tz, to_tz, arr, tu)<span class="question-mark">?</span>,
-                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;unable to parse time zone: {}&quot;</span>, to),
+                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;unable to parse time zone: &#39;{}&#39;&quot;</span>, to),
             },
         },
         <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(from) {
@@ -205,10 +205,10 @@
                 <span class="prelude-val">Ok</span>(to_tz) =&gt; convert_to_timestamp(from_tz, to_tz, arr, tu)<span class="question-mark">?</span>,
                 <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(to) {
                     <span class="prelude-val">Ok</span>(to_tz) =&gt; convert_to_timestamp(from_tz, to_tz, arr, tu)<span class="question-mark">?</span>,
-                    <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;unable to parse time zone: {}&quot;</span>, to),
+                    <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;unable to parse time zone: &#39;{}&#39;&quot;</span>, to),
                 },
             },
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;unable to parse time zone: {}&quot;</span>, from),
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;unable to parse time zone: &#39;{}&#39;&quot;</span>, from),
         },
     })
 }
