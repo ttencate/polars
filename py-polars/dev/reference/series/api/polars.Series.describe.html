@@ -1528,7 +1528,7 @@ document.write(`
 <h1>polars.Series.describe<a class="headerlink" href="#polars-series-describe" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.describe">
-<span class="sig-prename descclassname"><span class="pre">Series.</span></span><span class="sig-name descname"><span class="pre">describe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/series/series.py#L1145-L1226"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.describe" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.</span></span><span class="sig-name descname"><span class="pre">describe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/master/py-polars/polars/series/series.py#L1145-L1229"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.describe" title="Permalink to this definition">#</a></dt>
 <dd><p>Quick summary statistics of a series.</p>
 <p>Series with mixed datatypes will return summary statistics for the datatype of
 the first value.</p>
@@ -1542,18 +1542,19 @@ the first value.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">series_num</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">series_num</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-<span class="go">shape: (6, 2)</span>
+<span class="go">shape: (7, 2)</span>
 <span class="go">┌────────────┬──────────┐</span>
 <span class="go">│ statistic  ┆ value    │</span>
 <span class="go">│ ---        ┆ ---      │</span>
 <span class="go">│ str        ┆ f64      │</span>
 <span class="go">╞════════════╪══════════╡</span>
-<span class="go">│ min        ┆ 1.0      │</span>
-<span class="go">│ max        ┆ 5.0      │</span>
+<span class="go">│ count      ┆ 5.0      │</span>
 <span class="go">│ null_count ┆ 0.0      │</span>
 <span class="go">│ mean       ┆ 3.0      │</span>
 <span class="go">│ std        ┆ 1.581139 │</span>
-<span class="go">│ count      ┆ 5.0      │</span>
+<span class="go">│ min        ┆ 1.0      │</span>
+<span class="go">│ max        ┆ 5.0      │</span>
+<span class="go">│ median     ┆ 3.0      │</span>
 <span class="go">└────────────┴──────────┘</span>
 </pre></div>
 </div>
@@ -1565,9 +1566,9 @@ the first value.</p>
 <span class="go">│ ---        ┆ ---   │</span>
 <span class="go">│ str        ┆ i64   │</span>
 <span class="go">╞════════════╪═══════╡</span>
-<span class="go">│ unique     ┆ 4     │</span>
-<span class="go">│ null_count ┆ 1     │</span>
 <span class="go">│ count      ┆ 5     │</span>
+<span class="go">│ null_count ┆ 1     │</span>
+<span class="go">│ unique     ┆ 4     │</span>
 <span class="go">└────────────┴───────┘</span>
 </pre></div>
 </div>
