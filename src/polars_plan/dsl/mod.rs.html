@@ -2185,6 +2185,12 @@
 <a href="#2185" id="2185">2185</a>
 <a href="#2186" id="2186">2186</a>
 <a href="#2187" id="2187">2187</a>
+<a href="#2188" id="2188">2188</a>
+<a href="#2189" id="2189">2189</a>
+<a href="#2190" id="2190">2190</a>
+<a href="#2191" id="2191">2191</a>
+<a href="#2192" id="2192">2192</a>
+<a href="#2193" id="2193">2193</a>
 </pre><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -4179,6 +4185,12 @@
             }),
         )
         .with_fmt(<span class="string">&quot;log&quot;</span>)
+    }
+
+    <span class="attr">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
+    </span><span class="doccomment">/// Compute the natural logarithm of all elements plus one in the input array
+    </span><span class="kw">pub fn </span>log1p(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.map_private(FunctionExpr::Log1p)
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
