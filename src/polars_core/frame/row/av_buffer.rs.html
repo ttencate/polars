@@ -418,6 +418,10 @@
 <a href="#418" id="418">418</a>
 <a href="#419" id="419">419</a>
 <a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
 </pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">use </span>polars_utils::slice::GetSaferUnchecked;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
@@ -474,10 +478,6 @@
             (Int32(builder), val) =&gt; builder.append_value(val.extract()<span class="question-mark">?</span>),
             (Int64(builder), AnyValue::Null) =&gt; builder.append_null(),
             (Int64(builder), val) =&gt; builder.append_value(val.extract()<span class="question-mark">?</span>),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-u8&quot;</span>)]
-            </span>(UInt8(builder), AnyValue::Null) =&gt; builder.append_null(),
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-u16&quot;</span>)]
-            </span>(UInt16(builder), val) =&gt; builder.append_value(val.extract()<span class="question-mark">?</span>),
             (UInt32(builder), AnyValue::Null) =&gt; builder.append_null(),
             (UInt32(builder), val) =&gt; builder.append_value(val.extract()<span class="question-mark">?</span>),
             (UInt64(builder), AnyValue::Null) =&gt; builder.append_null(),
@@ -497,6 +497,14 @@
             </span>(Int16(builder), AnyValue::Null) =&gt; builder.append_null(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-i16&quot;</span>)]
             </span>(Int16(builder), val) =&gt; builder.append_value(val.extract()<span class="question-mark">?</span>),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-u8&quot;</span>)]
+            </span>(UInt8(builder), AnyValue::Null) =&gt; builder.append_null(),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-u8&quot;</span>)]
+            </span>(UInt8(builder), val) =&gt; builder.append_value(val.extract()<span class="question-mark">?</span>),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-u16&quot;</span>)]
+            </span>(UInt16(builder), AnyValue::Null) =&gt; builder.append_null(),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-u16&quot;</span>)]
+            </span>(UInt16(builder), val) =&gt; builder.append_value(val.extract()<span class="question-mark">?</span>),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
             </span>(Date(builder), AnyValue::Null) =&gt; builder.append_null(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
