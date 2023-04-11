@@ -676,7 +676,40 @@
 <a href="#676" id="676">676</a>
 <a href="#677" id="677">677</a>
 <a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a>
+<a href="#691" id="691">691</a>
+<a href="#692" id="692">692</a>
+<a href="#693" id="693">693</a>
+<a href="#694" id="694">694</a>
+<a href="#695" id="695">695</a>
+<a href="#696" id="696">696</a>
+<a href="#697" id="697">697</a>
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
+<a href="#701" id="701">701</a>
+<a href="#702" id="702">702</a>
+<a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
 </pre><pre class="rust"><code><span class="kw">use </span>polars_arrow::array::list::AnonymousBuilder;
+<span class="kw">use </span>polars_arrow::array::null::MutableNullArray;
 <span class="kw">use </span>polars_arrow::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -762,7 +795,8 @@
         }
     }
 
-    <span class="kw">pub fn </span>append_slice(<span class="kw-2">&amp;mut </span><span class="self">self</span>, items: <span class="kw-2">&amp;</span>[T::Native]) {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>append_slice(<span class="kw-2">&amp;mut </span><span class="self">self</span>, items: <span class="kw-2">&amp;</span>[T::Native]) {
         <span class="kw">let </span>values = <span class="self">self</span>.builder.mut_values();
         values.extend_from_slice(items);
         <span class="self">self</span>.builder.try_push_valid().unwrap();
@@ -772,7 +806,8 @@
         }
     }
 
-    <span class="kw">pub fn </span>append_opt_slice(<span class="kw-2">&amp;mut </span><span class="self">self</span>, opt_v: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[T::Native]&gt;) {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>append_opt_slice(<span class="kw-2">&amp;mut </span><span class="self">self</span>, opt_v: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[T::Native]&gt;) {
         <span class="kw">match </span>opt_v {
             <span class="prelude-val">Some</span>(items) =&gt; <span class="self">self</span>.append_slice(items),
             <span class="prelude-val">None </span>=&gt; {
@@ -860,6 +895,7 @@
 <span class="kw">type </span>LargeListUtf8Builder = MutableListArray&lt;i64, MutableUtf8Array&lt;i64&gt;&gt;;
 <span class="kw">type </span>LargeListBinaryBuilder = MutableListArray&lt;i64, MutableBinaryArray&lt;i64&gt;&gt;;
 <span class="kw">type </span>LargeListBooleanBuilder = MutableListArray&lt;i64, MutableBooleanArray&gt;;
+<span class="kw">type </span>LargeListNullBuilder = MutableListArray&lt;i64, MutableNullArray&gt;;
 
 <span class="kw">pub struct </span>ListUtf8ChunkedBuilder {
     builder: LargeListUtf8Builder,
@@ -880,7 +916,8 @@
         }
     }
 
-    <span class="kw">pub fn </span>append_trusted_len_iter&lt;<span class="lifetime">&#39;a</span>, I: Iterator&lt;Item = <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;&gt; + TrustedLen&gt;(
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>append_trusted_len_iter&lt;<span class="lifetime">&#39;a</span>, I: Iterator&lt;Item = <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;&gt; + TrustedLen&gt;(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         iter: I,
     ) {
@@ -895,7 +932,8 @@
         <span class="self">self</span>.builder.try_push_valid().unwrap();
     }
 
-    <span class="kw">pub fn </span>append_values_iter&lt;<span class="lifetime">&#39;a</span>, I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, iter: I) {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>append_values_iter&lt;<span class="lifetime">&#39;a</span>, I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, iter: I) {
         <span class="kw">let </span>values = <span class="self">self</span>.builder.mut_values();
 
         <span class="kw">if </span>iter.size_hint().<span class="number">0 </span>== <span class="number">0 </span>{
@@ -905,7 +943,8 @@
         <span class="self">self</span>.builder.try_push_valid().unwrap();
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>append(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ca: <span class="kw-2">&amp;</span>Utf8Chunked) {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>append(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ca: <span class="kw-2">&amp;</span>Utf8Chunked) {
         <span class="kw">let </span>value_builder = <span class="self">self</span>.builder.mut_values();
         value_builder.try_extend(ca).unwrap();
         <span class="self">self</span>.builder.try_push_valid().unwrap();
@@ -913,7 +952,8 @@
 }
 
 <span class="kw">impl </span>ListBuilderTrait <span class="kw">for </span>ListUtf8ChunkedBuilder {
-    <span class="kw">fn </span>append_opt_series(<span class="kw-2">&amp;mut </span><span class="self">self</span>, opt_s: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Series&gt;) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>append_opt_series(<span class="kw-2">&amp;mut </span><span class="self">self</span>, opt_s: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Series&gt;) {
         <span class="kw">match </span>opt_s {
             <span class="prelude-val">Some</span>(s) =&gt; <span class="self">self</span>.append_series(s),
             <span class="prelude-val">None </span>=&gt; {
@@ -928,7 +968,8 @@
         <span class="self">self</span>.builder.push_null();
     }
 
-    <span class="kw">fn </span>append_series(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>Series) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>append_series(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>Series) {
         <span class="kw">if </span>s.is_empty() {
             <span class="self">self</span>.fast_explode = <span class="bool-val">false</span>;
         }
@@ -1091,6 +1132,28 @@
     }
 }
 
+<span class="kw">impl </span>ListBuilderTrait <span class="kw">for </span>LargeListNullBuilder {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>append_series(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _s: <span class="kw-2">&amp;</span>Series) {
+        <span class="self">self</span>.push_null()
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>append_null(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="self">self</span>.push_null()
+    }
+
+    <span class="kw">fn </span>finish(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; ListChunked {
+        <span class="kw">unsafe </span>{
+            ListChunked::from_chunks_and_dtype_unchecked(
+                <span class="string">&quot;&quot;</span>,
+                <span class="macro">vec!</span>[<span class="self">self</span>.as_box()],
+                DataType::List(Box::new(DataType::Null)),
+            )
+        }
+    }
+}
+
 <span class="kw">pub fn </span>get_list_builder(
     dt: <span class="kw-2">&amp;</span>DataType,
     value_capacity: usize,
@@ -1108,6 +1171,7 @@
             list_capacity,
             <span class="prelude-val">Some</span>(physical_type),
         ))),
+        DataType::Null =&gt; <span class="prelude-val">Ok</span>(Box::new(LargeListNullBuilder::with_capacity(list_capacity))),
         DataType::List(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(Box::new(AnonymousOwnedListBuilder::new(
             name,
             list_capacity,
