@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/polars-plan/src/dsl/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-fbd14db5c88ed452.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (0599b6b93 2023-04-01)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-d4a1a279bad1a0c0.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-8e6affb8c73a5ff1.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_plan/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `polars/polars-lazy/polars-plan/src/dsl/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-63a85fc7cf22dee2.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="polars_plan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (88fb1b922 2023-04-10)" data-search-js="search-bc5a112813b5d712.js" data-settings-js="settings-298e1ea74db45b39.js" data-settings-css="settings-0bcba95ff279c1db.css" data-theme-light-css="light-db279b6232be9c13.css" data-theme-dark-css="dark-cf923f49f397b216.css" data-theme-ayu-css="ayu-be46fdc453a55015.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-1159a395118aa44e.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../polars_plan/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2075,41 +2075,7 @@
 <a href="#2075" id="2075">2075</a>
 <a href="#2076" id="2076">2076</a>
 <a href="#2077" id="2077">2077</a>
-<a href="#2078" id="2078">2078</a>
-<a href="#2079" id="2079">2079</a>
-<a href="#2080" id="2080">2080</a>
-<a href="#2081" id="2081">2081</a>
-<a href="#2082" id="2082">2082</a>
-<a href="#2083" id="2083">2083</a>
-<a href="#2084" id="2084">2084</a>
-<a href="#2085" id="2085">2085</a>
-<a href="#2086" id="2086">2086</a>
-<a href="#2087" id="2087">2087</a>
-<a href="#2088" id="2088">2088</a>
-<a href="#2089" id="2089">2089</a>
-<a href="#2090" id="2090">2090</a>
-<a href="#2091" id="2091">2091</a>
-<a href="#2092" id="2092">2092</a>
-<a href="#2093" id="2093">2093</a>
-<a href="#2094" id="2094">2094</a>
-<a href="#2095" id="2095">2095</a>
-<a href="#2096" id="2096">2096</a>
-<a href="#2097" id="2097">2097</a>
-<a href="#2098" id="2098">2098</a>
-<a href="#2099" id="2099">2099</a>
-<a href="#2100" id="2100">2100</a>
-<a href="#2101" id="2101">2101</a>
-<a href="#2102" id="2102">2102</a>
-<a href="#2103" id="2103">2103</a>
-<a href="#2104" id="2104">2104</a>
-<a href="#2105" id="2105">2105</a>
-<a href="#2106" id="2106">2106</a>
-<a href="#2107" id="2107">2107</a>
-<a href="#2108" id="2108">2108</a>
-<a href="#2109" id="2109">2109</a>
-<a href="#2110" id="2110">2110</a>
-<a href="#2111" id="2111">2111</a>
-</pre><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
+</pre></div><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
 </span><span class="kw">pub mod </span>cat;
@@ -2379,7 +2345,7 @@
     <span class="doccomment">/// Negate `Expr`
     </span><span class="attr">#[allow(clippy::should_implement_trait)]
     </span><span class="kw">pub fn </span>not(<span class="self">self</span>) -&gt; Expr {
-        <span class="self">self</span>.map_private(FunctionExpr::Not)
+        <span class="self">self</span>.map_private(BooleanFunction::IsNot.into())
     }
 
     <span class="doccomment">/// Rename Column.
@@ -2390,13 +2356,13 @@
     <span class="doccomment">/// Run is_null operation on `Expr`.
     </span><span class="attr">#[allow(clippy::wrong_self_convention)]
     </span><span class="kw">pub fn </span>is_null(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map_private(FunctionExpr::IsNull)
+        <span class="self">self</span>.map_private(BooleanFunction::IsNull.into())
     }
 
     <span class="doccomment">/// Run is_not_null operation on `Expr`.
     </span><span class="attr">#[allow(clippy::wrong_self_convention)]
     </span><span class="kw">pub fn </span>is_not_null(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map_private(FunctionExpr::IsNotNull)
+        <span class="self">self</span>.map_private(BooleanFunction::IsNotNull.into())
     }
 
     <span class="doccomment">/// Drop null values
@@ -2406,7 +2372,7 @@
 
     <span class="doccomment">/// Drop NaN values
     </span><span class="kw">pub fn </span>drop_nans(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.apply_private(NanFunction::DropNans.into())
+        <span class="self">self</span>.apply_private(FunctionExpr::DropNans)
     }
 
     <span class="doccomment">/// Reduce groups to minimal value.
@@ -2966,31 +2932,23 @@
     <span class="doccomment">/// Get mask of finite values if dtype is Float
     </span><span class="attr">#[allow(clippy::wrong_self_convention)]
     </span><span class="kw">pub fn </span>is_finite(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map(
-            |s: Series| s.is_finite().map(|ca| <span class="prelude-val">Some</span>(ca.into_series())),
-            GetOutput::from_type(DataType::Boolean),
-        )
-        .with_fmt(<span class="string">&quot;is_finite&quot;</span>)
+        <span class="self">self</span>.map_private(BooleanFunction::IsFinite.into())
     }
 
     <span class="doccomment">/// Get mask of infinite values if dtype is Float
     </span><span class="attr">#[allow(clippy::wrong_self_convention)]
     </span><span class="kw">pub fn </span>is_infinite(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map(
-            |s: Series| s.is_infinite().map(|ca| <span class="prelude-val">Some</span>(ca.into_series())),
-            GetOutput::from_type(DataType::Boolean),
-        )
-        .with_fmt(<span class="string">&quot;is_infinite&quot;</span>)
+        <span class="self">self</span>.map_private(BooleanFunction::IsInfinite.into())
     }
 
     <span class="doccomment">/// Get mask of NaN values if dtype is Float
     </span><span class="kw">pub fn </span>is_nan(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map_private(NanFunction::IsNan.into())
+        <span class="self">self</span>.map_private(BooleanFunction::IsNan.into())
     }
 
     <span class="doccomment">/// Get inverse mask of NaN values if dtype is Float
     </span><span class="kw">pub fn </span>is_not_nan(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map_private(NanFunction::IsNotNan.into())
+        <span class="self">self</span>.map_private(BooleanFunction::IsNotNan.into())
     }
 
     <span class="doccomment">/// Shift the values in the array by some period. See [the eager implementation](polars_core::series::SeriesTrait::shift).
@@ -3249,14 +3207,14 @@
     </span><span class="attr">#[allow(clippy::wrong_self_convention)]
     #[cfg(feature = <span class="string">&quot;is_unique&quot;</span>)]
     </span><span class="kw">pub fn </span>is_duplicated(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.apply_private(FunctionExpr::IsDuplicated)
+        <span class="self">self</span>.apply_private(BooleanFunction::IsDuplicated.into())
     }
 
     <span class="doccomment">/// Get a mask of unique values
     </span><span class="attr">#[allow(clippy::wrong_self_convention)]
     #[cfg(feature = <span class="string">&quot;is_unique&quot;</span>)]
     </span><span class="kw">pub fn </span>is_unique(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.apply_private(FunctionExpr::IsUnique)
+        <span class="self">self</span>.apply_private(BooleanFunction::IsUnique.into())
     }
 
     <span class="doccomment">/// and operation
@@ -3306,9 +3264,9 @@
         <span class="kw">let </span>arguments = <span class="kw-2">&amp;</span>[other];
         <span class="comment">// we don&#39;t have to apply on groups, so this is faster
         </span><span class="kw">if </span>has_literal {
-            <span class="self">self</span>.map_many_private(FunctionExpr::IsIn, arguments, <span class="bool-val">true</span>)
+            <span class="self">self</span>.map_many_private(BooleanFunction::IsIn.into(), arguments, <span class="bool-val">true</span>)
         } <span class="kw">else </span>{
-            <span class="self">self</span>.apply_many_private(FunctionExpr::IsIn, arguments, <span class="bool-val">true</span>, <span class="bool-val">true</span>)
+            <span class="self">self</span>.apply_many_private(BooleanFunction::IsIn.into(), arguments, <span class="bool-val">true</span>, <span class="bool-val">true</span>)
         }
     }
 
@@ -3356,11 +3314,7 @@
     #[allow(clippy::wrong_self_convention)]
     </span><span class="doccomment">/// Get a mask of the first unique value.
     </span><span class="kw">pub fn </span>is_first(<span class="self">self</span>) -&gt; Expr {
-        <span class="self">self</span>.apply(
-            |s| polars_ops::prelude::is_first(<span class="kw-2">&amp;</span>s).map(|s| <span class="prelude-val">Some</span>(s.into_series())),
-            GetOutput::from_type(DataType::Boolean),
-        )
-        .with_fmt(<span class="string">&quot;is_first&quot;</span>)
+        <span class="self">self</span>.apply_private(BooleanFunction::IsFirst.into())
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;dot_product&quot;</span>)]
@@ -3947,22 +3901,11 @@
 
     <span class="doccomment">/// Check if any boolean value is `true`
     </span><span class="kw">pub fn </span>any(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s| {
-                <span class="kw">let </span>boolean = s.bool()<span class="question-mark">?</span>;
-                <span class="kw">if </span>boolean.any() {
-                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Series::new(s.name(), [<span class="bool-val">true</span>])))
-                } <span class="kw">else </span>{
-                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Series::new(s.name(), [<span class="bool-val">false</span>])))
-                }
-            },
-            GetOutput::from_type(DataType::Boolean),
-        )
-        .with_function_options(|<span class="kw-2">mut </span>opt| {
-            opt.fmt_str = <span class="string">&quot;any&quot;</span>;
-            opt.auto_explode = <span class="bool-val">true</span>;
-            opt
-        })
+        <span class="self">self</span>.apply_private(BooleanFunction::Any.into())
+            .with_function_options(|<span class="kw-2">mut </span>opt| {
+                opt.auto_explode = <span class="bool-val">true</span>;
+                opt
+            })
     }
 
     <span class="doccomment">/// Shrink numeric columns to the minimal required datatype
@@ -3974,22 +3917,11 @@
 
     <span class="doccomment">/// Check if all boolean values are `true`
     </span><span class="kw">pub fn </span>all(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.apply(
-            <span class="kw">move </span>|s| {
-                <span class="kw">let </span>boolean = s.bool()<span class="question-mark">?</span>;
-                <span class="kw">if </span>boolean.all() {
-                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Series::new(s.name(), [<span class="bool-val">true</span>])))
-                } <span class="kw">else </span>{
-                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Series::new(s.name(), [<span class="bool-val">false</span>])))
-                }
-            },
-            GetOutput::from_type(DataType::Boolean),
-        )
-        .with_function_options(|<span class="kw-2">mut </span>opt| {
-            opt.fmt_str = <span class="string">&quot;all&quot;</span>;
-            opt.auto_explode = <span class="bool-val">true</span>;
-            opt
-        })
+        <span class="self">self</span>.apply_private(BooleanFunction::All.into())
+            .with_function_options(|<span class="kw-2">mut </span>opt| {
+                opt.auto_explode = <span class="bool-val">true</span>;
+                opt
+            })
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
