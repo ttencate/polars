@@ -20,11 +20,13 @@
 <a href="#20" id="20">20</a>
 <a href="#21" id="21">21</a>
 <a href="#22" id="22">22</a>
+<a href="#23" id="23">23</a>
+<a href="#24" id="24">24</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::series::ops::NullBehavior;
 
 <span class="kw">impl </span>Series {
-    <span class="kw">pub fn </span>diff(<span class="kw-2">&amp;</span><span class="self">self</span>, n: usize, null_behavior: NullBehavior) -&gt; Series {
+    <span class="kw">pub fn </span>diff(<span class="kw-2">&amp;</span><span class="self">self</span>, n: i64, null_behavior: NullBehavior) -&gt; PolarsResult&lt;Series&gt; {
         <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
         <span class="kw">let </span>s = <span class="kw">match </span><span class="self">self</span>.dtype() {
             UInt8 =&gt; <span class="self">self</span>.cast(<span class="kw-2">&amp;</span>Int16).unwrap(),
@@ -34,10 +36,12 @@
         };
 
         <span class="kw">match </span>null_behavior {
-            NullBehavior::Ignore =&gt; <span class="kw-2">&amp;</span>s - <span class="kw-2">&amp;</span>s.shift(n <span class="kw">as </span>i64),
+            NullBehavior::Ignore =&gt; <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>s - <span class="kw-2">&amp;</span>s.shift(n)),
             NullBehavior::Drop =&gt; {
+                <span class="macro">polars_ensure!</span>(n &gt; <span class="number">0</span>, InvalidOperation: <span class="string">&quot;only positive integer allowed if nulls are dropped in &#39;diff&#39; operation&quot;</span>);
+                <span class="kw">let </span>n = n <span class="kw">as </span>usize;
                 <span class="kw">let </span>len = s.len() - n;
-                <span class="kw-2">&amp;</span><span class="self">self</span>.slice(n <span class="kw">as </span>i64, len) - <span class="kw-2">&amp;</span>s.slice(<span class="number">0</span>, len)
+                <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.slice(n <span class="kw">as </span>i64, len) - <span class="kw-2">&amp;</span>s.slice(<span class="number">0</span>, len))
             }
         }
     }

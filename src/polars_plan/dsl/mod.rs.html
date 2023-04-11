@@ -3840,12 +3840,12 @@
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;diff&quot;</span>)]
-    </span><span class="kw">pub fn </span>diff(<span class="self">self</span>, n: usize, null_behavior: NullBehavior) -&gt; Expr {
+    </span><span class="kw">pub fn </span>diff(<span class="self">self</span>, n: i64, null_behavior: NullBehavior) -&gt; Expr {
         <span class="self">self</span>.apply_private(FunctionExpr::Diff(n, null_behavior))
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;pct_change&quot;</span>)]
-    </span><span class="kw">pub fn </span>pct_change(<span class="self">self</span>, n: usize) -&gt; Expr {
+    </span><span class="kw">pub fn </span>pct_change(<span class="self">self</span>, n: i64) -&gt; Expr {
         <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
         <span class="self">self</span>.apply(
             <span class="kw">move </span>|s| s.pct_change(n).map(<span class="prelude-val">Some</span>),

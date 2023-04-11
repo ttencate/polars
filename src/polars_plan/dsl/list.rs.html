@@ -496,10 +496,10 @@
 
     <span class="doccomment">/// Diff every sublist.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;diff&quot;</span>)]
-    </span><span class="kw">pub fn </span>diff(<span class="self">self</span>, n: usize, null_behavior: NullBehavior) -&gt; Expr {
+    </span><span class="kw">pub fn </span>diff(<span class="self">self</span>, n: i64, null_behavior: NullBehavior) -&gt; Expr {
         <span class="self">self</span>.<span class="number">0
             </span>.map(
-                <span class="kw">move </span>|s| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.list()<span class="question-mark">?</span>.lst_diff(n, null_behavior).into_series())),
+                <span class="kw">move </span>|s| <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.list()<span class="question-mark">?</span>.lst_diff(n, null_behavior)<span class="question-mark">?</span>.into_series())),
                 GetOutput::same_type(),
             )
             .with_fmt(<span class="string">&quot;arr.diff&quot;</span>)

@@ -917,9 +917,9 @@
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;diff&quot;</span>)]
-    </span><span class="kw">fn </span>lst_diff(<span class="kw-2">&amp;</span><span class="self">self</span>, n: usize, null_behavior: NullBehavior) -&gt; ListChunked {
+    </span><span class="kw">fn </span>lst_diff(<span class="kw-2">&amp;</span><span class="self">self</span>, n: i64, null_behavior: NullBehavior) -&gt; PolarsResult&lt;ListChunked&gt; {
         <span class="kw">let </span>ca = <span class="self">self</span>.as_list();
-        ca.apply_amortized(|s| s.as_ref().diff(n, null_behavior))
+        ca.try_apply_amortized(|s| s.as_ref().diff(n, null_behavior))
     }
 
     <span class="kw">fn </span>lst_shift(<span class="kw-2">&amp;</span><span class="self">self</span>, periods: i64) -&gt; ListChunked {

@@ -80,8 +80,8 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;diff&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>diff(s: <span class="kw-2">&amp;</span>Series, n: usize, null_behavior: NullBehavior) -&gt; PolarsResult&lt;Series&gt; {
-    <span class="prelude-val">Ok</span>(s.diff(n, null_behavior))
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>diff(s: <span class="kw-2">&amp;</span>Series, n: i64, null_behavior: NullBehavior) -&gt; PolarsResult&lt;Series&gt; {
+    s.diff(n, null_behavior)
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;interpolate&quot;</span>)]
