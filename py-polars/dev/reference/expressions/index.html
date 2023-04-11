@@ -471,6 +471,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.kurtosis.html">polars.Series.kurtosis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.log.html">polars.Series.log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.log10.html">polars.Series.log10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.log1p.html">polars.Series.log1p</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.map_dict.html">polars.Series.map_dict</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.pct_change.html">polars.Series.pct_change</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.peak_max.html">polars.Series.peak_max</a></li>
@@ -1044,6 +1045,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.kurtosis.html">polars.Expr.kurtosis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.log.html">polars.Expr.log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.log10.html">polars.Expr.log10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.log1p.html">polars.Expr.log1p</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.mode.html">polars.Expr.mode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.n_unique.html">polars.Expr.n_unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.null_count.html">polars.Expr.null_count</a></li>
@@ -1520,7 +1522,7 @@ document.write(`
 </div>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">Expr</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L88-L7392"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">Expr</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L88-L7416"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Expressions that can be used in various contexts.</p>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable table autosummary">
@@ -1777,232 +1779,235 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.log10.html#polars.Expr.log10" title="polars.Expr.log10"><code class="xref py py-obj docutils literal notranslate"><span class="pre">log10</span></code></a></p></td>
 <td><p>Compute the base 10 logarithm of the input array, element-wise.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.lower_bound.html#polars.Expr.lower_bound" title="polars.Expr.lower_bound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lower_bound</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.log1p.html#polars.Expr.log1p" title="polars.Expr.log1p"><code class="xref py py-obj docutils literal notranslate"><span class="pre">log1p</span></code></a></p></td>
+<td><p>Compute the natural logarithm of each element plus one.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.lower_bound.html#polars.Expr.lower_bound" title="polars.Expr.lower_bound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lower_bound</span></code></a></p></td>
 <td><p>Calculate the lower bound.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.lt.html#polars.Expr.lt" title="polars.Expr.lt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lt</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.lt.html#polars.Expr.lt" title="polars.Expr.lt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lt</span></code></a></p></td>
 <td><p>Method equivalent of &quot;less than&quot; operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">&lt;</span> <span class="pre">other</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.map.html#polars.Expr.map" title="polars.Expr.map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.map.html#polars.Expr.map" title="polars.Expr.map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map</span></code></a></p></td>
 <td><p>Apply a custom python function to a Series or sequence of Series.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.map_alias.html#polars.Expr.map_alias" title="polars.Expr.map_alias"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_alias</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.map_alias.html#polars.Expr.map_alias" title="polars.Expr.map_alias"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_alias</span></code></a></p></td>
 <td><p>Rename the output of an expression by mapping a function over the root name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.map_dict.html#polars.Expr.map_dict" title="polars.Expr.map_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_dict</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.map_dict.html#polars.Expr.map_dict" title="polars.Expr.map_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_dict</span></code></a></p></td>
 <td><p>Replace values in column according to remapping dictionary.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.max.html#polars.Expr.max" title="polars.Expr.max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.max.html#polars.Expr.max" title="polars.Expr.max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></a></p></td>
 <td><p>Get maximum value.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.mean.html#polars.Expr.mean" title="polars.Expr.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.mean.html#polars.Expr.mean" title="polars.Expr.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean</span></code></a></p></td>
 <td><p>Get mean value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.median.html#polars.Expr.median" title="polars.Expr.median"><code class="xref py py-obj docutils literal notranslate"><span class="pre">median</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.median.html#polars.Expr.median" title="polars.Expr.median"><code class="xref py py-obj docutils literal notranslate"><span class="pre">median</span></code></a></p></td>
 <td><p>Get median value using linear interpolation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.min.html#polars.Expr.min" title="polars.Expr.min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.min.html#polars.Expr.min" title="polars.Expr.min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></a></p></td>
 <td><p>Get minimum value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.mod.html#polars.Expr.mod" title="polars.Expr.mod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mod</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.mod.html#polars.Expr.mod" title="polars.Expr.mod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mod</span></code></a></p></td>
 <td><p>Method equivalent of modulus operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">%</span> <span class="pre">other</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.mode.html#polars.Expr.mode" title="polars.Expr.mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.mode.html#polars.Expr.mode" title="polars.Expr.mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code></a></p></td>
 <td><p>Compute the most occurring value(s).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.mul.html#polars.Expr.mul" title="polars.Expr.mul"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mul</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.mul.html#polars.Expr.mul" title="polars.Expr.mul"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mul</span></code></a></p></td>
 <td><p>Method equivalent of multiplication operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">*</span> <span class="pre">other</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.n_unique.html#polars.Expr.n_unique" title="polars.Expr.n_unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n_unique</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.n_unique.html#polars.Expr.n_unique" title="polars.Expr.n_unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n_unique</span></code></a></p></td>
 <td><p>Count unique values.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.nan_max.html#polars.Expr.nan_max" title="polars.Expr.nan_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nan_max</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.nan_max.html#polars.Expr.nan_max" title="polars.Expr.nan_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nan_max</span></code></a></p></td>
 <td><p>Get maximum value, but propagate/poison encountered NaN values.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.nan_min.html#polars.Expr.nan_min" title="polars.Expr.nan_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nan_min</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.nan_min.html#polars.Expr.nan_min" title="polars.Expr.nan_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nan_min</span></code></a></p></td>
 <td><p>Get minimum value, but propagate/poison encountered NaN values.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.ne.html#polars.Expr.ne" title="polars.Expr.ne"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ne</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.ne.html#polars.Expr.ne" title="polars.Expr.ne"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ne</span></code></a></p></td>
 <td><p>Method equivalent of inequality operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">!=</span> <span class="pre">other</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.null_count.html#polars.Expr.null_count" title="polars.Expr.null_count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">null_count</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.null_count.html#polars.Expr.null_count" title="polars.Expr.null_count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">null_count</span></code></a></p></td>
 <td><p>Count null values.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.or_.html#polars.Expr.or_" title="polars.Expr.or_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">or_</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.or_.html#polars.Expr.or_" title="polars.Expr.or_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">or_</span></code></a></p></td>
 <td><p>Method equivalent of logical &quot;or&quot; operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">|</span> <span class="pre">other</span> <span class="pre">|</span> <span class="pre">...</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.over.html#polars.Expr.over" title="polars.Expr.over"><code class="xref py py-obj docutils literal notranslate"><span class="pre">over</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.over.html#polars.Expr.over" title="polars.Expr.over"><code class="xref py py-obj docutils literal notranslate"><span class="pre">over</span></code></a></p></td>
 <td><p>Compute expressions over the given groups.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.pct_change.html#polars.Expr.pct_change" title="polars.Expr.pct_change"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pct_change</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.pct_change.html#polars.Expr.pct_change" title="polars.Expr.pct_change"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pct_change</span></code></a></p></td>
 <td><p>Computes percentage change between values.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.pipe.html#polars.Expr.pipe" title="polars.Expr.pipe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pipe</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.pipe.html#polars.Expr.pipe" title="polars.Expr.pipe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pipe</span></code></a></p></td>
 <td><p>Offers a structured way to apply a sequence of user-defined functions (UDFs).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.pow.html#polars.Expr.pow" title="polars.Expr.pow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pow</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.pow.html#polars.Expr.pow" title="polars.Expr.pow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pow</span></code></a></p></td>
 <td><p>Method equivalent of exponentiation operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">**</span> <span class="pre">exponent</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.prefix.html#polars.Expr.prefix" title="polars.Expr.prefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prefix</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.prefix.html#polars.Expr.prefix" title="polars.Expr.prefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prefix</span></code></a></p></td>
 <td><p>Add a prefix to the root column name of the expression.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.product.html#polars.Expr.product" title="polars.Expr.product"><code class="xref py py-obj docutils literal notranslate"><span class="pre">product</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.product.html#polars.Expr.product" title="polars.Expr.product"><code class="xref py py-obj docutils literal notranslate"><span class="pre">product</span></code></a></p></td>
 <td><p>Compute the product of an expression.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.quantile.html#polars.Expr.quantile" title="polars.Expr.quantile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quantile</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.quantile.html#polars.Expr.quantile" title="polars.Expr.quantile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quantile</span></code></a></p></td>
 <td><p>Get quantile value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.rank.html#polars.Expr.rank" title="polars.Expr.rank"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rank</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.rank.html#polars.Expr.rank" title="polars.Expr.rank"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rank</span></code></a></p></td>
 <td><p>Assign ranks to data, dealing with ties appropriately.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.rechunk.html#polars.Expr.rechunk" title="polars.Expr.rechunk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rechunk</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.rechunk.html#polars.Expr.rechunk" title="polars.Expr.rechunk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rechunk</span></code></a></p></td>
 <td><p>Create a single chunk of memory for this Series.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.reinterpret.html#polars.Expr.reinterpret" title="polars.Expr.reinterpret"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reinterpret</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.reinterpret.html#polars.Expr.reinterpret" title="polars.Expr.reinterpret"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reinterpret</span></code></a></p></td>
 <td><p>Reinterpret the underlying bits as a signed/unsigned integer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.repeat_by.html#polars.Expr.repeat_by" title="polars.Expr.repeat_by"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeat_by</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.repeat_by.html#polars.Expr.repeat_by" title="polars.Expr.repeat_by"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeat_by</span></code></a></p></td>
 <td><p>Repeat the elements in this Series as specified in the given expression.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.reshape.html#polars.Expr.reshape" title="polars.Expr.reshape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reshape</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.reshape.html#polars.Expr.reshape" title="polars.Expr.reshape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reshape</span></code></a></p></td>
 <td><p>Reshape this Expr to a flat Series or a Series of Lists.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.reverse.html#polars.Expr.reverse" title="polars.Expr.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reverse</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.reverse.html#polars.Expr.reverse" title="polars.Expr.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reverse</span></code></a></p></td>
 <td><p>Reverse the selection.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.rolling_apply.html#polars.Expr.rolling_apply" title="polars.Expr.rolling_apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_apply</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.rolling_apply.html#polars.Expr.rolling_apply" title="polars.Expr.rolling_apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_apply</span></code></a></p></td>
 <td><p>Apply a custom rolling window function.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.rolling_max.html#polars.Expr.rolling_max" title="polars.Expr.rolling_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_max</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.rolling_max.html#polars.Expr.rolling_max" title="polars.Expr.rolling_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_max</span></code></a></p></td>
 <td><p>Apply a rolling max (moving max) over the values in this array.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.rolling_mean.html#polars.Expr.rolling_mean" title="polars.Expr.rolling_mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_mean</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.rolling_mean.html#polars.Expr.rolling_mean" title="polars.Expr.rolling_mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_mean</span></code></a></p></td>
 <td><p>Apply a rolling mean (moving mean) over the values in this array.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.rolling_median.html#polars.Expr.rolling_median" title="polars.Expr.rolling_median"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_median</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.rolling_median.html#polars.Expr.rolling_median" title="polars.Expr.rolling_median"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_median</span></code></a></p></td>
 <td><p>Compute a rolling median.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.rolling_min.html#polars.Expr.rolling_min" title="polars.Expr.rolling_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_min</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.rolling_min.html#polars.Expr.rolling_min" title="polars.Expr.rolling_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_min</span></code></a></p></td>
 <td><p>Apply a rolling min (moving min) over the values in this array.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.rolling_quantile.html#polars.Expr.rolling_quantile" title="polars.Expr.rolling_quantile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_quantile</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.rolling_quantile.html#polars.Expr.rolling_quantile" title="polars.Expr.rolling_quantile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_quantile</span></code></a></p></td>
 <td><p>Compute a rolling quantile.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.rolling_skew.html#polars.Expr.rolling_skew" title="polars.Expr.rolling_skew"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_skew</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.rolling_skew.html#polars.Expr.rolling_skew" title="polars.Expr.rolling_skew"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_skew</span></code></a></p></td>
 <td><p>Compute a rolling skew.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.rolling_std.html#polars.Expr.rolling_std" title="polars.Expr.rolling_std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_std</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.rolling_std.html#polars.Expr.rolling_std" title="polars.Expr.rolling_std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_std</span></code></a></p></td>
 <td><p>Compute a rolling standard deviation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.rolling_sum.html#polars.Expr.rolling_sum" title="polars.Expr.rolling_sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_sum</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.rolling_sum.html#polars.Expr.rolling_sum" title="polars.Expr.rolling_sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_sum</span></code></a></p></td>
 <td><p>Apply a rolling sum (moving sum) over the values in this array.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.rolling_var.html#polars.Expr.rolling_var" title="polars.Expr.rolling_var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_var</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.rolling_var.html#polars.Expr.rolling_var" title="polars.Expr.rolling_var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_var</span></code></a></p></td>
 <td><p>Compute a rolling variance.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.round.html#polars.Expr.round" title="polars.Expr.round"><code class="xref py py-obj docutils literal notranslate"><span class="pre">round</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.round.html#polars.Expr.round" title="polars.Expr.round"><code class="xref py py-obj docutils literal notranslate"><span class="pre">round</span></code></a></p></td>
 <td><p>Round underlying floating point data by <cite>decimals</cite> digits.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.sample.html#polars.Expr.sample" title="polars.Expr.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.sample.html#polars.Expr.sample" title="polars.Expr.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a></p></td>
 <td><p>Sample from this expression.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.search_sorted.html#polars.Expr.search_sorted" title="polars.Expr.search_sorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_sorted</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.search_sorted.html#polars.Expr.search_sorted" title="polars.Expr.search_sorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_sorted</span></code></a></p></td>
 <td><p>Find indices where elements should be inserted to maintain order.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.set_sorted.html#polars.Expr.set_sorted" title="polars.Expr.set_sorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_sorted</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.set_sorted.html#polars.Expr.set_sorted" title="polars.Expr.set_sorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_sorted</span></code></a></p></td>
 <td><p>Flags the expression as 'sorted'.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.shift.html#polars.Expr.shift" title="polars.Expr.shift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shift</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.shift.html#polars.Expr.shift" title="polars.Expr.shift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shift</span></code></a></p></td>
 <td><p>Shift the values by a given period.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.shift_and_fill.html#polars.Expr.shift_and_fill" title="polars.Expr.shift_and_fill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shift_and_fill</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.shift_and_fill.html#polars.Expr.shift_and_fill" title="polars.Expr.shift_and_fill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shift_and_fill</span></code></a></p></td>
 <td><p>Shift the values by a given period and fill the resulting null values.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.shrink_dtype.html#polars.Expr.shrink_dtype" title="polars.Expr.shrink_dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shrink_dtype</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.shrink_dtype.html#polars.Expr.shrink_dtype" title="polars.Expr.shrink_dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shrink_dtype</span></code></a></p></td>
 <td><p>Shrink numeric columns to the minimal required datatype.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.shuffle.html#polars.Expr.shuffle" title="polars.Expr.shuffle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shuffle</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.shuffle.html#polars.Expr.shuffle" title="polars.Expr.shuffle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shuffle</span></code></a></p></td>
 <td><p>Shuffle the contents of this expression.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.sign.html#polars.Expr.sign" title="polars.Expr.sign"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sign</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.sign.html#polars.Expr.sign" title="polars.Expr.sign"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sign</span></code></a></p></td>
 <td><p>Compute the element-wise indication of the sign.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.sin.html#polars.Expr.sin" title="polars.Expr.sin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sin</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.sin.html#polars.Expr.sin" title="polars.Expr.sin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sin</span></code></a></p></td>
 <td><p>Compute the element-wise value for the sine.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.sinh.html#polars.Expr.sinh" title="polars.Expr.sinh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sinh</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.sinh.html#polars.Expr.sinh" title="polars.Expr.sinh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sinh</span></code></a></p></td>
 <td><p>Compute the element-wise value for the hyperbolic sine.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.skew.html#polars.Expr.skew" title="polars.Expr.skew"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skew</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.skew.html#polars.Expr.skew" title="polars.Expr.skew"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skew</span></code></a></p></td>
 <td><p>Compute the sample skewness of a data set.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.slice.html#polars.Expr.slice" title="polars.Expr.slice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">slice</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.slice.html#polars.Expr.slice" title="polars.Expr.slice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">slice</span></code></a></p></td>
 <td><p>Get a slice of this expression.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.sort.html#polars.Expr.sort" title="polars.Expr.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.sort.html#polars.Expr.sort" title="polars.Expr.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a></p></td>
 <td><p>Sort this column.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.sort_by.html#polars.Expr.sort_by" title="polars.Expr.sort_by"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort_by</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.sort_by.html#polars.Expr.sort_by" title="polars.Expr.sort_by"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort_by</span></code></a></p></td>
 <td><p>Sort this column by the ordering of other columns.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.sqrt.html#polars.Expr.sqrt" title="polars.Expr.sqrt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sqrt</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.sqrt.html#polars.Expr.sqrt" title="polars.Expr.sqrt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sqrt</span></code></a></p></td>
 <td><p>Compute the square root of the elements.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.std.html#polars.Expr.std" title="polars.Expr.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">std</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.std.html#polars.Expr.std" title="polars.Expr.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">std</span></code></a></p></td>
 <td><p>Get standard deviation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.sub.html#polars.Expr.sub" title="polars.Expr.sub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sub</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.sub.html#polars.Expr.sub" title="polars.Expr.sub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sub</span></code></a></p></td>
 <td><p>Method equivalent of subtraction operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">-</span> <span class="pre">other</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.suffix.html#polars.Expr.suffix" title="polars.Expr.suffix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">suffix</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.suffix.html#polars.Expr.suffix" title="polars.Expr.suffix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">suffix</span></code></a></p></td>
 <td><p>Add a suffix to the root column name of the expression.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.sum.html#polars.Expr.sum" title="polars.Expr.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.sum.html#polars.Expr.sum" title="polars.Expr.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum</span></code></a></p></td>
 <td><p>Get sum value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.tail.html#polars.Expr.tail" title="polars.Expr.tail"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tail</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.tail.html#polars.Expr.tail" title="polars.Expr.tail"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tail</span></code></a></p></td>
 <td><p>Get the last <cite>n</cite> rows.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.take.html#polars.Expr.take" title="polars.Expr.take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">take</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.take.html#polars.Expr.take" title="polars.Expr.take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">take</span></code></a></p></td>
 <td><p>Take values by index.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.take_every.html#polars.Expr.take_every" title="polars.Expr.take_every"><code class="xref py py-obj docutils literal notranslate"><span class="pre">take_every</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.take_every.html#polars.Expr.take_every" title="polars.Expr.take_every"><code class="xref py py-obj docutils literal notranslate"><span class="pre">take_every</span></code></a></p></td>
 <td><p>Take every nth value in the Series and return as a new Series.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.tan.html#polars.Expr.tan" title="polars.Expr.tan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tan</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.tan.html#polars.Expr.tan" title="polars.Expr.tan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tan</span></code></a></p></td>
 <td><p>Compute the element-wise value for the tangent.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.tanh.html#polars.Expr.tanh" title="polars.Expr.tanh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tanh</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.tanh.html#polars.Expr.tanh" title="polars.Expr.tanh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tanh</span></code></a></p></td>
 <td><p>Compute the element-wise value for the hyperbolic tangent.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.to_physical.html#polars.Expr.to_physical" title="polars.Expr.to_physical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_physical</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.to_physical.html#polars.Expr.to_physical" title="polars.Expr.to_physical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_physical</span></code></a></p></td>
 <td><p>Cast to physical representation of the logical dtype.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.top_k.html#polars.Expr.top_k" title="polars.Expr.top_k"><code class="xref py py-obj docutils literal notranslate"><span class="pre">top_k</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.top_k.html#polars.Expr.top_k" title="polars.Expr.top_k"><code class="xref py py-obj docutils literal notranslate"><span class="pre">top_k</span></code></a></p></td>
 <td><p>Return the <cite>k</cite> largest elements.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.truediv.html#polars.Expr.truediv" title="polars.Expr.truediv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">truediv</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.truediv.html#polars.Expr.truediv" title="polars.Expr.truediv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">truediv</span></code></a></p></td>
 <td><p>Method equivalent of float division operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">/</span> <span class="pre">other</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.unique.html#polars.Expr.unique" title="polars.Expr.unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unique</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.unique.html#polars.Expr.unique" title="polars.Expr.unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unique</span></code></a></p></td>
 <td><p>Get unique values of this expression.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.unique_counts.html#polars.Expr.unique_counts" title="polars.Expr.unique_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unique_counts</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.unique_counts.html#polars.Expr.unique_counts" title="polars.Expr.unique_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unique_counts</span></code></a></p></td>
 <td><p>Return a count of the unique values in the order of appearance.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.upper_bound.html#polars.Expr.upper_bound" title="polars.Expr.upper_bound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">upper_bound</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.upper_bound.html#polars.Expr.upper_bound" title="polars.Expr.upper_bound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">upper_bound</span></code></a></p></td>
 <td><p>Calculate the upper bound.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.value_counts.html#polars.Expr.value_counts" title="polars.Expr.value_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value_counts</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.value_counts.html#polars.Expr.value_counts" title="polars.Expr.value_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value_counts</span></code></a></p></td>
 <td><p>Count all unique values and create a struct mapping value to count.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.var.html#polars.Expr.var" title="polars.Expr.var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.var.html#polars.Expr.var" title="polars.Expr.var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var</span></code></a></p></td>
 <td><p>Get variance.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.where.html#polars.Expr.where" title="polars.Expr.where"><code class="xref py py-obj docutils literal notranslate"><span class="pre">where</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.where.html#polars.Expr.where" title="polars.Expr.where"><code class="xref py py-obj docutils literal notranslate"><span class="pre">where</span></code></a></p></td>
 <td><p>Filter a single column.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.xor.html#polars.Expr.xor" title="polars.Expr.xor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xor</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.xor.html#polars.Expr.xor" title="polars.Expr.xor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xor</span></code></a></p></td>
 <td><p>Method equivalent of logical exclusive-or operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">^</span> <span class="pre">other</span></code>.</p></td>
 </tr>
 </tbody>
@@ -3294,7 +3299,7 @@ Int64 before summing to prevent overflow issues.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">cumulative_eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_periods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6698-L6749"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">cumulative_eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_periods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6722-L6773"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Run an expression over a sliding window that increases <cite>1</cite> slot every iteration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -3499,7 +3504,7 @@ To drop NaN values, use <a class="reference internal" href="api/polars.Expr.drop
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.718281828459045</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6660-L6696"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.718281828459045</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6684-L6720"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Computes the entropy.</p>
 <p>Uses the formula <code class="docutils literal notranslate"><span class="pre">-sum(pk</span> <span class="pre">*</span> <span class="pre">log(pk)</span></code> where <code class="docutils literal notranslate"><span class="pre">pk</span></code> are discrete probabilities.</p>
 <dl class="field-list simple">
@@ -5109,7 +5114,7 @@ Pearson’s definition is used (normal ==&gt; 3.0).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6786-L6809"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6810-L6833"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Aggregate to list.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
@@ -5177,6 +5182,28 @@ Pearson’s definition is used (normal ==&gt; 3.0).</p>
 <span class="go">│ 0.30103 │</span>
 <span class="go">│ 0.60206 │</span>
 <span class="go">└─────────┘</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">log1p</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6660-L6682"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Compute the natural logarithm of each element plus one.</p>
+<p>This computes <cite>log(1 + x)</cite> but is more numerically stable for <cite>x</cite> close to zero.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">log1p</span><span class="p">())</span>
+<span class="go">shape: (3, 1)</span>
+<span class="go">┌──────────┐</span>
+<span class="go">│ a        │</span>
+<span class="go">│ ---      │</span>
+<span class="go">│ f64      │</span>
+<span class="go">╞══════════╡</span>
+<span class="go">│ 0.693147 │</span>
+<span class="go">│ 1.098612 │</span>
+<span class="go">│ 1.386294 │</span>
+<span class="go">└──────────┘</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -5317,7 +5344,7 @@ expression with a third-party library.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">map_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PolarsDataType</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6846-L7273"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">map_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PolarsDataType</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6870-L7297"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Replace values in column according to remapping dictionary.</p>
 <p>Needs a global string cache for lazily evaluated queries on columns of
 type <code class="docutils literal notranslate"><span class="pre">pl.Categorical</span></code>.</p>
@@ -7210,7 +7237,7 @@ If ‘right’, return the rightmost suitable location found is given.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">set_sorted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descending</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6751-L6781"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">set_sorted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descending</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6775-L6805"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Flags the expression as ‘sorted’.</p>
 <p>Enables downstream code to user fast paths for sorted arrays.</p>
 <dl class="field-list simple">
@@ -7305,7 +7332,7 @@ Use with care!</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">shrink_dtype</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6811-L6844"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">shrink_dtype</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6835-L6868"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Shrink numeric columns to the minimal required datatype.</p>
 <p>Shrink to the dtype needed to fit the extrema of this [<cite>Series</cite>].
 This can be used to reduce memory pressure.</p>
