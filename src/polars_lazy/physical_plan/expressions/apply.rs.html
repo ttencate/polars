@@ -504,6 +504,8 @@
 <a href="#504" id="504">504</a>
 <a href="#505" id="505">505</a>
 <a href="#506" id="506">506</a>
+<a href="#507" id="507">507</a>
+<a href="#508" id="508">508</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -661,7 +663,9 @@
             }
             AggState::AggregatedFlat(s) =&gt; (<span class="self">self</span>.eval_and_flatten(<span class="kw-2">&amp;mut </span>[s.clone()])<span class="question-mark">?</span>, <span class="bool-val">true</span>),
             AggState::NotAggregated(s) | AggState::Literal(s) =&gt; {
-                (<span class="self">self</span>.eval_and_flatten(<span class="kw-2">&amp;mut </span>[s.clone()])<span class="question-mark">?</span>, <span class="bool-val">false</span>)
+                <span class="kw">let </span>(out, aggregated) = (<span class="self">self</span>.eval_and_flatten(<span class="kw-2">&amp;mut </span>[s.clone()])<span class="question-mark">?</span>, <span class="bool-val">false</span>);
+                check_map_output_len(s.len(), out.len(), <span class="kw-2">&amp;</span><span class="self">self</span>.expr)<span class="question-mark">?</span>;
+                (out, aggregated)
             }
         };
 
@@ -728,7 +732,7 @@
 
 <span class="kw">fn </span>check_map_output_len(input_len: usize, output_len: usize, expr: <span class="kw-2">&amp;</span>Expr) -&gt; PolarsResult&lt;()&gt; {
     <span class="macro">polars_ensure!</span>(
-        input_len == output_len, expr = expr, ComputeError:
+        input_len == output_len, expr = expr, InvalidOperation:
         <span class="string">&quot;output length of `map` must be equal to that of the input length; \
         consider using `apply` instead&quot;
     </span>);
