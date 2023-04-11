@@ -470,6 +470,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.kurtosis.html">polars.Series.kurtosis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.log.html">polars.Series.log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.log10.html">polars.Series.log10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.log1p.html">polars.Series.log1p</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.map_dict.html">polars.Series.map_dict</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.pct_change.html">polars.Series.pct_change</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.peak_max.html">polars.Series.peak_max</a></li>
@@ -1043,6 +1044,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.kurtosis.html">polars.Expr.kurtosis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.log.html">polars.Expr.log</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.log10.html">polars.Expr.log10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.log1p.html">polars.Expr.log1p</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.mode.html">polars.Expr.mode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.n_unique.html">polars.Expr.n_unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.null_count.html">polars.Expr.null_count</a></li>
@@ -1603,73 +1605,76 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.log10.html#polars.Series.log10" title="polars.Series.log10"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.log10</span></code></a>()</p></td>
 <td><p>Compute the base 10 logarithm of the input array, element-wise.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.map_dict.html#polars.Series.map_dict" title="polars.Series.map_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.map_dict</span></code></a>(remapping, *[, default, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.log1p.html#polars.Series.log1p" title="polars.Series.log1p"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.log1p</span></code></a>()</p></td>
+<td><p>Compute the natural logarithm of the input array plus one, element-wise.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.map_dict.html#polars.Series.map_dict" title="polars.Series.map_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.map_dict</span></code></a>(remapping, *[, default, ...])</p></td>
 <td><p>Replace values in the Series using a remapping dictionary.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.pct_change.html#polars.Series.pct_change" title="polars.Series.pct_change"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.pct_change</span></code></a>([n])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.pct_change.html#polars.Series.pct_change" title="polars.Series.pct_change"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.pct_change</span></code></a>([n])</p></td>
 <td><p>Computes percentage change between values.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.peak_max.html#polars.Series.peak_max" title="polars.Series.peak_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.peak_max</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.peak_max.html#polars.Series.peak_max" title="polars.Series.peak_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.peak_max</span></code></a>()</p></td>
 <td><p>Get a boolean mask of the local maximum peaks.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.peak_min.html#polars.Series.peak_min" title="polars.Series.peak_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.peak_min</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.peak_min.html#polars.Series.peak_min" title="polars.Series.peak_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.peak_min</span></code></a>()</p></td>
 <td><p>Get a boolean mask of the local minimum peaks.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.rank.html#polars.Series.rank" title="polars.Series.rank"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rank</span></code></a>([method, descending, seed])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.rank.html#polars.Series.rank" title="polars.Series.rank"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rank</span></code></a>([method, descending, seed])</p></td>
 <td><p>Assign ranks to data, dealing with ties appropriately.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.rolling_apply.html#polars.Series.rolling_apply" title="polars.Series.rolling_apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_apply</span></code></a>(function, window_size)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.rolling_apply.html#polars.Series.rolling_apply" title="polars.Series.rolling_apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_apply</span></code></a>(function, window_size)</p></td>
 <td><p>Apply a custom rolling window function.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.rolling_max.html#polars.Series.rolling_max" title="polars.Series.rolling_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_max</span></code></a>(window_size[, weights, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.rolling_max.html#polars.Series.rolling_max" title="polars.Series.rolling_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_max</span></code></a>(window_size[, weights, ...])</p></td>
 <td><p>Apply a rolling max (moving max) over the values in this array.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.rolling_mean.html#polars.Series.rolling_mean" title="polars.Series.rolling_mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_mean</span></code></a>(window_size[, weights, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.rolling_mean.html#polars.Series.rolling_mean" title="polars.Series.rolling_mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_mean</span></code></a>(window_size[, weights, ...])</p></td>
 <td><p>Apply a rolling mean (moving mean) over the values in this array.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.rolling_median.html#polars.Series.rolling_median" title="polars.Series.rolling_median"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_median</span></code></a>(window_size[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.rolling_median.html#polars.Series.rolling_median" title="polars.Series.rolling_median"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_median</span></code></a>(window_size[, ...])</p></td>
 <td><p>Compute a rolling median.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.rolling_min.html#polars.Series.rolling_min" title="polars.Series.rolling_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_min</span></code></a>(window_size[, weights, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.rolling_min.html#polars.Series.rolling_min" title="polars.Series.rolling_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_min</span></code></a>(window_size[, weights, ...])</p></td>
 <td><p>Apply a rolling min (moving min) over the values in this array.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.rolling_quantile.html#polars.Series.rolling_quantile" title="polars.Series.rolling_quantile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_quantile</span></code></a>(quantile[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.rolling_quantile.html#polars.Series.rolling_quantile" title="polars.Series.rolling_quantile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_quantile</span></code></a>(quantile[, ...])</p></td>
 <td><p>Compute a rolling quantile.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.rolling_skew.html#polars.Series.rolling_skew" title="polars.Series.rolling_skew"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_skew</span></code></a>(window_size, *[, bias])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.rolling_skew.html#polars.Series.rolling_skew" title="polars.Series.rolling_skew"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_skew</span></code></a>(window_size, *[, bias])</p></td>
 <td><p>Compute a rolling skew.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.rolling_std.html#polars.Series.rolling_std" title="polars.Series.rolling_std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_std</span></code></a>(window_size[, weights, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.rolling_std.html#polars.Series.rolling_std" title="polars.Series.rolling_std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_std</span></code></a>(window_size[, weights, ...])</p></td>
 <td><p>Compute a rolling std dev.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.rolling_sum.html#polars.Series.rolling_sum" title="polars.Series.rolling_sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_sum</span></code></a>(window_size[, weights, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.rolling_sum.html#polars.Series.rolling_sum" title="polars.Series.rolling_sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_sum</span></code></a>(window_size[, weights, ...])</p></td>
 <td><p>Apply a rolling sum (moving sum) over the values in this array.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.rolling_var.html#polars.Series.rolling_var" title="polars.Series.rolling_var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_var</span></code></a>(window_size[, weights, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.rolling_var.html#polars.Series.rolling_var" title="polars.Series.rolling_var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.rolling_var</span></code></a>(window_size[, weights, ...])</p></td>
 <td><p>Compute a rolling variance.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.search_sorted.html#polars.Series.search_sorted" title="polars.Series.search_sorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.search_sorted</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.search_sorted.html#polars.Series.search_sorted" title="polars.Series.search_sorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.search_sorted</span></code></a>()</p></td>
 <td><p>Find indices where elements should be inserted to maintain order.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.sign.html#polars.Series.sign" title="polars.Series.sign"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.sign</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.sign.html#polars.Series.sign" title="polars.Series.sign"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.sign</span></code></a>()</p></td>
 <td><p>Compute the element-wise indication of the sign.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.sin.html#polars.Series.sin" title="polars.Series.sin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.sin</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.sin.html#polars.Series.sin" title="polars.Series.sin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.sin</span></code></a>()</p></td>
 <td><p>Compute the element-wise value for the sine.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.sinh.html#polars.Series.sinh" title="polars.Series.sinh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.sinh</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.sinh.html#polars.Series.sinh" title="polars.Series.sinh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.sinh</span></code></a>()</p></td>
 <td><p>Compute the element-wise value for the hyperbolic sine.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.skew.html#polars.Series.skew" title="polars.Series.skew"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.skew</span></code></a>(*[, bias])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.skew.html#polars.Series.skew" title="polars.Series.skew"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.skew</span></code></a>(*[, bias])</p></td>
 <td><p>Compute the sample skewness of a data set.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.sqrt.html#polars.Series.sqrt" title="polars.Series.sqrt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.sqrt</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.sqrt.html#polars.Series.sqrt" title="polars.Series.sqrt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.sqrt</span></code></a>()</p></td>
 <td><p>Compute the square root of the elements.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.tan.html#polars.Series.tan" title="polars.Series.tan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.tan</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.tan.html#polars.Series.tan" title="polars.Series.tan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.tan</span></code></a>()</p></td>
 <td><p>Compute the element-wise value for the tangent.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.tanh.html#polars.Series.tanh" title="polars.Series.tanh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.tanh</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.tanh.html#polars.Series.tanh" title="polars.Series.tanh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.tanh</span></code></a>()</p></td>
 <td><p>Compute the element-wise value for the hyperbolic tangent.</p></td>
 </tr>
 </tbody>
