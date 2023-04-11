@@ -537,7 +537,17 @@
 <a href="#537" id="537">537</a>
 <a href="#538" id="538">538</a>
 <a href="#539" id="539">539</a>
-</pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+</pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
+</span><span class="kw">mod </span>abs;
+<span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
 </span><span class="kw">mod </span>arg_where;
 <span class="kw">mod </span>binary;
 <span class="attr">#[cfg(feature = <span class="string">&quot;round_series&quot;</span>)]
@@ -596,6 +606,8 @@
 <span class="attr">#[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 #[derive(Clone, PartialEq, Debug)]
 </span><span class="kw">pub enum </span>FunctionExpr {
+    <span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
+    </span>Abs,
     NullCount,
     Pow,
     <span class="attr">#[cfg(feature = <span class="string">&quot;row_hash&quot;</span>)]
@@ -689,6 +701,8 @@
         <span class="kw">use </span>FunctionExpr::<span class="kw-2">*</span>;
 
         <span class="kw">let </span>s = <span class="kw">match </span><span class="self">self </span>{
+            <span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
+            </span>Abs =&gt; <span class="string">&quot;abs&quot;</span>,
             NullCount =&gt; <span class="string">&quot;null_count&quot;</span>,
             Pow =&gt; <span class="string">&quot;pow&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;row_hash&quot;</span>)]
@@ -838,6 +852,8 @@
     <span class="kw">fn </span>from(func: FunctionExpr) -&gt; <span class="self">Self </span>{
         <span class="kw">use </span>FunctionExpr::<span class="kw-2">*</span>;
         <span class="kw">match </span>func {
+            <span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
+            </span>Abs =&gt; <span class="macro">map!</span>(abs::abs),
             NullCount =&gt; {
                 <span class="kw">let </span>f = |s: <span class="kw-2">&amp;mut </span>[Series]| {
                     <span class="kw">let </span>s = <span class="kw-2">&amp;</span>s[<span class="number">0</span>];
