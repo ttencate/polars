@@ -2015,66 +2015,6 @@
 <a href="#2015" id="2015">2015</a>
 <a href="#2016" id="2016">2016</a>
 <a href="#2017" id="2017">2017</a>
-<a href="#2018" id="2018">2018</a>
-<a href="#2019" id="2019">2019</a>
-<a href="#2020" id="2020">2020</a>
-<a href="#2021" id="2021">2021</a>
-<a href="#2022" id="2022">2022</a>
-<a href="#2023" id="2023">2023</a>
-<a href="#2024" id="2024">2024</a>
-<a href="#2025" id="2025">2025</a>
-<a href="#2026" id="2026">2026</a>
-<a href="#2027" id="2027">2027</a>
-<a href="#2028" id="2028">2028</a>
-<a href="#2029" id="2029">2029</a>
-<a href="#2030" id="2030">2030</a>
-<a href="#2031" id="2031">2031</a>
-<a href="#2032" id="2032">2032</a>
-<a href="#2033" id="2033">2033</a>
-<a href="#2034" id="2034">2034</a>
-<a href="#2035" id="2035">2035</a>
-<a href="#2036" id="2036">2036</a>
-<a href="#2037" id="2037">2037</a>
-<a href="#2038" id="2038">2038</a>
-<a href="#2039" id="2039">2039</a>
-<a href="#2040" id="2040">2040</a>
-<a href="#2041" id="2041">2041</a>
-<a href="#2042" id="2042">2042</a>
-<a href="#2043" id="2043">2043</a>
-<a href="#2044" id="2044">2044</a>
-<a href="#2045" id="2045">2045</a>
-<a href="#2046" id="2046">2046</a>
-<a href="#2047" id="2047">2047</a>
-<a href="#2048" id="2048">2048</a>
-<a href="#2049" id="2049">2049</a>
-<a href="#2050" id="2050">2050</a>
-<a href="#2051" id="2051">2051</a>
-<a href="#2052" id="2052">2052</a>
-<a href="#2053" id="2053">2053</a>
-<a href="#2054" id="2054">2054</a>
-<a href="#2055" id="2055">2055</a>
-<a href="#2056" id="2056">2056</a>
-<a href="#2057" id="2057">2057</a>
-<a href="#2058" id="2058">2058</a>
-<a href="#2059" id="2059">2059</a>
-<a href="#2060" id="2060">2060</a>
-<a href="#2061" id="2061">2061</a>
-<a href="#2062" id="2062">2062</a>
-<a href="#2063" id="2063">2063</a>
-<a href="#2064" id="2064">2064</a>
-<a href="#2065" id="2065">2065</a>
-<a href="#2066" id="2066">2066</a>
-<a href="#2067" id="2067">2067</a>
-<a href="#2068" id="2068">2068</a>
-<a href="#2069" id="2069">2069</a>
-<a href="#2070" id="2070">2070</a>
-<a href="#2071" id="2071">2071</a>
-<a href="#2072" id="2072">2072</a>
-<a href="#2073" id="2073">2073</a>
-<a href="#2074" id="2074">2074</a>
-<a href="#2075" id="2075">2075</a>
-<a href="#2076" id="2076">2076</a>
-<a href="#2077" id="2077">2077</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -3036,25 +2976,19 @@
     <span class="doccomment">/// Round underlying floating point array to given decimal numbers.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;round_series&quot;</span>)]
     </span><span class="kw">pub fn </span>round(<span class="self">self</span>, decimals: u32) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map(
-            <span class="kw">move </span>|s: Series| s.round(decimals).map(<span class="prelude-val">Some</span>),
-            GetOutput::same_type(),
-        )
-        .with_fmt(<span class="string">&quot;round&quot;</span>)
+        <span class="self">self</span>.map_private(FunctionExpr::Round { decimals })
     }
 
     <span class="doccomment">/// Floor underlying floating point array to the lowest integers smaller or equal to the float value.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;round_series&quot;</span>)]
     </span><span class="kw">pub fn </span>floor(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map(<span class="kw">move </span>|s: Series| s.floor().map(<span class="prelude-val">Some</span>), GetOutput::same_type())
-            .with_fmt(<span class="string">&quot;floor&quot;</span>)
+        <span class="self">self</span>.map_private(FunctionExpr::Floor)
     }
 
     <span class="doccomment">/// Ceil underlying floating point array to the highest integers smaller or equal to the float value.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;round_series&quot;</span>)]
     </span><span class="kw">pub fn </span>ceil(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map(<span class="kw">move </span>|s: Series| s.ceil().map(<span class="prelude-val">Some</span>), GetOutput::same_type())
-            .with_fmt(<span class="string">&quot;ceil&quot;</span>)
+        <span class="self">self</span>.map_private(FunctionExpr::Ceil)
     }
 
     <span class="doccomment">/// Clip underlying values to a set boundary.
@@ -3732,66 +3666,12 @@
 
     <span class="doccomment">/// Get maximal value that could be hold by this dtype.
     </span><span class="kw">pub fn </span>upper_bound(<span class="self">self</span>) -&gt; Expr {
-        <span class="self">self</span>.map(
-            |s| {
-                <span class="kw">let </span>name = s.name();
-                <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
-                <span class="kw">let </span>s = <span class="kw">match </span>s.dtype().to_physical() {
-                    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-i8&quot;</span>)]
-                    </span>Int8 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[i8::MAX]),
-                    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-i16&quot;</span>)]
-                    </span>Int16 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[i16::MAX]),
-                    Int32 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[i32::MAX]),
-                    Int64 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[i64::MAX]),
-                    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-u8&quot;</span>)]
-                    </span>UInt8 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[u8::MAX]),
-                    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-u16&quot;</span>)]
-                    </span>UInt16 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[u16::MAX]),
-                    UInt32 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[u32::MAX]),
-                    UInt64 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[u64::MAX]),
-                    Float32 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[f32::INFINITY]),
-                    Float64 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[f64::INFINITY]),
-                    dt =&gt; <span class="macro">polars_bail!</span>(
-                        ComputeError: <span class="string">&quot;cannot determine upper bound for dtype `{}`&quot;</span>, dt,
-                    ),
-                };
-                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s))
-            },
-            GetOutput::same_type(),
-        )
-        .with_fmt(<span class="string">&quot;upper_bound&quot;</span>)
+        <span class="self">self</span>.map_private(FunctionExpr::UpperBound)
     }
 
     <span class="doccomment">/// Get minimal value that could be hold by this dtype.
     </span><span class="kw">pub fn </span>lower_bound(<span class="self">self</span>) -&gt; Expr {
-        <span class="self">self</span>.map(
-            |s| {
-                <span class="kw">let </span>name = s.name();
-                <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
-                <span class="kw">let </span>s = <span class="kw">match </span>s.dtype().to_physical() {
-                    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-i8&quot;</span>)]
-                    </span>Int8 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[i8::MIN]),
-                    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-i16&quot;</span>)]
-                    </span>Int16 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[i16::MIN]),
-                    Int32 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[i32::MIN]),
-                    Int64 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[i64::MIN]),
-                    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-u8&quot;</span>)]
-                    </span>UInt8 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[u8::MIN]),
-                    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-u16&quot;</span>)]
-                    </span>UInt16 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[u16::MIN]),
-                    UInt32 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[u32::MIN]),
-                    UInt64 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[u64::MIN]),
-                    Float32 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[f32::NEG_INFINITY]),
-                    Float64 =&gt; Series::new(name, <span class="kw-2">&amp;</span>[f64::NEG_INFINITY]),
-                    dt =&gt; <span class="macro">polars_bail!</span>(
-                        ComputeError: <span class="string">&quot;cannot determine lower bound for dtype `{}`&quot;</span>, dt,
-                    ),
-                };
-                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s))
-            },
-            GetOutput::same_type(),
-        )
-        .with_fmt(<span class="string">&quot;lower_bound&quot;</span>)
+        <span class="self">self</span>.map_private(FunctionExpr::LowerBound)
     }
 
     <span class="kw">pub fn </span>reshape(<span class="self">self</span>, dims: <span class="kw-2">&amp;</span>[i64]) -&gt; <span class="self">Self </span>{
