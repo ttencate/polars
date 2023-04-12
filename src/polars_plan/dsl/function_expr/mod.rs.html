@@ -568,6 +568,16 @@
 <a href="#568" id="568">568</a>
 <a href="#569" id="569">569</a>
 <a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
 </span><span class="kw">mod </span>abs;
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
@@ -575,6 +585,8 @@
 <span class="kw">mod </span>binary;
 <span class="kw">mod </span>boolean;
 <span class="kw">mod </span>bounds;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
+</span><span class="kw">mod </span>cat;
 <span class="attr">#[cfg(feature = <span class="string">&quot;round_series&quot;</span>)]
 </span><span class="kw">mod </span>clip;
 <span class="kw">mod </span>cum;
@@ -619,6 +631,8 @@
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::binary::BinaryFunction;
 <span class="kw">pub use </span><span class="self">self</span>::boolean::BooleanFunction;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::cat::CategoricalFunction;
 <span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
 </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">use </span><span class="self">self</span>::datetime::TemporalFunction;
 <span class="attr">#[cfg(feature = <span class="string">&quot;strings&quot;</span>)]
@@ -697,6 +711,8 @@
     },
     Reverse,
     Boolean(BooleanFunction),
+    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
+    </span>Categorical(CategoricalFunction),
     Coalesce,
     ShrinkType,
     <span class="attr">#[cfg(feature = <span class="string">&quot;diff&quot;</span>)]
@@ -782,6 +798,8 @@
             Cummax { .. } =&gt; <span class="string">&quot;cummax&quot;</span>,
             Reverse =&gt; <span class="string">&quot;reverse&quot;</span>,
             Boolean(func) =&gt; <span class="kw">return </span><span class="macro">write!</span>(f, <span class="string">&quot;{func}&quot;</span>),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
+            </span>Categorical(func) =&gt; <span class="kw">return </span><span class="macro">write!</span>(f, <span class="string">&quot;{func}&quot;</span>),
             Coalesce =&gt; <span class="string">&quot;coalesce&quot;</span>,
             ShrinkType =&gt; <span class="string">&quot;shrink_dtype&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;diff&quot;</span>)]
@@ -988,6 +1006,8 @@
             Cummax { reverse } =&gt; <span class="macro">map!</span>(cum::cummax, reverse),
             Reverse =&gt; <span class="macro">map!</span>(dispatch::reverse),
             Boolean(func) =&gt; func.into(),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
+            </span>Categorical(func) =&gt; func.into(),
             Coalesce =&gt; <span class="macro">map_as_slice!</span>(fill_null::coalesce),
             ShrinkType =&gt; <span class="macro">map_owned!</span>(shrink_type::shrink),
             <span class="attr">#[cfg(feature = <span class="string">&quot;diff&quot;</span>)]

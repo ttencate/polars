@@ -21,14 +21,6 @@
 <a href="#21" id="21">21</a>
 <a href="#22" id="22">22</a>
 <a href="#23" id="23">23</a>
-<a href="#24" id="24">24</a>
-<a href="#25" id="25">25</a>
-<a href="#26" id="26">26</a>
-<a href="#27" id="27">27</a>
-<a href="#28" id="28">28</a>
-<a href="#29" id="29">29</a>
-<a href="#30" id="30">30</a>
-<a href="#31" id="31">31</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Specialized expressions for Categorical dtypes.
@@ -44,20 +36,12 @@
 
 <span class="kw">impl </span>CategoricalNameSpace {
     <span class="kw">pub fn </span>set_ordering(<span class="self">self</span>, ordering: CategoricalOrdering) -&gt; Expr {
+        <span class="kw">let </span>lexical = <span class="kw">match </span>ordering {
+            CategoricalOrdering::Lexical =&gt; <span class="bool-val">true</span>,
+            CategoricalOrdering::Physical =&gt; <span class="bool-val">false</span>,
+        };
         <span class="self">self</span>.<span class="number">0
-            </span>.map(
-                <span class="kw">move </span>|s| {
-                    <span class="kw">let </span><span class="kw-2">mut </span>ca = s.categorical()<span class="question-mark">?</span>.clone();
-                    <span class="kw">let </span>set_lexical = <span class="kw">match </span>ordering {
-                        CategoricalOrdering::Lexical =&gt; <span class="bool-val">true</span>,
-                        CategoricalOrdering::Physical =&gt; <span class="bool-val">false</span>,
-                    };
-                    ca.set_lexical_sorted(set_lexical);
-                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(ca.into_series()))
-                },
-                GetOutput::from_type(DataType::Categorical(<span class="prelude-val">None</span>)),
-            )
-            .with_fmt(<span class="string">&quot;set_ordering&quot;</span>)
+            </span>.map_private(CategoricalFunction::SetOrdering { lexical }.into())
     }
 }
 </code></pre></div></section></main></body></html>
