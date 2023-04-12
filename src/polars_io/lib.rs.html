@@ -221,7 +221,7 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;partition&quot;</span>)]
 </span><span class="kw">pub mod </span>partition;
 
-<span class="kw">use </span>std::io::{Read, Seek, Write};
+<span class="kw">use </span>std::io::{Read, Write};
 <span class="kw">use </span>std::path::{Path, PathBuf};
 
 <span class="attr">#[allow(unused)] </span><span class="comment">// remove when updating to rust nightly &gt;= 1.61
@@ -241,7 +241,7 @@
 
 <span class="kw">pub trait </span>SerReader&lt;R&gt;
 <span class="kw">where
-    </span>R: Read + Seek,
+    </span>R: Read,
 {
     <span class="doccomment">/// Create a new instance of the `[SerReader]`
     </span><span class="kw">fn </span>new(reader: R) -&gt; <span class="self">Self</span>;

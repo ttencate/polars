@@ -361,7 +361,7 @@
 //! let df_read = IpcStreamReader::new(buf).finish().unwrap();
 //! assert!(df.frame_equal(&amp;df_read));
 //! ```
-</span><span class="kw">use </span>std::io::{Read, Seek, Write};
+</span><span class="kw">use </span>std::io::{Read, Write};
 <span class="kw">use </span>std::path::PathBuf;
 
 <span class="kw">use </span>arrow::io::ipc::read::{StreamMetadata, StreamState};
@@ -401,7 +401,7 @@
     metadata: <span class="prelude-ty">Option</span>&lt;StreamMetadata&gt;,
 }
 
-<span class="kw">impl</span>&lt;R: Read + Seek&gt; IpcStreamReader&lt;R&gt; {
+<span class="kw">impl</span>&lt;R: Read&gt; IpcStreamReader&lt;R&gt; {
     <span class="doccomment">/// Get schema of the Ipc Stream File
     </span><span class="kw">pub fn </span>schema(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; PolarsResult&lt;Schema&gt; {
         <span class="prelude-val">Ok</span>((<span class="self">self</span>.metadata()<span class="question-mark">?</span>.schema.fields.iter()).into())
@@ -450,7 +450,7 @@
 
 <span class="kw">impl</span>&lt;R&gt; ArrowReader <span class="kw">for </span>read::StreamReader&lt;R&gt;
 <span class="kw">where
-    </span>R: Read + Seek,
+    </span>R: Read,
 {
     <span class="kw">fn </span>next_record_batch(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; ArrowResult&lt;<span class="prelude-ty">Option</span>&lt;ArrowChunk&gt;&gt; {
         <span class="self">self</span>.next().map_or(<span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>), |v| <span class="kw">match </span>v {
@@ -465,7 +465,7 @@
 
 <span class="kw">impl</span>&lt;R&gt; SerReader&lt;R&gt; <span class="kw">for </span>IpcStreamReader&lt;R&gt;
 <span class="kw">where
-    </span>R: Read + Seek,
+    </span>R: Read,
 {
     <span class="kw">fn </span>new(reader: R) -&gt; <span class="self">Self </span>{
         IpcStreamReader {
