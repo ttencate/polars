@@ -1169,6 +1169,8 @@
 <a href="#1169" id="1169">1169</a>
 <a href="#1170" id="1170">1170</a>
 <a href="#1171" id="1171">1171</a>
+<a href="#1172" id="1172">1172</a>
+<a href="#1173" id="1173">1173</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(any(feature = <span class="string">&quot;fmt&quot;</span>, feature = <span class="string">&quot;fmt_no_tty&quot;</span>))]
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::fmt::{Debug, Display, Formatter};
@@ -1265,7 +1267,7 @@
             };
             <span class="prelude-val">Ok</span>(())
         };
-        <span class="kw">if </span>limit &lt; <span class="macro-nonterminal">$a</span>.len() {
+        <span class="kw">if </span>(limit == <span class="number">0 </span>&amp;&amp; <span class="macro-nonterminal">$a</span>.len() &gt; <span class="number">0</span>) || (<span class="macro-nonterminal">$a</span>.len() &gt; limit + <span class="number">1</span>) {
             <span class="kw">if </span>limit &gt; <span class="number">0 </span>{
                 <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..std::cmp::max((limit / <span class="number">2</span>), <span class="number">1</span>) {
                     <span class="kw">let </span>v = <span class="macro-nonterminal">$a</span>.get_any_value(i).unwrap();
@@ -1280,7 +1282,7 @@
                 }
             }
         } <span class="kw">else </span>{
-            <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..limit {
+            <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="macro-nonterminal">$a</span>.len() {
                 <span class="kw">let </span>v = <span class="macro-nonterminal">$a</span>.get_any_value(i).unwrap();
                 write_fn(v, <span class="macro-nonterminal">$f</span>)<span class="question-mark">?</span>;
             }
@@ -1669,8 +1671,10 @@
                 table.apply_modifier(UTF8_ROUND_CORNERS);
             }
             <span class="kw">if </span>max_n_rows &gt; <span class="number">0 </span>{
-                <span class="kw">if </span>height &gt; max_n_rows {
-                    <span class="kw">let </span><span class="kw-2">mut </span>rows = Vec::with_capacity(std::cmp::max(max_n_rows, <span class="number">2</span>));
+                <span class="kw">if </span>height &gt; max_n_rows + <span class="number">1 </span>{
+                    <span class="comment">// Truncate the table if we have more rows than the configured maximum number
+                    // of rows plus the single row which would contain &quot;…&quot;.
+                    </span><span class="kw">let </span><span class="kw-2">mut </span>rows = Vec::with_capacity(std::cmp::max(max_n_rows, <span class="number">2</span>));
                     <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..std::cmp::max(max_n_rows / <span class="number">2</span>, <span class="number">1</span>) {
                         <span class="kw">let </span>row = <span class="self">self
                             </span>.columns
