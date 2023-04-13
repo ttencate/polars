@@ -586,6 +586,7 @@
 <a href="#586" id="586">586</a>
 <a href="#587" id="587">587</a>
 <a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>aggregation;
 <span class="kw">mod </span>alias;
 <span class="kw">mod </span>apply;
@@ -931,12 +932,13 @@
             }
             (<span class="bool-val">true</span>, <span class="kw">_</span>) =&gt; AggState::AggregatedFlat(series),
             <span class="kw">_ </span>=&gt; {
-                <span class="comment">// already aggregated to sum, min even this series was flattened it never could
-                // retrieve the length before grouping, so it stays  in this state.
-                </span><span class="kw">if let </span>AggState::AggregatedFlat(<span class="kw">_</span>) = <span class="self">self</span>.state {
-                    AggState::AggregatedFlat(series)
-                } <span class="kw">else </span>{
-                    AggState::NotAggregated(series)
+                <span class="kw">match </span><span class="self">self</span>.state {
+                    <span class="comment">// already aggregated to sum, min even this series was flattened it never could
+                    // retrieve the length before grouping, so it stays  in this state.
+                    </span>AggState::AggregatedFlat(<span class="kw">_</span>) =&gt; AggState::AggregatedFlat(series),
+                    <span class="comment">// applying a function on a literal, keeps the literal state
+                    </span>AggState::Literal(<span class="kw">_</span>) <span class="kw">if </span>series.len() == <span class="number">1 </span>=&gt; AggState::Literal(series),
+                    <span class="kw">_ </span>=&gt; AggState::NotAggregated(series),
                 }
             }
         };
