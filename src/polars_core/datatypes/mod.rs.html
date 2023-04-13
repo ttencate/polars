@@ -279,6 +279,7 @@
 <a href="#279" id="279">279</a>
 <a href="#280" id="280">280</a>
 <a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! # Data types supported by Polars.
 //!
 //! At the moment Polars doesn&#39;t include all data types available by Arrow. The goal is to
@@ -343,7 +344,8 @@
 
 <span class="macro">macro_rules! </span>impl_polars_datatype {
     (<span class="macro-nonterminal">$ca</span>:ident, <span class="macro-nonterminal">$variant</span>:ident, <span class="macro-nonterminal">$physical</span>:ty) =&gt; {
-        <span class="kw">pub struct </span><span class="macro-nonterminal">$ca </span>{}
+        <span class="attr">#[derive(Clone, Copy)]
+        </span><span class="kw">pub struct </span><span class="macro-nonterminal">$ca </span>{}
 
         <span class="kw">impl </span>PolarsDataType <span class="kw">for </span><span class="macro-nonterminal">$ca </span>{
             <span class="attr">#[inline]

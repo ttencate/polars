@@ -279,9 +279,9 @@
                 </span><span class="kw">for </span>s <span class="kw">in </span>columns {
                     <span class="macro">polars_ensure!</span>(s.dtype() == <span class="kw-2">&amp;</span>phys_dtype, ComputeError: <span class="string">&quot;cannot transpose with supertype: {}&quot;</span>, dtype);
                     s.iter().zip(buffers.iter_mut()).for_each(|(av, buf)| {
-                        <span class="comment">// safety: we checked the type
+                        <span class="comment">// safety: we checked the type and we borrow
                         </span><span class="kw">unsafe </span>{
-                            buf.add_unchecked_owned_physical(<span class="kw-2">&amp;</span>av);
+                            buf.add_unchecked_borrowed_physical(<span class="kw-2">&amp;</span>av);
                         }
                     });
                 }

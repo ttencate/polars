@@ -55,14 +55,16 @@
 <a href="#55" id="55">55</a>
 <a href="#56" id="56">56</a>
 <a href="#57" id="57">57</a>
+<a href="#58" id="58">58</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-<span class="kw">pub struct </span>PrimitiveChunkedBuilder&lt;T&gt;
+<span class="attr">#[derive(Clone)]
+</span><span class="kw">pub struct </span>PrimitiveChunkedBuilder&lt;T&gt;
 <span class="kw">where
     </span>T: PolarsNumericType,
 {
     array_builder: MutablePrimitiveArray&lt;T::Native&gt;,
-    field: Field,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) field: Field,
 }
 
 <span class="kw">impl</span>&lt;T&gt; ChunkedBuilder&lt;T::Native, T&gt; <span class="kw">for </span>PrimitiveChunkedBuilder&lt;T&gt;
