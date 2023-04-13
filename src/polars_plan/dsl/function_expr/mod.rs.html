@@ -578,6 +578,12 @@
 <a href="#578" id="578">578</a>
 <a href="#579" id="579">579</a>
 <a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
 </span><span class="kw">mod </span>abs;
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
@@ -711,6 +717,8 @@
     },
     Reverse,
     Boolean(BooleanFunction),
+    <span class="attr">#[cfg(feature = <span class="string">&quot;approx_unique&quot;</span>)]
+    </span>ApproxUnique,
     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
     </span>Categorical(CategoricalFunction),
     Coalesce,
@@ -798,6 +806,8 @@
             Cummax { .. } =&gt; <span class="string">&quot;cummax&quot;</span>,
             Reverse =&gt; <span class="string">&quot;reverse&quot;</span>,
             Boolean(func) =&gt; <span class="kw">return </span><span class="macro">write!</span>(f, <span class="string">&quot;{func}&quot;</span>),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;approx_unique&quot;</span>)]
+            </span>ApproxUnique =&gt; <span class="string">&quot;approx_unique&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
             </span>Categorical(func) =&gt; <span class="kw">return </span><span class="macro">write!</span>(f, <span class="string">&quot;{func}&quot;</span>),
             Coalesce =&gt; <span class="string">&quot;coalesce&quot;</span>,
@@ -1006,6 +1016,8 @@
             Cummax { reverse } =&gt; <span class="macro">map!</span>(cum::cummax, reverse),
             Reverse =&gt; <span class="macro">map!</span>(dispatch::reverse),
             Boolean(func) =&gt; func.into(),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;approx_unique&quot;</span>)]
+            </span>ApproxUnique =&gt; <span class="macro">map!</span>(dispatch::approx_unique),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
             </span>Categorical(func) =&gt; func.into(),
             Coalesce =&gt; <span class="macro">map_as_slice!</span>(fill_null::coalesce),
