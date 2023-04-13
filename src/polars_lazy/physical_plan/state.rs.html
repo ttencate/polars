@@ -265,14 +265,12 @@
 <a href="#265" id="265">265</a>
 <a href="#266" id="266">266</a>
 <a href="#267" id="267">267</a>
-<a href="#268" id="268">268</a>
-<a href="#269" id="269">269</a>
-<a href="#270" id="270">270</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::sync::atomic::{AtomicU8, Ordering};
 <span class="kw">use </span>std::sync::{Mutex, RwLock};
 
 <span class="kw">use </span>bitflags::bitflags;
+<span class="kw">use </span>once_cell::sync::OnceCell;
 <span class="kw">use </span>polars_core::config::verbose;
 <span class="kw">use </span>polars_core::frame::groupby::GroupsProxy;
 <span class="kw">use </span>polars_core::frame::hash_join::JoinOptIds;
@@ -333,7 +331,7 @@
 <span class="doccomment">/// State/ cache that is maintained during the Execution of the physical plan.
 </span><span class="kw">pub struct </span>ExecutionState {
     <span class="comment">// cached by a `.cache` call and kept in memory for the duration of the plan.
-    </span>df_cache: Arc&lt;Mutex&lt;PlHashMap&lt;usize, DataFrame&gt;&gt;&gt;,
+    </span>df_cache: Arc&lt;Mutex&lt;PlHashMap&lt;usize, Arc&lt;OnceCell&lt;DataFrame&gt;&gt;&gt;&gt;&gt;,
     <span class="comment">// cache file reads until all branches got there file, then we delete it
     </span><span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>, feature = <span class="string">&quot;csv-file&quot;</span>))]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) file_cache: FileCache,
@@ -463,16 +461,12 @@
         lock.clone()
     }
 
-    <span class="doccomment">/// Check if we have DataFrame in cache
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>cache_hit(<span class="kw-2">&amp;</span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>usize) -&gt; <span class="prelude-ty">Option</span>&lt;DataFrame&gt; {
-        <span class="kw">let </span>guard = <span class="self">self</span>.df_cache.lock().unwrap();
-        guard.get(key).cloned()
-    }
-
-    <span class="doccomment">/// Store DataFrame in cache.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>store_cache(<span class="kw-2">&amp;</span><span class="self">self</span>, key: usize, df: DataFrame) {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>get_df_cache(<span class="kw-2">&amp;</span><span class="self">self</span>, key: usize) -&gt; Arc&lt;OnceCell&lt;DataFrame&gt;&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>guard = <span class="self">self</span>.df_cache.lock().unwrap();
-        guard.insert(key, df);
+        guard
+            .entry(key)
+            .or_insert_with(|| Arc::new(OnceCell::new()))
+            .clone()
     }
 
     <span class="doccomment">/// Clear the cache used by the Window expressions
