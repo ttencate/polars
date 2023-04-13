@@ -551,23 +551,6 @@
 <a href="#551" id="551">551</a>
 <a href="#552" id="552">552</a>
 <a href="#553" id="553">553</a>
-<a href="#554" id="554">554</a>
-<a href="#555" id="555">555</a>
-<a href="#556" id="556">556</a>
-<a href="#557" id="557">557</a>
-<a href="#558" id="558">558</a>
-<a href="#559" id="559">559</a>
-<a href="#560" id="560">560</a>
-<a href="#561" id="561">561</a>
-<a href="#562" id="562">562</a>
-<a href="#563" id="563">563</a>
-<a href="#564" id="564">564</a>
-<a href="#565" id="565">565</a>
-<a href="#566" id="566">566</a>
-<a href="#567" id="567">567</a>
-<a href="#568" id="568">568</a>
-<a href="#569" id="569">569</a>
-<a href="#570" id="570">570</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -758,8 +741,7 @@
                             </span>AggState::AggregatedFlat(s) =&gt; s.reshape(<span class="kw-2">&amp;</span>[-<span class="number">1</span>, <span class="number">1</span>]).unwrap(),
                             <span class="kw">_ </span>=&gt; {
                                 <span class="kw">let </span>agg = ac.aggregated();
-                                <span class="kw">let </span>ca = agg.list().unwrap();
-                                run_list_agg(ca)
+                                agg.as_list().into_series()
                             }
                         };
                         rename_series(s, <span class="kw-2">&amp;</span>keep_name)
@@ -1024,7 +1006,7 @@
                 <span class="kw">if </span>can_fast_explode {
                     ca.set_fast_explode()
                 }
-                <span class="prelude-val">Ok</span>(run_list_agg(<span class="kw-2">&amp;</span>ca))
+                <span class="prelude-val">Ok</span>(ca.into_series().as_list().into_series())
             }
             GroupByMethod::First =&gt; {
                 <span class="kw">let </span><span class="kw-2">mut </span>agg = <span class="kw">unsafe </span>{ partitioned.agg_first(groups) };
@@ -1121,21 +1103,5 @@
     <span class="kw">fn </span>is_valid_aggregation(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="bool-val">true
     </span>}
-}
-
-<span class="kw">fn </span>run_list_agg(ca: <span class="kw-2">&amp;</span>ListChunked) -&gt; Series {
-    <span class="macro">assert_eq!</span>(ca.chunks().len(), <span class="number">1</span>);
-    <span class="kw">let </span>arr = ca.chunks()[<span class="number">0</span>].clone();
-
-    <span class="kw">let </span>offsets = (<span class="number">0i64</span>..(ca.len() <span class="kw">as </span>i64 + <span class="number">1</span>)).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-    <span class="kw">let </span>offsets = <span class="kw">unsafe </span>{ Offsets::new_unchecked(offsets) };
-
-    <span class="kw">let </span>new_arr = LargeListArray::new(
-        DataType::List(Box::new(ca.dtype().clone())).to_arrow(),
-        offsets.into(),
-        arr,
-        <span class="prelude-val">None</span>,
-    );
-    <span class="kw">unsafe </span>{ ListChunked::from_chunks(ca.name(), <span class="macro">vec!</span>[Box::new(new_arr)]).into_series() }
 }
 </code></pre></div></section></main></body></html>

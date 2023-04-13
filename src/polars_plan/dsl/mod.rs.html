@@ -2025,6 +2025,7 @@
 <a href="#2025" id="2025">2025</a>
 <a href="#2026" id="2026">2026</a>
 <a href="#2027" id="2027">2027</a>
+<a href="#2028" id="2028">2028</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -2067,6 +2068,7 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
 </span><span class="kw">use </span>polars_time::series::SeriesOpsTime;
 
+<span class="kw">use </span><span class="kw">crate</span>::constants::MAP_LIST_NAME;
 <span class="kw">pub use </span><span class="kw">crate</span>::logical_plan::lit;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utils::has_expr;
@@ -2747,7 +2749,7 @@
             output_type,
             options: FunctionOptions {
                 collect_groups: ApplyOptions::ApplyList,
-                fmt_str: <span class="string">&quot;map_list&quot;</span>,
+                fmt_str: MAP_LIST_NAME,
                 ..Default::default()
             },
         }
