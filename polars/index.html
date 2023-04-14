@@ -20,7 +20,7 @@ in parallel and your queries are optimized just in time.</p>
         <span class="comment">// every expression runs in parallel
         </span>col(<span class="string">&quot;foo&quot;</span>).cummin(<span class="bool-val">false</span>).alias(<span class="string">&quot;cumulative_min_per_group&quot;</span>),
         <span class="comment">// every expression runs in parallel
-        </span>col(<span class="string">&quot;foo&quot;</span>).reverse().list().alias(<span class="string">&quot;reverse_group&quot;</span>),
+        </span>col(<span class="string">&quot;foo&quot;</span>).reverse().implode().alias(<span class="string">&quot;reverse_group&quot;</span>),
     ]);
 
 <span class="kw">let </span>lf2 = LazyFrame::scan_parquet(<span class="string">&quot;myfile_2.parquet&quot;</span>, Default::default())<span class="question-mark">?
@@ -348,7 +348,7 @@ mimalloc = { version = <span class="string">&quot;*&quot;</span>, default-featur
                              UTF8_BORDERS_ONLY
                              UTF8_HORIZONTAL_ONLY
                              NOTHING
-                               
+
                              These options are defined by comfy-table which provides examples <span class="kw">for </span>each at:
                              https:<span class="comment">//github.com/Nukesor/comfy-table/blob/main/src/style/presets.rs</span></code></pre></div>
 </li>
