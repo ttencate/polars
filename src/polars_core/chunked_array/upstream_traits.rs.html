@@ -832,6 +832,14 @@
 <a href="#832" id="832">832</a>
 <a href="#833" id="833">833</a>
 <a href="#834" id="834">834</a>
+<a href="#835" id="835">835</a>
+<a href="#836" id="836">836</a>
+<a href="#837" id="837">837</a>
+<a href="#838" id="838">838</a>
+<a href="#839" id="839">839</a>
+<a href="#840" id="840">840</a>
+<a href="#841" id="841">841</a>
+<a href="#842" id="842">842</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Implementations of upstream traits for ChunkedArray&lt;T&gt;
 </span><span class="kw">use </span>std::borrow::{Borrow, Cow};
 <span class="kw">use </span>std::collections::LinkedList;
@@ -1536,9 +1544,17 @@
                 first = <span class="bool-val">false</span>;
             } <span class="kw">else </span>{
                 <span class="comment">// offset lengths must be updated
-                </span>offsets.extend(local_offsets[<span class="number">1</span>..].iter().map(|v| <span class="kw-2">*</span>v + offsets_so_far))
+                </span><span class="kw">unsafe </span>{
+                    <span class="comment">// safety: there is always a single offset
+                    </span>offsets.extend(
+                        local_offsets
+                            .get_unchecked(<span class="number">1</span>..)
+                            .iter()
+                            .map(|v| <span class="kw-2">*</span>v + offsets_so_far),
+                    )
+                }
             }
-            offsets_so_far = <span class="kw-2">*</span>local_offsets.last().unwrap();
+            offsets_so_far = <span class="kw">unsafe </span>{ <span class="kw-2">*</span>offsets.last().unwrap_unchecked() };
         }
 
         <span class="kw">unsafe </span>{

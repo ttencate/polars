@@ -1532,7 +1532,7 @@
                     <span class="kw">if </span>idx.is_empty() {
                         <span class="prelude-val">None
                     </span>} <span class="kw">else if </span>idx.len() == <span class="number">1 </span>{
-                        ca_self.get(first <span class="kw">as </span>usize)
+                        arr.get_unchecked(first <span class="kw">as </span>usize)
                     } <span class="kw">else if </span><span class="self">self</span>.null_count() == <span class="number">0 </span>{
                         take_agg_utf8_iter_unchecked_no_null(
                             arr,
