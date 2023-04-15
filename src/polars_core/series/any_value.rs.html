@@ -413,6 +413,16 @@
 <a href="#413" id="413">413</a>
 <a href="#414" id="414">414</a>
 <a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::Write;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -548,7 +558,8 @@
 ) -&gt; PolarsResult&lt;ListChunked&gt; {
     <span class="comment">// this is handled downstream. The builder will choose the first non null type
     </span><span class="kw">let </span><span class="kw-2">mut </span>valid = <span class="bool-val">true</span>;
-    <span class="kw">let </span>out = <span class="kw">if </span>inner_type == <span class="kw-2">&amp;</span>DataType::Null {
+    <span class="attr">#[allow(unused_mut)]
+    </span><span class="kw">let </span><span class="kw-2">mut </span>out: ListChunked = <span class="kw">if </span>inner_type == <span class="kw-2">&amp;</span>DataType::Null {
         avs.iter()
             .map(|av| <span class="kw">match </span>av {
                 AnyValue::List(b) =&gt; <span class="prelude-val">Some</span>(b.clone()),
@@ -582,6 +593,15 @@
             })
             .collect_trusted()
     };
+    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+    </span><span class="kw">if </span>!<span class="macro">matches!</span>(inner_type, DataType::Null)
+        &amp;&amp; <span class="macro">matches!</span>(out.inner_dtype(), DataType::Struct(<span class="kw">_</span>) | DataType::List(<span class="kw">_</span>))
+    {
+        <span class="comment">// ensure the logical type is correct
+        </span><span class="kw">unsafe </span>{
+            out.set_dtype(DataType::List(Box::new(inner_type.clone())));
+        };
+    }
     <span class="kw">if </span>valid || !strict {
         <span class="prelude-val">Ok</span>(out)
     } <span class="kw">else </span>{

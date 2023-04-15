@@ -99,6 +99,9 @@
 <a href="#99" id="99">99</a>
 <a href="#100" id="100">100</a>
 <a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(any(
     feature = <span class="string">&quot;dtype-datetime&quot;</span>,
     feature = <span class="string">&quot;dtype-date&quot;</span>,
@@ -121,6 +124,9 @@
     /// 1 on 1 mapping for logical/ categoricals, etc.
     </span><span class="kw">pub fn </span>to_arrow(<span class="kw-2">&amp;</span><span class="self">self</span>, chunk_idx: usize) -&gt; ArrayRef {
         <span class="kw">match </span><span class="self">self</span>.dtype() {
+            <span class="comment">// make sure that we recursively apply all logical types.
+            </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+            </span>DataType::Struct(<span class="kw">_</span>) =&gt; <span class="self">self</span>.struct_().unwrap().to_arrow(chunk_idx),
             <span class="comment">// special list branch to
             // make sure that we recursively apply all logical types.
             </span>DataType::List(inner) =&gt; {

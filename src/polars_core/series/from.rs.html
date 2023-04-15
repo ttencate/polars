@@ -582,6 +582,14 @@
 <a href="#582" id="582">582</a>
 <a href="#583" id="583">583</a>
 <a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::convert::TryFrom;
 
 <span class="kw">use </span>arrow::compute::cast::utf8_to_large_utf8;
@@ -873,7 +881,7 @@
                 <span class="prelude-val">Ok</span>(s)
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
-            </span>ArrowDataType::Struct(<span class="kw">_</span>) =&gt; {
+            </span>ArrowDataType::Struct(logical_fields) =&gt; {
                 <span class="kw">let </span>arr = <span class="kw">if </span>chunks.len() &gt; <span class="number">1 </span>{
                     <span class="comment">// don&#39;t spuriously call this. This triggers a read on memmapped data
                     </span>concatenate_owned_unchecked(<span class="kw-2">&amp;</span>chunks).unwrap() <span class="kw">as </span>ArrayRef
@@ -905,10 +913,18 @@
                         <span class="prelude-val">None</span>,
                     ));
                 }
+
+                <span class="comment">// ensure we maintain logical types if proved by the caller
+                </span><span class="kw">let </span>dtype_fields = <span class="kw">if </span>logical_fields.is_empty() {
+                    struct_arr.fields()
+                } <span class="kw">else </span>{
+                    logical_fields
+                };
+
                 <span class="kw">let </span>fields = struct_arr
                     .values()
                     .iter()
-                    .zip(struct_arr.fields())
+                    .zip(dtype_fields)
                     .map(|(arr, field)| {
                         Series::try_from_arrow_unchecked(
                             <span class="kw-2">&amp;</span>field.name,

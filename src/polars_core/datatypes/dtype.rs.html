@@ -318,6 +318,14 @@
 <a href="#318" id="318">318</a>
 <a href="#319" id="319">319</a>
 <a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub type </span>TimeZone = String;
@@ -442,6 +450,14 @@
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
             </span>Categorical(<span class="kw">_</span>) =&gt; UInt32,
             List(dt) =&gt; List(Box::new(dt.to_physical())),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+            </span>Struct(fields) =&gt; {
+                <span class="kw">let </span>new_fields = fields
+                    .iter()
+                    .map(|s| Field::new(s.name(), s.data_type().to_physical()))
+                    .collect();
+                Struct(new_fields)
+            }
             <span class="kw">_ </span>=&gt; <span class="self">self</span>.clone(),
         }
     }
