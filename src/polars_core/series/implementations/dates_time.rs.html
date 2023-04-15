@@ -493,11 +493,6 @@
 <a href="#493" id="493">493</a>
 <a href="#494" id="494">494</a>
 <a href="#495" id="495">495</a>
-<a href="#496" id="496">496</a>
-<a href="#497" id="497">497</a>
-<a href="#498" id="498">498</a>
-<a href="#499" id="499">499</a>
-<a href="#500" id="500">500</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! This module exists to reduce compilation times.
 //!
 //! All the data types are backed by a physical type in memory e.g. Date -&gt; i32, Datetime-&gt; i64.
@@ -517,7 +512,6 @@
 <span class="kw">use </span><span class="kw">crate</span>::chunked_array::ops::explode::ExplodeByOffsets;
 <span class="kw">use </span><span class="kw">crate</span>::chunked_array::ops::ToBitRepr;
 <span class="kw">use </span><span class="kw">crate</span>::chunked_array::AsSinglePtr;
-<span class="kw">use </span><span class="kw">crate</span>::fmt::FmtList;
 <span class="kw">use </span><span class="kw">crate</span>::frame::groupby::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::frame::hash_join::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -918,10 +912,6 @@
                     .cast(<span class="self">self</span>.dtype())
                     .unwrap()
                     .into())
-            }
-
-            <span class="kw">fn </span>fmt_list(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
-                FmtList::fmt_list(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>)
             }
 
             <span class="kw">fn </span>clone_inner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Arc&lt;<span class="kw">dyn </span>SeriesTrait&gt; {
