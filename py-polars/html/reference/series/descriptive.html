@@ -961,9 +961,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arg_min.html">polars.Expr.arg_min</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.count.html">polars.Expr.count</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.first.html">polars.Expr.first</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.implode.html">polars.Expr.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.last.html">polars.Expr.last</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.len.html">polars.Expr.len</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.list.html">polars.Expr.list</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.max.html">polars.Expr.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.mean.html">polars.Expr.mean</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.median.html">polars.Expr.median</a></li>
@@ -1018,6 +1018,7 @@ document.write(`
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/computation.html">Computation</a><input class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-39"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.abs.html">polars.Expr.abs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.approx_unique.html">polars.Expr.approx_unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arccos.html">polars.Expr.arccos</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arccosh.html">polars.Expr.arccosh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arcsin.html">polars.Expr.arcsin</a></li>
@@ -1077,6 +1078,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.all.html">polars.all</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.any.html">polars.any</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.apply.html">polars.apply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.approx_unique.html">polars.approx_unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.arange.html">polars.arange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.arg_sort_by.html">polars.arg_sort_by</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.avg.html">polars.avg</a></li>
@@ -1123,12 +1125,13 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.all.html">polars.Expr.all</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.any.html">polars.Expr.any</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.apply.html">polars.Expr.apply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.approx_unique.html">polars.Expr.approx_unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.count.html">polars.Expr.count</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cumsum.html">polars.Expr.cumsum</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.exclude.html">polars.Expr.exclude</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.first.html">polars.Expr.first</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.head.html">polars.Expr.head</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.list.html">polars.Expr.list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.implode.html">polars.Expr.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.map.html">polars.Expr.map</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.max.html">polars.Expr.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.mean.html">polars.Expr.mean</a></li>
@@ -1524,7 +1527,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.chunk_lengths.html#polars.Series.chunk_lengths" title="polars.Series.chunk_lengths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.chunk_lengths</span></code></a>()</p></td>
 <td><p>Get the length of each individual chunk.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.describe.html#polars.Series.describe" title="polars.Series.describe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.describe</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.describe.html#polars.Series.describe" title="polars.Series.describe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.describe</span></code></a>([percentiles])</p></td>
 <td><p>Quick summary statistics of a series.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.estimated_size.html#polars.Series.estimated_size" title="polars.Series.estimated_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.estimated_size</span></code></a>([unit])</p></td>

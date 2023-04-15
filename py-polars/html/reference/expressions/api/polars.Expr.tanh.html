@@ -965,9 +965,9 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.arg_min.html">polars.Expr.arg_min</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.count.html">polars.Expr.count</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.first.html">polars.Expr.first</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.implode.html">polars.Expr.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.last.html">polars.Expr.last</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.len.html">polars.Expr.len</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.Expr.list.html">polars.Expr.list</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.max.html">polars.Expr.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.mean.html">polars.Expr.mean</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.median.html">polars.Expr.median</a></li>
@@ -1022,6 +1022,7 @@ document.write(`
 </li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../computation.html">Computation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-39"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.abs.html">polars.Expr.abs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.approx_unique.html">polars.Expr.approx_unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.arccos.html">polars.Expr.arccos</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.arccosh.html">polars.Expr.arccosh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.arcsin.html">polars.Expr.arcsin</a></li>
@@ -1081,6 +1082,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.all.html">polars.all</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.any.html">polars.any</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.apply.html">polars.apply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.approx_unique.html">polars.approx_unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.arange.html">polars.arange</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.arg_sort_by.html">polars.arg_sort_by</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.avg.html">polars.avg</a></li>
@@ -1127,12 +1129,13 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.all.html">polars.Expr.all</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.any.html">polars.Expr.any</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.apply.html">polars.Expr.apply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.approx_unique.html">polars.Expr.approx_unique</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.count.html">polars.Expr.count</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.cumsum.html">polars.Expr.cumsum</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.exclude.html">polars.Expr.exclude</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.first.html">polars.Expr.first</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.head.html">polars.Expr.head</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polars.Expr.list.html">polars.Expr.list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.implode.html">polars.Expr.implode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.map.html">polars.Expr.map</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.max.html">polars.Expr.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.mean.html">polars.Expr.mean</a></li>
@@ -1530,7 +1533,7 @@ document.write(`
 <h1>polars.Expr.tanh<a class="headerlink" href="#polars-expr-tanh" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.tanh">
-<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">tanh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6024-L6046"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.tanh" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">tanh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L6072-L6094"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.tanh" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute the element-wise value for the hyperbolic tangent.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
