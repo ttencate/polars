@@ -1132,9 +1132,9 @@
                     <span class="kw">let </span><span class="kw-2">mut </span>ca = ca.clone();
                     ca.set_time_unit(tu);
                     <span class="kw">match </span>utc {
-                        <span class="bool-val">true </span>=&gt; <span class="prelude-val">Ok</span>(ca.replace_time_zone(<span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>))<span class="question-mark">?</span>),
+                        <span class="bool-val">true </span>=&gt; <span class="prelude-val">Ok</span>(ca.replace_time_zone(<span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>), <span class="prelude-val">None</span>)<span class="question-mark">?</span>),
                         <span class="bool-val">false </span>=&gt; <span class="prelude-val">Ok</span>(ca
-                            .replace_time_zone(<span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>))<span class="question-mark">?
+                            .replace_time_zone(<span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>), <span class="prelude-val">None</span>)<span class="question-mark">?
                             </span>.convert_time_zone(offset.to_string())<span class="question-mark">?</span>),
                     }
                 })<span class="question-mark">?</span>,
@@ -1143,9 +1143,9 @@
                     ca.set_time_unit(tu);
                     <span class="kw">match </span>(tz, utc) {
                         <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-                        </span>(<span class="prelude-val">Some</span>(tz), <span class="bool-val">false</span>) =&gt; <span class="prelude-val">Ok</span>(ca.replace_time_zone(<span class="prelude-val">Some</span>(tz))<span class="question-mark">?</span>),
+                        </span>(<span class="prelude-val">Some</span>(tz), <span class="bool-val">false</span>) =&gt; <span class="prelude-val">Ok</span>(ca.replace_time_zone(<span class="prelude-val">Some</span>(tz), <span class="prelude-val">None</span>)<span class="question-mark">?</span>),
                         <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-                        </span>(<span class="prelude-val">None</span>, <span class="bool-val">true</span>) =&gt; <span class="prelude-val">Ok</span>(ca.replace_time_zone(<span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>))<span class="question-mark">?</span>),
+                        </span>(<span class="prelude-val">None</span>, <span class="bool-val">true</span>) =&gt; <span class="prelude-val">Ok</span>(ca.replace_time_zone(<span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>), <span class="prelude-val">None</span>)<span class="question-mark">?</span>),
                         <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
                         </span>(<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="bool-val">true</span>) =&gt; <span class="macro">unreachable!</span>(), <span class="comment">// has already been validated in strptime
                         </span><span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(ca),
