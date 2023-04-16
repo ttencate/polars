@@ -423,6 +423,25 @@
 <a href="#423" id="423">423</a>
 <a href="#424" id="424">424</a>
 <a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
+<a href="#429" id="429">429</a>
+<a href="#430" id="430">430</a>
+<a href="#431" id="431">431</a>
+<a href="#432" id="432">432</a>
+<a href="#433" id="433">433</a>
+<a href="#434" id="434">434</a>
+<a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::Write;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -780,8 +799,27 @@
     }
 
     <span class="kw">pub fn </span>from_any_values(name: <span class="kw-2">&amp;</span>str, avs: <span class="kw-2">&amp;</span>[AnyValue], strict: bool) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="kw">match </span>avs.iter().find(|av| !<span class="macro">matches!</span>(av, AnyValue::Null)) {
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(Series::full_null(name, avs.len(), <span class="kw-2">&amp;</span>DataType::Null)),
+        <span class="kw">let </span><span class="kw-2">mut </span>all_flat_null = <span class="bool-val">true</span>;
+        <span class="kw">match </span>avs.iter().find(|av| {
+            <span class="kw">if </span>!<span class="macro">matches!</span>(av, AnyValue::Null) {
+                all_flat_null = <span class="bool-val">false</span>;
+            }
+            !av.is_nested_null()
+        }) {
+            <span class="prelude-val">None </span>=&gt; {
+                <span class="kw">if </span>all_flat_null {
+                    <span class="prelude-val">Ok</span>(Series::full_null(name, avs.len(), <span class="kw-2">&amp;</span>DataType::Null))
+                } <span class="kw">else </span>{
+                    <span class="comment">// second pass and check for the nested null value that toggled `all_flat_null` to false
+                    // e.g. a list&lt;null&gt;
+                    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(av) = avs.iter().find(|av| !<span class="macro">matches!</span>(av, AnyValue::Null)) {
+                        <span class="kw">let </span>dtype: DataType = av.into();
+                        Series::from_any_values_and_dtype(name, avs, <span class="kw-2">&amp;</span>dtype, strict)
+                    } <span class="kw">else </span>{
+                        <span class="macro">unreachable!</span>()
+                    }
+                }
+            }
             <span class="prelude-val">Some</span>(av) =&gt; {
                 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
                 </span>{
