@@ -1662,7 +1662,7 @@
         <span class="kw">if </span><span class="self">self</span>.is_empty()
             &amp;&amp; (<span class="self">self</span>.dtype().is_numeric() || <span class="macro">matches!</span>(<span class="self">self</span>.dtype(), DataType::Boolean))
         {
-            <span class="kw">return </span>Series::new(<span class="string">&quot;&quot;</span>, [<span class="number">0</span>])
+            <span class="kw">return </span>Series::new(<span class="self">self</span>.name(), [<span class="number">0</span>])
                 .cast(<span class="self">self</span>.dtype())
                 .unwrap()
                 .sum_as_series();
