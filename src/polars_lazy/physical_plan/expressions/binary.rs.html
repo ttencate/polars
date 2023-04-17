@@ -690,8 +690,8 @@
 
         <span class="kw">let </span>name = ac_l.series().name().to_string();
         <span class="kw">let </span><span class="kw-2">mut </span>ca: ListChunked = ac_l
-            .iter_groups()
-            .zip(ac_r.iter_groups())
+            .iter_groups(<span class="bool-val">false</span>)
+            .zip(ac_r.iter_groups(<span class="bool-val">false</span>))
             .map(|(l, r)| {
                 <span class="kw">match </span>(l, r) {
                     (<span class="prelude-val">Some</span>(l), <span class="prelude-val">Some</span>(r)) =&gt; {

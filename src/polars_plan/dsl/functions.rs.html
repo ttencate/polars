@@ -1312,6 +1312,7 @@
 <a href="#1312" id="1312">1312</a>
 <a href="#1313" id="1313">1313</a>
 <a href="#1314" id="1314">1314</a>
+<a href="#1315" id="1315">1315</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! # Functions
 //!
 //! Functions on expressions that might be useful.
@@ -2550,6 +2551,7 @@
     .with_function_options(|<span class="kw-2">mut </span>options| {
         options.input_wildcard_expansion = <span class="bool-val">true</span>;
         options.fmt_str = <span class="string">&quot;as_struct&quot;</span>;
+        options.pass_name_to_apply = <span class="bool-val">true</span>;
         options
     })
 }
