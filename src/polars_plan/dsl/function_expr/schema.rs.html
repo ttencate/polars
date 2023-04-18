@@ -333,7 +333,7 @@
             </span>Abs =&gt; mapper.with_same_dtype(),
             NullCount =&gt; mapper.with_dtype(IDX_DTYPE),
             Pow =&gt; mapper.map_to_float_dtype(),
-            Coalesce =&gt; mapper.map_to_list_supertype(),
+            Coalesce =&gt; mapper.map_to_supertype(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;row_hash&quot;</span>)]
             </span>Hash(..) =&gt; mapper.with_dtype(DataType::UInt64),
             <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
