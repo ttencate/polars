@@ -607,7 +607,7 @@
 </span><span class="kw">use </span><span class="kw">crate</span>::chunked_array::object::extension::polars_extension::PolarsExtension;
 <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::chunked_array::object::extension::EXTENSION_NAME;
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+<span class="attr">#[cfg(all(feature = <span class="string">&quot;dtype-decimal&quot;</span>, feature = <span class="string">&quot;python&quot;</span>))]
 </span><span class="kw">use </span><span class="kw">crate</span>::config::decimal_is_active;
 <span class="kw">use </span><span class="kw">crate</span>::config::verbose;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;

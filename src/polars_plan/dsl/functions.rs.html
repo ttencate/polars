@@ -1329,7 +1329,7 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::dsl::function_expr::FunctionExpr;
 <span class="kw">use </span><span class="kw">crate</span>::dsl::function_expr::ListFunction;
-<span class="attr">#[cfg(feature = <span class="string">&quot;strings&quot;</span>)]
+<span class="attr">#[cfg(all(feature = <span class="string">&quot;concat_str&quot;</span>, feature = <span class="string">&quot;strings&quot;</span>))]
 </span><span class="kw">use </span><span class="kw">crate</span>::dsl::function_expr::StringFunction;
 <span class="kw">use </span><span class="kw">crate</span>::dsl::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
