@@ -416,6 +416,29 @@
 <a href="#416" id="416">416</a>
 <a href="#417" id="417">417</a>
 <a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
+<a href="#429" id="429">429</a>
+<a href="#430" id="430">430</a>
+<a href="#431" id="431">431</a>
+<a href="#432" id="432">432</a>
+<a href="#433" id="433">433</a>
+<a href="#434" id="434">434</a>
+<a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>from;
 
 <span class="kw">use </span>std::collections::BTreeMap;
@@ -697,36 +720,8 @@
             <span class="prelude-val">None</span>,
         ))
     }
-}
 
-<span class="kw">impl </span>LogicalType <span class="kw">for </span>StructChunked {
-    <span class="kw">fn </span>dtype(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>DataType {
-        <span class="self">self</span>.field.data_type()
-    }
-
-    <span class="doccomment">/// Gets AnyValue from LogicalType
-    </span><span class="kw">fn </span>get_any_value(<span class="kw-2">&amp;</span><span class="self">self</span>, i: usize) -&gt; PolarsResult&lt;AnyValue&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
-        <span class="macro">polars_ensure!</span>(i &lt; <span class="self">self</span>.len(), oob = i, <span class="self">self</span>.len());
-        <span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(<span class="self">self</span>.get_any_value_unchecked(i)) }
-    }
-
-    <span class="kw">unsafe fn </span>get_any_value_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, i: usize) -&gt; AnyValue&lt;<span class="lifetime">&#39;_</span>&gt; {
-        <span class="kw">let </span>(chunk_idx, idx) = index_to_chunked_index2(<span class="kw-2">&amp;</span><span class="self">self</span>.chunks, i);
-        <span class="kw">if let </span>DataType::Struct(flds) = <span class="self">self</span>.dtype() {
-            <span class="comment">// safety: we already have a single chunk and we are
-            // guarded by the type system.
-            </span><span class="kw">unsafe </span>{
-                <span class="kw">let </span>arr = <span class="kw-2">&amp;**</span><span class="self">self</span>.chunks.get_unchecked(chunk_idx);
-                <span class="kw">let </span>arr = <span class="kw-2">&amp;*</span>(arr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">dyn </span>Array <span class="kw">as </span><span class="kw-2">*const </span>StructArray);
-                AnyValue::Struct(idx, arr, flds)
-            }
-        } <span class="kw">else </span>{
-            <span class="macro">unreachable!</span>()
-        }
-    }
-
-    <span class="comment">// in case of a struct, a cast will coerce the inner types
-    </span><span class="kw">fn </span>cast(<span class="kw-2">&amp;</span><span class="self">self</span>, dtype: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">unsafe fn </span>cast_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, dtype: <span class="kw-2">&amp;</span>DataType, unchecked: bool) -&gt; PolarsResult&lt;Series&gt; {
         <span class="kw">match </span>dtype {
             DataType::Struct(dtype_fields) =&gt; {
                 <span class="kw">let </span>map = BTreeMap::from_iter(<span class="self">self</span>.fields().iter().map(|s| (s.name(), s)));
@@ -734,7 +729,13 @@
                 <span class="kw">let </span>new_fields = dtype_fields
                     .iter()
                     .map(|new_field| <span class="kw">match </span>map.get(new_field.name().as_str()) {
-                        <span class="prelude-val">Some</span>(s) =&gt; s.cast(<span class="kw-2">&amp;</span>new_field.dtype),
+                        <span class="prelude-val">Some</span>(s) =&gt; {
+                            <span class="kw">if </span>unchecked {
+                                s.cast_unchecked(<span class="kw-2">&amp;</span>new_field.dtype)
+                            } <span class="kw">else </span>{
+                                s.cast(<span class="kw-2">&amp;</span>new_field.dtype)
+                            }
+                        }
                         <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(Series::full_null(
                             new_field.name(),
                             struct_len,
@@ -802,11 +803,56 @@
                 <span class="kw">let </span>fields = <span class="self">self
                     </span>.fields
                     .iter()
-                    .map(|s| s.cast(dtype))
+                    .map(|s| {
+                        <span class="kw">if </span>unchecked {
+                            s.cast_unchecked(dtype)
+                        } <span class="kw">else </span>{
+                            s.cast(dtype)
+                        }
+                    })
                     .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(<span class="self">Self</span>::new_unchecked(<span class="self">self</span>.field.name(), <span class="kw-2">&amp;</span>fields).into_series())
             }
         }
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>cast_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, dtype: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;Series&gt; {
+        <span class="kw">if </span>dtype == <span class="self">self</span>.dtype() {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="self">self</span>.clone().into_series());
+        }
+        <span class="self">self</span>.cast_impl(dtype, <span class="bool-val">true</span>)
+    }
+}
+
+<span class="kw">impl </span>LogicalType <span class="kw">for </span>StructChunked {
+    <span class="kw">fn </span>dtype(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>DataType {
+        <span class="self">self</span>.field.data_type()
+    }
+
+    <span class="doccomment">/// Gets AnyValue from LogicalType
+    </span><span class="kw">fn </span>get_any_value(<span class="kw-2">&amp;</span><span class="self">self</span>, i: usize) -&gt; PolarsResult&lt;AnyValue&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
+        <span class="macro">polars_ensure!</span>(i &lt; <span class="self">self</span>.len(), oob = i, <span class="self">self</span>.len());
+        <span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(<span class="self">self</span>.get_any_value_unchecked(i)) }
+    }
+
+    <span class="kw">unsafe fn </span>get_any_value_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, i: usize) -&gt; AnyValue&lt;<span class="lifetime">&#39;_</span>&gt; {
+        <span class="kw">let </span>(chunk_idx, idx) = index_to_chunked_index2(<span class="kw-2">&amp;</span><span class="self">self</span>.chunks, i);
+        <span class="kw">if let </span>DataType::Struct(flds) = <span class="self">self</span>.dtype() {
+            <span class="comment">// safety: we already have a single chunk and we are
+            // guarded by the type system.
+            </span><span class="kw">unsafe </span>{
+                <span class="kw">let </span>arr = <span class="kw-2">&amp;**</span><span class="self">self</span>.chunks.get_unchecked(chunk_idx);
+                <span class="kw">let </span>arr = <span class="kw-2">&amp;*</span>(arr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">dyn </span>Array <span class="kw">as </span><span class="kw-2">*const </span>StructArray);
+                AnyValue::Struct(idx, arr, flds)
+            }
+        } <span class="kw">else </span>{
+            <span class="macro">unreachable!</span>()
+        }
+    }
+
+    <span class="comment">// in case of a struct, a cast will coerce the inner types
+    </span><span class="kw">fn </span>cast(<span class="kw-2">&amp;</span><span class="self">self</span>, dtype: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;Series&gt; {
+        <span class="kw">unsafe </span>{ <span class="self">self</span>.cast_impl(dtype, <span class="bool-val">false</span>) }
     }
 }
 
