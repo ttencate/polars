@@ -1587,20 +1587,20 @@ generate. Note: in actual use the strategy is applied as a test decorator, not
 used standalone.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">polars.testing.parametric</span> <span class="kn">import</span> <span class="n">column</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">dataframes</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hypothesis</span> <span class="kn">import</span> <span class="n">given</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># generate arbitrary DataFrames</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nd">@given</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">dataframes</span><span class="p">())</span>
 <span class="gp">... </span><span class="k">def</span> <span class="nf">test_repr</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="gp">... </span>    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="nb">str</span><span class="p">)</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># generate LazyFrames with at least 1 column, random dtypes, and specific size:</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">dataframes</span><span class="p">(</span><span class="n">min_cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lazy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">example</span><span class="p">()</span>  
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># generate DataFrames with known colnames, random dtypes (per test, not per-frame):</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df_strategy</span> <span class="o">=</span> <span class="n">dataframes</span><span class="p">(</span><span class="n">columns</span><span class="p">([</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">]))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">example</span><span class="p">()</span>  
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># generate frames with explicitly named/typed columns and a fixed size:</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df_strategy</span> <span class="o">=</span> <span class="n">dataframes</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="p">[</span>
