@@ -518,8 +518,10 @@
 <a href="#518" id="518">518</a>
 <a href="#519" id="519">519</a>
 <a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::{polars_bail, polars_err, PolarsError, PolarsResult};
-<span class="kw">use </span>polars_lazy::dsl::{lit, Expr};
+<span class="kw">use </span>polars_lazy::dsl::Expr;
+<span class="kw">use </span>polars_plan::dsl::count;
 <span class="kw">use </span>sqlparser::ast::{
     Expr <span class="kw">as </span>SqlExpr, Function <span class="kw">as </span>SQLFunction, FunctionArg, FunctionArgExpr, Value <span class="kw">as </span>SqlValue,
     WindowSpec,
@@ -923,7 +925,7 @@
         <span class="kw">let </span>args = extract_args(<span class="self">self</span>.func);
         <span class="prelude-val">Ok</span>(<span class="kw">match </span>(args.len(), <span class="self">self</span>.func.distinct) {
             <span class="comment">// count()
-            </span>(<span class="number">0</span>, <span class="bool-val">false</span>) =&gt; lit(<span class="number">1i32</span>).count(),
+            </span>(<span class="number">0</span>, <span class="bool-val">false</span>) =&gt; count(),
             <span class="comment">// count(distinct)
             </span>(<span class="number">0</span>, <span class="bool-val">true</span>) =&gt; <span class="kw">return </span>not_supported_error(<span class="string">&quot;count&quot;</span>, <span class="kw-2">&amp;</span>args),
             (<span class="number">1</span>, <span class="bool-val">false</span>) =&gt; <span class="kw">match </span>args[<span class="number">0</span>] {
@@ -934,7 +936,7 @@
                     expr.count()
                 }
                 <span class="comment">// count(*)
-                </span>FunctionArgExpr::Wildcard =&gt; lit(<span class="number">1i32</span>).count(),
+                </span>FunctionArgExpr::Wildcard =&gt; count(),
                 <span class="comment">// count(tbl.*) is not supported
                 </span><span class="kw">_ </span>=&gt; <span class="kw">return </span>not_supported_error(<span class="string">&quot;count&quot;</span>, <span class="kw-2">&amp;</span>args),
             },
