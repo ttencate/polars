@@ -777,11 +777,6 @@
 <a href="#777" id="777">777</a>
 <a href="#778" id="778">778</a>
 <a href="#779" id="779">779</a>
-<a href="#780" id="780">780</a>
-<a href="#781" id="781">781</a>
-<a href="#782" id="782">782</a>
-<a href="#783" id="783">783</a>
-<a href="#784" id="784">784</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 </span><span class="kw">use </span>std::io::{Read, Seek};
 
@@ -1119,12 +1114,7 @@
         <span class="kw">let </span>schema = <span class="macro">try_delayed!</span>(<span class="self">self</span>.<span class="number">0</span>.schema(), <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, into);
         <span class="kw">let </span>exprs = schema
             .iter_names()
-            .map(|name| {
-                when(col(name).is_null())
-                    .then(fill_value.clone())
-                    .otherwise(col(name))
-                    .alias(name)
-            })
+            .map(|name| col(name).fill_null(fill_value.clone()))
             .collect();
         <span class="self">self</span>.project_local(exprs)
     }
