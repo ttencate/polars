@@ -373,6 +373,9 @@
 <a href="#373" id="373">373</a>
 <a href="#374" id="374">374</a>
 <a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Implementations of the ChunkCast Trait.
 </span><span class="kw">use </span>std::convert::TryFrom;
 
@@ -646,7 +649,10 @@
 
                 <span class="kw">match </span>(<span class="self">self</span>.inner_dtype(), <span class="kw-2">&amp;**</span>child_type) {
                     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
-                    </span>(Utf8, Categorical(<span class="kw">_</span>)) =&gt; {
+                    </span>(Utf8, Categorical(<span class="kw">_</span>)) |
+                    <span class="comment">// ensure the inner logical type bubbles up
+                    </span>(List(<span class="kw">_</span>), List(<span class="kw">_</span>))
+                    =&gt; {
                         <span class="kw">let </span>(arr, child_type) = cast_list(<span class="self">self</span>, child_type)<span class="question-mark">?</span>;
                         <span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{
                             Series::from_chunks_and_dtype_unchecked(
@@ -655,7 +661,7 @@
                                 <span class="kw-2">&amp;</span>List(Box::new(child_type)),
                             )
                         })
-                    }
+                    },
                     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
                     </span>(dt, Categorical(<span class="prelude-val">None</span>)) =&gt; {
                         <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;cannot cast list inner type: &#39;{:?}&#39; to Categorical&quot;</span>, dt)
