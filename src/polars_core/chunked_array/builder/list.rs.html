@@ -1154,12 +1154,12 @@
 }
 
 <span class="kw">pub fn </span>get_list_builder(
-    dt: <span class="kw-2">&amp;</span>DataType,
+    inner_type_logical: <span class="kw-2">&amp;</span>DataType,
     value_capacity: usize,
     list_capacity: usize,
     name: <span class="kw-2">&amp;</span>str,
 ) -&gt; PolarsResult&lt;Box&lt;<span class="kw">dyn </span>ListBuilderTrait&gt;&gt; {
-    <span class="kw">let </span>physical_type = dt.to_physical();
+    <span class="kw">let </span>physical_type = inner_type_logical.to_physical();
 
     <span class="kw">match </span><span class="kw-2">&amp;</span>physical_type {
         <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
@@ -1168,13 +1168,13 @@
         </span>DataType::Struct(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(Box::new(AnonymousOwnedListBuilder::new(
             name,
             list_capacity,
-            <span class="prelude-val">Some</span>(physical_type),
+            <span class="prelude-val">Some</span>(inner_type_logical.clone()),
         ))),
         DataType::Null =&gt; <span class="prelude-val">Ok</span>(Box::new(LargeListNullBuilder::with_capacity(list_capacity))),
         DataType::List(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(Box::new(AnonymousOwnedListBuilder::new(
             name,
             list_capacity,
-            <span class="prelude-val">Some</span>(physical_type),
+            <span class="prelude-val">Some</span>(inner_type_logical.clone()),
         ))),
         <span class="kw">_ </span>=&gt; {
             <span class="macro">macro_rules! </span>get_primitive_builder {
@@ -1183,7 +1183,7 @@
                         name,
                         list_capacity,
                         value_capacity,
-                        dt.clone(),
+                        inner_type_logical.clone(),
                     );
                     Box::new(builder)
                 }};
