@@ -96,6 +96,25 @@
 <a href="#96" id="96">96</a>
 <a href="#97" id="97">97</a>
 <a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::str::FromStr;
 
 <span class="kw">use </span>polars_core::prelude::{polars_bail, PolarsError, PolarsResult};
@@ -125,6 +144,12 @@
     /// ```
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;ipc&quot;</span>)]
     </span>ReadIpc,
+    <span class="doccomment">/// SQL &#39;read_json&#39; function. *Only ndjson is currently supported.*
+    /// ```sql
+    /// SELECT * FROM read_json(&#39;path/to/file.json&#39;)
+    /// ```
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;json&quot;</span>)]
+    </span>ReadJson,
 }
 
 <span class="kw">impl </span>FromStr <span class="kw">for </span>PolarsTableFunctions {
@@ -139,6 +164,8 @@
             </span><span class="string">&quot;read_parquet&quot; </span>=&gt; PolarsTableFunctions::ReadParquet,
             <span class="attr">#[cfg(feature = <span class="string">&quot;ipc&quot;</span>)]
             </span><span class="string">&quot;read_ipc&quot; </span>=&gt; PolarsTableFunctions::ReadIpc,
+            <span class="attr">#[cfg(feature = <span class="string">&quot;json&quot;</span>)]
+            </span><span class="string">&quot;read_json&quot; </span>=&gt; PolarsTableFunctions::ReadJson,
             <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;&#39;{}&#39; is not a supported table function&quot;</span>, s),
         })
     }
@@ -154,6 +181,8 @@
             </span>PolarsTableFunctions::ReadParquet =&gt; <span class="self">self</span>.read_parquet(args),
             <span class="attr">#[cfg(feature = <span class="string">&quot;ipc&quot;</span>)]
             </span>PolarsTableFunctions::ReadIpc =&gt; <span class="self">self</span>.read_ipc(args),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;json&quot;</span>)]
+            </span>PolarsTableFunctions::ReadJson =&gt; <span class="self">self</span>.read_ndjson(args),
             <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(),
         }
     }
@@ -177,6 +206,15 @@
     </span><span class="kw">fn </span>read_ipc(<span class="kw-2">&amp;</span><span class="self">self</span>, args: <span class="kw-2">&amp;</span>[FunctionArg]) -&gt; PolarsResult&lt;(String, LazyFrame)&gt; {
         <span class="kw">let </span>path = <span class="self">self</span>.get_file_path_from_arg(<span class="kw-2">&amp;</span>args[<span class="number">0</span>])<span class="question-mark">?</span>;
         <span class="kw">let </span>lf = LazyFrame::scan_ipc(<span class="kw-2">&amp;</span>path, Default::default())<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>((path, lf))
+    }
+    <span class="attr">#[cfg(feature = <span class="string">&quot;json&quot;</span>)]
+    </span><span class="kw">fn </span>read_ndjson(<span class="kw-2">&amp;</span><span class="self">self</span>, args: <span class="kw-2">&amp;</span>[FunctionArg]) -&gt; PolarsResult&lt;(String, LazyFrame)&gt; {
+        <span class="kw">use </span>polars_lazy::frame::LazyFileListReader;
+        <span class="kw">use </span>polars_lazy::prelude::LazyJsonLineReader;
+
+        <span class="kw">let </span>path = <span class="self">self</span>.get_file_path_from_arg(<span class="kw-2">&amp;</span>args[<span class="number">0</span>])<span class="question-mark">?</span>;
+        <span class="kw">let </span>lf = LazyJsonLineReader::new(path.clone()).finish()<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>((path, lf))
     }
 
