@@ -833,12 +833,18 @@
 <a href="#833" id="833">833</a>
 <a href="#834" id="834">834</a>
 <a href="#835" id="835">835</a>
-</pre></div><pre class="rust"><code><span class="doccomment">//! # Polars SQL
+<a href="#836" id="836">836</a>
+<a href="#837" id="837">837</a>
+<a href="#838" id="838">838</a>
+</pre></div><pre class="rust"><code><span class="doccomment">//! Polars SQL
+//! This crate provides a SQL interface for Polars DataFrames
 </span><span class="attr">#![deny(missing_docs)]
 </span><span class="kw">mod </span>context;
 <span class="kw">mod </span>functions;
+<span class="kw">pub mod </span>keywords;
 <span class="kw">mod </span>sql_expr;
 <span class="kw">mod </span>table_functions;
+
 <span class="kw">pub use </span>context::SQLContext;
 
 <span class="attr">#[cfg(test)]
