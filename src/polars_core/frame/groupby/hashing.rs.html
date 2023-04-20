@@ -339,6 +339,13 @@
 <a href="#339" id="339">339</a>
 <a href="#340" id="340">340</a>
 <a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::hash::{BuildHasher, Hash};
 
 <span class="kw">use </span>hashbrown::hash_map::{Entry, RawEntryMut};
@@ -348,7 +355,7 @@
 
 <span class="kw">use </span><span class="kw">super</span>::GroupsProxy;
 <span class="kw">use </span><span class="kw">crate</span>::datatypes::PlHashMap;
-<span class="kw">use </span><span class="kw">crate</span>::frame::groupby::{GroupsIdx, IdxItem};
+<span class="kw">use </span><span class="kw">crate</span>::frame::groupby::GroupsIdx;
 <span class="kw">use </span><span class="kw">crate</span>::hashing::{
     df_rows_to_hashes_threaded_vertical, this_partition, AsU64, IdBuildHasher, IdxHash,
 };
@@ -357,33 +364,43 @@
 <span class="kw">use </span><span class="kw">crate</span>::utils::{split_df, CustomIterTools};
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
 
-<span class="kw">fn </span>finish_group_order(<span class="kw-2">mut </span>out: Vec&lt;Vec&lt;IdxItem&gt;&gt;, sorted: bool) -&gt; GroupsProxy {
+<span class="kw">fn </span>finish_group_order&lt;K, S&gt;(
+    hash_tbls: Vec&lt;HashMap&lt;K, (IdxSize, Vec&lt;IdxSize&gt;), S&gt;&gt;,
+    sorted: bool,
+) -&gt; GroupsProxy
+<span class="kw">where
+    </span>K: Send,
+    S: Send,
+{
     <span class="kw">if </span>sorted {
-        <span class="comment">// we can just take the first value, no need to flatten
+        <span class="comment">// TODO! write directly to final buffer in parallel
+        // we keep the (first, all) tuple because of sorting
+        </span><span class="kw">let </span><span class="kw-2">mut </span>out = POOL.install(|| {
+            hash_tbls
+                .into_iter()
+                .map(|hash_tbl| {
+                    <span class="kw">let </span><span class="kw-2">mut </span>items = hash_tbl.into_values().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+                    <span class="comment">// pre-sort every array
+                    // this will make the final single threaded sort much faster
+                    </span>items.sort_unstable_by_key(|g| g.<span class="number">0</span>);
+                    items
+                })
+                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+        });
+        <span class="comment">// sort again
         </span><span class="kw">let </span><span class="kw-2">mut </span>out = <span class="kw">if </span>out.len() == <span class="number">1 </span>{
             out.pop().unwrap()
         } <span class="kw">else </span>{
-            <span class="comment">// pre-sort every array
-            // this will make the final single threaded sort much faster
-            </span>POOL.install(|| {
-                out.par_iter_mut()
-                    .for_each(|g| g.sort_unstable_by_key(|g| g.<span class="number">0</span>))
-            });
-
             flatten(<span class="kw-2">&amp;</span>out, <span class="prelude-val">None</span>)
         };
         out.sort_unstable_by_key(|g| g.<span class="number">0</span>);
+
         <span class="kw">let </span><span class="kw-2">mut </span>idx = GroupsIdx::from_iter(out.into_iter());
         idx.sorted = <span class="bool-val">true</span>;
         GroupsProxy::Idx(idx)
     } <span class="kw">else </span>{
-        <span class="comment">// we can just take the first value, no need to flatten
-        </span><span class="kw">if </span>out.len() == <span class="number">1 </span>{
-            GroupsProxy::Idx(GroupsIdx::from(out.pop().unwrap()))
-        } <span class="kw">else </span>{
-            <span class="comment">// flattens
-            </span>GroupsProxy::Idx(GroupsIdx::from(out))
-        }
+        <span class="comment">// this materialization is parallel in the from impl.
+        </span>GroupsProxy::Idx(GroupsIdx::from(hash_tbls))
     }
 }
 
@@ -481,9 +498,6 @@
                     offset += len;
                 }
                 hash_tbl
-                    .into_iter()
-                    .map(|(_k, v)| v)
-                    .collect_trusted::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
             })
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
     });
@@ -674,7 +688,7 @@
 
                     offset += len;
                 }
-                hash_tbl.into_iter().map(|(_k, v)| v).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+                hash_tbl
             })
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
     });
