@@ -401,7 +401,6 @@
 <a href="#401" id="401">401</a>
 <a href="#402" id="402">402</a>
 <a href="#403" id="403">403</a>
-<a href="#404" id="404">404</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="kw">use </span>ahash::RandomState;
@@ -511,11 +510,10 @@
 
     <span class="kw">unsafe fn </span>agg_list(<span class="kw-2">&amp;</span><span class="self">self</span>, groups: <span class="kw-2">&amp;</span>GroupsProxy) -&gt; Series {
         <span class="comment">// we cannot cast and dispatch as the inner type of the list would be incorrect
-        </span><span class="self">self</span>.<span class="number">0
-            </span>.logical()
-            .agg_list(groups)
-            .cast(<span class="kw-2">&amp;</span>DataType::List(Box::new(<span class="self">self</span>.dtype().clone())))
-            .unwrap()
+        </span><span class="kw">let </span>list = <span class="self">self</span>.<span class="number">0</span>.logical().agg_list(groups);
+        <span class="kw">let </span><span class="kw-2">mut </span>list = list.list().unwrap().clone();
+        list.to_logical(<span class="self">self</span>.dtype().clone());
+        list.into_series()
     }
 
     <span class="kw">fn </span>zip_outer_join_column(
