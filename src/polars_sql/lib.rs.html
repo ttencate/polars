@@ -836,6 +836,26 @@
 <a href="#836" id="836">836</a>
 <a href="#837" id="837">837</a>
 <a href="#838" id="838">838</a>
+<a href="#839" id="839">839</a>
+<a href="#840" id="840">840</a>
+<a href="#841" id="841">841</a>
+<a href="#842" id="842">842</a>
+<a href="#843" id="843">843</a>
+<a href="#844" id="844">844</a>
+<a href="#845" id="845">845</a>
+<a href="#846" id="846">846</a>
+<a href="#847" id="847">847</a>
+<a href="#848" id="848">848</a>
+<a href="#849" id="849">849</a>
+<a href="#850" id="850">850</a>
+<a href="#851" id="851">851</a>
+<a href="#852" id="852">852</a>
+<a href="#853" id="853">853</a>
+<a href="#854" id="854">854</a>
+<a href="#855" id="855">855</a>
+<a href="#856" id="856">856</a>
+<a href="#857" id="857">857</a>
+<a href="#858" id="858">858</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Polars SQL
 //! This crate provides a SQL interface for Polars DataFrames
 </span><span class="attr">#![deny(missing_docs)]
@@ -1671,6 +1691,26 @@
         <span class="kw">let </span>sql = <span class="string">r#&quot;select * from foods&quot;#</span>;
         <span class="macro">assert!</span>(context.execute(sql).is_err());
 
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="attr">#[test]
+    #[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
+    </span><span class="kw">fn </span>iss_8395() -&gt; PolarsResult&lt;()&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>context = SQLContext::new();
+        <span class="kw">let </span>sql = <span class="string">r#&quot;
+        with foods as (
+            SELECT *
+            FROM read_csv(&#39;../../examples/datasets/foods1.csv&#39;)
+        )
+        select * from foods where category IN (&#39;vegetables&#39;, &#39;seafood&#39;)&quot;#</span>;
+        <span class="kw">let </span>res = context.execute(sql)<span class="question-mark">?</span>;
+        <span class="kw">let </span>df = res.collect()<span class="question-mark">?</span>;
+
+        <span class="comment">// assert that the df only contains [vegetables, seafood]
+        </span><span class="kw">let </span>s = df.column(<span class="string">&quot;category&quot;</span>)<span class="question-mark">?</span>.unique()<span class="question-mark">?</span>.sort(<span class="bool-val">false</span>);
+        <span class="kw">let </span>expected = Series::new(<span class="string">&quot;category&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;seafood&quot;</span>, <span class="string">&quot;vegetables&quot;</span>]);
+        <span class="macro">assert!</span>(s.series_equal(<span class="kw-2">&amp;</span>expected));
         <span class="prelude-val">Ok</span>(())
     }
 }
