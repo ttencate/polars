@@ -1313,6 +1313,13 @@
 <a href="#1313" id="1313">1313</a>
 <a href="#1314" id="1314">1314</a>
 <a href="#1315" id="1315">1315</a>
+<a href="#1316" id="1316">1316</a>
+<a href="#1317" id="1317">1317</a>
+<a href="#1318" id="1318">1318</a>
+<a href="#1319" id="1319">1319</a>
+<a href="#1320" id="1320">1320</a>
+<a href="#1321" id="1321">1321</a>
+<a href="#1322" id="1322">1322</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! # Functions
 //!
 //! Functions on expressions that might be useful.
@@ -2043,6 +2050,13 @@
 </span><span class="kw">pub fn </span>duration(args: DurationArgs) -&gt; Expr {
     <span class="kw">let </span>function = SpecialEq::new(Arc::new(<span class="kw">move </span>|s: <span class="kw-2">&amp;mut </span>[Series]| {
         <span class="macro">assert_eq!</span>(s.len(), <span class="number">8</span>);
+        <span class="kw">if </span>s.iter().any(|s| s.is_empty()) {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Series::new_empty(
+                s[<span class="number">0</span>].name(),
+                <span class="kw-2">&amp;</span>DataType::Duration(TimeUnit::Nanoseconds),
+            )));
+        }
+
         <span class="kw">let </span>days = s[<span class="number">0</span>].cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap();
         <span class="kw">let </span>seconds = s[<span class="number">1</span>].cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>nanoseconds = s[<span class="number">2</span>].cast(<span class="kw-2">&amp;</span>DataType::Int64).unwrap();
