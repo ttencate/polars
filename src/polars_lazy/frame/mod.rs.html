@@ -1438,6 +1438,9 @@
 <a href="#1438" id="1438">1438</a>
 <a href="#1439" id="1439">1439</a>
 <a href="#1440" id="1440">1440</a>
+<a href="#1441" id="1441">1441</a>
+<a href="#1442" id="1442">1442</a>
+<a href="#1443" id="1443">1443</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Lazy variant of a [DataFrame](polars_core::frame::DataFrame).
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 </span><span class="kw">mod </span>csv;
@@ -2607,7 +2610,10 @@
 
         <span class="kw">let </span>name2: SmartString = name.into();
         <span class="kw">let </span>udf_schema = <span class="kw">move </span>|s: <span class="kw-2">&amp;</span>Schema| {
-            <span class="kw">let </span>new = s.insert_index(<span class="number">0</span>, name2.clone(), IDX_DTYPE).unwrap();
+            <span class="comment">// Can&#39;t error, index 0 is always in bounds
+            </span><span class="kw">let </span>new = s
+                .new_inserting_at_index(<span class="number">0</span>, name2.clone(), IDX_DTYPE)
+                .unwrap();
             <span class="prelude-val">Ok</span>(Arc::new(new))
         };
 

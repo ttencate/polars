@@ -365,7 +365,7 @@ This may lead to more peak memory consumption.</p>
 
 <span class="kw">let </span>f1: Field = Field::new(<span class="string">&quot;Thing&quot;</span>, DataType::Utf8);
 <span class="kw">let </span>f2: Field = Field::new(<span class="string">&quot;Diameter (m)&quot;</span>, DataType::Float64);
-<span class="kw">let </span>sc: Schema = Schema::from(<span class="macro">vec!</span>[f1, f2].into_iter());
+<span class="kw">let </span>sc: Schema = Schema::from_iter(<span class="macro">vec!</span>[f1, f2]);
 
 <span class="macro">assert_eq!</span>(df.schema(), sc);</code></pre></div>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.get_columns" class="method"><a class="srclink rightside" href="../../src/polars_core/frame/mod.rs.html#523-525">source</a><h4 class="code-header">pub fn <a href="#method.get_columns" class="fn">get_columns</a>(&amp;self) -&gt; &amp;[<a class="struct" href="../series/struct.Series.html" title="struct polars_core::series::Series">Series</a>]</h4></section></summary><div class="docblock"><p>Get a reference to the <code>DataFrame</code> columns.</p>
