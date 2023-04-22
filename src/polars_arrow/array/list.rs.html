@@ -184,6 +184,14 @@
 <a href="#184" id="184">184</a>
 <a href="#185" id="185">185</a>
 <a href="#186" id="186">186</a>
+<a href="#187" id="187">187</a>
+<a href="#188" id="188">188</a>
+<a href="#189" id="189">189</a>
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a>
+<a href="#194" id="194">194</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::array::{new_null_array, Array, ListArray, NullArray, StructArray};
 <span class="kw">use </span>arrow::bitmap::MutableBitmap;
 <span class="kw">use </span>arrow::compute::concatenate;
@@ -283,8 +291,16 @@
         </span><span class="kw">let </span>offsets = <span class="kw">unsafe </span>{ Offsets::new_unchecked(<span class="self">self</span>.offsets) };
         <span class="kw">let </span>(inner_dtype, values) = <span class="kw">if </span><span class="self">self</span>.arrays.is_empty() {
             <span class="kw">let </span>len = <span class="kw-2">*</span>offsets.last() <span class="kw">as </span>usize;
-            <span class="kw">let </span>values = NullArray::new(DataType::Null, len).boxed();
-            (DataType::Null, values)
+            <span class="kw">match </span>inner_dtype {
+                <span class="prelude-val">None </span>=&gt; {
+                    <span class="kw">let </span>values = NullArray::new(DataType::Null, len).boxed();
+                    (DataType::Null, values)
+                }
+                <span class="prelude-val">Some</span>(inner_dtype) =&gt; {
+                    <span class="kw">let </span>values = new_null_array(inner_dtype.clone(), len);
+                    (inner_dtype.clone(), values)
+                }
+            }
         } <span class="kw">else </span>{
             <span class="kw">let </span>inner_dtype = inner_dtype.unwrap_or_else(|| <span class="self">self</span>.arrays[<span class="number">0</span>].data_type());
 
