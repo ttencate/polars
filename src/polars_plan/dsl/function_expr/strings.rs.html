@@ -596,6 +596,12 @@
 <a href="#596" id="596">596</a>
 <a href="#597" id="597">597</a>
 <a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -660,6 +666,7 @@
     LStrip(<span class="prelude-ty">Option</span>&lt;String&gt;),
     <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
     </span>FromRadix(u32, bool),
+    Slice(i64, <span class="prelude-ty">Option</span>&lt;u64&gt;),
 }
 
 <span class="kw">impl </span>StringFunction {
@@ -680,7 +687,7 @@
             </span>ConcatVertical(<span class="kw">_</span>) | ConcatHorizontal(<span class="kw">_</span>) =&gt; mapper.with_dtype(DataType::Utf8),
             <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
             </span>Replace { .. } =&gt; mapper.with_dtype(DataType::Utf8),
-            Uppercase | Lowercase | Strip(<span class="kw">_</span>) | LStrip(<span class="kw">_</span>) | RStrip(<span class="kw">_</span>) =&gt; {
+            Uppercase | Lowercase | Strip(<span class="kw">_</span>) | LStrip(<span class="kw">_</span>) | RStrip(<span class="kw">_</span>) | Slice(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; {
                 mapper.with_dtype(DataType::Utf8)
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
@@ -721,6 +728,7 @@
             StringFunction::RStrip(<span class="kw">_</span>) =&gt; <span class="string">&quot;rstrip&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
             </span>StringFunction::FromRadix { .. } =&gt; <span class="string">&quot;from_radix&quot;</span>,
+            StringFunction::Slice(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="string">&quot;str_slice&quot;</span>,
         };
 
         <span class="macro">write!</span>(f, <span class="string">&quot;str.{s}&quot;</span>)
@@ -1193,5 +1201,9 @@
 </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>from_radix(s: <span class="kw-2">&amp;</span>Series, radix: u32, strict: bool) -&gt; PolarsResult&lt;Series&gt; {
     <span class="kw">let </span>ca = s.utf8()<span class="question-mark">?</span>;
     ca.parse_int(radix, strict).map(|ok| ok.into_series())
+}
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>str_slice(s: <span class="kw-2">&amp;</span>Series, start: i64, length: <span class="prelude-ty">Option</span>&lt;u64&gt;) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">let </span>ca = s.utf8()<span class="question-mark">?</span>;
+    ca.str_slice(start, length).map(|ca| ca.into_series())
 }
 </code></pre></div></section></main></body></html>
