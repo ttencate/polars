@@ -1530,6 +1530,7 @@ document.write(`
 <h1>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h1>
 <section id="asserts">
 <h2>Asserts<a class="headerlink" href="#asserts" title="Permalink to this heading">#</a></h2>
+<p>Polars provides some standard asserts for use with unit tests:</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.testing.assert_frame_equal.html#polars.testing.assert_frame_equal" title="polars.testing.assert_frame_equal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">testing.assert_frame_equal</span></code></a>(left, right, *[, ...])</p></td>
@@ -1635,6 +1636,121 @@ and may vary significantly depending on your own hardware setup):</p>
 </tbody>
 </table>
 </section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">#</a></h3>
+<p><strong>Basic:</strong> Create a parametric unit test that will receive a series of
+generated DataFrames, each having 5 numeric columns with a 10% chance
+of any generated value being <code class="docutils literal notranslate"><span class="pre">null</span></code> (this is distinct from <code class="docutils literal notranslate"><span class="pre">NaN</span></code>).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">polars.testing.parametric</span> <span class="kn">import</span> <span class="n">dataframes</span>
+<span class="kn">from</span> <span class="nn">polars</span> <span class="kn">import</span> <span class="n">NUMERIC_DTYPES</span>
+<span class="kn">from</span> <span class="nn">hypothesis</span> <span class="kn">import</span> <span class="n">given</span>
+
+
+<span class="nd">@given</span><span class="p">(</span>
+    <span class="n">dataframes</span><span class="p">(</span>
+        <span class="n">cols</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">null_probabililty</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">allowed_dtypes</span><span class="o">=</span><span class="n">NUMERIC_DTYPES</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">is_numeric</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+    <span class="c1"># Example frame:</span>
+    <span class="c1"># ┌──────┬────────┬───────┬────────────┬────────────┐</span>
+    <span class="c1"># │ col0 ┆ col1   ┆ col2  ┆ col3       ┆ col4       │</span>
+    <span class="c1"># │ ---  ┆ ---    ┆ ---   ┆ ---        ┆ ---        │</span>
+    <span class="c1"># │ u8   ┆ i16    ┆ u16   ┆ i32        ┆ f64        │</span>
+    <span class="c1"># ╞══════╪════════╪═══════╪════════════╪════════════╡</span>
+    <span class="c1"># │ 54   ┆ -29096 ┆ 485   ┆ 2147483647 ┆ -2.8257e14 │</span>
+    <span class="c1"># │ null ┆ 7508   ┆ 37338 ┆ 7264       ┆ 1.5        │</span>
+    <span class="c1"># │ 0    ┆ 321    ┆ null  ┆ 16996      ┆ NaN        │</span>
+    <span class="c1"># │ 121  ┆ -361   ┆ 63204 ┆ 1          ┆ 1.1443e235 │</span>
+    <span class="c1"># └──────┴────────┴───────┴────────────┴────────────┘</span>
+</pre></div>
+</div>
+<p><strong>Intermediate:</strong> Integrate hypothesis-native strategies into specifically-named columns,
+generating a series of LazyFrames, with a minimum size of five rows and values that
+conform to the given strategies:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">polars.testing.parametric</span> <span class="kn">import</span> <span class="n">column</span><span class="p">,</span> <span class="n">dataframes</span>
+<span class="kn">from</span> <span class="nn">hypothesis.strategies</span> <span class="kn">import</span> <span class="n">floats</span><span class="p">,</span> <span class="n">sampled_from</span><span class="p">,</span> <span class="n">text</span>
+<span class="kn">from</span> <span class="nn">hypothesis</span> <span class="kn">import</span> <span class="n">given</span>
+
+<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">ascii_letters</span><span class="p">,</span> <span class="n">digits</span>
+
+<span class="n">id_chars</span> <span class="o">=</span> <span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">digits</span>
+
+
+<span class="nd">@given</span><span class="p">(</span>
+    <span class="n">dataframes</span><span class="p">(</span>
+        <span class="n">cols</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">column</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="n">text</span><span class="p">(</span><span class="n">min_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">alphabet</span><span class="o">=</span><span class="n">id_chars</span><span class="p">)),</span>
+            <span class="n">column</span><span class="p">(</span><span class="s2">&quot;ccy&quot;</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="n">sampled_from</span><span class="p">([</span><span class="s2">&quot;GBP&quot;</span><span class="p">,</span> <span class="s2">&quot;EUR&quot;</span><span class="p">,</span> <span class="s2">&quot;JPY&quot;</span><span class="p">,</span> <span class="s2">&quot;USD&quot;</span><span class="p">])),</span>
+            <span class="n">column</span><span class="p">(</span><span class="s2">&quot;price&quot;</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="n">floats</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">)),</span>
+        <span class="p">],</span>
+        <span class="n">min_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">lazy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_price_calculations</span><span class="p">(</span><span class="n">lf</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">lf</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+
+    <span class="c1"># Example frame:</span>
+    <span class="c1"># ┌──────┬─────┬─────────┐</span>
+    <span class="c1"># │ id   ┆ ccy ┆ price   │</span>
+    <span class="c1"># │ ---  ┆ --- ┆ ---     │</span>
+    <span class="c1"># │ str  ┆ str ┆ f64     │</span>
+    <span class="c1"># ╞══════╪═════╪═════════╡</span>
+    <span class="c1"># │ A101 ┆ GBP ┆ 1.1     │</span>
+    <span class="c1"># │ 8nIn ┆ JPY ┆ 1.5     │</span>
+    <span class="c1"># │ QHoO ┆ EUR ┆ 714.544 │</span>
+    <span class="c1"># │ i0e0 ┆ GBP ┆ 0.0     │</span>
+    <span class="c1"># │ 0000 ┆ USD ┆ 999.0   │</span>
+    <span class="c1"># └──────┴─────┴─────────┘</span>
+</pre></div>
+</div>
+<p><strong>Advanced:</strong> Create and use a <code class="docutils literal notranslate"><span class="pre">List[UInt8]</span></code> dtype strategy as a hypothesis
+<a class="reference external" href="https://hypothesis.readthedocs.io/en/latest/data.html#hypothesis.strategies.composite">composite</a>
+that generates pairs of pairs of small integer values in which the first value in each nested pair
+is always less than or equal to the second value:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">polars.testing.parametric</span> <span class="kn">import</span> <span class="n">create_list_strategy</span><span class="p">,</span> <span class="n">dataframes</span><span class="p">,</span> <span class="n">column</span>
+<span class="kn">from</span> <span class="nn">hypothesis.strategies</span> <span class="kn">import</span> <span class="n">composite</span>
+<span class="kn">from</span> <span class="nn">hypothesis</span> <span class="kn">import</span> <span class="n">given</span>
+
+
+<span class="nd">@composite</span>
+<span class="k">def</span> <span class="nf">uint8_pairs</span><span class="p">(</span><span class="n">draw</span><span class="p">,</span> <span class="n">uints</span><span class="o">=</span><span class="n">create_list_strategy</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">UInt8</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">)):</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">draw</span><span class="p">(</span><span class="n">uints</span><span class="p">),</span> <span class="n">draw</span><span class="p">(</span><span class="n">uints</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">sorted</span><span class="p">(</span><span class="n">ints</span><span class="p">)</span> <span class="k">for</span> <span class="n">ints</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">]</span>
+
+
+<span class="nd">@given</span><span class="p">(</span>
+    <span class="n">dataframes</span><span class="p">(</span>
+        <span class="n">cols</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">column</span><span class="p">(</span><span class="s2">&quot;colx&quot;</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="n">uint8_pairs</span><span class="p">()),</span>
+            <span class="n">column</span><span class="p">(</span><span class="s2">&quot;coly&quot;</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="n">uint8_pairs</span><span class="p">()),</span>
+            <span class="n">column</span><span class="p">(</span><span class="s2">&quot;colz&quot;</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="n">uint8_pairs</span><span class="p">()),</span>
+        <span class="p">],</span>
+        <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_miscellaneous</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="c1"># Example frame:</span>
+    <span class="c1"># ┌─────────────────────────┬─────────────────────────┬──────────────────────────┐</span>
+    <span class="c1"># │ colx                    ┆ coly                    ┆ colz                     │</span>
+    <span class="c1"># │ ---                     ┆ ---                     ┆ ---                      │</span>
+    <span class="c1"># │ list[list[i64]]         ┆ list[list[i64]]         ┆ list[list[i64]]          │</span>
+    <span class="c1"># ╞═════════════════════════╪═════════════════════════╪══════════════════════════╡</span>
+    <span class="c1"># │ [[143, 235], [75, 101]] ┆ [[143, 235], [75, 101]] ┆ [[31, 41], [57, 250]]    │</span>
+    <span class="c1"># │ [[87, 186], [174, 179]] ┆ [[87, 186], [174, 179]] ┆ [[112, 213], [149, 221]] │</span>
+    <span class="c1"># │ [[23, 85], [7, 86]]     ┆ [[23, 85], [7, 86]]     ┆ [[22, 255], [27, 28]]    │</span>
+    <span class="c1"># └─────────────────────────┴─────────────────────────┴──────────────────────────┘</span>
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 
@@ -1684,6 +1800,7 @@ and may vary significantly depending on your own hardware setup):</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars-primitives">Polars primitives</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-helpers">Strategy helpers</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles">Profiles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
 </ul>
 </li>
 </ul>
