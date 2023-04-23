@@ -30,8 +30,6 @@ var sourcesIndex = JSON.parse('{\
 "crossbeam_epoch":["",[["sync",[],["list.rs","mod.rs","once_lock.rs","queue.rs"]]],["atomic.rs","collector.rs","default.rs","deferred.rs","epoch.rs","guard.rs","internal.rs","lib.rs"]],\
 "crossbeam_utils":["",[["atomic",[],["atomic_cell.rs","consume.rs","mod.rs","seq_lock.rs"]],["sync",[],["mod.rs","once_lock.rs","parker.rs","sharded_lock.rs","wait_group.rs"]]],["backoff.rs","cache_padded.rs","lib.rs","thread.rs"]],\
 "crossterm":["",[["cursor",[["sys",[],["unix.rs"]]],["sys.rs"]],["event",[["source",[],["unix.rs"]],["sys",[["unix",[],["file_descriptor.rs","parse.rs"]]],["unix.rs"]]],["filter.rs","read.rs","source.rs","sys.rs","timeout.rs"]],["style",[["types",[],["attribute.rs","color.rs","colored.rs","colors.rs"]]],["attributes.rs","content_style.rs","styled_content.rs","stylize.rs","sys.rs","types.rs"]],["terminal",[["sys",[],["unix.rs"]]],["sys.rs"]]],["command.rs","cursor.rs","error.rs","event.rs","lib.rs","macros.rs","style.rs","terminal.rs","tty.rs"]],\
-"dirs":["",[],["lib.rs","lin.rs"]],\
-"dirs_sys":["",[],["lib.rs","xdg_user_dirs.rs"]],\
 "dyn_clone":["",[],["lib.rs","macros.rs"]],\
 "either":["",[],["lib.rs"]],\
 "enum_dispatch":["",[],["attributed_parser.rs","cache.rs","enum_dispatch_arg_list.rs","enum_dispatch_item.rs","enum_dispatch_variant.rs","expansion.rs","filter_attrs.rs","lib.rs","supported_generics.rs","syn_utils.rs"]],\
@@ -58,6 +56,7 @@ var sourcesIndex = JSON.parse('{\
 "hashbrown":["",[["external_trait_impls",[["rayon",[],["helpers.rs","map.rs","mod.rs","raw.rs","set.rs"]]],["mod.rs"]],["raw",[],["alloc.rs","bitmask.rs","mod.rs","sse2.rs"]]],["lib.rs","macros.rs","map.rs","scopeguard.rs","set.rs"]],\
 "heck":["",[],["kebab.rs","lib.rs","lower_camel.rs","shouty_kebab.rs","shouty_snake.rs","snake.rs","title.rs","train.rs","upper_camel.rs"]],\
 "hex":["",[],["error.rs","lib.rs"]],\
+"home":["",[],["env.rs","lib.rs"]],\
 "iana_time_zone":["",[],["ffi_utils.rs","lib.rs","tz_linux.rs"]],\
 "indexmap":["",[["map",[["core",[],["raw.rs"]]],["core.rs"]]],["arbitrary.rs","equivalent.rs","lib.rs","macros.rs","map.rs","mutable_keys.rs","set.rs","util.rs"]],\
 "itoa":["",[],["lib.rs","udiv128.rs"]],\
