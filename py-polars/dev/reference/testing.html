@@ -1451,6 +1451,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/polars.testing.parametric.series.html">polars.testing.parametric.series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.testing.parametric.column.html">polars.testing.parametric.column</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.testing.parametric.columns.html">polars.testing.parametric.columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.testing.parametric.create_list_strategy.html">polars.testing.parametric.create_list_strategy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.testing.parametric.load_profile.html">polars.testing.parametric.load_profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.testing.parametric.set_profile.html">polars.testing.parametric.set_profile</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1538,21 +1541,26 @@ document.write(`
 </tbody>
 </table>
 </section>
-<section id="property-based-testing">
-<h2>Property-based testing<a class="headerlink" href="#property-based-testing" title="Permalink to this heading">#</a></h2>
-<p>See the Hypothesis library for more detail:
-<a class="reference external" href="https://hypothesis.readthedocs.io/">https://hypothesis.readthedocs.io/</a></p>
-<section id="strategies">
-<h3>Strategies<a class="headerlink" href="#strategies" title="Permalink to this heading">#</a></h3>
-<p>Polars provides the following hypothesis
-testing strategies and strategy helpers:</p>
+<section id="parametric-testing">
+<h2>Parametric testing<a class="headerlink" href="#parametric-testing" title="Permalink to this heading">#</a></h2>
+<p>See the Hypothesis library for more details about property-based testing, strategies,
+and library integrations:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://hypothesis.readthedocs.io/">Overview</a></p></li>
+<li><p><a class="reference external" href="https://hypothesis.readthedocs.io/en/latest/quickstart.html">Quick start guide</a></p></li>
+</ul>
+<section id="polars-primitives">
+<h3>Polars primitives<a class="headerlink" href="#polars-primitives" title="Permalink to this heading">#</a></h3>
+<p>Polars provides the following <a class="reference external" href="https://hypothesis.readthedocs.io">hypothesis</a>
+testing primitives and strategy generators/helpers to make it easy to generate
+suitable test DataFrames and Series.</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.testing.parametric.dataframes.html#polars.testing.parametric.dataframes" title="polars.testing.parametric.dataframes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">testing.parametric.dataframes</span></code></a>([cols, lazy, ...])</p></td>
-<td><p>Provides a strategy for producing a DataFrame or LazyFrame.</p></td>
+<td><p>Hypothesis strategy for producing a polars DataFrame or LazyFrame.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.testing.parametric.series.html#polars.testing.parametric.series" title="polars.testing.parametric.series"><code class="xref py py-obj docutils literal notranslate"><span class="pre">testing.parametric.series</span></code></a>(*[, name, dtype, ...])</p></td>
-<td><p>Strategy for producing a polars Series.</p></td>
+<td><p>Hypothesis strategy for producing a polars Series.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1566,6 +1574,63 @@ testing strategies and strategy helpers:</p>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.testing.parametric.columns.html#polars.testing.parametric.columns" title="polars.testing.parametric.columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">testing.parametric.columns</span></code></a>([cols, dtype, ...])</p></td>
 <td><p>Define multiple columns for use with the &#64;dataframes strategy.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.testing.parametric.create_list_strategy.html#polars.testing.parametric.create_list_strategy" title="polars.testing.parametric.create_list_strategy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">testing.parametric.create_list_strategy</span></code></a>(...)</p></td>
+<td><p>Hypothesis strategy for producing polars List data.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="profiles">
+<h3>Profiles<a class="headerlink" href="#profiles" title="Permalink to this heading">#</a></h3>
+<p>Several standard/named <a class="reference external" href="https://hypothesis.readthedocs.io">hypothesis</a>
+profiles are provided:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fast</span></code>: runs 100 iterations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">balanced</span></code>: runs 1,000 iterations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">expensive</span></code>: runs 10,000 iterations.</p></li>
+</ul>
+<p>The load/set helper functions allow you to access these profiles directly,
+set your preferred profile (default is <code class="docutils literal notranslate"><span class="pre">fast</span></code>), or set a custom number
+of iterations.</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.testing.parametric.load_profile.html#polars.testing.parametric.load_profile" title="polars.testing.parametric.load_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">testing.parametric.load_profile</span></code></a>([profile, ...])</p></td>
+<td><p>Load a named (or custom) hypothesis profile for use with the parametric tests.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.testing.parametric.set_profile.html#polars.testing.parametric.set_profile" title="polars.testing.parametric.set_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">testing.parametric.set_profile</span></code></a>(profile)</p></td>
+<td><p>Set the env var <code class="docutils literal notranslate"><span class="pre">POLARS_HYPOTHESIS_PROFILE</span></code> to the given profile name/value.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Approximate profile timings:</strong></p>
+<p>Running polars’ own parametric unit tests on <code class="docutils literal notranslate"><span class="pre">0.17.6</span></code> against release
+and debug builds, on a machine with 12 cores, using <code class="docutils literal notranslate"><span class="pre">xdist</span> <span class="pre">-n</span> <span class="pre">auto</span></code>
+results in the following timings (these values are indicative only,
+and may vary significantly depending on your own hardware setup):</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Profile</p></th>
+<th class="head"><p>Iterations</p></th>
+<th class="head"><p>Release</p></th>
+<th class="head"><p>Debug</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fast</span></code></p></td>
+<td><p>100</p></td>
+<td><p>~6 secs</p></td>
+<td><p>~8 secs</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">balanced</span></code></p></td>
+<td><p>1,000</p></td>
+<td><p>~22 secs</p></td>
+<td><p>~30 secs</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">expensive</span></code></p></td>
+<td><p>10,000</p></td>
+<td><p>~3 mins 5 secs</p></td>
+<td><p>~4 mins 45 secs</p></td>
 </tr>
 </tbody>
 </table>
@@ -1615,9 +1680,10 @@ testing strategies and strategy helpers:</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#asserts">Asserts</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#property-based-testing">Property-based testing</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategies">Strategies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-testing">Parametric testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars-primitives">Polars primitives</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#strategy-helpers">Strategy helpers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profiles">Profiles</a></li>
 </ul>
 </li>
 </ul>
