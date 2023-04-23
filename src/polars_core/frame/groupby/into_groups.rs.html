@@ -406,10 +406,10 @@
                 .downcast_iter()
                 .map(|arr| arr.values().as_slice())
                 .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-            groupby_threaded_num2(<span class="kw-2">&amp;</span>keys, n_partitions, sorted)
+            groupby_threaded_slice(keys, n_partitions, sorted)
         } <span class="kw">else </span>{
             <span class="kw">let </span>keys = ca.downcast_iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-            groupby_threaded_num2(<span class="kw-2">&amp;</span>keys, n_partitions, sorted)
+            groupby_threaded_iter(<span class="kw-2">&amp;</span>keys, n_partitions, sorted)
         }
     } <span class="kw">else if </span>!ca.has_validity() {
         groupby(ca.into_no_null_iter(), sorted)
@@ -639,7 +639,7 @@
                     .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
             });
             <span class="kw">let </span>byte_hashes = byte_hashes.iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-            groupby_threaded_num2(<span class="kw-2">&amp;</span>byte_hashes, n_partitions <span class="kw">as </span>u64, sorted)
+            groupby_threaded_slice(byte_hashes, n_partitions <span class="kw">as </span>u64, sorted)
         } <span class="kw">else </span>{
             <span class="kw">let </span>byte_hashes = <span class="self">self
                 </span>.into_iter()
@@ -706,8 +706,8 @@
                         })
                         .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
                     <span class="kw">let </span>bytes_hashes = bytes_hashes.iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-                    <span class="prelude-val">Ok</span>(groupby_threaded_num2(
-                        <span class="kw-2">&amp;</span>bytes_hashes,
+                    <span class="prelude-val">Ok</span>(groupby_threaded_slice(
+                        bytes_hashes,
                         n_partitions <span class="kw">as </span>u64,
                         sorted,
                     ))
