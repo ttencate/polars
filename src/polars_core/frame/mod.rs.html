@@ -3650,11 +3650,6 @@
 <a href="#3650" id="3650">3650</a>
 <a href="#3651" id="3651">3651</a>
 <a href="#3652" id="3652">3652</a>
-<a href="#3653" id="3653">3653</a>
-<a href="#3654" id="3654">3654</a>
-<a href="#3655" id="3655">3655</a>
-<a href="#3656" id="3656">3656</a>
-<a href="#3657" id="3657">3657</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! DataFrame module.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::iter::{FromIterator, Iterator};
@@ -3694,6 +3689,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::frame::groupby::GroupsIndicator;
 <span class="attr">#[cfg(feature = <span class="string">&quot;row_hash&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::hashing::df_rows_to_hashes_threaded_vertical;
+<span class="kw">use </span><span class="kw">crate</span>::prelude::min_max_binary::min_max_binary_series;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::sort::{argsort_multiple_row_fmt, prepare_arg_sort};
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
@@ -6441,10 +6437,7 @@
     <span class="doccomment">/// Aggregate the column horizontally to their min values.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;zip_with&quot;</span>)]
     </span><span class="kw">pub fn </span>hmin(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; {
-        <span class="kw">let </span>min_fn = |acc: <span class="kw-2">&amp;</span>Series, s: <span class="kw-2">&amp;</span>Series| {
-            <span class="kw">let </span>mask = acc.lt(s)<span class="question-mark">? </span>&amp; acc.is_not_null() | s.is_null();
-            acc.zip_with(<span class="kw-2">&amp;</span>mask, s)
-        };
+        <span class="kw">let </span>min_fn = |acc: <span class="kw-2">&amp;</span>Series, s: <span class="kw-2">&amp;</span>Series| min_max_binary_series(acc, s, <span class="bool-val">true</span>);
 
         <span class="kw">match </span><span class="self">self</span>.columns.len() {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
@@ -6470,10 +6463,7 @@
     <span class="doccomment">/// Aggregate the column horizontally to their max values.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;zip_with&quot;</span>)]
     </span><span class="kw">pub fn </span>hmax(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt; {
-        <span class="kw">let </span>max_fn = |acc: <span class="kw-2">&amp;</span>Series, s: <span class="kw-2">&amp;</span>Series| {
-            <span class="kw">let </span>mask = acc.gt(s)<span class="question-mark">? </span>&amp; acc.is_not_null() | s.is_null();
-            acc.zip_with(<span class="kw-2">&amp;</span>mask, s)
-        };
+        <span class="kw">let </span>max_fn = |acc: <span class="kw-2">&amp;</span>Series, s: <span class="kw-2">&amp;</span>Series| min_max_binary_series(acc, s, <span class="bool-val">false</span>);
 
         <span class="kw">match </span><span class="self">self</span>.columns.len() {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),

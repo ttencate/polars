@@ -187,7 +187,13 @@
 <a href="#187" id="187">187</a>
 <a href="#188" id="188">188</a>
 <a href="#189" id="189">189</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span>std::ops::BitAnd;
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a>
+<a href="#194" id="194">194</a>
+<a href="#195" id="195">195</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::ops::{BitAnd, BitOr};
 
 <span class="kw">use </span>arrow::array::PrimitiveArray;
 <span class="kw">use </span>arrow::bitmap::Bitmap;
@@ -239,12 +245,18 @@
     }
 }
 
-<span class="kw">pub fn </span>combine_validities(opt_l: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Bitmap&gt;, opt_r: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Bitmap&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;Bitmap&gt; {
+<span class="kw">pub fn </span>combine_validities_and(opt_l: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Bitmap&gt;, opt_r: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Bitmap&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;Bitmap&gt; {
     <span class="kw">match </span>(opt_l, opt_r) {
         (<span class="prelude-val">Some</span>(l), <span class="prelude-val">Some</span>(r)) =&gt; <span class="prelude-val">Some</span>(l.bitand(r)),
         (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(r)) =&gt; <span class="prelude-val">Some</span>(r.clone()),
         (<span class="prelude-val">Some</span>(l), <span class="prelude-val">None</span>) =&gt; <span class="prelude-val">Some</span>(l.clone()),
         (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="prelude-val">None</span>,
+    }
+}
+<span class="kw">pub fn </span>combine_validities_or(opt_l: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Bitmap&gt;, opt_r: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Bitmap&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;Bitmap&gt; {
+    <span class="kw">match </span>(opt_l, opt_r) {
+        (<span class="prelude-val">Some</span>(l), <span class="prelude-val">Some</span>(r)) =&gt; <span class="prelude-val">Some</span>(l.bitor(r)),
+        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
     }
 }
 <span class="kw">unsafe impl</span>&lt;I, J&gt; arrow::trusted_len::TrustedLen <span class="kw">for </span>TrustMyLength&lt;I, J&gt; <span class="kw">where </span>I: Iterator&lt;Item = J&gt; {}

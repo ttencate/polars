@@ -275,7 +275,7 @@
 <span class="kw">use </span>arrow::compute;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::utils::{align_chunks_binary, combine_validities, CustomIterTools};
+<span class="kw">use </span><span class="kw">crate</span>::utils::{align_chunks_binary, combine_validities_and, CustomIterTools};
 
 <span class="kw">impl</span>&lt;T&gt; BitAnd <span class="kw">for </span><span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;
 <span class="kw">where
@@ -292,7 +292,7 @@
             .map(|(l_arr, r_arr)| {
                 <span class="kw">let </span>l_vals = l_arr.values().as_slice();
                 <span class="kw">let </span>r_vals = r_arr.values().as_slice();
-                <span class="kw">let </span>validity = combine_validities(l_arr.validity(), r_arr.validity());
+                <span class="kw">let </span>validity = combine_validities_and(l_arr.validity(), r_arr.validity());
 
                 <span class="kw">let </span>av = l_vals
                     .iter()
@@ -325,7 +325,7 @@
             .map(|(l_arr, r_arr)| {
                 <span class="kw">let </span>l_vals = l_arr.values().as_slice();
                 <span class="kw">let </span>r_vals = r_arr.values().as_slice();
-                <span class="kw">let </span>validity = combine_validities(l_arr.validity(), r_arr.validity());
+                <span class="kw">let </span>validity = combine_validities_and(l_arr.validity(), r_arr.validity());
 
                 <span class="kw">let </span>av = l_vals
                     .iter()
@@ -358,7 +358,7 @@
             .map(|(l_arr, r_arr)| {
                 <span class="kw">let </span>l_vals = l_arr.values().as_slice();
                 <span class="kw">let </span>r_vals = r_arr.values().as_slice();
-                <span class="kw">let </span>validity = combine_validities(l_arr.validity(), r_arr.validity());
+                <span class="kw">let </span>validity = combine_validities_and(l_arr.validity(), r_arr.validity());
 
                 <span class="kw">let </span>av = l_vals
                     .iter()
@@ -462,7 +462,7 @@
             .downcast_iter()
             .zip(r.downcast_iter())
             .map(|(l_arr, r_arr)| {
-                <span class="kw">let </span>validity = combine_validities(l_arr.validity(), r_arr.validity());
+                <span class="kw">let </span>validity = combine_validities_and(l_arr.validity(), r_arr.validity());
                 <span class="kw">let </span>values = l_arr.values() ^ r_arr.values();
 
                 <span class="kw">let </span>arr = BooleanArray::from_data_default(values, validity);
