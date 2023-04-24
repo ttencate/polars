@@ -588,6 +588,10 @@
 <a href="#588" id="588">588</a>
 <a href="#589" id="589">589</a>
 <a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
 </span><span class="kw">mod </span>abs;
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
@@ -1153,6 +1157,10 @@
             Nanosecond =&gt; <span class="macro">map!</span>(datetime::nanosecond),
             TimeStamp(tu) =&gt; <span class="macro">map!</span>(datetime::timestamp, tu),
             Truncate(every, offset) =&gt; <span class="macro">map!</span>(datetime::truncate, <span class="kw-2">&amp;</span>every, <span class="kw-2">&amp;</span>offset),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;date_offset&quot;</span>)]
+            </span>MonthStart =&gt; <span class="macro">map!</span>(datetime::month_start),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;date_offset&quot;</span>)]
+            </span>MonthEnd =&gt; <span class="macro">map!</span>(datetime::month_end),
             Round(every, offset) =&gt; <span class="macro">map!</span>(datetime::round, <span class="kw-2">&amp;</span>every, <span class="kw-2">&amp;</span>offset),
             <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
             </span>CastTimezone(tz, use_earliest) =&gt; {

@@ -703,6 +703,8 @@
 <a href="#703" id="703">703</a>
 <a href="#704" id="704">704</a>
 <a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
 <span class="kw">use </span>std::ops::Mul;
 
@@ -1249,7 +1251,9 @@
             <span class="kw">let </span>nsec = ts.nanosecond();
             <span class="kw">let </span>dt = new_datetime(year, month <span class="kw">as </span>u32, day, hour, minute, sec, nsec).ok_or(
                 <span class="macro">polars_err!</span>(
-                    ComputeError: <span class="macro">format!</span>(<span class="string">&quot;cannot advance &#39;{}&#39; by {} month(s)&quot;</span>, ts, d.months)
+                    ComputeError: <span class="macro">format!</span>(
+                        <span class="string">&quot;cannot advance &#39;{}&#39; by {} month(s). \
+                         If you were trying to get the last day of each month, you may want to try `.dt.month_end`&quot;</span>, ts, d.months)
                 ),
             )<span class="question-mark">?</span>;
             new_t = <span class="kw">match </span>tz {

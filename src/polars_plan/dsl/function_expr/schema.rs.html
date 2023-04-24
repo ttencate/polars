@@ -316,6 +316,10 @@
 <a href="#316" id="316">316</a>
 <a href="#317" id="317">317</a>
 <a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">impl </span>FunctionExpr {
@@ -366,6 +370,10 @@
                         dtype =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;expected Datetime, got {}&quot;</span>, dtype),
                     },
                     Truncate(..) =&gt; mapper.with_same_dtype().unwrap().dtype,
+                    <span class="attr">#[cfg(feature = <span class="string">&quot;date_offset&quot;</span>)]
+                    </span>MonthStart =&gt; mapper.with_same_dtype().unwrap().dtype,
+                    <span class="attr">#[cfg(feature = <span class="string">&quot;date_offset&quot;</span>)]
+                    </span>MonthEnd =&gt; mapper.with_same_dtype().unwrap().dtype,
                     Round(..) =&gt; mapper.with_same_dtype().unwrap().dtype,
                     <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
                     </span>CastTimezone(tz, _use_earliest) =&gt; {
