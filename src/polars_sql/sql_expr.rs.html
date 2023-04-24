@@ -373,6 +373,9 @@
 <a href="#373" id="373">373</a>
 <a href="#374" id="374">374</a>
 <a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_lazy::dsl::Expr;
 <span class="kw">use </span>polars_lazy::prelude::<span class="kw-2">*</span>;
@@ -481,6 +484,7 @@
         );
         <span class="prelude-val">Ok</span>(col(<span class="kw-2">&amp;</span>idents[<span class="number">1</span>].value))
     }
+
     <span class="kw">fn </span>visit_unary_op(<span class="kw-2">&amp;</span><span class="self">self</span>, op: <span class="kw-2">&amp;</span>UnaryOperator, expr: <span class="kw-2">&amp;</span>SqlExpr) -&gt; PolarsResult&lt;Expr&gt; {
         <span class="kw">let </span>expr = <span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="kw">match </span>op {
@@ -601,6 +605,7 @@
             other =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;SQL value {:?} is not yet supported&quot;</span>, other),
         })
     }
+
     <span class="doccomment">/// Visit a SQL `BETWEEN` expression
     /// See [sqlparser::ast::Expr::Between] for more details
     </span><span class="kw">fn </span>visit_between(
@@ -620,6 +625,7 @@
             <span class="prelude-val">Ok</span>(expr.clone().gt(low).and(expr.lt(high)))
         }
     }
+
     <span class="doccomment">/// Visit a SQL &#39;TRIM&#39; function
     /// See [sqlparser::ast::Expr::Trim] for more details
     </span><span class="kw">fn </span>visit_trim(

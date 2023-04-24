@@ -564,6 +564,72 @@
 <a href="#564" id="564">564</a>
 <a href="#565" id="565">565</a>
 <a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
+<a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
+<a href="#623" id="623">623</a>
+<a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
+<a href="#627" id="627">627</a>
+<a href="#628" id="628">628</a>
+<a href="#629" id="629">629</a>
+<a href="#630" id="630">630</a>
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::{polars_bail, polars_err, PolarsError, PolarsResult};
 <span class="kw">use </span>polars_lazy::dsl::Expr;
 <span class="kw">use </span>polars_plan::dsl::count;
@@ -911,6 +977,7 @@
 
         <span class="kw">let </span>function_name: PolarsSqlFunctions = function.try_into()<span class="question-mark">?</span>;
         <span class="kw">use </span>PolarsSqlFunctions::<span class="kw-2">*</span>;
+
         <span class="kw">match </span>function_name {
             <span class="comment">// ----
             // Math functions
@@ -955,9 +1022,9 @@
             // Aggregate functions
             // ----
             </span>Count =&gt; <span class="self">self</span>.visit_count(),
-            Sum =&gt; <span class="self">self</span>.visit_unary(Expr::sum),
-            Min =&gt; <span class="self">self</span>.visit_unary(Expr::min),
-            Max =&gt; <span class="self">self</span>.visit_unary(Expr::max),
+            Sum =&gt; <span class="self">self</span>.visit_unary_with_opt_cumulative(Expr::sum, Expr::cumsum),
+            Min =&gt; <span class="self">self</span>.visit_unary_with_opt_cumulative(Expr::min, Expr::cummin),
+            Max =&gt; <span class="self">self</span>.visit_unary_with_opt_cumulative(Expr::max, Expr::cummax),
             Avg =&gt; <span class="self">self</span>.visit_unary(Expr::mean),
             StdDev =&gt; <span class="self">self</span>.visit_unary(|e| e.std(<span class="number">1</span>)),
             Variance =&gt; <span class="self">self</span>.visit_unary(|e| e.var(<span class="number">1</span>)),
@@ -980,15 +1047,64 @@
     }
 
     <span class="kw">fn </span>visit_unary(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw">impl </span>Fn(Expr) -&gt; Expr) -&gt; PolarsResult&lt;Expr&gt; {
+        <span class="self">self</span>.visit_unary_no_window(f)
+            .and_then(|e| <span class="self">self</span>.apply_window_spec(e, <span class="kw-2">&amp;</span><span class="self">self</span>.func.over))
+    }
+
+    <span class="doccomment">/// Some functions have cumulative equivalents that can be applied to window specs
+    /// e.g. SUM(a) OVER (ORDER BY b DESC) -&gt; CUMSUM(a, false)
+    /// visit_unary_with_cumulative_window will take in a function &amp; a cumulative function
+    /// if there is a cumulative window spec, it will apply the cumulative function,
+    /// otherwise it will apply the function
+    </span><span class="kw">fn </span>visit_unary_with_opt_cumulative(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        f: <span class="kw">impl </span>Fn(Expr) -&gt; Expr,
+        cumulative_f: <span class="kw">impl </span>Fn(Expr, bool) -&gt; Expr,
+    ) -&gt; PolarsResult&lt;Expr&gt; {
+        <span class="kw">match </span><span class="self">self</span>.func.over.as_ref() {
+            <span class="prelude-val">Some</span>(spec) =&gt; <span class="self">self</span>.apply_cumulative_window(f, cumulative_f, spec),
+            <span class="kw">_ </span>=&gt; <span class="self">self</span>.visit_unary(f),
+        }
+    }
+    <span class="doccomment">/// Window specs without partition bys are essentially cumulative functions
+    /// e.g. SUM(a) OVER (ORDER BY b DESC) -&gt; CUMSUM(a, false)
+    </span><span class="kw">fn </span>apply_cumulative_window(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        f: <span class="kw">impl </span>Fn(Expr) -&gt; Expr,
+        cumulative_f: <span class="kw">impl </span>Fn(Expr, bool) -&gt; Expr,
+        WindowSpec {
+            partition_by,
+            order_by,
+            ..
+        }: <span class="kw-2">&amp;</span>WindowSpec,
+    ) -&gt; PolarsResult&lt;Expr&gt; {
+        <span class="kw">if </span>!order_by.is_empty() &amp;&amp; partition_by.is_empty() {
+            <span class="kw">let </span>(order_by, desc): (Vec&lt;Expr&gt;, Vec&lt;bool&gt;) = order_by
+                .iter()
+                .map(|o| {
+                    <span class="kw">let </span>expr = parse_sql_expr(<span class="kw-2">&amp;</span>o.expr, <span class="self">self</span>.ctx)<span class="question-mark">?</span>;
+                    <span class="prelude-val">Ok</span>(<span class="kw">match </span>o.asc {
+                        <span class="prelude-val">Some</span>(b) =&gt; (expr, !b),
+                        <span class="prelude-val">None </span>=&gt; (expr, <span class="bool-val">false</span>),
+                    })
+                })
+                .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?
+                </span>.into_iter()
+                .unzip();
+            <span class="self">self</span>.visit_unary_no_window(|e| cumulative_f(e.sort_by(<span class="kw-2">&amp;</span>order_by, <span class="kw-2">&amp;</span>desc), <span class="bool-val">false</span>))
+        } <span class="kw">else </span>{
+            <span class="self">self</span>.visit_unary(f)
+        }
+    }
+
+    <span class="kw">fn </span>visit_unary_no_window(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw">impl </span>Fn(Expr) -&gt; Expr) -&gt; PolarsResult&lt;Expr&gt; {
         <span class="kw">let </span>function = <span class="self">self</span>.func;
         <span class="kw">let </span>args = extract_args(function);
         <span class="kw">if let </span>FunctionArgExpr::Expr(sql_expr) = args[<span class="number">0</span>] {
             <span class="comment">// parse the inner sql expr -- e.g. SUM(a) -&gt; a
             </span><span class="kw">let </span>expr = parse_sql_expr(sql_expr, <span class="self">self</span>.ctx)<span class="question-mark">?</span>;
             <span class="comment">// apply the function on the inner expr -- e.g. SUM(a) -&gt; SUM
-            </span><span class="kw">let </span>expr = f(expr);
-            <span class="comment">// apply the window spec if present
-            </span><span class="self">self</span>.apply_window_spec(expr, <span class="kw-2">&amp;</span>function.over)
+            </span><span class="prelude-val">Ok</span>(f(expr))
         } <span class="kw">else </span>{
             not_supported_error(function.name.<span class="number">0</span>[<span class="number">0</span>].value.as_str(), <span class="kw-2">&amp;</span>args)
         }
@@ -1044,6 +1160,7 @@
             <span class="kw">_ </span>=&gt; <span class="kw">return </span>not_supported_error(<span class="string">&quot;count&quot;</span>, <span class="kw-2">&amp;</span>args),
         })
     }
+
     <span class="kw">fn </span>apply_window_spec(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         expr: Expr,
@@ -1051,13 +1168,28 @@
     ) -&gt; PolarsResult&lt;Expr&gt; {
         <span class="prelude-val">Ok</span>(<span class="kw">match </span><span class="kw-2">&amp;</span>window_spec {
             <span class="prelude-val">Some</span>(window_spec) =&gt; {
-                <span class="comment">// Process for simple window specification, partition by first
-                </span><span class="kw">let </span>partition_by = window_spec
-                    .partition_by
-                    .iter()
-                    .map(|p| parse_sql_expr(p, <span class="self">self</span>.ctx))
-                    .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
-                expr.over(partition_by)
+                <span class="kw">if </span>window_spec.partition_by.is_empty() {
+                    <span class="kw">let </span>exprs = window_spec
+                        .order_by
+                        .iter()
+                        .map(|o| {
+                            <span class="kw">let </span>e = parse_sql_expr(<span class="kw-2">&amp;</span>o.expr, <span class="self">self</span>.ctx)<span class="question-mark">?</span>;
+                            <span class="kw">match </span>o.asc {
+                                <span class="prelude-val">Some</span>(b) =&gt; <span class="prelude-val">Ok</span>(e.sort(!b)),
+                                <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(e),
+                            }
+                        })
+                        .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
+                    expr.over(exprs)
+                } <span class="kw">else </span>{
+                    <span class="comment">// Process for simple window specification, partition by first
+                    </span><span class="kw">let </span>partition_by = window_spec
+                        .partition_by
+                        .iter()
+                        .map(|p| parse_sql_expr(p, <span class="self">self</span>.ctx))
+                        .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
+                    expr.over(partition_by)
+                }
                 <span class="comment">// Order by and Row range may not be supported at the moment
             </span>}
             <span class="prelude-val">None </span>=&gt; expr,
