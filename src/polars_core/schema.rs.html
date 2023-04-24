@@ -400,6 +400,10 @@
 <a href="#400" id="400">400</a>
 <a href="#401" id="401">401</a>
 <a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::{Debug, Formatter};
 
 <span class="kw">use </span>indexmap::IndexMap;
@@ -642,6 +646,10 @@
     /// [`get_at_index_mut`][Self::get_at_index_mut] for a mutable version.
     </span><span class="kw">pub fn </span>get_at_index(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="prelude-ty">Option</span>&lt;(<span class="kw-2">&amp;</span>SmartString, <span class="kw-2">&amp;</span>DataType)&gt; {
         <span class="self">self</span>.inner.get_index(index)
+    }
+
+    <span class="kw">pub fn </span>try_get_at_index(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; PolarsResult&lt;(<span class="kw-2">&amp;</span>SmartString, <span class="kw-2">&amp;</span>DataType)&gt; {
+        <span class="self">self</span>.inner.get_index(index).ok_or_else(|| <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;index {index} out of bounds with &#39;schema&#39; of len: {}&quot;</span>, <span class="self">self</span>.len()))
     }
 
     <span class="doccomment">/// Get mutable references to the name and dtype of the field at `index`
