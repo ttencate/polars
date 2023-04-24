@@ -705,6 +705,47 @@
 <a href="#705" id="705">705</a>
 <a href="#706" id="706">706</a>
 <a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
+<a href="#711" id="711">711</a>
+<a href="#712" id="712">712</a>
+<a href="#713" id="713">713</a>
+<a href="#714" id="714">714</a>
+<a href="#715" id="715">715</a>
+<a href="#716" id="716">716</a>
+<a href="#717" id="717">717</a>
+<a href="#718" id="718">718</a>
+<a href="#719" id="719">719</a>
+<a href="#720" id="720">720</a>
+<a href="#721" id="721">721</a>
+<a href="#722" id="722">722</a>
+<a href="#723" id="723">723</a>
+<a href="#724" id="724">724</a>
+<a href="#725" id="725">725</a>
+<a href="#726" id="726">726</a>
+<a href="#727" id="727">727</a>
+<a href="#728" id="728">728</a>
+<a href="#729" id="729">729</a>
+<a href="#730" id="730">730</a>
+<a href="#731" id="731">731</a>
+<a href="#732" id="732">732</a>
+<a href="#733" id="733">733</a>
+<a href="#734" id="734">734</a>
+<a href="#735" id="735">735</a>
+<a href="#736" id="736">736</a>
+<a href="#737" id="737">737</a>
+<a href="#738" id="738">738</a>
+<a href="#739" id="739">739</a>
+<a href="#740" id="740">740</a>
+<a href="#741" id="741">741</a>
+<a href="#742" id="742">742</a>
+<a href="#743" id="743">743</a>
+<a href="#744" id="744">744</a>
+<a href="#745" id="745">745</a>
+<a href="#746" id="746">746</a>
+<a href="#747" id="747">747</a>
+<a href="#748" id="748">748</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
 <span class="kw">use </span>std::ops::Mul;
 
@@ -728,6 +769,7 @@
 };
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::utils::{localize_datetime, unlocalize_datetime};
+<span class="kw">use </span><span class="kw">crate</span>::windows::calendar::{is_leap_year, last_day_of_month};
 
 <span class="attr">#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
@@ -744,6 +786,9 @@
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) negative: bool,
     <span class="comment">// indicates if an integer string was passed. e.g. &quot;2i&quot;
     </span><span class="kw">pub </span>parsed_int: bool,
+    <span class="comment">// indicates if a &#39;1mo&#39; offset to a non-existent date (e.g. 2022-02-29)
+    // should saturate to 2022-02-28 (as opposed to erroring)
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) saturating_months: <span class="prelude-ty">Option</span>&lt;bool&gt;,
 }
 
 <span class="kw">impl </span>PartialOrd&lt;<span class="self">Self</span>&gt; <span class="kw">for </span>Duration {
@@ -768,6 +813,7 @@
             nsecs: fixed_slots.abs(),
             negative: fixed_slots &lt; <span class="number">0</span>,
             parsed_int: <span class="bool-val">true</span>,
+            saturating_months: <span class="prelude-val">None</span>,
         }
     }
 
@@ -794,6 +840,9 @@
     /// * `d`:  day
     /// * `w`:  week
     /// * `mo`: calendar month
+    /// * `mo_saturating`: calendar month, but &quot;saturates&quot; to the last day of the month
+    ///    instead of erroring. For example, 2022-01-29 plus `&#39;1mo_saturating&#39;` goes to
+    ///    2022-02-28.
     /// * `y`:  calendar year
     /// * `i`:  index value (only for {Int32, Int64} dtypes)
     ///
@@ -815,6 +864,7 @@
         <span class="kw">let </span><span class="kw-2">mut </span>iter = duration.char_indices();
         <span class="kw">let </span>negative = duration.starts_with(<span class="string">&#39;-&#39;</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>start = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>saturating_months: <span class="prelude-ty">Option</span>&lt;bool&gt; = <span class="prelude-val">None</span>;
 
         <span class="comment">// skip the &#39;-&#39; char
         </span><span class="kw">if </span>negative {
@@ -832,7 +882,7 @@
                     .expect(<span class="string">&quot;expected an integer in the duration string&quot;</span>);
 
                 <span class="kw">loop </span>{
-                    <span class="kw">if </span>ch.is_ascii_alphabetic() {
+                    <span class="kw">if </span>ch.is_ascii_alphabetic() || ch == <span class="string">&#39;_&#39; </span>{
                         unit.push(ch)
                     } <span class="kw">else </span>{
                         <span class="kw">break</span>;
@@ -860,7 +910,20 @@
                     <span class="string">&quot;h&quot; </span>=&gt; nsecs += n * NS_HOUR,
                     <span class="string">&quot;d&quot; </span>=&gt; days += n,
                     <span class="string">&quot;w&quot; </span>=&gt; weeks += n,
-                    <span class="string">&quot;mo&quot; </span>=&gt; months += n,
+                    <span class="string">&quot;mo&quot; </span>=&gt; {
+                        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="bool-val">true</span>) = saturating_months {
+                            <span class="macro">panic!</span>(<span class="string">&quot;cannot use both saturating and non-saturating months&quot;</span>)
+                        }
+                        saturating_months = <span class="prelude-val">Some</span>(<span class="bool-val">false</span>);
+                        months += n
+                    }
+                    <span class="string">&quot;mo_saturating&quot; </span>=&gt; {
+                        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="bool-val">false</span>) = saturating_months {
+                            <span class="macro">panic!</span>(<span class="string">&quot;cannot use both saturating and non-saturating months&quot;</span>)
+                        }
+                        saturating_months = <span class="prelude-val">Some</span>(<span class="bool-val">true</span>);
+                        months += n
+                    }
                     <span class="string">&quot;y&quot; </span>=&gt; months += n * <span class="number">12</span>,
                     <span class="comment">// we will read indexes as nanoseconds
                     </span><span class="string">&quot;i&quot; </span>=&gt; {
@@ -879,6 +942,7 @@
             months: months.abs(),
             negative,
             parsed_int,
+            saturating_months,
         }
     }
 
@@ -945,6 +1009,7 @@
             nsecs,
             negative,
             parsed_int: <span class="bool-val">false</span>,
+            saturating_months: <span class="prelude-val">None</span>,
         }
     }
 
@@ -958,6 +1023,7 @@
             nsecs: <span class="number">0</span>,
             negative,
             parsed_int: <span class="bool-val">false</span>,
+            saturating_months: <span class="prelude-val">None</span>,
         }
     }
 
@@ -971,6 +1037,7 @@
             nsecs: <span class="number">0</span>,
             negative,
             parsed_int: <span class="bool-val">false</span>,
+            saturating_months: <span class="prelude-val">None</span>,
         }
     }
 
@@ -984,6 +1051,7 @@
             nsecs: <span class="number">0</span>,
             negative,
             parsed_int: <span class="bool-val">false</span>,
+            saturating_months: <span class="prelude-val">None</span>,
         }
     }
 
@@ -1228,7 +1296,7 @@
             };
             <span class="kw">let </span><span class="kw-2">mut </span>year = ts.year();
             <span class="kw">let </span><span class="kw-2">mut </span>month = ts.month() <span class="kw">as </span>i32;
-            <span class="kw">let </span>day = ts.day();
+            <span class="kw">let </span><span class="kw-2">mut </span>day = ts.day();
             year += (months / <span class="number">12</span>) <span class="kw">as </span>i32;
             month += (months % <span class="number">12</span>) <span class="kw">as </span>i32;
 
@@ -1241,6 +1309,20 @@
             } <span class="kw">else if </span>month &lt;= <span class="number">0 </span>{
                 year -= <span class="number">1</span>;
                 month += <span class="number">12</span>;
+            }
+
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="bool-val">true</span>) = d.saturating_months {
+                <span class="comment">// Normalize the day if we are past the end of the month.
+                </span><span class="kw">let </span><span class="kw-2">mut </span>last_day_of_month = last_day_of_month(month);
+                <span class="kw">if </span>month == (chrono::Month::February.number_from_month() <span class="kw">as </span>i32)
+                    &amp;&amp; is_leap_year(year)
+                {
+                    last_day_of_month += <span class="number">1</span>;
+                }
+
+                <span class="kw">if </span>day &gt; last_day_of_month {
+                    day = last_day_of_month
+                }
             }
 
             <span class="comment">// Retrieve the original time and construct a data

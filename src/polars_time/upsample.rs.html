@@ -201,6 +201,9 @@
 <a href="#201" id="201">201</a>
 <a href="#202" id="202">202</a>
 <a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
@@ -231,6 +234,9 @@
     /// - 1d    (1 day)
     /// - 1w    (1 week)
     /// - 1mo   (1 calendar month)
+    /// - 1mo_saturating (calendar month, but &quot;saturates&quot; to the last day of the month
+    ///   instead of erroring. For example, 2022-01-29 plus `&#39;1mo_saturating&#39;` goes to
+    ///   2022-02-28)
     /// - 1y    (1 calendar year)
     /// - 1i    (1 index count)
     /// Or combine them:
