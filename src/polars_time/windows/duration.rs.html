@@ -1253,7 +1253,7 @@
                 <span class="macro">polars_err!</span>(
                     ComputeError: <span class="macro">format!</span>(
                         <span class="string">&quot;cannot advance &#39;{}&#39; by {} month(s). \
-                         If you were trying to get the last day of each month, you may want to try `.dt.month_end`&quot;</span>, ts, d.months)
+                         If you were trying to get the last day of each month, you may want to try `.dt.month_end`&quot;</span>, ts, <span class="kw">if </span>d.negative {-d.months} <span class="kw">else </span>{d.months})
                 ),
             )<span class="question-mark">?</span>;
             new_t = <span class="kw">match </span>tz {
