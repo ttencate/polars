@@ -320,12 +320,12 @@
 <a href="#320" id="320">320</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;performant&quot;</span>)]
 </span><span class="kw">use </span>polars_arrow::kernels::sorted_join;
-<span class="attr">#[cfg(feature = <span class="string">&quot;performant&quot;</span>)]
-</span><span class="kw">use </span>polars_utils::flatten;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;performant&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::utils::_split_offsets;
+<span class="attr">#[cfg(feature = <span class="string">&quot;performant&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::utils::flatten::flatten_par;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;performant&quot;</span>)]
 </span><span class="kw">fn </span>par_sorted_merge_left_impl&lt;T&gt;(
@@ -353,7 +353,7 @@
     <span class="kw">let </span>lefts = indexes.iter().map(|t| <span class="kw-2">&amp;</span>t.<span class="number">0</span>).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
     <span class="kw">let </span>rights = indexes.iter().map(|t| <span class="kw-2">&amp;</span>t.<span class="number">1</span>).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
-    (flatten(<span class="kw-2">&amp;</span>lefts, <span class="prelude-val">None</span>), flatten(<span class="kw-2">&amp;</span>rights, <span class="prelude-val">None</span>))
+    (flatten_par(<span class="kw-2">&amp;</span>lefts), flatten_par(<span class="kw-2">&amp;</span>rights))
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;performant&quot;</span>)]
@@ -426,7 +426,7 @@
     <span class="kw">let </span>lefts = indexes.iter().map(|t| <span class="kw-2">&amp;</span>t.<span class="number">0</span>).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
     <span class="kw">let </span>rights = indexes.iter().map(|t| <span class="kw-2">&amp;</span>t.<span class="number">1</span>).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
-    (flatten(<span class="kw-2">&amp;</span>lefts, <span class="prelude-val">None</span>), flatten(<span class="kw-2">&amp;</span>rights, <span class="prelude-val">None</span>))
+    (flatten_par(<span class="kw-2">&amp;</span>lefts), flatten_par(<span class="kw-2">&amp;</span>rights))
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;performant&quot;</span>)]

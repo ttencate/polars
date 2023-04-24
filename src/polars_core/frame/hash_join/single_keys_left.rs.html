@@ -168,12 +168,10 @@
 <a href="#168" id="168">168</a>
 <a href="#169" id="169">169</a>
 <a href="#170" id="170">170</a>
-<a href="#171" id="171">171</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span>polars_utils::flatten;
-
-<span class="kw">use </span><span class="kw">super</span>::single_keys::create_probe_table;
+</pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::single_keys::create_probe_table;
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::frame::hash_join::single_keys::probe_to_offsets;
+<span class="kw">use </span><span class="kw">crate</span>::utils::flatten::flatten_par;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;chunked_ids&quot;</span>)]
 </span><span class="kw">unsafe fn </span>apply_mapping(idx: Vec&lt;IdxSize&gt;, chunk_mapping: <span class="kw-2">&amp;</span>[ChunkId]) -&gt; Vec&lt;ChunkId&gt; {
@@ -229,14 +227,14 @@
                 .iter()
                 .map(|join_id| join_id.<span class="number">0</span>.as_ref().left().unwrap())
                 .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-            <span class="kw">let </span>lefts = flatten(<span class="kw-2">&amp;</span>lefts, <span class="prelude-val">None</span>);
+            <span class="kw">let </span>lefts = flatten_par(<span class="kw-2">&amp;</span>lefts);
             JoinIds::Left(lefts)
         } <span class="kw">else </span>{
             <span class="kw">let </span>lefts = result
                 .iter()
                 .map(|join_id| join_id.<span class="number">0</span>.as_ref().right().unwrap())
                 .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-            <span class="kw">let </span>lefts = flatten(<span class="kw-2">&amp;</span>lefts, <span class="prelude-val">None</span>);
+            <span class="kw">let </span>lefts = flatten_par(<span class="kw-2">&amp;</span>lefts);
             JoinIds::Right(lefts)
         };
 
@@ -245,14 +243,14 @@
                 .iter()
                 .map(|join_id| join_id.<span class="number">1</span>.as_ref().left().unwrap())
                 .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-            <span class="kw">let </span>rights = flatten(<span class="kw-2">&amp;</span>rights, <span class="prelude-val">None</span>);
+            <span class="kw">let </span>rights = flatten_par(<span class="kw-2">&amp;</span>rights);
             JoinOptIds::Left(rights)
         } <span class="kw">else </span>{
             <span class="kw">let </span>rights = result
                 .iter()
                 .map(|join_id| join_id.<span class="number">1</span>.as_ref().right().unwrap())
                 .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-            <span class="kw">let </span>rights = flatten(<span class="kw-2">&amp;</span>rights, <span class="prelude-val">None</span>);
+            <span class="kw">let </span>rights = flatten_par(<span class="kw-2">&amp;</span>rights);
             JoinOptIds::Right(rights)
         };
 
@@ -262,8 +260,8 @@
     </span>{
         <span class="kw">let </span>lefts = result.iter().map(|join_id| <span class="kw-2">&amp;</span>join_id.<span class="number">0</span>).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="kw">let </span>rights = result.iter().map(|join_id| <span class="kw-2">&amp;</span>join_id.<span class="number">1</span>).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-        <span class="kw">let </span>lefts = flatten(<span class="kw-2">&amp;</span>lefts, <span class="prelude-val">None</span>);
-        <span class="kw">let </span>rights = flatten(<span class="kw-2">&amp;</span>rights, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>lefts = flatten_par(<span class="kw-2">&amp;</span>lefts);
+        <span class="kw">let </span>rights = flatten_par(<span class="kw-2">&amp;</span>rights);
         (lefts, rights)
     }
 }

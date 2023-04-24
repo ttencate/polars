@@ -735,34 +735,6 @@
 <a href="#735" id="735">735</a>
 <a href="#736" id="736">736</a>
 <a href="#737" id="737">737</a>
-<a href="#738" id="738">738</a>
-<a href="#739" id="739">739</a>
-<a href="#740" id="740">740</a>
-<a href="#741" id="741">741</a>
-<a href="#742" id="742">742</a>
-<a href="#743" id="743">743</a>
-<a href="#744" id="744">744</a>
-<a href="#745" id="745">745</a>
-<a href="#746" id="746">746</a>
-<a href="#747" id="747">747</a>
-<a href="#748" id="748">748</a>
-<a href="#749" id="749">749</a>
-<a href="#750" id="750">750</a>
-<a href="#751" id="751">751</a>
-<a href="#752" id="752">752</a>
-<a href="#753" id="753">753</a>
-<a href="#754" id="754">754</a>
-<a href="#755" id="755">755</a>
-<a href="#756" id="756">756</a>
-<a href="#757" id="757">757</a>
-<a href="#758" id="758">758</a>
-<a href="#759" id="759">759</a>
-<a href="#760" id="760">760</a>
-<a href="#761" id="761">761</a>
-<a href="#762" id="762">762</a>
-<a href="#763" id="763">763</a>
-<a href="#764" id="764">764</a>
-<a href="#765" id="765">765</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Implementations of upstream traits for ChunkedArray&lt;T&gt;
 </span><span class="kw">use </span>std::borrow::{Borrow, Cow};
 <span class="kw">use </span>std::collections::LinkedList;
@@ -782,6 +754,7 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::chunked_array::object::ObjectArray;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::utils::flatten::flatten_par;
 <span class="kw">use </span><span class="kw">crate</span>::utils::{get_iter_capacity, CustomIterTools, NoNull};
 
 <span class="kw">impl</span>&lt;T: PolarsDataType&gt; Default <span class="kw">for </span>ChunkedArray&lt;T&gt; {
@@ -1302,35 +1275,6 @@
         <span class="kw">let </span>arr: LargeStringArray = builder.into();
         <span class="kw">unsafe </span>{ <span class="self">Self</span>::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[Box::new(arr)]) }
     }
-}
-
-<span class="kw">pub fn </span>flatten_par&lt;T: Send + Sync + Copy&gt;(bufs: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>[T]]) -&gt; Vec&lt;T&gt; {
-    <span class="kw">let </span>len = bufs.iter().map(|b| b.as_ref().len()).sum();
-    <span class="kw">let </span>offsets = bufs
-        .iter()
-        .scan(<span class="number">0usize</span>, |acc, buf| {
-            <span class="kw">let </span>out = <span class="kw-2">*</span>acc;
-            <span class="kw-2">*</span>acc += buf.len();
-            <span class="prelude-val">Some</span>(out)
-        })
-        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-
-    <span class="kw">let </span><span class="kw-2">mut </span>out = Vec::with_capacity(len);
-    <span class="kw">let </span>out_ptr = <span class="kw">unsafe </span>{ SyncPtr::new(out.as_mut_ptr()) };
-
-    offsets.into_par_iter().enumerate().for_each(|(i, offset)| {
-        <span class="kw">let </span>buf = bufs[i];
-        <span class="kw">let </span>ptr: <span class="kw-2">*mut </span>T = out_ptr.get();
-        <span class="kw">unsafe </span>{
-            <span class="kw">let </span>dst = ptr.add(offset);
-            <span class="kw">let </span>src = buf.as_ptr();
-            std::ptr::copy_nonoverlapping(src, dst, buf.len())
-        }
-    });
-    <span class="kw">unsafe </span>{
-        out.set_len(len);
-    }
-    out
 }
 
 <span class="kw">impl</span>&lt;Ptr&gt; FromParallelIterator&lt;<span class="prelude-ty">Option</span>&lt;Ptr&gt;&gt; <span class="kw">for </span>Utf8Chunked

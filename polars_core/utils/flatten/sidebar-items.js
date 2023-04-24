@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["flatten_series"]};
+window.SIDEBAR_ITEMS = {"fn":["flatten_par","flatten_series"]};
