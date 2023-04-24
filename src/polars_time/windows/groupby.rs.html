@@ -561,27 +561,6 @@
 <a href="#561" id="561">561</a>
 <a href="#562" id="562">562</a>
 <a href="#563" id="563">563</a>
-<a href="#564" id="564">564</a>
-<a href="#565" id="565">565</a>
-<a href="#566" id="566">566</a>
-<a href="#567" id="567">567</a>
-<a href="#568" id="568">568</a>
-<a href="#569" id="569">569</a>
-<a href="#570" id="570">570</a>
-<a href="#571" id="571">571</a>
-<a href="#572" id="572">572</a>
-<a href="#573" id="573">573</a>
-<a href="#574" id="574">574</a>
-<a href="#575" id="575">575</a>
-<a href="#576" id="576">576</a>
-<a href="#577" id="577">577</a>
-<a href="#578" id="578">578</a>
-<a href="#579" id="579">579</a>
-<a href="#580" id="580">580</a>
-<a href="#581" id="581">581</a>
-<a href="#582" id="582">582</a>
-<a href="#583" id="583">583</a>
-<a href="#584" id="584">584</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -817,16 +796,14 @@
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
     start_offset: usize,
-) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (IdxSize, IdxSize)&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
+) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
     <span class="macro">debug_assert!</span>(offset.duration_ns() &gt;= period.duration_ns());
     <span class="macro">debug_assert!</span>(offset.negative);
-    <span class="kw">fn </span>add&lt;T: PolarsTimeZone&gt;(tu: TimeUnit) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt; {
-        <span class="kw">match </span>tu {
-            TimeUnit::Nanoseconds =&gt; Duration::add_ns,
-            TimeUnit::Microseconds =&gt; Duration::add_us,
-            TimeUnit::Milliseconds =&gt; Duration::add_ms,
-        }
-    }
+    <span class="kw">let </span>add = <span class="kw">match </span>tu {
+        TimeUnit::Nanoseconds =&gt; Duration::add_ns,
+        TimeUnit::Microseconds =&gt; Duration::add_us,
+        TimeUnit::Milliseconds =&gt; Duration::add_ms,
+    };
 
     <span class="kw">let </span><span class="kw-2">mut </span>last_lookbehind_i = <span class="number">0</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>last = i64::MIN;
@@ -839,8 +816,8 @@
             }
             last = <span class="kw-2">*</span>lower;
             i += start_offset;
-            <span class="kw">let </span>lower = add(tu)(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower, tz.as_ref()).unwrap();
-            <span class="kw">let </span>upper = add(tu)(<span class="kw-2">&amp;</span>period, lower, tz.as_ref()).unwrap();
+            <span class="kw">let </span>lower = add(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower, tz.as_ref())<span class="question-mark">?</span>;
+            <span class="kw">let </span>upper = add(<span class="kw-2">&amp;</span>period, lower, tz.as_ref())<span class="question-mark">?</span>;
 
             <span class="kw">let </span>b = Bounds::new(lower, upper);
 
@@ -868,7 +845,7 @@
                 len += <span class="number">1</span>;
             }
 
-            (lookbehind_i <span class="kw">as </span>IdxSize, len <span class="kw">as </span>IdxSize)
+            <span class="prelude-val">Ok</span>((lookbehind_i <span class="kw">as </span>IdxSize, len <span class="kw">as </span>IdxSize))
         })
 }
 
@@ -880,28 +857,21 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
-) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (IdxSize, IdxSize)&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
-    <span class="kw">fn </span>add&lt;T: PolarsTimeZone&gt;(tu: TimeUnit) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt; {
-        <span class="kw">match </span>tu {
-            TimeUnit::Nanoseconds =&gt; Duration::add_ns,
-            TimeUnit::Microseconds =&gt; Duration::add_us,
-            TimeUnit::Milliseconds =&gt; Duration::add_ms,
-        }
-    }
+) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
+    <span class="kw">let </span>add = <span class="kw">match </span>tu {
+        TimeUnit::Nanoseconds =&gt; Duration::add_ns,
+        TimeUnit::Microseconds =&gt; Duration::add_us,
+        TimeUnit::Milliseconds =&gt; Duration::add_ms,
+    };
 
     <span class="kw">let </span><span class="kw-2">mut </span>lagging_offset = <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>last = i64::MIN;
     time.iter().enumerate().map(<span class="kw">move </span>|(i, lower)| {
-        <span class="kw">if </span><span class="kw-2">*</span>lower &lt; last {
-            <span class="macro">panic!</span>(<span class="string">&quot;index column of &#39;groupby_rolling&#39; must be sorted!&quot;</span>)
-        }
-        last = <span class="kw-2">*</span>lower;
-        <span class="kw">let </span>lower = add(tu)(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower, tz.as_ref()).unwrap();
-        <span class="kw">let </span>upper = add(tu)(<span class="kw-2">&amp;</span>period, lower, tz.as_ref()).unwrap();
+        <span class="kw">let </span>lower = add(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower, tz.as_ref())<span class="question-mark">?</span>;
+        <span class="kw">let </span>upper = add(<span class="kw-2">&amp;</span>period, lower, tz.as_ref())<span class="question-mark">?</span>;
 
         <span class="kw">let </span>b = Bounds::new(lower, upper);
         <span class="kw">if </span>b.is_future(time[<span class="number">0</span>], closed_window) {
-            (<span class="number">0</span>, <span class="number">0</span>)
+            <span class="prelude-val">Ok</span>((<span class="number">0</span>, <span class="number">0</span>))
         } <span class="kw">else </span>{
             <span class="comment">// find starting point of window
             // we can start searching from lagging offset as that is the minimum boundary because data is sorted
@@ -924,7 +894,7 @@
             </span><span class="kw">let </span>slice = <span class="kw">unsafe </span>{ time.get_unchecked(lagging_offset..) };
             <span class="kw">let </span>len = slice.partition_point(|v| b.is_member(<span class="kw-2">*</span>v, closed_window));
 
-            (lagging_offset <span class="kw">as </span>IdxSize, len <span class="kw">as </span>IdxSize)
+            <span class="prelude-val">Ok</span>((lagging_offset <span class="kw">as </span>IdxSize, len <span class="kw">as </span>IdxSize))
         }
     })
 }
@@ -937,24 +907,17 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
-) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (IdxSize, IdxSize)&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
-    <span class="kw">fn </span>add&lt;T: PolarsTimeZone&gt;(tu: TimeUnit) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt; {
-        <span class="kw">match </span>tu {
-            TimeUnit::Nanoseconds =&gt; Duration::add_ns,
-            TimeUnit::Microseconds =&gt; Duration::add_us,
-            TimeUnit::Milliseconds =&gt; Duration::add_ms,
-        }
-    }
+) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
+    <span class="kw">let </span>add = <span class="kw">match </span>tu {
+        TimeUnit::Nanoseconds =&gt; Duration::add_ns,
+        TimeUnit::Microseconds =&gt; Duration::add_us,
+        TimeUnit::Milliseconds =&gt; Duration::add_ms,
+    };
 
     <span class="kw">let </span><span class="kw-2">mut </span>lagging_offset = <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>last = i64::MIN;
     time.iter().enumerate().map(<span class="kw">move </span>|(i, lower)| {
-        <span class="kw">if </span><span class="kw-2">*</span>lower &lt; last {
-            <span class="macro">panic!</span>(<span class="string">&quot;index column of &#39;groupby_rolling&#39; must be sorted!&quot;</span>)
-        }
-        last = <span class="kw-2">*</span>lower;
-        <span class="kw">let </span>lower = add(tu)(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower, tz.as_ref()).unwrap();
-        <span class="kw">let </span>upper = add(tu)(<span class="kw-2">&amp;</span>period, lower, tz.as_ref()).unwrap();
+        <span class="kw">let </span>lower = add(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower, tz.as_ref())<span class="question-mark">?</span>;
+        <span class="kw">let </span>upper = add(<span class="kw-2">&amp;</span>period, lower, tz.as_ref())<span class="question-mark">?</span>;
 
         <span class="kw">let </span>b = Bounds::new(lower, upper);
 
@@ -970,7 +933,7 @@
         </span><span class="kw">let </span>slice = <span class="kw">unsafe </span>{ time.get_unchecked(lagging_offset..) };
         <span class="kw">let </span>len = slice.partition_point(|v| b.is_member(<span class="kw-2">*</span>v, closed_window));
 
-        (lagging_offset <span class="kw">as </span>IdxSize, len <span class="kw">as </span>IdxSize)
+        <span class="prelude-val">Ok</span>((lagging_offset <span class="kw">as </span>IdxSize, len <span class="kw">as </span>IdxSize))
     })
 }
 
@@ -984,30 +947,23 @@
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
     start_offset: usize,
     upper_bound: <span class="prelude-ty">Option</span>&lt;usize&gt;,
-) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (IdxSize, IdxSize)&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
+) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
     <span class="kw">let </span>upper_bound = upper_bound.unwrap_or(time.len());
     <span class="macro">debug_assert!</span>(!offset.negative);
 
-    <span class="kw">fn </span>add&lt;T: PolarsTimeZone&gt;(tu: TimeUnit) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt; {
-        <span class="kw">match </span>tu {
-            TimeUnit::Nanoseconds =&gt; Duration::add_ns,
-            TimeUnit::Microseconds =&gt; Duration::add_us,
-            TimeUnit::Milliseconds =&gt; Duration::add_ms,
-        }
-    }
+    <span class="kw">let </span>add = <span class="kw">match </span>tu {
+        TimeUnit::Nanoseconds =&gt; Duration::add_ns,
+        TimeUnit::Microseconds =&gt; Duration::add_us,
+        TimeUnit::Milliseconds =&gt; Duration::add_ms,
+    };
 
-    <span class="kw">let </span><span class="kw-2">mut </span>last = i64::MIN;
     time[start_offset..upper_bound]
         .iter()
         .enumerate()
         .map(<span class="kw">move </span>|(<span class="kw-2">mut </span>i, lower)| {
-            <span class="kw">if </span><span class="kw-2">*</span>lower &lt; last {
-                <span class="macro">panic!</span>(<span class="string">&quot;index column of &#39;groupby_rolling&#39; must be sorted!&quot;</span>)
-            }
-            last = <span class="kw-2">*</span>lower;
             i += start_offset;
-            <span class="kw">let </span>lower = add(tu)(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower, tz.as_ref()).unwrap();
-            <span class="kw">let </span>upper = add(tu)(<span class="kw-2">&amp;</span>period, lower, tz.as_ref()).unwrap();
+            <span class="kw">let </span>lower = add(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower, tz.as_ref())<span class="question-mark">?</span>;
+            <span class="kw">let </span>upper = add(<span class="kw-2">&amp;</span>period, lower, tz.as_ref())<span class="question-mark">?</span>;
 
             <span class="kw">let </span>b = Bounds::new(lower, upper);
 
@@ -1015,7 +971,7 @@
             <span class="kw">let </span>slice = <span class="kw">unsafe </span>{ time.get_unchecked(i..) };
             <span class="kw">let </span>len = slice.partition_point(|v| b.is_member(<span class="kw-2">*</span>v, closed_window));
 
-            (i <span class="kw">as </span>IdxSize, len <span class="kw">as </span>IdxSize)
+            <span class="prelude-val">Ok</span>((i <span class="kw">as </span>IdxSize, len <span class="kw">as </span>IdxSize))
         })
 }
 
@@ -1037,7 +993,7 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
-) -&gt; Box&lt;<span class="kw">dyn </span>TrustedLen&lt;Item = (IdxSize, IdxSize)&gt; + <span class="lifetime">&#39;a</span>&gt; {
+) -&gt; Box&lt;<span class="kw">dyn </span>TrustedLen&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + <span class="lifetime">&#39;a</span>&gt; {
     partially_check_sorted(time);
     <span class="comment">// we have a (partial) lookbehind window
     </span><span class="kw">if </span>offset.negative {
@@ -1080,7 +1036,7 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
-) -&gt; GroupsSlice {
+) -&gt; PolarsResult&lt;GroupsSlice&gt; {
     partially_check_sorted(time);
     <span class="kw">let </span>thread_offsets = _split_offsets(time.len(), POOL.current_num_threads());
 
@@ -1107,12 +1063,12 @@
                                 tz.clone(),
                                 base_offset,
                             );
-                            iter.map(|(offset, len)| [offset <span class="kw">as </span>IdxSize, len])
-                                .collect_trusted::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+                            iter.map(|result| result.map(|(offset, len)| [offset, len]))
+                                .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
                         })
-                        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
-                });
-                flatten(<span class="kw-2">&amp;</span>vals, <span class="prelude-val">Some</span>(time.len()))
+                        .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
+                })<span class="question-mark">?</span>;
+                <span class="prelude-val">Ok</span>(flatten(<span class="kw-2">&amp;</span>vals, <span class="prelude-val">Some</span>(time.len())))
             }
             <span class="comment">// window is completely behind t and t itself is not a member
             // ---------------t---
@@ -1126,7 +1082,8 @@
                     tu,
                     tz,
                 );
-                iter.map(|(offset, len)| [offset, len]).collect_trusted()
+                iter.map(|result| result.map(|(offset, len)| [offset, len]))
+                    .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()
             }
         }
         <span class="comment">// partial lookbehind
@@ -1138,7 +1095,8 @@
         </span><span class="kw">else </span>{
             <span class="kw">let </span>iter =
                 groupby_values_iter_partial_lookbehind(period, offset, time, closed_window, tu, tz);
-            iter.map(|(offset, len)| [offset, len]).collect_trusted()
+            iter.map(|result| result.map(|(offset, len)| [offset, len]))
+                .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()
         }
     } <span class="kw">else </span>{
         <span class="kw">let </span>vals = POOL.install(|| {
@@ -1158,12 +1116,12 @@
                         lower_bound,
                         <span class="prelude-val">Some</span>(upper_bound),
                     );
-                    iter.map(|(offset, len)| [offset <span class="kw">as </span>IdxSize, len])
-                        .collect_trusted::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+                    iter.map(|result| result.map(|(offset, len)| [offset <span class="kw">as </span>IdxSize, len]))
+                        .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
                 })
-                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
-        });
-        flatten(<span class="kw-2">&amp;</span>vals, <span class="prelude-val">Some</span>(time.len()))
+                .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
+        })<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(flatten(<span class="kw-2">&amp;</span>vals, <span class="prelude-val">Some</span>(time.len())))
     }
 }
 </code></pre></div></section></main></body></html>

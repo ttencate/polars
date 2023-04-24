@@ -862,6 +862,8 @@
 <a href="#862" id="862">862</a>
 <a href="#863" id="863">863</a>
 <a href="#864" id="864">864</a>
+<a href="#865" id="865">865</a>
+<a href="#866" id="866">866</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -874,6 +876,7 @@
 <span class="kw">use </span>polars_core::series::IsSorted;
 <span class="kw">use </span>polars_core::utils::ensure_sorted_arg;
 <span class="kw">use </span>polars_core::POOL;
+<span class="kw">use </span>polars_utils::flatten;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
 <span class="kw">use </span>smartstring::alias::String <span class="kw">as </span>SmartString;
@@ -1333,7 +1336,7 @@
             <span class="kw">let </span>dt = dt.datetime().unwrap();
             <span class="kw">let </span>vals = dt.downcast_iter().next().unwrap();
             <span class="kw">let </span>ts = vals.values().as_slice();
-            GroupsProxy::Slice {
+            PolarsResult::Ok(GroupsProxy::Slice {
                 groups: groupby_values(
                     options.period,
                     options.offset,
@@ -1341,9 +1344,9 @@
                     options.closed_window,
                     tu,
                     tz,
-                ),
+                )<span class="question-mark">?</span>,
                 rolling: <span class="bool-val">true</span>,
-            }
+            })
         } <span class="kw">else </span>{
             <span class="kw">let </span>groups = <span class="self">self
                 </span>.<span class="number">0
@@ -1362,7 +1365,7 @@
                 GroupsProxy::Idx(groups) =&gt; {
                     <span class="kw">let </span>idx = groups
                         .par_iter()
-                        .flat_map(|base_g| {
+                        .map(|base_g| {
                             <span class="kw">let </span>dt = <span class="kw">unsafe </span>{ dt_local.take_unchecked(base_g.<span class="number">1</span>.into()) };
                             <span class="kw">let </span>vals = dt.downcast_iter().next().unwrap();
                             <span class="kw">let </span>ts = vals.values().as_slice();
@@ -1373,17 +1376,17 @@
                                 options.closed_window,
                                 tu,
                                 tz.clone(),
-                            );
-                            update_subgroups_idx(<span class="kw-2">&amp;</span>sub_groups, base_g)
+                            )<span class="question-mark">?</span>;
+                            <span class="prelude-val">Ok</span>(update_subgroups_idx(<span class="kw-2">&amp;</span>sub_groups, base_g))
                         })
-                        .collect();
+                        .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
 
-                    GroupsProxy::Idx(idx)
+                    <span class="prelude-val">Ok</span>(GroupsProxy::Idx(GroupsIdx::from(idx)))
                 }
                 GroupsProxy::Slice { groups, .. } =&gt; {
                     <span class="kw">let </span>slice_groups = groups
                         .par_iter()
-                        .flat_map(|base_g| {
+                        .map(|base_g| {
                             <span class="kw">let </span>dt = dt_local.slice(base_g[<span class="number">0</span>] <span class="kw">as </span>i64, base_g[<span class="number">1</span>] <span class="kw">as </span>usize);
                             <span class="kw">let </span>vals = dt.downcast_iter().next().unwrap();
                             <span class="kw">let </span>ts = vals.values().as_slice();
@@ -1394,18 +1397,19 @@
                                 options.closed_window,
                                 tu,
                                 tz.clone(),
-                            );
-                            update_subgroups_slice(<span class="kw-2">&amp;</span>sub_groups, <span class="kw-2">*</span>base_g)
+                            )<span class="question-mark">?</span>;
+                            <span class="prelude-val">Ok</span>(update_subgroups_slice(<span class="kw-2">&amp;</span>sub_groups, <span class="kw-2">*</span>base_g))
                         })
-                        .collect();
+                        .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
 
-                    GroupsProxy::Slice {
+                    <span class="kw">let </span>slice_groups = flatten(<span class="kw-2">&amp;</span>slice_groups, <span class="prelude-val">None</span>);
+                    <span class="prelude-val">Ok</span>(GroupsProxy::Slice {
                         groups: slice_groups,
                         rolling: <span class="bool-val">false</span>,
-                    }
+                    })
                 }
             })
-        };
+        }<span class="question-mark">?</span>;
 
         <span class="kw">let </span>dt = dt.cast(time_type).unwrap();
 

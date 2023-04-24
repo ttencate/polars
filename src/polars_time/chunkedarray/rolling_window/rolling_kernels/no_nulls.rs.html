@@ -246,6 +246,15 @@
 <a href="#246" id="246">246</a>
 <a href="#247" id="247">247</a>
 <a href="#248" id="248">248</a>
+<a href="#249" id="249">249</a>
+<a href="#250" id="250">250</a>
+<a href="#251" id="251">251</a>
+<a href="#252" id="252">252</a>
+<a href="#253" id="253">253</a>
+<a href="#254" id="254">254</a>
+<a href="#255" id="255">255</a>
+<a href="#256" id="256">256</a>
+<a href="#257" id="257">257</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -256,35 +265,44 @@
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="comment">// Use an aggregation window that maintains the state
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_apply_agg_window&lt;<span class="lifetime">&#39;a</span>, Agg, T, O&gt;(values: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], offsets: O) -&gt; ArrayRef
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_apply_agg_window&lt;<span class="lifetime">&#39;a</span>, Agg, T, O&gt;(
+    values: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T],
+    offsets: O,
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span><span class="comment">// items (offset, len) -&gt; so offsets are offset, offset + len
     </span>Agg: RollingAggWindowNoNulls&lt;<span class="lifetime">&#39;a</span>, T&gt;,
-    O: Iterator&lt;Item = (IdxSize, IdxSize)&gt; + TrustedLen,
+    O: Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen,
     T: Debug + IsFloat + NativeType,
 {
     <span class="kw">if </span>values.is_empty() {
         <span class="kw">let </span>out: Vec&lt;T&gt; = <span class="macro">vec!</span>[];
-        <span class="kw">return </span>Box::new(PrimitiveArray::new(T::PRIMITIVE.into(), out.into(), <span class="prelude-val">None</span>));
+        <span class="kw">return </span><span class="prelude-val">Ok</span>(Box::new(PrimitiveArray::new(
+            T::PRIMITIVE.into(),
+            out.into(),
+            <span class="prelude-val">None</span>,
+        )));
     }
     <span class="comment">// start with a dummy index, will be overwritten on first iteration.
     </span><span class="kw">let </span><span class="kw-2">mut </span>agg_window = Agg::new(values, <span class="number">0</span>, <span class="number">0</span>);
 
     <span class="kw">let </span>out = offsets
-        .map(|(start, len)| {
-            <span class="kw">let </span>end = start + len;
+        .map(|result| {
+            result.map(|(start, len)| {
+                <span class="kw">let </span>end = start + len;
 
-            <span class="kw">if </span>start == end {
-                <span class="prelude-val">None
-            </span>} <span class="kw">else </span>{
-                <span class="comment">// safety:
-                // we are in bounds
-                </span><span class="prelude-val">Some</span>(<span class="kw">unsafe </span>{ agg_window.update(start <span class="kw">as </span>usize, end <span class="kw">as </span>usize) })
-            }
+                <span class="kw">if </span>start == end {
+                    <span class="prelude-val">None
+                </span>} <span class="kw">else </span>{
+                    <span class="comment">// safety:
+                    // we are in bounds
+                    </span><span class="prelude-val">Some</span>(<span class="kw">unsafe </span>{ agg_window.update(start <span class="kw">as </span>usize, end <span class="kw">as </span>usize) })
+                }
+            })
         })
-        .collect::&lt;PrimitiveArray&lt;T&gt;&gt;();
+        .collect::&lt;PolarsResult&lt;PrimitiveArray&lt;T&gt;&gt;&gt;()<span class="question-mark">?</span>;
 
-    Box::new(out)
+    <span class="prelude-val">Ok</span>(Box::new(out))
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_min&lt;T&gt;(
@@ -295,7 +313,7 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
-) -&gt; ArrayRef
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType + PartialOrd + IsFloat + Bounded + NumCast + Mul&lt;Output = T&gt;,
 {
@@ -328,7 +346,7 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
-) -&gt; ArrayRef
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType + PartialOrd + IsFloat + Bounded + NumCast + Mul&lt;Output = T&gt;,
 {
@@ -361,7 +379,7 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
-) -&gt; ArrayRef
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType + std::iter::Sum + NumCast + Mul&lt;Output = T&gt; + AddAssign + SubAssign + IsFloat,
 {
@@ -394,7 +412,7 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
-) -&gt; ArrayRef
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType + Float + std::iter::Sum&lt;T&gt; + SubAssign + AddAssign + IsFloat,
 {
@@ -427,7 +445,7 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
-) -&gt; ArrayRef
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType + Float + std::iter::Sum&lt;T&gt; + SubAssign + AddAssign + IsFloat,
 {
@@ -460,7 +478,7 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
-) -&gt; ArrayRef
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType
         + Float
