@@ -698,6 +698,8 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.minute.html">polars.Series.dt.minute</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.minutes.html">polars.Series.dt.minutes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.month.html">polars.Series.dt.month</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.month_start.html">polars.Series.dt.month_start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.month_end.html">polars.Series.dt.month_end</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.nanosecond.html">polars.Series.dt.nanosecond</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.nanoseconds.html">polars.Series.dt.nanoseconds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.dt.offset_by.html">polars.Series.dt.offset_by</a></li>
@@ -1321,6 +1323,8 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.minute.html">polars.Expr.dt.minute</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.minutes.html">polars.Expr.dt.minutes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.month.html">polars.Expr.dt.month</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.month_start.html">polars.Expr.dt.month_start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.month_end.html">polars.Expr.dt.month_end</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.nanosecond.html">polars.Expr.dt.nanosecond</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.nanoseconds.html">polars.Expr.dt.nanoseconds</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.offset_by.html">polars.Expr.dt.offset_by</a></li>
@@ -1451,6 +1455,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.testing.parametric.series.html">polars.testing.parametric.series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.testing.parametric.column.html">polars.testing.parametric.column</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.testing.parametric.columns.html">polars.testing.parametric.columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.testing.parametric.create_list_strategy.html">polars.testing.parametric.create_list_strategy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.testing.parametric.load_profile.html">polars.testing.parametric.load_profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.testing.parametric.set_profile.html">polars.testing.parametric.set_profile</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../utils.html">Utils</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-56"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1535,7 +1542,7 @@ document.write(`
 <h1>polars.DataFrame.is_empty<a class="headerlink" href="#polars-dataframe-is-empty" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.DataFrame.is_empty">
-<span class="sig-prename descclassname"><span class="pre">DataFrame.</span></span><span class="sig-name descname"><span class="pre">is_empty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/dataframe/frame.py#L8325-L8338"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.DataFrame.is_empty" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">DataFrame.</span></span><span class="sig-name descname"><span class="pre">is_empty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/dataframe/frame.py#L8340-L8353"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.DataFrame.is_empty" title="Permalink to this definition">#</a></dt>
 <dd><p>Check if the dataframe is empty.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;foo&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;bar&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]})</span>
