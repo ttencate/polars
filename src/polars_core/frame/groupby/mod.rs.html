@@ -1978,7 +1978,7 @@
             .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
 
         <span class="kw">let </span><span class="kw-2">mut </span>df = accumulate_dataframes_vertical(dfs)<span class="question-mark">?</span>;
-        df.as_single_chunk();
+        df.as_single_chunk_par();
         <span class="prelude-val">Ok</span>(df)
     }
 
@@ -2000,7 +2000,7 @@
             .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
 
         <span class="kw">let </span><span class="kw-2">mut </span>df = accumulate_dataframes_vertical(dfs)<span class="question-mark">?</span>;
-        df.as_single_chunk();
+        df.as_single_chunk_par();
         <span class="prelude-val">Ok</span>(df)
     }
 }
