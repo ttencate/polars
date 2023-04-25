@@ -482,11 +482,6 @@
 <a href="#482" id="482">482</a>
 <a href="#483" id="483">483</a>
 <a href="#484" id="484">484</a>
-<a href="#485" id="485">485</a>
-<a href="#486" id="486">486</a>
-<a href="#487" id="487">487</a>
-<a href="#488" id="488">488</a>
-<a href="#489" id="489">489</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::ops::{Deref, DerefMut};
 
@@ -918,28 +913,23 @@
         <span class="self">self</span>.<span class="number">0</span>.min_as_series().into_duration(<span class="self">self</span>.<span class="number">0</span>.time_unit())
     }
     <span class="kw">fn </span>median_as_series(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Series {
-        Int32Chunked::full_null(<span class="self">self</span>.name(), <span class="number">1</span>)
-            .cast(<span class="self">self</span>.dtype())
+        <span class="self">self</span>.<span class="number">0
+            </span>.median_as_series()
+            .cast(<span class="kw-2">&amp;</span><span class="self">self</span>.dtype().to_physical())
             .unwrap()
-    }
-    <span class="kw">fn </span>var_as_series(<span class="kw-2">&amp;</span><span class="self">self</span>, _ddof: u8) -&gt; Series {
-        Int32Chunked::full_null(<span class="self">self</span>.name(), <span class="number">1</span>)
-            .cast(<span class="self">self</span>.dtype())
-            .unwrap()
-    }
-    <span class="kw">fn </span>std_as_series(<span class="kw-2">&amp;</span><span class="self">self</span>, _ddof: u8) -&gt; Series {
-        Int32Chunked::full_null(<span class="self">self</span>.name(), <span class="number">1</span>)
             .cast(<span class="self">self</span>.dtype())
             .unwrap()
     }
     <span class="kw">fn </span>quantile_as_series(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _quantile: f64,
-        _interpol: QuantileInterpolOptions,
+        quantile: f64,
+        interpol: QuantileInterpolOptions,
     ) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="prelude-val">Ok</span>(Int32Chunked::full_null(<span class="self">self</span>.name(), <span class="number">1</span>)
+        <span class="self">self</span>.<span class="number">0
+            </span>.quantile_as_series(quantile, interpol)<span class="question-mark">?
+            </span>.cast(<span class="kw-2">&amp;</span><span class="self">self</span>.dtype().to_physical())
+            .unwrap()
             .cast(<span class="self">self</span>.dtype())
-            .unwrap())
     }
 
     <span class="kw">fn </span>clone_inner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Arc&lt;<span class="kw">dyn </span>SeriesTrait&gt; {
