@@ -835,6 +835,12 @@
 <a href="#835" id="835">835</a>
 <a href="#836" id="836">836</a>
 <a href="#837" id="837">837</a>
+<a href="#838" id="838">838</a>
+<a href="#839" id="839">839</a>
+<a href="#840" id="840">840</a>
+<a href="#841" id="841">841</a>
+<a href="#842" id="842">842</a>
+<a href="#843" id="843">843</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::Write;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -1244,7 +1250,13 @@
         //          This can be used to reverse, sort, shuffle etc. the values in a group
 
         // 4. select the final column and return
-        </span><span class="kw">let </span>groupby_columns = <span class="self">self
+
+        </span><span class="kw">if </span>df.height() == <span class="number">0 </span>{
+            <span class="kw">let </span>field = <span class="self">self</span>.phys_function.to_field(<span class="kw-2">&amp;</span>df.schema())<span class="question-mark">?</span>;
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(Series::full_null(field.name(), <span class="number">0</span>, field.data_type()));
+        }
+
+        <span class="kw">let </span>groupby_columns = <span class="self">self
             </span>.group_by
             .iter()
             .map(|e| e.evaluate(df, state))
