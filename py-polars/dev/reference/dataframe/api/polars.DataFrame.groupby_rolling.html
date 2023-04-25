@@ -832,6 +832,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.DataFrame.rows.html">polars.DataFrame.rows</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.DataFrame.sample.html">polars.DataFrame.sample</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.DataFrame.select.html">polars.DataFrame.select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.DataFrame.set_sorted.html">polars.DataFrame.set_sorted</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.DataFrame.shift.html">polars.DataFrame.shift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.DataFrame.shift_and_fill.html">polars.DataFrame.shift_and_fill</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.DataFrame.shrink_to_fit.html">polars.DataFrame.shrink_to_fit</a></li>
@@ -930,6 +931,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../lazyframe/api/polars.LazyFrame.rename.html">polars.LazyFrame.rename</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../lazyframe/api/polars.LazyFrame.reverse.html">polars.LazyFrame.reverse</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../lazyframe/api/polars.LazyFrame.select.html">polars.LazyFrame.select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../lazyframe/api/polars.LazyFrame.set_sorted.html">polars.LazyFrame.set_sorted</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../lazyframe/api/polars.LazyFrame.shift.html">polars.LazyFrame.shift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../lazyframe/api/polars.LazyFrame.shift_and_fill.html">polars.LazyFrame.shift_and_fill</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../lazyframe/api/polars.LazyFrame.slice.html">polars.LazyFrame.slice</a></li>
@@ -1611,7 +1613,7 @@ performance matters use an Int64 column.</p>
 <span class="gp">... </span>    <span class="s2">&quot;2020-01-08 23:16:43&quot;</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;dt&quot;</span><span class="p">:</span> <span class="n">dates</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]})</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;dt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Datetime</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;dt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Datetime</span><span class="p">)</span><span class="o">.</span><span class="n">set_sorted</span><span class="p">()</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby_rolling</span><span class="p">(</span><span class="n">index_column</span><span class="o">=</span><span class="s2">&quot;dt&quot;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="s2">&quot;2d&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="p">[</span>
