@@ -347,6 +347,9 @@
 <a href="#347" id="347">347</a>
 <a href="#348" id="348">348</a>
 <a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::Write;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -473,7 +476,7 @@
         time_zone: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;,
         use_earliest: <span class="prelude-ty">Option</span>&lt;bool&gt;,
     ) -&gt; PolarsResult&lt;DatetimeChunked&gt; {
-        <span class="kw">match </span>(<span class="self">self</span>.time_zone(), time_zone) {
+        <span class="kw">let </span>out: PolarsResult&lt;<span class="kw">_</span>&gt; = <span class="kw">match </span>(<span class="self">self</span>.time_zone(), time_zone) {
             (<span class="prelude-val">Some</span>(from), <span class="prelude-val">Some</span>(to)) =&gt; {
                 <span class="kw">let </span>chunks = <span class="self">self
                     </span>.downcast_iter()
@@ -511,7 +514,10 @@
                 <span class="prelude-val">Ok</span>(out.into_datetime(<span class="self">self</span>.time_unit(), <span class="prelude-val">Some</span>(to.to_string())))
             }
             (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.clone()),
-        }
+        };
+        <span class="kw">let </span><span class="kw-2">mut </span>out = out<span class="question-mark">?</span>;
+        out.set_sorted_flag(<span class="self">self</span>.is_sorted_flag2());
+        <span class="prelude-val">Ok</span>(out)
     }
 
     <span class="doccomment">/// Format Datetime with a `format` rule. See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).

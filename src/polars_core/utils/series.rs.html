@@ -44,6 +44,7 @@
 <a href="#44" id="44">44</a>
 <a href="#45" id="45">45</a>
 <a href="#46" id="46">46</a>
+<a href="#47" id="47">47</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::series::unstable::UnstableSeries;
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
@@ -77,17 +78,18 @@
     f(<span class="kw-2">&amp;mut </span>us)
 }
 
-<span class="kw">pub fn </span>ensure_sorted_arg(s: <span class="kw-2">&amp;</span>Series) {
-    <span class="kw">if </span>!<span class="macro">matches!</span>(s.is_sorted_flag(), IsSorted::Ascending) {
+<span class="kw">pub fn </span>ensure_sorted_arg(s: <span class="kw-2">&amp;</span>Series, operation: <span class="kw-2">&amp;</span>str) {
+    <span class="kw">if </span><span class="macro">matches!</span>(s.is_sorted_flag(), IsSorted::Not) {
         <span class="macro">eprintln!</span>(
-            <span class="string">r#&quot;argument is not explicitly sorted
+            <span class="string">&quot;argument in operation &#39;{}&#39; is not explicitly sorted
 
 - If your data is ALREADY sorted, set the sorted flag with: &#39;.set_sorted()&#39;.
 - If your data is NOT sorted, sort the &#39;expr/series/column&#39; first.
 
 This might become an error in a future version.
-    &quot;#
-        </span>);
+    &quot;</span>,
+            operation
+        );
     }
 }
 </code></pre></div></section></main></body></html>

@@ -864,6 +864,12 @@
 <a href="#864" id="864">864</a>
 <a href="#865" id="865">865</a>
 <a href="#866" id="866">866</a>
+<a href="#867" id="867">867</a>
+<a href="#868" id="868">868</a>
+<a href="#869" id="869">869</a>
+<a href="#870" id="870">870</a>
+<a href="#871" id="871">871</a>
+<a href="#872" id="872">872</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -973,7 +979,10 @@
         options: <span class="kw-2">&amp;</span>RollingGroupOptions,
     ) -&gt; PolarsResult&lt;(Series, Vec&lt;Series&gt;, GroupsProxy)&gt; {
         <span class="kw">let </span>time = <span class="self">self</span>.<span class="number">0</span>.column(<span class="kw-2">&amp;</span>options.index_column)<span class="question-mark">?</span>.clone();
-        ensure_sorted_arg(<span class="kw-2">&amp;</span>time);
+        <span class="kw">if </span>by.is_empty() &amp;&amp; !options.period.parsed_int {
+            <span class="comment">// if by is given, the column must be sorted in the &#39;by&#39; arg, which we can not check now
+            </span>ensure_sorted_arg(<span class="kw-2">&amp;</span>time, <span class="string">&quot;groupby_rolling&quot;</span>);
+        }
         <span class="kw">let </span>time_type = time.dtype();
 
         <span class="macro">polars_ensure!</span>(time.null_count() == <span class="number">0</span>, ComputeError: <span class="string">&quot;null values in dynamic groupby not supported, fill nulls.&quot;</span>);
@@ -1049,7 +1058,10 @@
         }
 
         <span class="kw">let </span>time = <span class="self">self</span>.<span class="number">0</span>.column(<span class="kw-2">&amp;</span>options.index_column)<span class="question-mark">?</span>.rechunk();
-        ensure_sorted_arg(<span class="kw-2">&amp;</span>time);
+        <span class="kw">if </span>by.is_empty() &amp;&amp; !options.period.parsed_int {
+            <span class="comment">// if by is given, the column must be sorted in the &#39;by&#39; arg, which we can not check now
+            </span>ensure_sorted_arg(<span class="kw-2">&amp;</span>time, <span class="string">&quot;groupby_dynamic&quot;</span>);
+        }
         <span class="kw">let </span>time_type = time.dtype();
 
         <span class="macro">polars_ensure!</span>(time.null_count() == <span class="number">0</span>, ComputeError: <span class="string">&quot;null values in dynamic groupby not supported, fill nulls.&quot;</span>);
