@@ -234,13 +234,13 @@
     /// - 1d    (1 day)
     /// - 1w    (1 week)
     /// - 1mo   (1 calendar month)
-    /// - 1mo_saturating (calendar month, but &quot;saturates&quot; to the last day of the month
-    ///   instead of erroring. For example, 2022-01-29 plus `&#39;1mo_saturating&#39;` goes to
-    ///   2022-02-28)
     /// - 1y    (1 calendar year)
     /// - 1i    (1 index count)
     /// Or combine them:
     /// &quot;3d12h4m25s&quot; # 3 days, 12 hours, 4 minutes, and 25 seconds
+    /// Suffix with `&quot;_saturating&quot;` to saturate dates with days too
+    /// large for their month to the last day of the month (e.g.
+    /// 2022-02-29 to 2022-02-28).
     </span><span class="kw">fn </span>upsample&lt;I: IntoVec&lt;String&gt;&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         by: I,

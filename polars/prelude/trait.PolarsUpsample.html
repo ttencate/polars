@@ -44,13 +44,13 @@ the following string language:</p>
 <li>1d    (1 day)</li>
 <li>1w    (1 week)</li>
 <li>1mo   (1 calendar month)</li>
-<li>1mo_saturating (calendar month, but “saturates” to the last day of the month
-instead of erroring. For example, 2022-01-29 plus <code>'1mo_saturating'</code> goes to
-2022-02-28)</li>
 <li>1y    (1 calendar year)</li>
 <li>1i    (1 index count)
 Or combine them:
-“3d12h4m25s” # 3 days, 12 hours, 4 minutes, and 25 seconds</li>
+“3d12h4m25s” # 3 days, 12 hours, 4 minutes, and 25 seconds
+Suffix with <code>&quot;_saturating&quot;</code> to saturate dates with days too
+large for their month to the last day of the month (e.g.
+2022-02-29 to 2022-02-28).</li>
 </ul>
 </div></details><details class="toggle method-toggle" open><summary><section id="tymethod.upsample_stable" class="method"><a class="srclink rightside" href="../../src/polars_time/upsample.rs.html#70-76">source</a><h4 class="code-header">fn <a href="#tymethod.upsample_stable" class="fn">upsample_stable</a>&lt;I&gt;(
     &amp;self,

@@ -741,11 +741,6 @@
 <a href="#741" id="741">741</a>
 <a href="#742" id="742">742</a>
 <a href="#743" id="743">743</a>
-<a href="#744" id="744">744</a>
-<a href="#745" id="745">745</a>
-<a href="#746" id="746">746</a>
-<a href="#747" id="747">747</a>
-<a href="#748" id="748">748</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
 <span class="kw">use </span>std::ops::Mul;
 
@@ -786,9 +781,9 @@
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) negative: bool,
     <span class="comment">// indicates if an integer string was passed. e.g. &quot;2i&quot;
     </span><span class="kw">pub </span>parsed_int: bool,
-    <span class="comment">// indicates if a &#39;1mo&#39; offset to a non-existent date (e.g. 2022-02-29)
-    // should saturate to 2022-02-28 (as opposed to erroring)
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) saturating_months: <span class="prelude-ty">Option</span>&lt;bool&gt;,
+    <span class="comment">// indicates if an offset to a non-existent date (e.g. 2022-02-29)
+    // should saturate (to 2022-02-28) as opposed to erroring
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) saturating: bool,
 }
 
 <span class="kw">impl </span>PartialOrd&lt;<span class="self">Self</span>&gt; <span class="kw">for </span>Duration {
@@ -813,7 +808,7 @@
             nsecs: fixed_slots.abs(),
             negative: fixed_slots &lt; <span class="number">0</span>,
             parsed_int: <span class="bool-val">true</span>,
-            saturating_months: <span class="prelude-val">None</span>,
+            saturating: <span class="bool-val">false</span>,
         }
     }
 
@@ -840,11 +835,12 @@
     /// * `d`:  day
     /// * `w`:  week
     /// * `mo`: calendar month
-    /// * `mo_saturating`: calendar month, but &quot;saturates&quot; to the last day of the month
-    ///    instead of erroring. For example, 2022-01-29 plus `&#39;1mo_saturating&#39;` goes to
-    ///    2022-02-28.
     /// * `y`:  calendar year
     /// * `i`:  index value (only for {Int32, Int64} dtypes)
+    ///
+    /// Suffix with `&quot;_saturating&quot;` to indicate that dates too large for
+    /// their month should saturate at the largest date (e.g. 2022-02-29 -&gt; 2022-02-28)
+    /// instead of erroring.
     ///
     /// # Panics
     /// If the given str is invalid for any reason.
@@ -861,10 +857,15 @@
         <span class="kw">let </span><span class="kw-2">mut </span>weeks = <span class="number">0</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>days = <span class="number">0</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>months = <span class="number">0</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>iter = duration.char_indices();
         <span class="kw">let </span>negative = duration.starts_with(<span class="string">&#39;-&#39;</span>);
+        <span class="kw">let </span>(saturating, <span class="kw-2">mut </span>iter) = <span class="kw">match </span>duration.ends_with(<span class="string">&quot;_saturating&quot;</span>) {
+            <span class="bool-val">true </span>=&gt; (
+                <span class="bool-val">true</span>,
+                duration[..duration.len() - <span class="string">&quot;_saturating&quot;</span>.len()].char_indices(),
+            ),
+            <span class="bool-val">false </span>=&gt; (<span class="bool-val">false</span>, duration.char_indices()),
+        };
         <span class="kw">let </span><span class="kw-2">mut </span>start = <span class="number">0</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>saturating_months: <span class="prelude-ty">Option</span>&lt;bool&gt; = <span class="prelude-val">None</span>;
 
         <span class="comment">// skip the &#39;-&#39; char
         </span><span class="kw">if </span>negative {
@@ -882,7 +883,7 @@
                     .expect(<span class="string">&quot;expected an integer in the duration string&quot;</span>);
 
                 <span class="kw">loop </span>{
-                    <span class="kw">if </span>ch.is_ascii_alphabetic() || ch == <span class="string">&#39;_&#39; </span>{
+                    <span class="kw">if </span>ch.is_ascii_alphabetic() {
                         unit.push(ch)
                     } <span class="kw">else </span>{
                         <span class="kw">break</span>;
@@ -911,17 +912,6 @@
                     <span class="string">&quot;d&quot; </span>=&gt; days += n,
                     <span class="string">&quot;w&quot; </span>=&gt; weeks += n,
                     <span class="string">&quot;mo&quot; </span>=&gt; {
-                        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="bool-val">true</span>) = saturating_months {
-                            <span class="macro">panic!</span>(<span class="string">&quot;cannot use both saturating and non-saturating months&quot;</span>)
-                        }
-                        saturating_months = <span class="prelude-val">Some</span>(<span class="bool-val">false</span>);
-                        months += n
-                    }
-                    <span class="string">&quot;mo_saturating&quot; </span>=&gt; {
-                        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="bool-val">false</span>) = saturating_months {
-                            <span class="macro">panic!</span>(<span class="string">&quot;cannot use both saturating and non-saturating months&quot;</span>)
-                        }
-                        saturating_months = <span class="prelude-val">Some</span>(<span class="bool-val">true</span>);
                         months += n
                     }
                     <span class="string">&quot;y&quot; </span>=&gt; months += n * <span class="number">12</span>,
@@ -942,7 +932,7 @@
             months: months.abs(),
             negative,
             parsed_int,
-            saturating_months,
+            saturating,
         }
     }
 
@@ -1009,7 +999,7 @@
             nsecs,
             negative,
             parsed_int: <span class="bool-val">false</span>,
-            saturating_months: <span class="prelude-val">None</span>,
+            saturating: <span class="bool-val">false</span>,
         }
     }
 
@@ -1023,7 +1013,7 @@
             nsecs: <span class="number">0</span>,
             negative,
             parsed_int: <span class="bool-val">false</span>,
-            saturating_months: <span class="prelude-val">None</span>,
+            saturating: <span class="bool-val">false</span>,
         }
     }
 
@@ -1037,7 +1027,7 @@
             nsecs: <span class="number">0</span>,
             negative,
             parsed_int: <span class="bool-val">false</span>,
-            saturating_months: <span class="prelude-val">None</span>,
+            saturating: <span class="bool-val">false</span>,
         }
     }
 
@@ -1051,7 +1041,7 @@
             nsecs: <span class="number">0</span>,
             negative,
             parsed_int: <span class="bool-val">false</span>,
-            saturating_months: <span class="prelude-val">None</span>,
+            saturating: <span class="bool-val">false</span>,
         }
     }
 
@@ -1311,7 +1301,7 @@
                 month += <span class="number">12</span>;
             }
 
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="bool-val">true</span>) = d.saturating_months {
+            <span class="kw">if </span>d.saturating {
                 <span class="comment">// Normalize the day if we are past the end of the month.
                 </span><span class="kw">let </span><span class="kw-2">mut </span>last_day_of_month = last_day_of_month(month);
                 <span class="kw">if </span>month == (chrono::Month::February.number_from_month() <span class="kw">as </span>i32)
