@@ -587,6 +587,8 @@
 <a href="#587" id="587">587</a>
 <a href="#588" id="588">588</a>
 <a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>aggregation;
 <span class="kw">mod </span>alias;
 <span class="kw">mod </span>apply;
@@ -937,7 +939,9 @@
                     // retrieve the length before grouping, so it stays  in this state.
                     </span>AggState::AggregatedFlat(<span class="kw">_</span>) =&gt; AggState::AggregatedFlat(series),
                     <span class="comment">// applying a function on a literal, keeps the literal state
-                    </span>AggState::Literal(<span class="kw">_</span>) <span class="kw">if </span>series.len() == <span class="number">1 </span>=&gt; AggState::Literal(series),
+                    </span>AggState::Literal(<span class="kw">_</span>) <span class="kw">if </span>series.len() == <span class="number">1 </span>&amp;&amp; <span class="self">self</span>.groups.len() &gt; <span class="number">1 </span>=&gt; {
+                        AggState::Literal(series)
+                    }
                     <span class="kw">_ </span>=&gt; AggState::NotAggregated(series),
                 }
             }
