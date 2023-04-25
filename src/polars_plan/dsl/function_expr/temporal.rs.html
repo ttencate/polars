@@ -77,6 +77,15 @@
 <a href="#77" id="77">77</a>
 <a href="#78" id="78">78</a>
 <a href="#79" id="79">79</a>
+<a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
+<a href="#83" id="83">83</a>
+<a href="#84" id="84">84</a>
+<a href="#85" id="85">85</a>
+<a href="#86" id="86">86</a>
+<a href="#87" id="87">87</a>
+<a href="#88" id="88">88</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -100,7 +109,7 @@
         DataType::Datetime(tu, tz) =&gt; {
             <span class="kw">let </span>ca = s.datetime().unwrap();
 
-            <span class="kw">fn </span>adder&lt;T: PolarsTimeZone&gt;(
+            <span class="kw">fn </span>offset_fn&lt;T: PolarsTimeZone&gt;(
                 tu: TimeUnit,
             ) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt; {
                 <span class="kw">match </span>tu {
@@ -113,13 +122,22 @@
             <span class="kw">let </span>out = <span class="kw">match </span>tz {
                 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
                 </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>tz) =&gt; <span class="kw">match </span>tz.parse::&lt;Tz&gt;() {
-                    <span class="prelude-val">Ok</span>(tz) =&gt; ca.<span class="number">0</span>.try_apply(|v| adder(tu)(<span class="kw-2">&amp;</span>offset, v, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tz))),
+                    <span class="prelude-val">Ok</span>(tz) =&gt; {
+                        <span class="kw">let </span>offset_fn = offset_fn(tu);
+                        ca.<span class="number">0</span>.try_apply(|v| offset_fn(<span class="kw-2">&amp;</span>offset, v, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tz)))
+                    }
                     <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(tz) {
-                        <span class="prelude-val">Ok</span>(tz) =&gt; ca.<span class="number">0</span>.try_apply(|v| adder(tu)(<span class="kw-2">&amp;</span>offset, v, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tz))),
+                        <span class="prelude-val">Ok</span>(tz) =&gt; {
+                            <span class="kw">let </span>offset_fn = offset_fn(tu);
+                            ca.<span class="number">0</span>.try_apply(|v| offset_fn(<span class="kw-2">&amp;</span>offset, v, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>tz)))
+                        }
                         <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(),
                     },
                 },
-                <span class="kw">_ </span>=&gt; ca.<span class="number">0</span>.try_apply(|v| adder(tu)(<span class="kw-2">&amp;</span>offset, v, NO_TIMEZONE)),
+                <span class="kw">_ </span>=&gt; {
+                    <span class="kw">let </span>offset_fn = offset_fn(tu);
+                    ca.<span class="number">0</span>.try_apply(|v| offset_fn(<span class="kw-2">&amp;</span>offset, v, NO_TIMEZONE))
+                }
             }<span class="question-mark">?</span>;
             out.cast(<span class="kw-2">&amp;</span>DataType::Datetime(tu, tz))
         }

@@ -87,6 +87,13 @@
 <a href="#87" id="87">87</a>
 <a href="#88" id="88">88</a>
 <a href="#89" id="89">89</a>
+<a href="#90" id="90">90</a>
+<a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_arrow::time_zone::PolarsTimeZone;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
@@ -124,52 +131,59 @@
 <span class="kw">pub const </span>NS_DAY: i64 = <span class="number">24 </span>* NS_HOUR;
 <span class="kw">pub const </span>NS_WEEK: i64 = <span class="number">7 </span>* NS_DAY;
 
-<span class="kw">pub fn </span>date_range(
+<span class="kw">pub fn </span>date_range&lt;T: PolarsTimeZone&gt;(
     start: i64,
     stop: i64,
     every: Duration,
     closed: ClosedWindow,
     tu: TimeUnit,
-    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>PolarsTimeZone&gt;,
+    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;,
 ) -&gt; PolarsResult&lt;Vec&lt;i64&gt;&gt; {
-    <span class="kw">let </span>size = <span class="kw">match </span>tu {
-        TimeUnit::Nanoseconds =&gt; ((stop - start) / every.duration_ns() + <span class="number">1</span>) <span class="kw">as </span>usize,
-        TimeUnit::Microseconds =&gt; ((stop - start) / every.duration_us() + <span class="number">1</span>) <span class="kw">as </span>usize,
-        TimeUnit::Milliseconds =&gt; ((stop - start) / every.duration_ms() + <span class="number">1</span>) <span class="kw">as </span>usize,
-    };
+    <span class="kw">let </span>size: usize;
+    <span class="kw">let </span>offset_fn: <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt;;
+
+    <span class="kw">match </span>tu {
+        TimeUnit::Nanoseconds =&gt; {
+            size = ((stop - start) / every.duration_ns() + <span class="number">1</span>) <span class="kw">as </span>usize;
+            offset_fn = Duration::add_ns;
+        }
+        TimeUnit::Microseconds =&gt; {
+            size = ((stop - start) / every.duration_us() + <span class="number">1</span>) <span class="kw">as </span>usize;
+            offset_fn = Duration::add_us;
+        }
+        TimeUnit::Milliseconds =&gt; {
+            size = ((stop - start) / every.duration_ms() + <span class="number">1</span>) <span class="kw">as </span>usize;
+            offset_fn = Duration::add_ms;
+        }
+    }
     <span class="kw">let </span><span class="kw-2">mut </span>ts = Vec::with_capacity(size);
 
     <span class="kw">let </span><span class="kw-2">mut </span>t = start;
-    <span class="kw">let </span>f = <span class="kw">match </span>tu {
-        TimeUnit::Nanoseconds =&gt; &lt;Duration&gt;::add_ns,
-        TimeUnit::Microseconds =&gt; &lt;Duration&gt;::add_us,
-        TimeUnit::Milliseconds =&gt; &lt;Duration&gt;::add_ms,
-    };
     <span class="kw">match </span>closed {
         ClosedWindow::Both =&gt; {
             <span class="kw">while </span>t &lt;= stop {
                 ts.push(t);
-                t = f(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?
+                t = offset_fn(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?
             </span>}
         }
         ClosedWindow::Left =&gt; {
             <span class="kw">while </span>t &lt; stop {
                 ts.push(t);
-                t = f(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?
+                t = offset_fn(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?
             </span>}
         }
         ClosedWindow::Right =&gt; {
-            t = f(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?</span>;
+            t = offset_fn(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?</span>;
             <span class="kw">while </span>t &lt;= stop {
                 ts.push(t);
-                t = f(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?
+                t = offset_fn(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?
             </span>}
         }
         ClosedWindow::None =&gt; {
-            t = f(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?</span>;
+            t = offset_fn(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?</span>;
             <span class="kw">while </span>t &lt; stop {
                 ts.push(t);
-                t = f(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?
+                t = offset_fn(<span class="kw-2">&amp;</span>every, t, tz)<span class="question-mark">?
             </span>}
         }
     }
