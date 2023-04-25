@@ -1542,14 +1542,14 @@ document.write(`
 <h1>polars.Series.dt.offset_by<a class="headerlink" href="#polars-series-dt-offset-by" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.dt.offset_by">
-<span class="sig-prename descclassname"><span class="pre">Series.dt.</span></span><span class="sig-name descname"><span class="pre">offset_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/datetime.py#L1423-L1505"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.dt.offset_by" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.dt.</span></span><span class="sig-name descname"><span class="pre">offset_by</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/datetime.py#L1423-L1507"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.dt.offset_by" title="Permalink to this definition">#</a></dt>
 <dd><p>Offset this date by a relative time offset.</p>
 <p>This differs from <code class="docutils literal notranslate"><span class="pre">pl.col(&quot;foo&quot;)</span> <span class="pre">+</span> <span class="pre">timedelta</span></code> in that it can
 take months and leap years into account. Note that only a single minus
 sign is allowed in the <code class="docutils literal notranslate"><span class="pre">by</span></code> string, as the first character.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>by</strong></dt><dd><p>The offset is dictated by the following string language:</p>
 <ul class="simple">
 <li><p>1ns   (1 nanosecond)</p></li>
@@ -1561,11 +1561,12 @@ sign is allowed in the <code class="docutils literal notranslate"><span class="p
 <li><p>1d    (1 day)</p></li>
 <li><p>1w    (1 week)</p></li>
 <li><p>1mo   (1 calendar month)</p></li>
-<li><p>1mo_saturating (same as above, but saturates to the last day of the month
-if the target date does not exist)</p></li>
 <li><p>1y    (1 calendar year)</p></li>
 <li><p>1i    (1 index count)</p></li>
 </ul>
+<p>Suffix with <cite>“_saturating”</cite> to indicate that dates too large for
+their month should saturate at the largest date
+(e.g. 2022-02-29 -&gt; 2022-02-28) instead of erroring.</p>
 </dd>
 </dl>
 </dd>
