@@ -884,6 +884,9 @@
 <a href="#884" id="884">884</a>
 <a href="#885" id="885">885</a>
 <a href="#886" id="886">886</a>
+<a href="#887" id="887">887</a>
+<a href="#888" id="888">888</a>
+<a href="#889" id="889">889</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>batched_mmap;
 <span class="kw">mod </span>batched_read;
 
@@ -952,7 +955,10 @@
     } <span class="kw">else </span>{
         <span class="comment">// cast to the original dtypes in the schema
         </span><span class="kw">for </span>fld <span class="kw">in </span>to_cast {
-            df.try_apply(fld.name(), |s| cast_fn(s, fld))<span class="question-mark">?</span>;
+            <span class="comment">// field may not be projected
+            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(idx) = df.find_idx_by_name(fld.name()) {
+                df.try_apply_at_idx(idx, |s| cast_fn(s, fld))<span class="question-mark">?</span>;
+            }
         }
     }
     <span class="prelude-val">Ok</span>(())
