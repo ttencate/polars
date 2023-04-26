@@ -1441,6 +1441,24 @@
 <a href="#1441" id="1441">1441</a>
 <a href="#1442" id="1442">1442</a>
 <a href="#1443" id="1443">1443</a>
+<a href="#1444" id="1444">1444</a>
+<a href="#1445" id="1445">1445</a>
+<a href="#1446" id="1446">1446</a>
+<a href="#1447" id="1447">1447</a>
+<a href="#1448" id="1448">1448</a>
+<a href="#1449" id="1449">1449</a>
+<a href="#1450" id="1450">1450</a>
+<a href="#1451" id="1451">1451</a>
+<a href="#1452" id="1452">1452</a>
+<a href="#1453" id="1453">1453</a>
+<a href="#1454" id="1454">1454</a>
+<a href="#1455" id="1455">1455</a>
+<a href="#1456" id="1456">1456</a>
+<a href="#1457" id="1457">1457</a>
+<a href="#1458" id="1458">1458</a>
+<a href="#1459" id="1459">1459</a>
+<a href="#1460" id="1460">1460</a>
+<a href="#1461" id="1461">1461</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Lazy variant of a [DataFrame](polars_core::frame::DataFrame).
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 </span><span class="kw">mod </span>csv;
@@ -2172,9 +2190,18 @@
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dynamic_groupby&quot;</span>)]
     </span><span class="kw">pub fn </span>groupby_rolling&lt;E: AsRef&lt;[Expr]&gt;&gt;(
         <span class="self">self</span>,
+        index_column: Expr,
         by: E,
-        options: RollingGroupOptions,
+        <span class="kw-2">mut </span>options: RollingGroupOptions,
     ) -&gt; LazyGroupBy {
+        <span class="kw">if let </span>Expr::Column(name) = index_column {
+            options.index_column = name.as_ref().into();
+        } <span class="kw">else </span>{
+            <span class="kw">let </span>name = expr_output_name(<span class="kw-2">&amp;</span>index_column).unwrap();
+            <span class="kw">return </span><span class="self">self
+                </span>.with_column(index_column)
+                .groupby_rolling(Expr::Column(name), by, options);
+        }
         <span class="kw">let </span>opt_state = <span class="self">self</span>.get_opt_state();
         LazyGroupBy {
             logical_plan: <span class="self">self</span>.logical_plan,
@@ -2204,9 +2231,18 @@
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dynamic_groupby&quot;</span>)]
     </span><span class="kw">pub fn </span>groupby_dynamic&lt;E: AsRef&lt;[Expr]&gt;&gt;(
         <span class="self">self</span>,
+        index_column: Expr,
         by: E,
-        options: DynamicGroupOptions,
+        <span class="kw-2">mut </span>options: DynamicGroupOptions,
     ) -&gt; LazyGroupBy {
+        <span class="kw">if let </span>Expr::Column(name) = index_column {
+            options.index_column = name.as_ref().into();
+        } <span class="kw">else </span>{
+            <span class="kw">let </span>name = expr_output_name(<span class="kw-2">&amp;</span>index_column).unwrap();
+            <span class="kw">return </span><span class="self">self
+                </span>.with_column(index_column)
+                .groupby_dynamic(Expr::Column(name), by, options);
+        }
         <span class="kw">let </span>opt_state = <span class="self">self</span>.get_opt_state();
         LazyGroupBy {
             logical_plan: <span class="self">self</span>.logical_plan,
