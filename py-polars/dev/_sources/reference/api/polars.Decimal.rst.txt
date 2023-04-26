@@ -24,6 +24,7 @@
 
    .. autosummary::
    
+      ~Decimal.is_nested
       ~Decimal.precision
       ~Decimal.scale
    

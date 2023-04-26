@@ -20,4 +20,10 @@
 
    
    
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UInt32.is_nested
+   
    

@@ -20,4 +20,10 @@
 
    
    
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Null.is_nested
+   
    

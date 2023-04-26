@@ -24,6 +24,7 @@
 
    .. autosummary::
    
+      ~Datetime.is_nested
       ~Datetime.time_unit
       ~Datetime.time_zone
    

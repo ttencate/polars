@@ -24,6 +24,7 @@
 
    .. autosummary::
    
+      ~Duration.is_nested
       ~Duration.time_unit
    
    
