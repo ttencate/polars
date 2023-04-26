@@ -931,7 +931,7 @@
         <span class="self">self</span>.bit_settings.remove(Settings::FAST_EXPLODE_LIST)
     }
 
-    <span class="kw">pub fn </span>is_sorted_flag2(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; IsSorted {
+    <span class="kw">pub fn </span>is_sorted_flag(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; IsSorted {
         <span class="kw">if </span><span class="self">self</span>.is_sorted_ascending_flag() {
             IsSorted::Ascending
         } <span class="kw">else if </span><span class="self">self</span>.is_sorted_descending_flag() {

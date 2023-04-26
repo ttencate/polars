@@ -696,10 +696,6 @@
 <a href="#696" id="696">696</a>
 <a href="#697" id="697">697</a>
 <a href="#698" id="698">698</a>
-<a href="#699" id="699">699</a>
-<a href="#700" id="700">700</a>
-<a href="#701" id="701">701</a>
-<a href="#702" id="702">702</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Implementations of arithmetic operations on ChunkedArray&#39;s.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::ops::{Add, Div, Mul, Rem, Sub};
@@ -1100,7 +1096,9 @@
 
     <span class="kw">fn </span>add(<span class="self">self</span>, rhs: N) -&gt; <span class="self">Self</span>::Output {
         <span class="kw">let </span>adder: T::Native = NumCast::from(rhs).unwrap();
-        <span class="self">self</span>.apply(|val| val + adder)
+        <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="self">self</span>.apply(|val| val + adder);
+        out.set_sorted_flag(<span class="self">self</span>.is_sorted_flag());
+        out
     }
 }
 
@@ -1113,7 +1111,9 @@
 
     <span class="kw">fn </span>sub(<span class="self">self</span>, rhs: N) -&gt; <span class="self">Self</span>::Output {
         <span class="kw">let </span>subber: T::Native = NumCast::from(rhs).unwrap();
-        <span class="self">self</span>.apply(|val| val - subber)
+        <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="self">self</span>.apply(|val| val - subber);
+        out.set_sorted_flag(<span class="self">self</span>.is_sorted_flag());
+        out
     }
 }
 
@@ -1126,7 +1126,10 @@
 
     <span class="kw">fn </span>div(<span class="self">self</span>, rhs: N) -&gt; <span class="self">Self</span>::Output {
         <span class="kw">let </span>rhs: T::Native = NumCast::from(rhs).expect(<span class="string">&quot;could not cast&quot;</span>);
-        <span class="self">self</span>.apply_kernel(<span class="kw-2">&amp;</span>|arr| Box::new(&lt;T::Native <span class="kw">as </span>ArrayArithmetics&gt;::div_scalar(arr, <span class="kw-2">&amp;</span>rhs)))
+        <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="self">self
+            </span>.apply_kernel(<span class="kw-2">&amp;</span>|arr| Box::new(&lt;T::Native <span class="kw">as </span>ArrayArithmetics&gt;::div_scalar(arr, <span class="kw-2">&amp;</span>rhs)));
+        out.set_sorted_flag(<span class="self">self</span>.is_sorted_flag());
+        out
     }
 }
 
@@ -1138,7 +1141,8 @@
     <span class="kw">type </span>Output = ChunkedArray&lt;T&gt;;
 
     <span class="kw">fn </span>mul(<span class="self">self</span>, rhs: N) -&gt; <span class="self">Self</span>::Output {
-        <span class="kw">let </span>multiplier: T::Native = NumCast::from(rhs).unwrap();
+        <span class="comment">// don&#39;t set sorted flag as probability of overflow is higher
+        </span><span class="kw">let </span>multiplier: T::Native = NumCast::from(rhs).unwrap();
         <span class="self">self</span>.apply(|val| val * multiplier)
     }
 }
@@ -1163,14 +1167,8 @@
 {
     <span class="kw">type </span>Output = ChunkedArray&lt;T&gt;;
 
-    <span class="kw">fn </span>add(<span class="kw-2">mut </span><span class="self">self</span>, rhs: N) -&gt; <span class="self">Self</span>::Output {
-        <span class="kw">if </span>std::env::var(<span class="string">&quot;ASSIGN&quot;</span>).is_ok() {
-            <span class="kw">let </span>adder: T::Native = NumCast::from(rhs).unwrap();
-            <span class="self">self</span>.apply_mut(|val| val + adder);
-            <span class="self">self
-        </span>} <span class="kw">else </span>{
-            (<span class="kw-2">&amp;</span><span class="self">self</span>).add(rhs)
-        }
+    <span class="kw">fn </span>add(<span class="self">self</span>, rhs: N) -&gt; <span class="self">Self</span>::Output {
+        (<span class="kw-2">&amp;</span><span class="self">self</span>).add(rhs)
     }
 }
 
@@ -1181,14 +1179,8 @@
 {
     <span class="kw">type </span>Output = ChunkedArray&lt;T&gt;;
 
-    <span class="kw">fn </span>sub(<span class="kw-2">mut </span><span class="self">self</span>, rhs: N) -&gt; <span class="self">Self</span>::Output {
-        <span class="kw">if </span>std::env::var(<span class="string">&quot;ASSIGN&quot;</span>).is_ok() {
-            <span class="kw">let </span>subber: T::Native = NumCast::from(rhs).unwrap();
-            <span class="self">self</span>.apply_mut(|val| val - subber);
-            <span class="self">self
-        </span>} <span class="kw">else </span>{
-            (<span class="kw-2">&amp;</span><span class="self">self</span>).sub(rhs)
-        }
+    <span class="kw">fn </span>sub(<span class="self">self</span>, rhs: N) -&gt; <span class="self">Self</span>::Output {
+        (<span class="kw-2">&amp;</span><span class="self">self</span>).sub(rhs)
     }
 }
 

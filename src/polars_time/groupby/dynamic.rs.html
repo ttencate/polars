@@ -870,6 +870,17 @@
 <a href="#870" id="870">870</a>
 <a href="#871" id="871">871</a>
 <a href="#872" id="872">872</a>
+<a href="#873" id="873">873</a>
+<a href="#874" id="874">874</a>
+<a href="#875" id="875">875</a>
+<a href="#876" id="876">876</a>
+<a href="#877" id="877">877</a>
+<a href="#878" id="878">878</a>
+<a href="#879" id="879">879</a>
+<a href="#880" id="880">880</a>
+<a href="#881" id="881">881</a>
+<a href="#882" id="882">882</a>
+<a href="#883" id="883">883</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -1299,8 +1310,10 @@
                 })
             }
         };
+        <span class="comment">// note that if &#39;by&#39; is empty we can be sure that the index column, the lower column and the
+        // upper column remain/are sorted
 
-        <span class="kw">let </span>dt = <span class="kw">unsafe </span>{ dt.clone().into_series().agg_first(<span class="kw-2">&amp;</span>groups) };
+        </span><span class="kw">let </span>dt = <span class="kw">unsafe </span>{ dt.clone().into_series().agg_first(<span class="kw-2">&amp;</span>groups) };
         <span class="kw">let </span><span class="kw-2">mut </span>dt = dt.datetime().unwrap().as_ref().clone();
         <span class="kw">for </span>key <span class="kw">in </span>by.iter_mut() {
             <span class="kw-2">*</span>key = <span class="kw">unsafe </span>{ key.agg_first(<span class="kw-2">&amp;</span>groups) };
@@ -1310,17 +1323,26 @@
 
         <span class="kw">if </span>options.truncate {
             <span class="kw">let </span><span class="kw-2">mut </span>lower = lower.clone().unwrap();
+            <span class="kw">if </span>by.is_empty() {
+                lower.set_sorted_flag(IsSorted::Ascending)
+            }
             lower.rename(dt.name());
             dt = lower;
         }
 
-        <span class="kw">if let </span>(<span class="bool-val">true</span>, <span class="prelude-val">Some</span>(lower), <span class="prelude-val">Some</span>(higher)) = (options.include_boundaries, lower, upper_bound)
+        <span class="kw">if let </span>(<span class="bool-val">true</span>, <span class="prelude-val">Some</span>(<span class="kw-2">mut </span>lower), <span class="prelude-val">Some</span>(upper)) =
+            (options.include_boundaries, lower, upper_bound)
         {
-            by.push(lower.into_datetime(tu, tz.clone()).into_series());
-            <span class="kw">let </span>s = Int64Chunked::new_vec(UP_NAME, higher)
+            <span class="kw">let </span><span class="kw-2">mut </span>upper = Int64Chunked::new_vec(UP_NAME, upper)
                 .into_datetime(tu, tz.clone())
                 .into_series();
-            by.push(s);
+
+            <span class="kw">if </span>by.is_empty() {
+                lower.set_sorted_flag(IsSorted::Ascending);
+                upper.set_sorted_flag(IsSorted::Ascending);
+            }
+            by.push(lower.into_datetime(tu, tz.clone()).into_series());
+            by.push(upper);
         }
 
         dt.into_datetime(tu, <span class="prelude-val">None</span>)

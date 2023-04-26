@@ -495,12 +495,6 @@
 <a href="#495" id="495">495</a>
 <a href="#496" id="496">496</a>
 <a href="#497" id="497">497</a>
-<a href="#498" id="498">498</a>
-<a href="#499" id="499">499</a>
-<a href="#500" id="500">500</a>
-<a href="#501" id="501">501</a>
-<a href="#502" id="502">502</a>
-<a href="#503" id="503">503</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! This module exists to reduce compilation times.
 //!
 //! All the data types are backed by a physical type in memory e.g. Date -&gt; i32, Datetime-&gt; i64.
@@ -664,13 +658,7 @@
 
         <span class="kw">impl </span>SeriesTrait <span class="kw">for </span>SeriesWrap&lt;<span class="macro-nonterminal">$ca</span>&gt; {
             <span class="kw">fn </span>is_sorted_flag(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; IsSorted {
-                <span class="kw">if </span><span class="self">self</span>.<span class="number">0</span>.is_sorted_ascending_flag() {
-                    IsSorted::Ascending
-                } <span class="kw">else if </span><span class="self">self</span>.<span class="number">0</span>.is_sorted_descending_flag() {
-                    IsSorted::Descending
-                } <span class="kw">else </span>{
-                    IsSorted::Not
-                }
+                <span class="self">self</span>.<span class="number">0</span>.is_sorted_flag()
             }
 
             <span class="kw">fn </span>rename(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) {
@@ -769,7 +757,7 @@
                 <span class="kw">if </span><span class="self">self</span>.<span class="number">0</span>.is_sorted_ascending_flag()
                     &amp;&amp; (idx.is_sorted_ascending_flag() || idx.is_sorted_descending_flag())
                 {
-                    out.set_sorted_flag(idx.is_sorted_flag2())
+                    out.set_sorted_flag(idx.is_sorted_flag())
                 }
 
                 <span class="prelude-val">Ok</span>(out.<span class="macro-nonterminal">$into_logical</span>().into_series())

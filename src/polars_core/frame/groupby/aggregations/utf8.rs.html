@@ -163,7 +163,7 @@
     <span class="attr">#[allow(clippy::needless_lifetimes)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>agg_min&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, groups: <span class="kw-2">&amp;</span>GroupsProxy) -&gt; Series {
         <span class="comment">// faster paths
-        </span><span class="kw">match </span>(<span class="kw-2">&amp;</span><span class="self">self</span>.is_sorted_flag2(), <span class="kw-2">&amp;</span><span class="self">self</span>.null_count()) {
+        </span><span class="kw">match </span>(<span class="kw-2">&amp;</span><span class="self">self</span>.is_sorted_flag(), <span class="kw-2">&amp;</span><span class="self">self</span>.null_count()) {
             (IsSorted::Ascending, <span class="number">0</span>) =&gt; {
                 <span class="kw">return </span><span class="self">self</span>.clone().into_series().agg_first(groups);
             }
@@ -225,7 +225,7 @@
     <span class="attr">#[allow(clippy::needless_lifetimes)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>agg_max&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, groups: <span class="kw-2">&amp;</span>GroupsProxy) -&gt; Series {
         <span class="comment">// faster paths
-        </span><span class="kw">match </span>(<span class="self">self</span>.is_sorted_flag2(), <span class="self">self</span>.null_count()) {
+        </span><span class="kw">match </span>(<span class="self">self</span>.is_sorted_flag(), <span class="self">self</span>.null_count()) {
             (IsSorted::Ascending, <span class="number">0</span>) =&gt; {
                 <span class="kw">return </span><span class="self">self</span>.clone().into_series().agg_last(groups);
             }
