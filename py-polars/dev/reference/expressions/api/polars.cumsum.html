@@ -1540,29 +1540,21 @@ document.write(`
 <h1>polars.cumsum<a class="headerlink" href="#polars-cumsum" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="polars.cumsum">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">cumsum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Expr</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/functions/lazy.py#L1345-L1422"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.cumsum" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">cumsum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exprs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/functions/lazy.py#L1344-L1426"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.cumsum" title="Permalink to this definition">#</a></dt>
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">cumsum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></span></dt>
-<dd><p>Cumulatively sum values in a column/Series, or horizontally across list of columns/expressions.</p>
-<p><code class="docutils literal notranslate"><span class="pre">pl.cumsum(str)</span></code> is syntactic sugar for:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>  
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">pl.cumsum(list)</span></code> is syntactic sugar for:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pl</span><span class="o">.</span><span class="n">cumfold</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">lit</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;cumsum&quot;</span>
-<span class="gp">... </span><span class="p">)</span>  
-</pre></div>
-</div>
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">cumsum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exprs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IntoExpr</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">IntoExpr</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">more_exprs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IntoExpr</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span></dt>
+<dd><p>Cumulatively sum all values.</p>
+<p>If a single string is passed, this is an alias for <code class="docutils literal notranslate"><span class="pre">pl.col(name).cumsum()</span></code>.
+If a single Series is passed, this is an alias for <code class="docutils literal notranslate"><span class="pre">Series.cumsum()</span></code>.</p>
+<p>Otherwise, this function computes the cumulative sum horizontally across multiple
+columns.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>column</strong></dt><dd><p>Column(s) to be used in aggregation.
-This can be:</p>
-<ul class="simple">
-<li><p>a column name, or Series -&gt; aggregate the sum value of that column/Series.</p></li>
-<li><p>a List[Expr] -&gt; aggregate the sum value horizontally across the Expr result.</p></li>
-</ul>
+<dt><strong>exprs</strong></dt><dd><p>Column(s) to use in the aggregation. Accepts expression input. Strings are
+parsed as column names, other non-expression inputs are parsed as literals.</p>
+</dd>
+<dt><strong>*more_exprs</strong></dt><dd><p>Additional columns to use in the aggregation, specified as positional arguments.</p>
 </dd>
 </dl>
 </dd>
@@ -1601,7 +1593,7 @@ This can be:</p>
 </pre></div>
 </div>
 <p>Cumulatively sum a list of columns/expressions horizontally:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">cumsum</span><span class="p">([</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">]))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">))</span>
 <span class="go">shape: (2, 4)</span>
 <span class="go">┌─────┬─────┬─────┬───────────┐</span>
 <span class="go">│ a   ┆ b   ┆ c   ┆ cumsum    │</span>

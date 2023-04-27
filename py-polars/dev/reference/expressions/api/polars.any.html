@@ -1540,12 +1540,21 @@ document.write(`
 <h1>polars.any<a class="headerlink" href="#polars-any" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="polars.any">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Expr</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/functions/lazy.py#L2087-L2136"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.any" title="Permalink to this definition">#</a></dt>
-<dd><p>Evaluate columnwise or elementwise with a bitwise OR operation.</p>
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exprs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/functions/lazy.py#L2101-L2182"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.any" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">any</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exprs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IntoExpr</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">IntoExpr</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">more_exprs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IntoExpr</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span></dt>
+<dd><p>Evaluate a bitwise OR operation.</p>
+<p>If a single string is passed, this is an alias for <code class="docutils literal notranslate"><span class="pre">pl.col(name).any()</span></code>.
+If a single Series is passed, this is an alias for <code class="docutils literal notranslate"><span class="pre">Series.any()</span></code>.</p>
+<p>Otherwise, this function computes the bitwise OR horizontally across multiple
+columns.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>columns</strong></dt><dd><p>If given this function will apply a bitwise or on the columns.</p>
+<dt><strong>exprs</strong></dt><dd><p>Column(s) to use in the aggregation. Accepts expression input. Strings are
+parsed as column names, other non-expression inputs are parsed as literals.</p>
+</dd>
+<dt><strong>*more_exprs</strong></dt><dd><p>Additional columns to use in the aggregation, specified as positional arguments.</p>
 </dd>
 </dl>
 </dd>
@@ -1582,6 +1591,20 @@ is true.</p>
 <span class="go">╞══════╪═══════╪══════╡</span>
 <span class="go">│ true ┆ false ┆ true │</span>
 <span class="go">└──────┴───────┴──────┘</span>
+</pre></div>
+</div>
+<p>Across multiple columns:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">))</span>
+<span class="go">shape: (3, 1)</span>
+<span class="go">┌───────┐</span>
+<span class="go">│ any   │</span>
+<span class="go">│ ---   │</span>
+<span class="go">│ bool  │</span>
+<span class="go">╞═══════╡</span>
+<span class="go">│ true  │</span>
+<span class="go">│ false │</span>
+<span class="go">│ true  │</span>
+<span class="go">└───────┘</span>
 </pre></div>
 </div>
 </dd></dl>

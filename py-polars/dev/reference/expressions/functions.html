@@ -1534,11 +1534,11 @@ document.write(`
 <p><strong>Available in module namespace:</strong></p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.all.html#polars.all" title="polars.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a>([columns])</p></td>
-<td><p>Do one of two things.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.all.html#polars.all" title="polars.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a>()</p></td>
+<td><p>Either return an expression representing all columns, or evaluate a bitwise AND operation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.any.html#polars.any" title="polars.any"><code class="xref py py-obj docutils literal notranslate"><span class="pre">any</span></code></a>(columns)</p></td>
-<td><p>Evaluate columnwise or elementwise with a bitwise OR operation.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.any.html#polars.any" title="polars.any"><code class="xref py py-obj docutils literal notranslate"><span class="pre">any</span></code></a>()</p></td>
+<td><p>Evaluate a bitwise OR operation.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.apply.html#polars.apply" title="polars.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>(exprs, function[, return_dtype, ...])</p></td>
 <td><p>Apply a custom/user-defined function (UDF) in a GroupBy context.</p></td>
@@ -1580,7 +1580,7 @@ document.write(`
 <td><p>Cumulatively accumulate over multiple columns horizontally/ row wise with a left fold.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.cumsum.html#polars.cumsum" title="polars.cumsum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cumsum</span></code></a>()</p></td>
-<td><p>Cumulatively sum values in a column/Series, or horizontally across list of columns/expressions.</p></td>
+<td><p>Cumulatively sum all values.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.date.html#polars.date" title="polars.date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">date</span></code></a>(year, month, day)</p></td>
 <td><p>Create a Polars literal expression of type Date.</p></td>
@@ -1664,7 +1664,7 @@ document.write(`
 <td><p>Collect columns into a struct column.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.sum.html#polars.sum" title="polars.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum</span></code></a>()</p></td>
-<td><p>Sum values in a column/Series, or horizontally across list of columns/expressions.</p></td>
+<td><p>Sum all values.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.tail.html#polars.tail" title="polars.tail"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tail</span></code></a>()</p></td>
 <td><p>Get the last <cite>n</cite> rows.</p></td>
