@@ -2296,7 +2296,7 @@
     <span class="kw">fn </span>not_equal(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>StructChunked) -&gt; BooleanChunked {
         <span class="kw">use </span>std::ops::BitOr;
         <span class="kw">if </span><span class="self">self</span>.len() != rhs.len() || <span class="self">self</span>.fields().len() != rhs.fields().len() {
-            BooleanChunked::full(<span class="string">&quot;&quot;</span>, <span class="bool-val">false</span>, <span class="self">self</span>.len())
+            BooleanChunked::full(<span class="string">&quot;&quot;</span>, <span class="bool-val">true</span>, <span class="self">self</span>.len())
         } <span class="kw">else </span>{
             <span class="self">self</span>.fields()
                 .iter()
