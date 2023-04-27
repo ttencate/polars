@@ -1362,7 +1362,7 @@
 <span class="kw">fn </span>inline_cast(input: <span class="kw-2">&amp;</span>AExpr, dtype: <span class="kw-2">&amp;</span>DataType) -&gt; <span class="prelude-ty">Option</span>&lt;AExpr&gt; {
     <span class="kw">match </span>(input, dtype) {
         <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-duration&quot;</span>)]
-        </span>(AExpr::Literal(lv), <span class="kw">_</span>) =&gt; {
+        </span>(AExpr::Literal(lv), <span class="kw">_</span>) <span class="kw">if </span>!<span class="macro">matches!</span>(dtype, DataType::Unknown) =&gt; {
             <span class="kw">let </span>av = lv.to_anyvalue()<span class="question-mark">?</span>;
             <span class="kw">let </span>out = av.cast(dtype).ok()<span class="question-mark">?</span>;
             <span class="kw">let </span>lv: LiteralValue = out.try_into().ok()<span class="question-mark">?</span>;

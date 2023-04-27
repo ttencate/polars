@@ -62,17 +62,6 @@
 <a href="#62" id="62">62</a>
 <a href="#63" id="63">63</a>
 <a href="#64" id="64">64</a>
-<a href="#65" id="65">65</a>
-<a href="#66" id="66">66</a>
-<a href="#67" id="67">67</a>
-<a href="#68" id="68">68</a>
-<a href="#69" id="69">69</a>
-<a href="#70" id="70">70</a>
-<a href="#71" id="71">71</a>
-<a href="#72" id="72">72</a>
-<a href="#73" id="73">73</a>
-<a href="#74" id="74">74</a>
-<a href="#75" id="75">75</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub trait </span>PushUnchecked&lt;T&gt; {
@@ -81,12 +70,6 @@
     /// # Safety
     /// Caller must ensure the array has enough capacity to hold `T`.
     </span><span class="kw">unsafe fn </span>push_unchecked(<span class="kw-2">&amp;mut </span><span class="self">self</span>, value: T);
-
-    <span class="doccomment">/// Will push an item and not check if there is enough capacity nor update the array&#39;s length
-    /// # Safety
-    /// Caller must ensure the array has enough capacity to hold `T`.
-    /// Caller must update the length when its done updating the vector.
-    </span><span class="kw">unsafe fn </span>push_unchecked_no_len_set(<span class="kw-2">&amp;mut </span><span class="self">self</span>, value: T);
 
     <span class="doccomment">/// Extend the array with an iterator who&#39;s length can be trusted
     </span><span class="kw">fn </span>extend_trusted_len&lt;I: IntoIterator&lt;Item = T, IntoIter = J&gt;, J: TrustedLen&gt;(
@@ -123,12 +106,6 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">unsafe fn </span>push_unchecked_no_len_set(<span class="kw-2">&amp;mut </span><span class="self">self</span>, value: T) {
-        <span class="kw">let </span>end = <span class="self">self</span>.as_mut_ptr().add(<span class="self">self</span>.len());
-        std::ptr::write(end, value);
-    }
-
-    <span class="attr">#[inline]
     </span><span class="kw">unsafe fn </span>extend_trusted_len_unchecked&lt;I: IntoIterator&lt;Item = T&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, iter: I) {
         <span class="kw">let </span>iter = iter.into_iter();
         <span class="kw">let </span>upper = iter.size_hint().<span class="number">1</span>.expect(<span class="string">&quot;must have an upper bound&quot;</span>);
@@ -142,7 +119,8 @@
         <span class="self">self</span>.set_len(<span class="self">self</span>.len() + upper)
     }
 
-    <span class="kw">unsafe fn </span>from_trusted_len_iter_unchecked&lt;I: IntoIterator&lt;Item = T&gt;&gt;(iter: I) -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">unsafe fn </span>from_trusted_len_iter_unchecked&lt;I: IntoIterator&lt;Item = T&gt;&gt;(iter: I) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>v = <span class="macro">vec!</span>[];
         v.extend_trusted_len_unchecked(iter);
         v
