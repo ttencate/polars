@@ -564,6 +564,10 @@
 <a href="#564" id="564">564</a>
 <a href="#565" id="565">565</a>
 <a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::{Debug, Formatter};
 <span class="kw">use </span>std::hash::{Hash, Hasher};
 
@@ -653,6 +657,10 @@
 </span><span class="kw">impl </span>RevMapping {
     <span class="kw">pub fn </span>is_global(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="macro">matches!</span>(<span class="self">self</span>, <span class="self">Self</span>::Global(<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>))
+    }
+
+    <span class="kw">pub fn </span>is_local(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        !<span class="self">self</span>.is_global()
     }
 
     <span class="doccomment">/// Get the length of the [`RevMapping`]

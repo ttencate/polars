@@ -71,20 +71,20 @@
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>fill_null(s: <span class="kw-2">&amp;</span>[Series], super_type: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;Series&gt; {
-    <span class="kw">let </span>array = <span class="kw-2">&amp;</span>s[<span class="number">0</span>];
+    <span class="kw">let </span>series = <span class="kw-2">&amp;</span>s[<span class="number">0</span>];
     <span class="kw">let </span>fill_value = <span class="kw-2">&amp;</span>s[<span class="number">1</span>];
 
     <span class="kw">let </span>(series, fill_value) = <span class="kw">if </span><span class="macro">matches!</span>(super_type, DataType::Unknown) {
-        <span class="kw">let </span>fill_value = fill_value.cast(array.dtype()).map_err(|<span class="kw">_</span>| {
+        <span class="kw">let </span>fill_value = fill_value.cast(series.dtype()).map_err(|<span class="kw">_</span>| {
             <span class="macro">polars_err!</span>(
                 SchemaMismatch:
                 <span class="string">&quot;`fill_null` supertype could not be determined; set correct literal value or \
                 ensure the type of the expression is known&quot;
             </span>)
         })<span class="question-mark">?</span>;
-        (array.clone(), fill_value)
+        (series.clone(), fill_value)
     } <span class="kw">else </span>{
-        (array.cast(super_type)<span class="question-mark">?</span>, fill_value.cast(super_type)<span class="question-mark">?</span>)
+        (series.cast(super_type)<span class="question-mark">?</span>, fill_value.cast(super_type)<span class="question-mark">?</span>)
     };
     <span class="comment">// nothing to fill, so return early
     // this is done after casting as the output type must be correct
@@ -106,7 +106,7 @@
         <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
         </span><span class="comment">// for Categoricals we first need to check if the category already exist
         </span>DataType::Categorical(<span class="prelude-val">Some</span>(rev_map)) =&gt; {
-            <span class="kw">if </span>fill_value.len() == <span class="number">1 </span>&amp;&amp; fill_value.null_count() == <span class="number">0 </span>{
+            <span class="kw">if </span>rev_map.is_local() &amp;&amp; fill_value.len() == <span class="number">1 </span>&amp;&amp; fill_value.null_count() == <span class="number">0 </span>{
                 <span class="kw">let </span>fill_av = fill_value.get(<span class="number">0</span>).unwrap();
                 <span class="kw">let </span>fill_str = fill_av.get_str().unwrap();
 
