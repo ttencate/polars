@@ -696,6 +696,11 @@
 <a href="#696" id="696">696</a>
 <a href="#697" id="697">697</a>
 <a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
+<a href="#701" id="701">701</a>
+<a href="#702" id="702">702</a>
+<a href="#703" id="703">703</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Implementations of arithmetic operations on ChunkedArray&#39;s.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::ops::{Add, Div, Mul, Rem, Sub};
@@ -706,7 +711,7 @@
 </span><span class="kw">use </span>arrow::compute::arithmetics::decimal;
 <span class="kw">use </span>arrow::compute::arity_assign;
 <span class="kw">use </span>arrow::types::NativeType;
-<span class="kw">use </span>num_traits::{Num, NumCast, ToPrimitive};
+<span class="kw">use </span>num_traits::{Num, NumCast, ToPrimitive, Zero};
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
@@ -1128,7 +1133,12 @@
         <span class="kw">let </span>rhs: T::Native = NumCast::from(rhs).expect(<span class="string">&quot;could not cast&quot;</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="self">self
             </span>.apply_kernel(<span class="kw-2">&amp;</span>|arr| Box::new(&lt;T::Native <span class="kw">as </span>ArrayArithmetics&gt;::div_scalar(arr, <span class="kw-2">&amp;</span>rhs)));
-        out.set_sorted_flag(<span class="self">self</span>.is_sorted_flag());
+
+        <span class="kw">if </span>rhs &lt; T::Native::zero() {
+            out.set_sorted_flag(<span class="self">self</span>.is_sorted_flag().reverse());
+        } <span class="kw">else </span>{
+            out.set_sorted_flag(<span class="self">self</span>.is_sorted_flag());
+        }
         out
     }
 }
