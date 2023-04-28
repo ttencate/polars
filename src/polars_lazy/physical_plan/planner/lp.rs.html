@@ -511,11 +511,28 @@
 <a href="#511" id="511">511</a>
 <a href="#512" id="512">512</a>
 <a href="#513" id="513">513</a>
+<a href="#514" id="514">514</a>
+<a href="#515" id="515">515</a>
+<a href="#516" id="516">516</a>
+<a href="#517" id="517">517</a>
+<a href="#518" id="518">518</a>
+<a href="#519" id="519">519</a>
+<a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::executors::{<span class="self">self</span>, Executor};
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utils::<span class="kw-2">*</span>;
+
+<span class="kw">fn </span>has_windows(expr: <span class="kw-2">&amp;</span>[Node], expr_arena: <span class="kw-2">&amp;</span>Arena&lt;AExpr&gt;) -&gt; bool {
+    expr.iter().any(|node| has_aexpr_window(<span class="kw-2">*</span>node, expr_arena))
+}
 
 <span class="kw">fn </span>partitionable_gb(
     keys: <span class="kw-2">&amp;</span>[Node],
@@ -678,8 +695,13 @@
         }
         Selection { input, predicate } =&gt; {
             <span class="kw">let </span>input = create_physical_plan(input, lp_arena, expr_arena)<span class="question-mark">?</span>;
+            <span class="kw">let </span>has_windows = has_windows(<span class="kw-2">&amp;</span>[predicate], expr_arena);
             <span class="kw">let </span>predicate = create_physical_expr(predicate, Context::Default, expr_arena, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
-            <span class="prelude-val">Ok</span>(Box::new(executors::FilterExec::new(predicate, input)))
+            <span class="prelude-val">Ok</span>(Box::new(executors::FilterExec::new(
+                predicate,
+                input,
+                has_windows,
+            )))
         }
         <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
         </span>CsvScan {
@@ -752,7 +774,7 @@
             ..
         } =&gt; {
             <span class="kw">let </span>input_schema = lp_arena.get(input).schema(lp_arena).into_owned();
-            <span class="kw">let </span>has_windows = expr.iter().any(|node| has_aexpr_window(<span class="kw-2">*</span>node, expr_arena));
+            <span class="kw">let </span>has_windows = has_windows(<span class="kw-2">&amp;</span>expr, expr_arena);
             <span class="kw">let </span>input = create_physical_plan(input, lp_arena, expr_arena)<span class="question-mark">?</span>;
             <span class="kw">let </span>phys_expr = create_physical_expressions(
                 <span class="kw-2">&amp;</span>expr,
@@ -777,7 +799,7 @@
         } =&gt; {
             <span class="kw">let </span>input_schema = lp_arena.get(input).schema(lp_arena).into_owned();
 
-            <span class="kw">let </span>has_windows = expr.iter().any(|node| has_aexpr_window(<span class="kw-2">*</span>node, expr_arena));
+            <span class="kw">let </span>has_windows = has_windows(<span class="kw-2">&amp;</span>expr, expr_arena);
             <span class="kw">let </span>input = create_physical_plan(input, lp_arena, expr_arena)<span class="question-mark">?</span>;
             <span class="kw">let </span>phys_expr = create_physical_expressions(
                 <span class="kw-2">&amp;</span>expr,
@@ -797,17 +819,21 @@
         DataFrameScan {
             df,
             projection,
-            selection,
+            selection: predicate,
             schema,
             ..
         } =&gt; {
-            <span class="kw">let </span>selection = selection
+            <span class="kw">let </span>predicate_has_windows = predicate
+                .map(|node| has_windows(<span class="kw-2">&amp;</span>[node], expr_arena))
+                .unwrap_or(<span class="bool-val">false</span>);
+            <span class="kw">let </span>selection = predicate
                 .map(|pred| create_physical_expr(pred, Context::Default, expr_arena, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>schema)))
-                .map_or(<span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>), |v| v.map(<span class="prelude-val">Some</span>))<span class="question-mark">?</span>;
+                .transpose()<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(Box::new(executors::DataFrameExec {
                 df,
                 projection,
                 selection,
+                predicate_has_windows,
             }))
         }
         AnonymousScan {
@@ -991,7 +1017,7 @@
         }
         HStack { input, exprs, .. } =&gt; {
             <span class="kw">let </span>input_schema = lp_arena.get(input).schema(lp_arena).into_owned();
-            <span class="kw">let </span>has_windows = exprs.iter().any(|node| has_aexpr_window(<span class="kw-2">*</span>node, expr_arena));
+            <span class="kw">let </span>has_windows = has_windows(<span class="kw-2">&amp;</span>exprs, expr_arena);
             <span class="kw">let </span>input = create_physical_plan(input, lp_arena, expr_arena)<span class="question-mark">?</span>;
             <span class="kw">let </span>phys_expr = create_physical_expressions(
                 <span class="kw-2">&amp;</span>exprs,

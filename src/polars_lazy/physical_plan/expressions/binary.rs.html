@@ -486,6 +486,15 @@
 <a href="#486" id="486">486</a>
 <a href="#487" id="487">487</a>
 <a href="#488" id="488">488</a>
+<a href="#489" id="489">489</a>
+<a href="#490" id="490">490</a>
+<a href="#491" id="491">491</a>
+<a href="#492" id="492">492</a>
+<a href="#493" id="493">493</a>
+<a href="#494" id="494">494</a>
+<a href="#495" id="495">495</a>
+<a href="#496" id="496">496</a>
+<a href="#497" id="497">497</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::sync::Arc;
 
 <span class="kw">use </span>polars_core::frame::groupby::GroupsProxy;
@@ -650,15 +659,24 @@
     }
 
     <span class="kw">fn </span>evaluate(<span class="kw-2">&amp;</span><span class="self">self</span>, df: <span class="kw-2">&amp;</span>DataFrame, state: <span class="kw-2">&amp;</span>ExecutionState) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>state = state.split();
-        <span class="comment">// don&#39;t cache window functions as they run in parallel
-        </span>state.remove_cache_window_flag();
-        <span class="kw">let </span>(lhs, rhs) = POOL.install(|| {
-            rayon::join(
-                || <span class="self">self</span>.left.evaluate(df, <span class="kw-2">&amp;</span>state),
-                || <span class="self">self</span>.right.evaluate(df, <span class="kw-2">&amp;</span>state),
+        <span class="comment">// window functions may set a global state that determine their output
+        // state, so we don&#39;t let them run in parallel as they race
+        // they also saturate the thread pool by themselves, so that&#39;s fine
+        </span><span class="kw">let </span>(lhs, rhs) = <span class="kw">if </span>state.has_window() {
+            <span class="kw">let </span><span class="kw-2">mut </span>state = state.split();
+            state.remove_cache_window_flag();
+            (
+                <span class="self">self</span>.left.evaluate(df, <span class="kw-2">&amp;</span>state),
+                <span class="self">self</span>.right.evaluate(df, <span class="kw-2">&amp;</span>state),
             )
-        });
+        } <span class="kw">else </span>{
+            POOL.install(|| {
+                rayon::join(
+                    || <span class="self">self</span>.left.evaluate(df, state),
+                    || <span class="self">self</span>.right.evaluate(df, state),
+                )
+            })
+        };
         <span class="kw">let </span>lhs = lhs<span class="question-mark">?</span>;
         <span class="kw">let </span>rhs = rhs<span class="question-mark">?</span>;
         <span class="macro">polars_ensure!</span>(

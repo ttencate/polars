@@ -589,6 +589,24 @@
 <a href="#589" id="589">589</a>
 <a href="#590" id="590">590</a>
 <a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>aggregation;
 <span class="kw">mod </span>alias;
 <span class="kw">mod </span>apply;
@@ -1142,17 +1160,35 @@
 /// This is used to filter rows during the scan of file.
 </span><span class="kw">pub struct </span>PhysicalIoHelper {
     <span class="kw">pub </span>expr: Arc&lt;<span class="kw">dyn </span>PhysicalExpr&gt;,
+    <span class="kw">pub </span>has_window_function: bool,
 }
 
 <span class="kw">impl </span>PhysicalIoExpr <span class="kw">for </span>PhysicalIoHelper {
     <span class="kw">fn </span>evaluate(<span class="kw-2">&amp;</span><span class="self">self</span>, df: <span class="kw-2">&amp;</span>DataFrame) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="self">self</span>.expr.evaluate(df, <span class="kw-2">&amp;</span>Default::default())
+        <span class="kw">let </span><span class="kw-2">mut </span>state: ExecutionState = Default::default();
+        <span class="kw">if </span><span class="self">self</span>.has_window_function {
+            state.insert_has_window_function_flag();
+        }
+        <span class="self">self</span>.expr.evaluate(df, <span class="kw-2">&amp;</span>state)
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;parquet&quot;</span>)]
     </span><span class="kw">fn </span>as_stats_evaluator(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">dyn </span>polars_io::predicates::StatsEvaluator&gt; {
         <span class="self">self</span>.expr.as_stats_evaluator()
     }
+}
+
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>phys_expr_to_io_expr(expr: Arc&lt;<span class="kw">dyn </span>PhysicalExpr&gt;) -&gt; Arc&lt;<span class="kw">dyn </span>PhysicalIoExpr&gt; {
+    <span class="kw">let </span>has_window_function = <span class="kw">if let </span><span class="prelude-val">Some</span>(expr) = expr.as_expression() {
+        expr.into_iter()
+            .any(|expr| <span class="macro">matches!</span>(expr, Expr::Window { .. }))
+    } <span class="kw">else </span>{
+        <span class="bool-val">false
+    </span>};
+    Arc::new(PhysicalIoHelper {
+        expr,
+        has_window_function,
+    }) <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>PhysicalIoExpr&gt;
 }
 
 <span class="kw">pub trait </span>PartitionedAggregation: Send + Sync + PhysicalExpr {

@@ -123,6 +123,9 @@
 <a href="#123" id="123">123</a>
 <a href="#124" id="124">124</a>
 <a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 </span><span class="kw">mod </span>csv;
 <span class="attr">#[cfg(feature = <span class="string">&quot;ipc&quot;</span>)]
@@ -148,6 +151,7 @@
 </span><span class="kw">use </span>polars_plan::logical_plan::FileFingerPrint;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::physical_plan::expressions::phys_expr_to_io_expr;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>))]
@@ -178,9 +182,7 @@
     });
 
     <span class="kw">let </span>n_rows = _set_n_rows_for_scan(n_rows);
-    <span class="kw">let </span>predicate = predicate
-        .clone()
-        .map(|expr| Arc::new(PhysicalIoHelper { expr }) <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>PhysicalIoExpr&gt;);
+    <span class="kw">let </span>predicate = predicate.clone().map(phys_expr_to_io_expr);
 
     (file, projection, n_rows, predicate)
 }
@@ -190,6 +192,7 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) df: Arc&lt;DataFrame&gt;,
     <span class="kw">pub</span>(<span class="kw">crate</span>) selection: <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>PhysicalExpr&gt;&gt;,
     <span class="kw">pub</span>(<span class="kw">crate</span>) projection: <span class="prelude-ty">Option</span>&lt;Arc&lt;Vec&lt;String&gt;&gt;&gt;,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) predicate_has_windows: bool,
 }
 
 <span class="kw">impl </span>Executor <span class="kw">for </span>DataFrameExec {
@@ -204,6 +207,9 @@
         }
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(selection) = <span class="kw-2">&amp;</span><span class="self">self</span>.selection {
+            <span class="kw">if </span><span class="self">self</span>.predicate_has_windows {
+                state.insert_has_window_function_flag()
+            }
             <span class="kw">let </span>s = selection.evaluate(<span class="kw-2">&amp;</span>df, state)<span class="question-mark">?</span>;
             <span class="kw">let </span>mask = s.bool().map_err(
                 |<span class="kw">_</span>| <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;filter predicate was not of type boolean&quot;</span>),
