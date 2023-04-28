@@ -969,6 +969,9 @@
 <a href="#969" id="969">969</a>
 <a href="#970" id="970">970</a>
 <a href="#971" id="971">971</a>
+<a href="#972" id="972">972</a>
+<a href="#973" id="973">973</a>
+<a href="#974" id="974">974</a>
 </pre></div><pre class="rust"><code><span class="kw">pub mod </span>flatten;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>series;
 <span class="kw">mod </span>supertype;
@@ -1002,12 +1005,15 @@
 
 <span class="kw">pub fn </span>_set_partition_size() -&gt; usize {
     <span class="kw">let </span><span class="kw-2">mut </span>n_partitions = POOL.current_num_threads();
-    <span class="comment">// set n_partitions to closes 2^n above the no of threads.
+    <span class="kw">if </span>n_partitions == <span class="number">1 </span>{
+        <span class="kw">return </span><span class="number">1</span>;
+    }
+    <span class="comment">// set n_partitions to closest 2^n size
     </span><span class="kw">loop </span>{
         <span class="kw">if </span>n_partitions.is_power_of_two() {
             <span class="kw">break</span>;
         } <span class="kw">else </span>{
-            n_partitions += <span class="number">1</span>;
+            n_partitions -= <span class="number">1</span>;
         }
     }
     n_partitions
