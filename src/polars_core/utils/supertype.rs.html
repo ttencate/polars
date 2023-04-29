@@ -555,7 +555,7 @@
             </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
             </span>(Datetime(tu_l, tz_l), Datetime(tu_r, tz_r)) <span class="kw">if
                 </span><span class="comment">// both are none
-                </span>tz_l.is_none() &amp;&amp; tz_r.is_some()
+                </span>tz_l.is_none() &amp;&amp; tz_r.is_none()
                 <span class="comment">// both have the same time zone
                 </span>|| (tz_l.is_some() &amp;&amp; (tz_l == tz_r)) =&gt; {
                 <span class="kw">let </span>tu = get_time_units(tu_l, tu_r);
