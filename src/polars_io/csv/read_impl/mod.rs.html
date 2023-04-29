@@ -887,6 +887,8 @@
 <a href="#887" id="887">887</a>
 <a href="#888" id="888">888</a>
 <a href="#889" id="889">889</a>
+<a href="#890" id="890">890</a>
+<a href="#891" id="891">891</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>batched_mmap;
 <span class="kw">mod </span>batched_read;
 
@@ -1185,6 +1187,7 @@
     <span class="kw">fn </span>find_starting_point&lt;<span class="lifetime">&#39;b</span>&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="kw-2">mut </span>bytes: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[u8],
+        quote_char: <span class="prelude-ty">Option</span>&lt;u8&gt;,
         eol_char: u8,
     ) -&gt; PolarsResult&lt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[u8], <span class="prelude-ty">Option</span>&lt;usize&gt;)&gt; {
         <span class="kw">let </span>starting_point_offset = bytes.as_ptr() <span class="kw">as </span>usize;
@@ -1199,7 +1202,7 @@
 
         <span class="comment">// If there is a header we skip it.
         </span><span class="kw">if </span><span class="self">self</span>.has_header {
-            bytes = skip_header(bytes, eol_char).<span class="number">0</span>;
+            bytes = skip_header(bytes, quote_char, eol_char);
         }
 
         <span class="kw">if </span><span class="self">self</span>.skip_rows_before_header &gt; <span class="number">0 </span>{
@@ -1313,7 +1316,8 @@
         <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;,
     )&gt; {
         <span class="comment">// Make the variable mutable so that we can reassign the sliced file to this variable.
-        </span><span class="kw">let </span>(bytes, starting_point_offset) = <span class="self">self</span>.find_starting_point(bytes, <span class="self">self</span>.eol_char)<span class="question-mark">?</span>;
+        </span><span class="kw">let </span>(bytes, starting_point_offset) =
+            <span class="self">self</span>.find_starting_point(bytes, <span class="self">self</span>.quote_char, <span class="self">self</span>.eol_char)<span class="question-mark">?</span>;
 
         <span class="kw">let </span>(bytes, total_rows, remaining_bytes) =
             <span class="self">self</span>.estimate_rows_and_set_upper_bound(bytes, logging, <span class="bool-val">true</span>);

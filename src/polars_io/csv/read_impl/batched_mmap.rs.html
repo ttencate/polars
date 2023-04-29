@@ -325,6 +325,7 @@
 <a href="#325" id="325">325</a>
 <a href="#326" id="326">326</a>
 <a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::collections::VecDeque;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -434,7 +435,8 @@
     </span><span class="kw">pub fn </span>batched_mmap(<span class="kw-2">mut </span><span class="self">self</span>, _has_cat: bool) -&gt; PolarsResult&lt;BatchedCsvReaderMmap&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
         <span class="kw">let </span>reader_bytes = <span class="self">self</span>.reader_bytes.take().unwrap();
         <span class="kw">let </span>bytes = reader_bytes.as_ref();
-        <span class="kw">let </span>(bytes, starting_point_offset) = <span class="self">self</span>.find_starting_point(bytes, <span class="self">self</span>.eol_char)<span class="question-mark">?</span>;
+        <span class="kw">let </span>(bytes, starting_point_offset) =
+            <span class="self">self</span>.find_starting_point(bytes, <span class="self">self</span>.quote_char, <span class="self">self</span>.eol_char)<span class="question-mark">?</span>;
 
         <span class="comment">// this is arbitrarily chosen.
         // we don&#39;t want this to depend on the thread pool size
