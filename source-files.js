@@ -75,7 +75,7 @@ var sourcesIndex = JSON.parse('{\
 "log":["",[],["lib.rs","macros.rs"]],\
 "lz4":["",[["block",[],["mod.rs"]]],["decoder.rs","encoder.rs","lib.rs","liblz4.rs"]],\
 "lz4_sys":["",[],["lib.rs"]],\
-"matrixmultiply":["",[["x86",[],["macros.rs","mod.rs"]]],["aligned_alloc.rs","archparam_defaults.rs","cgemm_common.rs","cgemm_kernel.rs","debugmacros.rs","dgemm_kernel.rs","gemm.rs","kernel.rs","lib.rs","loopmacros.rs","ptr.rs","sgemm_kernel.rs","threading.rs","util.rs","zgemm_kernel.rs"]],\
+"matrixmultiply":["",[["x86",[],["macros.rs","mod.rs"]]],["aligned_alloc.rs","archmacros.rs","archparam_defaults.rs","cgemm_common.rs","cgemm_kernel.rs","debugmacros.rs","dgemm_kernel.rs","gemm.rs","kernel.rs","lib.rs","loopmacros.rs","ptr.rs","sgemm_kernel.rs","threading.rs","util.rs","zgemm_kernel.rs"]],\
 "memchr":["",[["memchr",[["x86",[],["avx.rs","mod.rs","sse2.rs"]]],["fallback.rs","iter.rs","mod.rs","naive.rs"]],["memmem",[["prefilter",[["x86",[],["avx.rs","mod.rs","sse.rs"]]],["fallback.rs","genericsimd.rs","mod.rs"]],["x86",[],["avx.rs","mod.rs","sse.rs"]]],["byte_frequencies.rs","genericsimd.rs","mod.rs","rabinkarp.rs","rarebytes.rs","twoway.rs","util.rs","vector.rs"]]],["cow.rs","lib.rs"]],\
 "memmap2":["",[],["advice.rs","lib.rs","unix.rs"]],\
 "memoffset":["",[],["lib.rs","offset_of.rs","raw_field.rs","span_of.rs"]],\
