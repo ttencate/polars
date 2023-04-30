@@ -1129,7 +1129,7 @@
             .chunk_lengths()
             .all(|len| len.abs_diff(chunk_size) &lt; <span class="number">100</span>)
     {
-        <span class="kw">return </span><span class="prelude-val">Ok</span>(flatten_df(df).collect());
+        <span class="kw">return </span><span class="prelude-val">Ok</span>(flatten_df_iter(df).collect());
     }
 
     <span class="kw">let </span><span class="kw-2">mut </span>out = Vec::with_capacity(n);
@@ -1145,7 +1145,7 @@
         <span class="kw">if </span>df.n_chunks() &gt; <span class="number">1 </span>{
             <span class="comment">// we add every chunk as separate dataframe. This make sure that every partition
             // deals with it.
-            </span>out.extend(flatten_df(<span class="kw-2">&amp;</span>df))
+            </span>out.extend(flatten_df_iter(<span class="kw-2">&amp;</span>df))
         } <span class="kw">else </span>{
             out.push(df)
         }
