@@ -62,22 +62,15 @@
 <a href="#62" id="62">62</a>
 <a href="#63" id="63">63</a>
 <a href="#64" id="64">64</a>
-<a href="#65" id="65">65</a>
-<a href="#66" id="66">66</a>
-<a href="#67" id="67">67</a>
-<a href="#68" id="68">68</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
-<span class="kw">use </span>polars_core::datatypes::DataType;
-<span class="kw">use </span>polars_core::prelude::{JoinType, TimeUnit};
+<span class="kw">use </span>polars_core::prelude::JoinType;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
 
 <span class="attr">#[derive(Clone, PartialEq, Debug, Eq, Hash)]
 #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
-</span><span class="kw">pub struct </span>StrpTimeOptions {
-    <span class="doccomment">/// DataType to parse in. One of {Date, Datetime}
-    </span><span class="kw">pub </span>date_dtype: DataType,
+</span><span class="kw">pub struct </span>StrptimeOptions {
     <span class="doccomment">/// Formatting string
     </span><span class="kw">pub </span>format: <span class="prelude-ty">Option</span>&lt;String&gt;,
     <span class="doccomment">/// If set then polars will return an error if any date parsing fails
@@ -93,10 +86,9 @@
     </span><span class="kw">pub </span>utc: bool,
 }
 
-<span class="kw">impl </span>Default <span class="kw">for </span>StrpTimeOptions {
+<span class="kw">impl </span>Default <span class="kw">for </span>StrptimeOptions {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
-        StrpTimeOptions {
-            date_dtype: DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">None</span>),
+        StrptimeOptions {
             format: <span class="prelude-val">None</span>,
             strict: <span class="bool-val">false</span>,
             exact: <span class="bool-val">false</span>,

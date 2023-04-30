@@ -1093,8 +1093,8 @@
                 <span class="macro">map!</span>(strings::rjust, width, fillchar)
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
-            </span>Strptime(options) =&gt; {
-                <span class="macro">map!</span>(strings::strptime, <span class="kw-2">&amp;</span>options)
+            </span>Strptime(dtype, options) =&gt; {
+                <span class="macro">map!</span>(strings::strptime, dtype.clone(), <span class="kw-2">&amp;</span>options)
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;concat_str&quot;</span>)]
             </span>ConcatVertical(delimiter) =&gt; <span class="macro">map!</span>(strings::concat, <span class="kw-2">&amp;</span>delimiter),
