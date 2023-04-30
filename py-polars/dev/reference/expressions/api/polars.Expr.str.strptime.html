@@ -48,7 +48,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/expressions/api/polars.Expr.str.strptime';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="polars.Expr.str.to_lowercase" href="polars.Expr.str.to_lowercase.html" />
+    <link rel="next" title="polars.Expr.str.to_date" href="polars.Expr.str.to_date.html" />
     <link rel="prev" title="polars.Expr.str.strip" href="polars.Expr.str.strip.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -657,7 +657,10 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.str.starts_with.html">polars.Series.str.starts_with</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.str.strip.html">polars.Series.str.strip</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.str.strptime.html">polars.Series.str.strptime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.str.to_date.html">polars.Series.str.to_date</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.str.to_datetime.html">polars.Series.str.to_datetime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.str.to_lowercase.html">polars.Series.str.to_lowercase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.str.to_time.html">polars.Series.str.to_time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.str.to_uppercase.html">polars.Series.str.to_uppercase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.str.zfill.html">polars.Series.str.zfill</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../series/api/polars.Series.str.parse_int.html">polars.Series.str.parse_int</a></li>
@@ -1290,7 +1293,10 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.str.starts_with.html">polars.Expr.str.starts_with</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.str.strip.html">polars.Expr.str.strip</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Expr.str.strptime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.str.to_date.html">polars.Expr.str.to_date</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.str.to_datetime.html">polars.Expr.str.to_datetime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.str.to_lowercase.html">polars.Expr.str.to_lowercase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.str.to_time.html">polars.Expr.str.to_time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.str.to_uppercase.html">polars.Expr.str.to_uppercase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.str.zfill.html">polars.Expr.str.zfill</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.str.parse_int.html">polars.Expr.str.parse_int</a></li>
@@ -1540,46 +1546,45 @@ document.write(`
 <h1>polars.Expr.str.strptime<a class="headerlink" href="#polars-expr-str-strptime" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.str.strptime">
-<span class="sig-prename descclassname"><span class="pre">Expr.str.</span></span><span class="sig-name descname"><span class="pre">strptime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PolarsTemporalType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exact</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz_aware</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">NoDefault</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">_NoDefault.no_default</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/string.py#L28-L151"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.str.strptime" title="Permalink to this definition">#</a></dt>
-<dd><p>Parse a Utf8 expression to a Date/Datetime/Time type.</p>
+<span class="sig-prename descclassname"><span class="pre">Expr.str.</span></span><span class="sig-name descname"><span class="pre">strptime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PolarsTemporalType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exact</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz_aware</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">NoDefault</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">_NoDefault.no_default</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/string.py#L179-L299"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.str.strptime" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert a Utf8 column into a Date/Datetime/Time column.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>dtype</strong></dt><dd><p>Date | Datetime | Time</p>
+<dt><strong>dtype</strong></dt><dd><p>The data type to convert into. Can be either Date, Datetime, or Time.</p>
 </dd>
-<dt><strong>format</strong></dt><dd><p>Format to use, refer to the <a class="reference external" href="https://docs.rs/chrono/latest/chrono/format/strftime/index.html">chrono strftime documentation</a>
-for specification. Example: <code class="docutils literal notranslate"><span class="pre">&quot;%y-%m-%d&quot;</span></code>.</p>
+<dt><strong>format</strong></dt><dd><p>Format to use for conversion. Refer to the <a class="reference external" href="https://docs.rs/chrono/latest/chrono/format/strftime/index.html">chrono crate documentation</a>
+for the full specification. Example: <code class="docutils literal notranslate"><span class="pre">&quot;%Y-%m-%d</span> <span class="pre">%H:%M:%S&quot;</span></code>.
+If set to None (default), the format is inferred from the data.</p>
 </dd>
 <dt><strong>strict</strong></dt><dd><p>Raise an error if any conversion fails.</p>
 </dd>
-<dt><strong>exact</strong></dt><dd><ul class="simple">
-<li><p>If True, require an exact format match.</p></li>
-<li><p>If False, allow the format to match anywhere in the target string.</p></li>
-</ul>
+<dt><strong>exact</strong></dt><dd><p>Require an exact format match. If False, allow the format to match anywhere
+in the target string. Conversion to the Time type is always exact.</p>
 </dd>
 <dt><strong>cache</strong></dt><dd><p>Use a cache of unique, converted dates to apply the datetime conversion.</p>
 </dd>
-<dt><strong>tz_aware</strong></dt><dd><p>Parse timezone aware datetimes. This may be automatically toggled by the
+<dt><strong>utc</strong></dt><dd><p>Parse time zone aware datetimes as UTC. This may be useful if you have data
+with mixed offsets.</p>
+</dd>
+<dt><strong>tz_aware</strong></dt><dd><p>Parse time zone aware datetimes. This may be automatically toggled by the
 <cite>format</cite> given.</p>
 <div class="deprecated">
 <p><span class="versionmodified deprecated">Deprecated since version 0.16.17: </span>This is now auto-inferred from the given <cite>format</cite>. You can safely drop
 this argument, it will be removed in a future version.</p>
 </div>
 </dd>
-<dt><strong>utc</strong></dt><dd><p>Parse timezone aware datetimes as UTC. This may be useful if you have data
-with mixed offsets.</p>
-</dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>When parsing a Datetime the column precision will be inferred from
-the format string, if given, eg: “%F %T%.3f” =&gt; Datetime(“ms”). If
-no fractional second component is found then the default is “us”.</p>
+<p>When converting to a Datetime type, the time unit is inferred from the format
+string if given, eg: <code class="docutils literal notranslate"><span class="pre">&quot;%F</span> <span class="pre">%T%.3f&quot;</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">Datetime(&quot;ms&quot;)</span></code>. If no fractional
+second component is found, the default is <code class="docutils literal notranslate"><span class="pre">&quot;us&quot;</span></code>.</p>
 <p class="rubric">Examples</p>
 <p>Dealing with a consistent format:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ts</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;2020-01-01 01:00Z&quot;</span><span class="p">,</span> <span class="s2">&quot;2020-01-01 02:00Z&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Datetime</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M%#z&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="s2">&quot;2020-01-01 01:00Z&quot;</span><span class="p">,</span> <span class="s2">&quot;2020-01-01 02:00Z&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Datetime</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M%#z&quot;</span><span class="p">)</span>
 <span class="go">shape: (2,)</span>
 <span class="go">Series: &#39;&#39; [datetime[μs, +00:00]]</span>
 <span class="go">[</span>
@@ -1598,24 +1603,22 @@ no fractional second component is found then the default is “us”.</p>
 <span class="gp">... </span>        <span class="s2">&quot;Sun Jul  8 00:34:60 2001&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="p">],</span>
 <span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
-<span class="gp">... </span>    <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%F</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="gp">... </span>    <span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%F</span><span class="s2"> %T&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-<span class="gp">... </span>    <span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;%D&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-<span class="gp">... </span>    <span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%c</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-<span class="gp">... </span><span class="p">)</span>
-<span class="go">shape: (4, 1)</span>
-<span class="go">┌────────────┐</span>
-<span class="go">│ date       │</span>
-<span class="go">│ ---        │</span>
-<span class="go">│ date       │</span>
-<span class="go">╞════════════╡</span>
-<span class="go">│ 2021-04-22 │</span>
-<span class="go">│ 2022-01-04 │</span>
-<span class="go">│ 2022-01-31 │</span>
-<span class="go">│ 2001-07-08 │</span>
-<span class="go">└────────────┘</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">pl</span><span class="o">.</span><span class="n">coalesce</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%F</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%F</span><span class="s2"> %T&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;%D&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%c</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span>
+<span class="go">shape: (4,)</span>
+<span class="go">Series: &#39;date&#39; [date]</span>
+<span class="go">[</span>
+<span class="go">        2021-04-22</span>
+<span class="go">        2022-01-04</span>
+<span class="go">        2022-01-31</span>
+<span class="go">        2001-07-08</span>
+<span class="go">]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1643,11 +1646,11 @@ no fractional second component is found then the default is “us”.</p>
       </div>
     </a>
     <a class="right-next"
-       href="polars.Expr.str.to_lowercase.html"
+       href="polars.Expr.str.to_date.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.Expr.str.to_lowercase</p>
+        <p class="prev-next-title">polars.Expr.str.to_date</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
