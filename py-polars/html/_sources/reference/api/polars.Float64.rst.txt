@@ -20,4 +20,10 @@
 
    
    
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Float64.is_nested
+   
    

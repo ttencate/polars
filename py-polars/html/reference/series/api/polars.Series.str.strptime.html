@@ -8,7 +8,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-
+    <link rel="icon" sizes="32x32" href="https://raw.githubusercontent.com/pola-rs/polars-static/master/icons/favicon-32x32.png" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/pola-rs/polars-static/master/icons/touchicon-180x180.png" type="image/png">
     <title>polars.Series.str.strptime &#8212; Polars  documentation</title>
   
   
@@ -19,31 +20,26 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
-    <link rel="icon" sizes="32x32" type="image/png" href="https://raw.githubusercontent.com/pola-rs/polars-static/master/icons/favicon-32x32.png" />
-    <link rel="apple-touch-icon" sizes="180x180" type="image/png" href="https://raw.githubusercontent.com/pola-rs/polars-static/master/icons/touchicon-180x180.png" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/clipboard.min.js"></script>
@@ -52,7 +48,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/series/api/polars.Series.str.strptime';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="polars.Series.str.to_lowercase" href="polars.Series.str.to_lowercase.html" />
+    <link rel="next" title="polars.Series.str.to_date" href="polars.Series.str.to_date.html" />
     <link rel="prev" title="polars.Series.str.strip" href="polars.Series.str.strip.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -661,7 +657,10 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.str.starts_with.html">polars.Series.str.starts_with</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.str.strip.html">polars.Series.str.strip</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Series.str.strptime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Series.str.to_date.html">polars.Series.str.to_date</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Series.str.to_datetime.html">polars.Series.str.to_datetime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.str.to_lowercase.html">polars.Series.str.to_lowercase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Series.str.to_time.html">polars.Series.str.to_time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.str.to_uppercase.html">polars.Series.str.to_uppercase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.str.zfill.html">polars.Series.str.zfill</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.str.parse_int.html">polars.Series.str.parse_int</a></li>
@@ -1294,7 +1293,10 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.str.starts_with.html">polars.Expr.str.starts_with</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.str.strip.html">polars.Expr.str.strip</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.str.strptime.html">polars.Expr.str.strptime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.str.to_date.html">polars.Expr.str.to_date</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.str.to_datetime.html">polars.Expr.str.to_datetime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.str.to_lowercase.html">polars.Expr.str.to_lowercase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.str.to_time.html">polars.Expr.str.to_time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.str.to_uppercase.html">polars.Expr.str.to_uppercase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.str.zfill.html">polars.Expr.str.zfill</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.str.parse_int.html">polars.Expr.str.parse_int</a></li>
@@ -1544,48 +1546,45 @@ document.write(`
 <h1>polars.Series.str.strptime<a class="headerlink" href="#polars-series-str-strptime" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.str.strptime">
-<span class="sig-prename descclassname"><span class="pre">Series.str.</span></span><span class="sig-name descname"><span class="pre">strptime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PolarsTemporalType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exact</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz_aware</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">NoDefault</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">_NoDefault.no_default</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/string.py#L28-L137"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.str.strptime" title="Permalink to this definition">#</a></dt>
-<dd><p>Parse a Series of dtype Utf8 to a Date/Datetime Series.</p>
+<span class="sig-prename descclassname"><span class="pre">Series.str.</span></span><span class="sig-name descname"><span class="pre">strptime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PolarsTemporalType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exact</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz_aware</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">NoDefault</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">_NoDefault.no_default</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/string.py#L161-L266"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.str.strptime" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert a Utf8 column into a Date/Datetime/Time column.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>dtype</strong></dt><dd><p>Date, Datetime or Time.</p>
+<dt><strong>dtype</strong></dt><dd><p>The data type to convert to. Can be either Date, Datetime, or Time.</p>
 </dd>
-<dt><strong>format</strong></dt><dd><p>Format to use, refer to the
-<a class="reference external" href="https://docs.rs/chrono/latest/chrono/format/strftime/index.html">chrono strftime documentation</a>
-for specification. Example: <code class="docutils literal notranslate"><span class="pre">&quot;%y-%m-%d&quot;</span></code>.</p>
+<dt><strong>format</strong></dt><dd><p>Format to use for conversion. Refer to the <a class="reference external" href="https://docs.rs/chrono/latest/chrono/format/strftime/index.html">chrono crate documentation</a>
+for the full specification. Example: <code class="docutils literal notranslate"><span class="pre">&quot;%Y-%m-%d</span> <span class="pre">%H:%M:%S&quot;</span></code>.
+If set to None (default), the format is inferred from the data.</p>
 </dd>
 <dt><strong>strict</strong></dt><dd><p>Raise an error if any conversion fails.</p>
 </dd>
-<dt><strong>exact</strong></dt><dd><ul class="simple">
-<li><p>If True, require an exact format match.</p></li>
-<li><p>If False, allow the format to match anywhere in the target string.</p></li>
-</ul>
+<dt><strong>exact</strong></dt><dd><p>Require an exact format match. If False, allow the format to match anywhere
+in the target string. Conversion to the Time type is always exact.</p>
 </dd>
 <dt><strong>cache</strong></dt><dd><p>Use a cache of unique, converted dates to apply the datetime conversion.</p>
 </dd>
-<dt><strong>tz_aware</strong></dt><dd><p>Parse timezone aware datetimes. This may be automatically toggled by the
-<cite>fmt</cite> given.</p>
+<dt><strong>utc</strong></dt><dd><p>Parse time zone aware datetimes as UTC. This may be useful if you have data
+with mixed offsets.</p>
+</dd>
+<dt><strong>tz_aware</strong></dt><dd><p>Parse time zone aware datetimes. This may be automatically toggled by the
+<cite>format</cite> given.</p>
 <div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 0.16.17: </span>This is now auto-inferred from the given <cite>fmt</cite>. You can safely drop
+<p><span class="versionmodified deprecated">Deprecated since version 0.16.17: </span>This is now auto-inferred from the given <cite>format</cite>. You can safely drop
 this argument, it will be removed in a future version.</p>
 </div>
 </dd>
-<dt><strong>utc</strong></dt><dd><p>Parse timezone aware datetimes as UTC. This may be useful if you have data
-with mixed offsets.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>A Date / Datetime / Time Series</dt><dd></dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>When converting to a Datetime type, the time unit is inferred from the format
+string if given, eg: <code class="docutils literal notranslate"><span class="pre">&quot;%F</span> <span class="pre">%T%.3f&quot;</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">Datetime(&quot;ms&quot;)</span></code>. If no fractional
+second component is found, the default is <code class="docutils literal notranslate"><span class="pre">&quot;us&quot;</span></code>.</p>
 <p class="rubric">Examples</p>
 <p>Dealing with a consistent format:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ts</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;2020-01-01 01:00Z&quot;</span><span class="p">,</span> <span class="s2">&quot;2020-01-01 02:00Z&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Datetime</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M%#z&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="s2">&quot;2020-01-01 01:00Z&quot;</span><span class="p">,</span> <span class="s2">&quot;2020-01-01 02:00Z&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Datetime</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M%#z&quot;</span><span class="p">)</span>
 <span class="go">shape: (2,)</span>
 <span class="go">Series: &#39;&#39; [datetime[μs, +00:00]]</span>
 <span class="go">[</span>
@@ -1604,28 +1603,22 @@ with mixed offsets.</p>
 <span class="gp">... </span>        <span class="s2">&quot;Sun Jul  8 00:34:60 2001&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="p">],</span>
 <span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">s</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
-<span class="gp">... </span>        <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%F</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="gp">... </span>        <span class="o">.</span><span class="n">fill_null</span><span class="p">(</span>
-<span class="gp">... </span>            <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%F</span><span class="s2"> %T&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="gp">... </span>        <span class="p">)</span>
-<span class="gp">... </span>        <span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;%D&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-<span class="gp">... </span>        <span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%c</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">pl</span><span class="o">.</span><span class="n">coalesce</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%F</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%F</span><span class="s2"> %T&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;%D&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Date</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%c</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
 <span class="gp">... </span>    <span class="p">)</span>
-<span class="gp">... </span><span class="p">)</span>
-<span class="go">shape: (4, 1)</span>
-<span class="go">┌────────────┐</span>
-<span class="go">│ date       │</span>
-<span class="go">│ ---        │</span>
-<span class="go">│ date       │</span>
-<span class="go">╞════════════╡</span>
-<span class="go">│ 2021-04-22 │</span>
-<span class="go">│ 2022-01-04 │</span>
-<span class="go">│ 2022-01-31 │</span>
-<span class="go">│ 2001-07-08 │</span>
-<span class="go">└────────────┘</span>
+<span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span>
+<span class="go">shape: (4,)</span>
+<span class="go">Series: &#39;date&#39; [date]</span>
+<span class="go">[</span>
+<span class="go">        2021-04-22</span>
+<span class="go">        2022-01-04</span>
+<span class="go">        2022-01-31</span>
+<span class="go">        2001-07-08</span>
+<span class="go">]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1638,7 +1631,10 @@ with mixed offsets.</p>
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="polars.Series.str.strip.html"
@@ -1650,15 +1646,18 @@ with mixed offsets.</p>
       </div>
     </a>
     <a class="right-next"
-       href="polars.Series.str.to_lowercase.html"
+       href="polars.Series.str.to_date.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.Series.str.to_lowercase</p>
+        <p class="prev-next-title">polars.Series.str.to_date</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -1682,7 +1681,7 @@ with mixed offsets.</p>
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner"></div>
+            
           </footer>
         
       </main>
@@ -1690,8 +1689,8 @@ with mixed offsets.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1709,7 +1708,7 @@ with mixed offsets.</p>
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
     <br/>
   </p>
 </div>
@@ -1720,7 +1719,7 @@ with mixed offsets.</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
 </p></div>
       
     </div>
