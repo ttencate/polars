@@ -362,6 +362,26 @@
 <a href="#362" id="362">362</a>
 <a href="#363" id="363">363</a>
 <a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::any::Any;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -644,7 +664,12 @@
 
     <span class="doccomment">/// Get unique values in the Series.
     </span><span class="kw">fn </span>unique(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="kw">let </span>groups = <span class="self">self</span>.group_tuples(<span class="bool-val">true</span>, <span class="bool-val">false</span>);
+        <span class="comment">// this can called in aggregation, so this fast path can be worth a lot
+        </span><span class="kw">if </span><span class="self">self</span>.len() &lt; <span class="number">2 </span>{
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="number">0</span>.clone().into_series());
+        }
+        <span class="kw">let </span>main_thread = POOL.current_thread_index().is_none();
+        <span class="kw">let </span>groups = <span class="self">self</span>.group_tuples(main_thread, <span class="bool-val">false</span>);
         <span class="comment">// safety:
         // groups are in bounds
         </span><span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ <span class="self">self</span>.<span class="number">0</span>.clone().into_series().agg_first(<span class="kw-2">&amp;</span>groups<span class="question-mark">?</span>) })
@@ -652,13 +677,28 @@
 
     <span class="doccomment">/// Get unique values in the Series.
     </span><span class="kw">fn </span>n_unique(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;usize&gt; {
-        <span class="kw">let </span>groups = <span class="self">self</span>.group_tuples(<span class="bool-val">true</span>, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(groups.len())
+        <span class="comment">// this can called in aggregation, so this fast path can be worth a lot
+        </span><span class="kw">match </span><span class="self">self</span>.len() {
+            <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(<span class="number">0</span>),
+            <span class="number">1 </span>=&gt; <span class="prelude-val">Ok</span>(<span class="number">1</span>),
+            <span class="kw">_ </span>=&gt; {
+                <span class="comment">// TODO! try row encoding
+                </span><span class="kw">let </span>main_thread = POOL.current_thread_index().is_none();
+                <span class="kw">let </span>groups = <span class="self">self</span>.group_tuples(main_thread, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
+                <span class="prelude-val">Ok</span>(groups.len())
+            }
+        }
     }
 
     <span class="doccomment">/// Get first indexes of unique values.
     </span><span class="kw">fn </span>arg_unique(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;IdxCa&gt; {
-        <span class="kw">let </span>groups = <span class="self">self</span>.group_tuples(<span class="bool-val">true</span>, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
+        <span class="comment">// this can called in aggregation, so this fast path can be worth a lot
+        </span><span class="kw">if </span><span class="self">self</span>.len() == <span class="number">1 </span>{
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(IdxCa::new_vec(<span class="self">self</span>.name(), <span class="macro">vec!</span>[<span class="number">0 </span><span class="kw">as </span>IdxSize]));
+        }
+        <span class="comment">// TODO! try row encoding
+        </span><span class="kw">let </span>main_thread = POOL.current_thread_index().is_none();
+        <span class="kw">let </span>groups = <span class="self">self</span>.group_tuples(main_thread, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
         <span class="kw">let </span>first = groups.take_group_firsts();
         <span class="prelude-val">Ok</span>(IdxCa::from_vec(<span class="self">self</span>.name(), first))
     }

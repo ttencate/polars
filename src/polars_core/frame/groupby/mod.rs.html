@@ -1172,6 +1172,10 @@
 <a href="#1172" id="1172">1172</a>
 <a href="#1173" id="1173">1173</a>
 <a href="#1174" id="1174">1174</a>
+<a href="#1175" id="1175">1175</a>
+<a href="#1176" id="1176">1176</a>
+<a href="#1177" id="1177">1177</a>
+<a href="#1178" id="1178">1178</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::{Debug, Display, Formatter};
 <span class="kw">use </span>std::hash::Hash;
 
@@ -1261,7 +1265,11 @@
                 }
             }
             <span class="kw">let </span>keys_df = prepare_dataframe_unsorted(<span class="kw-2">&amp;</span>by);
-            groupby_threaded_multiple_keys_flat(keys_df, n_partitions, sorted)
+            <span class="kw">if </span>multithreaded {
+                groupby_threaded_multiple_keys_flat(keys_df, n_partitions, sorted)
+            } <span class="kw">else </span>{
+                groupby_multiple_keys(keys_df, sorted)
+            }
         };
         <span class="prelude-val">Ok</span>(GroupBy::new(<span class="self">self</span>, by, groups<span class="question-mark">?</span>, <span class="prelude-val">None</span>))
     }
