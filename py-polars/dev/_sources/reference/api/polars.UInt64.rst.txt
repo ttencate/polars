@@ -15,6 +15,8 @@
    
       ~UInt64.__init__
       ~UInt64.base_type
+      ~UInt64.is_
+      ~UInt64.is_not
    
    
 
