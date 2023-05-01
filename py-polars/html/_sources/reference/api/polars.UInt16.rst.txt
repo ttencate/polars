@@ -15,6 +15,8 @@
    
       ~UInt16.__init__
       ~UInt16.base_type
+      ~UInt16.is_
+      ~UInt16.is_not
    
    
 

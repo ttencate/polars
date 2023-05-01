@@ -15,6 +15,8 @@
    
       ~Utf8.__init__
       ~Utf8.base_type
+      ~Utf8.is_
+      ~Utf8.is_not
    
    
 

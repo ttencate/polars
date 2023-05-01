@@ -1235,8 +1235,10 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/meta.html">Meta</a><input class="toctree-checkbox" id="toctree-checkbox-43" name="toctree-checkbox-43" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-43"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.eq.html">polars.Expr.meta.eq</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.has_multiple_outputs.html">polars.Expr.meta.has_multiple_outputs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.is_regex_projection.html">polars.Expr.meta.is_regex_projection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.ne.html">polars.Expr.meta.ne</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.output_name.html">polars.Expr.meta.output_name</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.pop.html">polars.Expr.meta.pop</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.root_names.html">polars.Expr.meta.root_names</a></li>
@@ -1388,14 +1390,14 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.Decimal.html">polars.Decimal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Float32.html">polars.Float32</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Float64.html">polars.Float64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.Int8.html">polars.Int8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Int16.html">polars.Int16</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Int32.html">polars.Int32</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Int64.html">polars.Int64</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.Int8.html">polars.Int8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.UInt8.html">polars.UInt8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.UInt16.html">polars.UInt16</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.UInt32.html">polars.UInt32</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.UInt64.html">polars.UInt64</a></li>
-<li class="toctree-l2"><a class="reference internal" href="polars.UInt8.html">polars.UInt8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Date.html">polars.Date</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.Datetime.html">polars.Datetime</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.Duration</a></li>
@@ -1541,11 +1543,11 @@ document.write(`
 <h1>polars.Duration<a class="headerlink" href="#polars-duration" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="polars.Duration">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">Duration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/datatypes/classes.py#L290-L325"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Duration" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">Duration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/datatypes/classes.py#L352-L387"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Duration" title="Permalink to this definition">#</a></dt>
 <dd><p>Time duration/delta type.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Duration.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TimeUnit</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'us'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/datatypes/classes.py#L295-L309"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Duration.__init__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TimeUnit</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'us'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/datatypes/classes.py#L357-L371"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Duration.__init__" title="Permalink to this definition">#</a></dt>
 <dd><p>Time duration/delta type.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1565,6 +1567,12 @@ document.write(`
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">base_type</span></code>()</p></td>
 <td><p>Return this DataType's fundamental/root type class.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_</span></code>(other)</p></td>
+<td><p>Check if this DataType is the same as another DataType.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_not</span></code>(other)</p></td>
+<td><p>Check if this DataType is NOT the same as another DataType.</p></td>
 </tr>
 </tbody>
 </table>

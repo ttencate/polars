@@ -48,7 +48,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/expressions/meta';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="polars.Expr.meta.has_multiple_outputs" href="api/polars.Expr.meta.has_multiple_outputs.html" />
+    <link rel="next" title="polars.Expr.meta.eq" href="api/polars.Expr.meta.eq.html" />
     <link rel="prev" title="polars.Expr.where" href="api/polars.Expr.where.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -1231,8 +1231,10 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Meta</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-43" name="toctree-checkbox-43" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-43"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.eq.html">polars.Expr.meta.eq</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.has_multiple_outputs.html">polars.Expr.meta.has_multiple_outputs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.is_regex_projection.html">polars.Expr.meta.is_regex_projection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.ne.html">polars.Expr.meta.ne</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.output_name.html">polars.Expr.meta.output_name</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.pop.html">polars.Expr.meta.pop</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.root_names.html">polars.Expr.meta.root_names</a></li>
@@ -1384,14 +1386,14 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Decimal.html">polars.Decimal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Float32.html">polars.Float32</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Float64.html">polars.Float64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.Int8.html">polars.Int8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Int16.html">polars.Int16</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Int32.html">polars.Int32</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Int64.html">polars.Int64</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/polars.Int8.html">polars.Int8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/polars.UInt8.html">polars.UInt8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.UInt16.html">polars.UInt16</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.UInt32.html">polars.UInt32</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.UInt64.html">polars.UInt64</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/polars.UInt8.html">polars.UInt8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Date.html">polars.Date</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Datetime.html">polars.Datetime</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.Duration.html">polars.Duration</a></li>
@@ -1538,11 +1540,17 @@ document.write(`
 <p>The following methods are available under the <cite>expr.meta</cite> attribute.</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.meta.has_multiple_outputs.html#polars.Expr.meta.has_multiple_outputs" title="polars.Expr.meta.has_multiple_outputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.meta.has_multiple_outputs</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.meta.eq.html#polars.Expr.meta.eq" title="polars.Expr.meta.eq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.meta.eq</span></code></a>(other)</p></td>
+<td><p>Indicate if this expression is the same as another expression.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.meta.has_multiple_outputs.html#polars.Expr.meta.has_multiple_outputs" title="polars.Expr.meta.has_multiple_outputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.meta.has_multiple_outputs</span></code></a>()</p></td>
 <td><p>Whether this expression expands into multiple expressions.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.meta.is_regex_projection.html#polars.Expr.meta.is_regex_projection" title="polars.Expr.meta.is_regex_projection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.meta.is_regex_projection</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.meta.is_regex_projection.html#polars.Expr.meta.is_regex_projection" title="polars.Expr.meta.is_regex_projection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.meta.is_regex_projection</span></code></a>()</p></td>
 <td><p>Whether this expression expands to columns that match a regex pattern.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.meta.ne.html#polars.Expr.meta.ne" title="polars.Expr.meta.ne"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.meta.ne</span></code></a>(other)</p></td>
+<td><p>Indicate if this expression is NOT the same as another expression.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.meta.output_name.html#polars.Expr.meta.output_name" title="polars.Expr.meta.output_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.meta.output_name</span></code></a>()</p></td>
 <td><p>Get the column name that this expression would produce.</p></td>
@@ -1581,11 +1589,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="api/polars.Expr.meta.has_multiple_outputs.html"
+       href="api/polars.Expr.meta.eq.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.Expr.meta.has_multiple_outputs</p>
+        <p class="prev-next-title">polars.Expr.meta.eq</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

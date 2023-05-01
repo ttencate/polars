@@ -15,6 +15,8 @@
    
       ~Boolean.__init__
       ~Boolean.base_type
+      ~Boolean.is_
+      ~Boolean.is_not
    
    
 
