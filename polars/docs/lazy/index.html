@@ -203,7 +203,7 @@ shows how we use the <code>Struct</code> datatype to be able to apply a function
         <span class="string">&quot;b&quot; </span>=&gt; [<span class="number">3.0</span>, <span class="number">5.1</span>, <span class="number">0.3</span>]
     ]<span class="question-mark">?
     </span>.lazy()
-    .select([concat_lst([<span class="string">&quot;col_a&quot;</span>, <span class="string">&quot;col_b&quot;</span>]).map(
+    .select([concat_list([<span class="string">&quot;col_a&quot;</span>, <span class="string">&quot;col_b&quot;</span>]).map(
         |s| {
             <span class="kw">let </span>ca = s.struct_()<span class="question-mark">?</span>;
 

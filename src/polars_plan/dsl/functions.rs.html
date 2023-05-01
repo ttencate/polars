@@ -1649,7 +1649,7 @@
 }
 
 <span class="doccomment">/// Concat lists entries.
-</span><span class="kw">pub fn </span>concat_lst&lt;E: AsRef&lt;[IE]&gt;, IE: Into&lt;Expr&gt; + Clone&gt;(s: E) -&gt; PolarsResult&lt;Expr&gt; {
+</span><span class="kw">pub fn </span>concat_list&lt;E: AsRef&lt;[IE]&gt;, IE: Into&lt;Expr&gt; + Clone&gt;(s: E) -&gt; PolarsResult&lt;Expr&gt; {
     <span class="kw">let </span>s: Vec&lt;<span class="kw">_</span>&gt; = s.as_ref().iter().map(|e| e.clone().into()).collect();
 
     <span class="macro">polars_ensure!</span>(!s.is_empty(), ComputeError: <span class="string">&quot;`concat_list` needs one or more expressions&quot;</span>);
