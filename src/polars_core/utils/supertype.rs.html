@@ -311,16 +311,6 @@
 <a href="#311" id="311">311</a>
 <a href="#312" id="312">312</a>
 <a href="#313" id="313">313</a>
-<a href="#314" id="314">314</a>
-<a href="#315" id="315">315</a>
-<a href="#316" id="316">316</a>
-<a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
-<a href="#320" id="320">320</a>
-<a href="#321" id="321">321</a>
-<a href="#322" id="322">322</a>
-<a href="#323" id="323">323</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Given two datatypes, determine the supertype that both types can safely be cast to
@@ -540,22 +530,12 @@
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-duration&quot;</span>)]
             </span>(Duration(lu), Duration(ru)) =&gt; <span class="prelude-val">Some</span>(Duration(get_time_units(lu, ru))),
 
-            <span class="comment">// None and Some(&quot;&quot;) timezones
-            // we cast from more precision to higher precision as that always fits with occasional loss of precision
-            </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
-            </span>(Datetime(tu_l, tz_l), Datetime(tu_r, tz_r))
-                <span class="kw">if </span>(tz_l.is_none() || tz_l.as_deref() == <span class="prelude-val">Some</span>(<span class="string">&quot;&quot;</span>))
-                    &amp;&amp; (tz_r.is_none() || tz_r.as_deref() == <span class="prelude-val">Some</span>(<span class="string">&quot;&quot;</span>)) =&gt;
-            {
-                <span class="kw">let </span>tu = get_time_units(tu_l, tu_r);
-                <span class="prelude-val">Some</span>(Datetime(tu, <span class="prelude-val">None</span>))
-            }
-            <span class="comment">// None and Some(&quot;&lt;tz&gt;&quot;) timezones
+            <span class="comment">// both None or both Some(&quot;&lt;tz&gt;&quot;) timezones
             // we cast from more precision to higher precision as that always fits with occasional loss of precision
             </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
             </span>(Datetime(tu_l, tz_l), Datetime(tu_r, tz_r)) <span class="kw">if
                 </span><span class="comment">// both are none
-                </span>tz_l.is_none() &amp;&amp; tz_r.is_none()
+                </span>(tz_l.is_none() &amp;&amp; tz_r.is_none())
                 <span class="comment">// both have the same time zone
                 </span>|| (tz_l.is_some() &amp;&amp; (tz_l == tz_r)) =&gt; {
                 <span class="kw">let </span>tu = get_time_units(tu_l, tu_r);
