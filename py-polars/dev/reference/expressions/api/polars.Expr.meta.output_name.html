@@ -49,7 +49,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="polars.Expr.meta.pop" href="polars.Expr.meta.pop.html" />
-    <link rel="prev" title="polars.Expr.meta.is_regex_projection" href="polars.Expr.meta.is_regex_projection.html" />
+    <link rel="prev" title="polars.Expr.meta.ne" href="polars.Expr.meta.ne.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -1235,8 +1235,10 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../meta.html">Meta</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-43" name="toctree-checkbox-43" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-43"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.meta.eq.html">polars.Expr.meta.eq</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.meta.has_multiple_outputs.html">polars.Expr.meta.has_multiple_outputs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.meta.is_regex_projection.html">polars.Expr.meta.is_regex_projection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.meta.ne.html">polars.Expr.meta.ne</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Expr.meta.output_name</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.meta.pop.html">polars.Expr.meta.pop</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.meta.root_names.html">polars.Expr.meta.root_names</a></li>
@@ -1546,11 +1548,10 @@ document.write(`
 <h1>polars.Expr.meta.output_name<a class="headerlink" href="#polars-expr-meta-output-name" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.meta.output_name">
-<span class="sig-prename descclassname"><span class="pre">Expr.meta.</span></span><span class="sig-name descname"><span class="pre">output_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/meta.py#L42-L51"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.meta.output_name" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.meta.</span></span><span class="sig-name descname"><span class="pre">output_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/meta.py#L41-L49"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.meta.output_name" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the column name that this expression would produce.</p>
-<p>It might not always be possible to determine the output name
-as it might depend on the schema of the context. In that case
-this will raise a <code class="docutils literal notranslate"><span class="pre">pl.ComputeError</span></code>.</p>
+<p>It may not always be possible to determine the output name, as that can depend
+on the schema of the context; in that case this will raise <code class="docutils literal notranslate"><span class="pre">ComputeError</span></code>.</p>
 </dd></dl>
 
 </section>
@@ -1567,12 +1568,12 @@ this will raise a <code class="docutils literal notranslate"><span class="pre">p
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.Expr.meta.is_regex_projection.html"
+       href="polars.Expr.meta.ne.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.Expr.meta.is_regex_projection</p>
+        <p class="prev-next-title">polars.Expr.meta.ne</p>
       </div>
     </a>
     <a class="right-next"
