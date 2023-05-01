@@ -78,6 +78,24 @@
 <a href="#78" id="78">78</a>
 <a href="#79" id="79">79</a>
 <a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
+<a href="#83" id="83">83</a>
+<a href="#84" id="84">84</a>
+<a href="#85" id="85">85</a>
+<a href="#86" id="86">86</a>
+<a href="#87" id="87">87</a>
+<a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
+<a href="#90" id="90">90</a>
+<a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
 
 <span class="kw">use </span>polars_error::PolarsResult;
@@ -90,6 +108,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::prelude::sort::_broadcast_descending;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::sort::arg_sort_multiple::_get_rows_encoded;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
 <span class="kw">use </span><span class="kw">crate</span>::utils::NoNull;
 
 <span class="attr">#[derive(Eq)]
@@ -155,7 +174,24 @@
 
         <span class="kw">let </span>idx: NoNull&lt;IdxCa&gt; = sorted.iter().map(|cmp_row| cmp_row.idx).collect();
 
-        <span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(<span class="self">self</span>.take_unchecked(<span class="kw-2">&amp;</span>idx.into_inner())) }
+        <span class="kw">let </span><span class="kw-2">mut </span>df = <span class="kw">unsafe </span>{ <span class="self">self</span>.take_unchecked(<span class="kw-2">&amp;</span>idx.into_inner()) };
+
+        <span class="kw">let </span>first_descending = descending[<span class="number">0</span>];
+        <span class="kw">let </span>first_by_column = by_column[<span class="number">0</span>].name().to_string();
+
+        <span class="comment">// Mark the first sort column as sorted
+        // if the column did not exists it is ok, because we sorted by an expression
+        // not present in the dataframe
+        </span><span class="kw">let _ </span>= df.apply(<span class="kw-2">&amp;</span>first_by_column, |s| {
+            <span class="kw">let </span><span class="kw-2">mut </span>s = s.clone();
+            <span class="kw">if </span>first_descending {
+                s.set_sorted_flag(IsSorted::Descending)
+            } <span class="kw">else </span>{
+                s.set_sorted_flag(IsSorted::Ascending)
+            }
+            s
+        });
+        <span class="prelude-val">Ok</span>(df)
     }
 }
 </code></pre></div></section></main></body></html>

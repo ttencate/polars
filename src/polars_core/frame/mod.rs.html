@@ -3650,6 +3650,14 @@
 <a href="#3650" id="3650">3650</a>
 <a href="#3651" id="3651">3651</a>
 <a href="#3652" id="3652">3652</a>
+<a href="#3653" id="3653">3653</a>
+<a href="#3654" id="3654">3654</a>
+<a href="#3655" id="3655">3655</a>
+<a href="#3656" id="3656">3656</a>
+<a href="#3657" id="3657">3657</a>
+<a href="#3658" id="3658">3658</a>
+<a href="#3659" id="3659">3659</a>
+<a href="#3660" id="3660">3660</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! DataFrame module.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::iter::{FromIterator, Iterator};
@@ -5447,8 +5455,34 @@
         slice: <span class="prelude-ty">Option</span>&lt;(i64, usize)&gt;,
         parallel: bool,
     ) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
+        <span class="comment">// note that the by_column argument also contains evaluated expression from polars-lazy
+        // that may not even be present in this dataframe.
+
+        // therefore when we try to set the first columns as sorted, we ignore the error
+        // as expressions are not present (they are renamed to _POLARS_SORT_COLUMN_i.
+        </span><span class="kw">let </span>first_descending = descending[<span class="number">0</span>];
+        <span class="kw">let </span>first_by_column = by_column[<span class="number">0</span>].name().to_string();
+
+        <span class="kw">let </span>set_sorted = |df: <span class="kw-2">&amp;mut </span>DataFrame| {
+            <span class="comment">// Mark the first sort column as sorted
+            // if the column did not exists it is ok, because we sorted by an expression
+            // not present in the dataframe
+            </span><span class="kw">let _ </span>= df.apply(<span class="kw-2">&amp;</span>first_by_column, |s| {
+                <span class="kw">let </span><span class="kw-2">mut </span>s = s.clone();
+                <span class="kw">if </span>first_descending {
+                    s.set_sorted_flag(IsSorted::Descending)
+                } <span class="kw">else </span>{
+                    s.set_sorted_flag(IsSorted::Ascending)
+                }
+                s
+            });
+        };
+
         <span class="kw">if </span><span class="self">self</span>.height() == <span class="number">0 </span>{
-            <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="self">self</span>.clone());
+            <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="self">self</span>.clone();
+            set_sorted(<span class="kw-2">&amp;mut </span>out);
+
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(out);
         }
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>((<span class="number">0</span>, k)) = slice {
@@ -5467,13 +5501,6 @@
         <span class="comment">// a lot of indirection in both sorting and take
         </span><span class="kw">let </span><span class="kw-2">mut </span>df = <span class="self">self</span>.clone();
         <span class="kw">let </span>df = df.as_single_chunk_par();
-        <span class="comment">// note that the by_column argument also contains evaluated expression from polars-lazy
-        // that may not even be present in this dataframe.
-
-        // therefore when we try to set the first columns as sorted, we ignore the error
-        // as expressions are not present (they are renamed to _POLARS_SORT_COLUMN_i.
-        </span><span class="kw">let </span>first_descending = descending[<span class="number">0</span>];
-        <span class="kw">let </span>first_by_column = by_column[<span class="number">0</span>].name().to_string();
         <span class="kw">let </span><span class="kw-2">mut </span>take = <span class="kw">match </span>(by_column.len(), has_struct) {
             (<span class="number">1</span>, <span class="bool-val">false</span>) =&gt; {
                 <span class="kw">let </span>s = <span class="kw-2">&amp;</span>by_column[<span class="number">0</span>];
@@ -5512,18 +5539,7 @@
         <span class="comment">// Safety:
         // the created indices are in bounds
         </span><span class="kw">let </span><span class="kw-2">mut </span>df = <span class="kw">unsafe </span>{ df.take_unchecked_impl(<span class="kw-2">&amp;</span>take, parallel) };
-        <span class="comment">// Mark the first sort column as sorted
-        // if the column did not exists it is ok, because we sorted by an expression
-        // not present in the dataframe
-        </span><span class="kw">let _ </span>= df.apply(<span class="kw-2">&amp;</span>first_by_column, |s| {
-            <span class="kw">let </span><span class="kw-2">mut </span>s = s.clone();
-            <span class="kw">if </span>first_descending {
-                s.set_sorted_flag(IsSorted::Descending)
-            } <span class="kw">else </span>{
-                s.set_sorted_flag(IsSorted::Ascending)
-            }
-            s
-        });
+        set_sorted(<span class="kw-2">&amp;mut </span>df);
         <span class="prelude-val">Ok</span>(df)
     }
 
