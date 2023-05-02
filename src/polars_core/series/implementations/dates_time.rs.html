@@ -804,7 +804,7 @@
                         .into_series()
                         .date()
                         .unwrap()
-                        .strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>)
+                        .to_string(<span class="string">&quot;%Y-%m-%d&quot;</span>)
                         .into_series()),
                     (DataType::Time, DataType::Utf8) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self
                         </span>.<span class="number">0
@@ -812,7 +812,7 @@
                         .into_series()
                         .time()
                         .unwrap()
-                        .strftime(<span class="string">&quot;%T&quot;</span>)
+                        .to_string(<span class="string">&quot;%T&quot;</span>)
                         .into_series()),
                     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
                     </span>(DataType::Time, DataType::Datetime(<span class="kw">_</span>, <span class="kw">_</span>)) =&gt; {

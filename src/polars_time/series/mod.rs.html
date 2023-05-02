@@ -334,6 +334,15 @@
 <a href="#334" id="334">334</a>
 <a href="#335" id="335">335</a>
 <a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>_trait;
 <span class="kw">mod </span>implementations;
 <span class="kw">use </span>std::ops::Deref;
@@ -640,20 +649,29 @@
         }
     }
 
-    <span class="doccomment">/// Format Date/Datetimewith a `format` rule. See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).
-    </span><span class="kw">fn </span>strftime(<span class="kw-2">&amp;</span><span class="self">self</span>, format: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="doccomment">/// Convert Time into Utf8 with the given format.
+    /// See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).
+    </span><span class="kw">fn </span>to_string(<span class="kw-2">&amp;</span><span class="self">self</span>, format: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Series&gt; {
         <span class="kw">let </span>s = <span class="self">self</span>.as_series();
         <span class="kw">match </span>s.dtype() {
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
-            </span>DataType::Date =&gt; s.date().map(|ca| ca.strftime(format).into_series()),
+            </span>DataType::Date =&gt; s.date().map(|ca| ca.to_string(format).into_series()),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
             </span>DataType::Datetime(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; s
                 .datetime()
-                .map(|ca| <span class="prelude-val">Ok</span>(ca.strftime(format)<span class="question-mark">?</span>.into_series()))<span class="question-mark">?</span>,
+                .map(|ca| <span class="prelude-val">Ok</span>(ca.to_string(format)<span class="question-mark">?</span>.into_series()))<span class="question-mark">?</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-time&quot;</span>)]
-            </span>DataType::Time =&gt; s.time().map(|ca| ca.strftime(format).into_series()),
-            dt =&gt; <span class="macro">polars_bail!</span>(opq = strftime, dt),
+            </span>DataType::Time =&gt; s.time().map(|ca| ca.to_string(format).into_series()),
+            dt =&gt; <span class="macro">polars_bail!</span>(opq = to_string, dt),
         }
+    }
+
+    <span class="doccomment">/// Convert from Time into Utf8 with the given format.
+    /// See [chrono strftime/strptime](https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html).
+    ///
+    /// Alias for `to_string`.
+    </span><span class="kw">fn </span>strftime(<span class="kw-2">&amp;</span><span class="self">self</span>, format: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;Series&gt; {
+        <span class="self">self</span>.to_string(format)
     }
 
     <span class="attr">#[cfg(all(feature = <span class="string">&quot;dtype-date&quot;</span>, feature = <span class="string">&quot;dtype-datetime&quot;</span>))]
