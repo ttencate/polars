@@ -710,6 +710,7 @@ document.write(`
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Series.dt.strftime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.time.html">polars.Series.dt.time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.timestamp.html">polars.Series.dt.timestamp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.to_string.html">polars.Series.dt.to_string</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.truncate.html">polars.Series.dt.truncate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.week.html">polars.Series.dt.week</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.weekday.html">polars.Series.dt.weekday</a></li>
@@ -1342,6 +1343,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.strftime.html">polars.Expr.dt.strftime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.time.html">polars.Expr.dt.time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.timestamp.html">polars.Expr.dt.timestamp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.to_string.html">polars.Expr.dt.to_string</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.truncate.html">polars.Expr.dt.truncate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.week.html">polars.Expr.dt.week</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.weekday.html">polars.Expr.dt.weekday</a></li>
@@ -1548,8 +1550,11 @@ document.write(`
 <h1>polars.Series.dt.strftime<a class="headerlink" href="#polars-series-dt-strftime" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.dt.strftime">
-<span class="sig-prename descclassname"><span class="pre">Series.dt.</span></span><span class="sig-name descname"><span class="pre">strftime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/datetime.py#L144-L187"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.dt.strftime" title="Permalink to this definition">#</a></dt>
-<dd><p>Format Date/datetime with a formatting rule.</p>
+<span class="sig-prename descclassname"><span class="pre">Series.dt.</span></span><span class="sig-name descname"><span class="pre">strftime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/datetime.py#L175-L213"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.dt.strftime" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert a Date/Time/Datetime column into a Utf8 column with the given format.</p>
+<p>Similar to <code class="docutils literal notranslate"><span class="pre">cast(pl.Utf8)</span></code>, but this method allows you to customize the
+formatting of the resulting string.</p>
+<p>Alias for <a class="reference internal" href="polars.Series.dt.to_string.html#polars.Series.dt.to_string" title="polars.Series.dt.to_string"><code class="xref py py-func docutils literal notranslate"><span class="pre">to_string()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -1558,34 +1563,27 @@ for specification. Example: <code class="docutils literal notranslate"><span cla
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>Utf8 Series</dt><dd></dd>
 </dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="polars.Series.dt.to_string.html#polars.Series.dt.to_string" title="polars.Series.dt.to_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_string</span></code></a></dt><dd><p>The identical Series method for which <code class="docutils literal notranslate"><span class="pre">strftime</span></code> is an alias.</p>
 </dd>
 </dl>
+</div>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2001</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">stop</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2001</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s2">&quot;1d&quot;</span><span class="p">,</span> <span class="n">eager</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span>
-<span class="go">shape: (4,)</span>
-<span class="go">Series: &#39;&#39; [datetime[μs]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;datetime&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y/%m/</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">shape: (3,)</span>
+<span class="go">Series: &#39;datetime&#39; [str]</span>
 <span class="go">[</span>
-<span class="go">        2001-01-01 00:00:00</span>
-<span class="go">        2001-01-02 00:00:00</span>
-<span class="go">        2001-01-03 00:00:00</span>
-<span class="go">        2001-01-04 00:00:00</span>
-<span class="go">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="go">shape: (4,)</span>
-<span class="go">Series: &#39;&#39; [str]</span>
-<span class="go">[</span>
-<span class="go">        &quot;2001-01-01&quot;</span>
-<span class="go">        &quot;2001-01-02&quot;</span>
-<span class="go">        &quot;2001-01-03&quot;</span>
-<span class="go">        &quot;2001-01-04&quot;</span>
+<span class="go">        &quot;2020/03/01&quot;</span>
+<span class="go">        &quot;2020/04/01&quot;</span>
+<span class="go">        &quot;2020/05/01&quot;</span>
 <span class="go">]</span>
 </pre></div>
 </div>

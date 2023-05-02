@@ -48,7 +48,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/series/api/polars.Series.dt.timestamp';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="polars.Series.dt.truncate" href="polars.Series.dt.truncate.html" />
+    <link rel="next" title="polars.Series.dt.to_string" href="polars.Series.dt.to_string.html" />
     <link rel="prev" title="polars.Series.dt.time" href="polars.Series.dt.time.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -710,6 +710,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.strftime.html">polars.Series.dt.strftime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.time.html">polars.Series.dt.time</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Series.dt.timestamp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.to_string.html">polars.Series.dt.to_string</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.truncate.html">polars.Series.dt.truncate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.week.html">polars.Series.dt.week</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.weekday.html">polars.Series.dt.weekday</a></li>
@@ -1342,6 +1343,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.strftime.html">polars.Expr.dt.strftime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.time.html">polars.Expr.dt.time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.timestamp.html">polars.Expr.dt.timestamp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.to_string.html">polars.Expr.dt.to_string</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.truncate.html">polars.Expr.dt.truncate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.week.html">polars.Expr.dt.week</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.weekday.html">polars.Expr.dt.weekday</a></li>
@@ -1548,7 +1550,7 @@ document.write(`
 <h1>polars.Series.dt.timestamp<a class="headerlink" href="#polars-series-dt-timestamp" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.dt.timestamp">
-<span class="sig-prename descclassname"><span class="pre">Series.dt.</span></span><span class="sig-name descname"><span class="pre">timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TimeUnit</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'us'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/datetime.py#L906-L946"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.dt.timestamp" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.dt.</span></span><span class="sig-name descname"><span class="pre">timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TimeUnit</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'us'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/datetime.py#L932-L972"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.dt.timestamp" title="Permalink to this definition">#</a></dt>
 <dd><p>Return a timestamp in the given time unit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1614,11 +1616,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="polars.Series.dt.truncate.html"
+       href="polars.Series.dt.to_string.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.Series.dt.truncate</p>
+        <p class="prev-next-title">polars.Series.dt.to_string</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
