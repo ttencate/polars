@@ -99,6 +99,10 @@
 <a href="#99" id="99">99</a>
 <a href="#100" id="100">100</a>
 <a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::utils::concat_df;
 <span class="kw">use </span>polars_plan::global::_is_fetch_query;
 
@@ -123,7 +127,11 @@
         }
         <span class="kw">let </span><span class="kw-2">mut </span>inputs = std::mem::take(<span class="kw-2">&amp;mut </span><span class="self">self</span>.inputs);
 
-        <span class="kw">let </span>sliced_path = <span class="self">self</span>.options.slice &amp;&amp; <span class="self">self</span>.options.slice_offset &gt;= <span class="number">0</span>;
+        <span class="kw">let </span>sliced_path = <span class="kw">if let </span><span class="prelude-val">Some</span>((offset, <span class="kw">_</span>)) = <span class="self">self</span>.options.slice {
+            offset &gt;= <span class="number">0
+        </span>} <span class="kw">else </span>{
+            <span class="bool-val">false
+        </span>};
 
         <span class="kw">if </span>!<span class="self">self</span>.options.parallel || sliced_path {
             <span class="kw">if </span>state.verbose() {
@@ -134,8 +142,8 @@
                 }
             }
 
-            <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="self">self</span>.options.slice_offset <span class="kw">as </span>usize;
-            <span class="kw">let </span><span class="kw-2">mut </span>len = <span class="self">self</span>.options.slice_len <span class="kw">as </span>usize;
+            <span class="kw">let </span>(slice_offset, <span class="kw-2">mut </span>slice_len) = <span class="self">self</span>.options.slice.unwrap_or((<span class="number">0</span>, usize::MAX));
+            <span class="kw">let </span><span class="kw-2">mut </span>slice_offset = slice_offset <span class="kw">as </span>usize;
             <span class="kw">let </span>dfs = inputs
                 .into_iter()
                 .enumerate()
@@ -148,22 +156,22 @@
                         <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(df));
                     }
 
-                    <span class="prelude-val">Ok</span>(<span class="kw">if </span>offset &gt; df.height() {
-                        offset -= df.height();
+                    <span class="prelude-val">Ok</span>(<span class="kw">if </span>slice_offset &gt; df.height() {
+                        slice_offset -= df.height();
                         <span class="prelude-val">None
-                    </span>} <span class="kw">else if </span>offset + len &gt; df.height() {
-                        len -= df.height() - offset;
-                        <span class="kw">if </span>offset == <span class="number">0 </span>{
+                    </span>} <span class="kw">else if </span>slice_offset + slice_len &gt; df.height() {
+                        slice_len -= df.height() - slice_offset;
+                        <span class="kw">if </span>slice_offset == <span class="number">0 </span>{
                             <span class="prelude-val">Some</span>(df)
                         } <span class="kw">else </span>{
-                            <span class="kw">let </span>out = <span class="prelude-val">Some</span>(df.slice(offset <span class="kw">as </span>i64, usize::MAX));
-                            offset = <span class="number">0</span>;
+                            <span class="kw">let </span>out = <span class="prelude-val">Some</span>(df.slice(slice_offset <span class="kw">as </span>i64, usize::MAX));
+                            slice_offset = <span class="number">0</span>;
                             out
                         }
                     } <span class="kw">else </span>{
-                        <span class="kw">let </span>out = <span class="prelude-val">Some</span>(df.slice(offset <span class="kw">as </span>i64, len));
-                        len = <span class="number">0</span>;
-                        offset = <span class="number">0</span>;
+                        <span class="kw">let </span>out = <span class="prelude-val">Some</span>(df.slice(slice_offset <span class="kw">as </span>i64, slice_len));
+                        slice_len = <span class="number">0</span>;
+                        slice_offset = <span class="number">0</span>;
                         out
                     })
                 })

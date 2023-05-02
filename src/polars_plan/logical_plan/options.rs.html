@@ -315,8 +315,6 @@
 <a href="#315" id="315">315</a>
 <a href="#316" id="316">316</a>
 <a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::path::PathBuf;
 
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
@@ -440,9 +438,7 @@
 <span class="attr">#[derive(Clone, Debug, Copy, Default, Eq, PartialEq)]
 #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 </span><span class="kw">pub struct </span>UnionOptions {
-    <span class="kw">pub </span>slice: bool,
-    <span class="kw">pub </span>slice_offset: i64,
-    <span class="kw">pub </span>slice_len: IdxSize,
+    <span class="kw">pub </span>slice: <span class="prelude-ty">Option</span>&lt;(i64, usize)&gt;,
     <span class="kw">pub </span>parallel: bool,
     <span class="comment">// known row_output, estimated row output
     </span><span class="kw">pub </span>rows: (<span class="prelude-ty">Option</span>&lt;usize&gt;, usize),

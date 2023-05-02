@@ -427,8 +427,8 @@
                 <span class="kw">let </span><span class="kw-2">mut </span>sum_output = (<span class="prelude-val">None</span>, <span class="number">0</span>);
                 <span class="kw">for </span>input <span class="kw">in </span><span class="kw-2">&amp;</span>inputs {
                     <span class="kw">let </span><span class="kw-2">mut </span>out = set_estimated_row_counts(<span class="kw-2">*</span>input, lp_arena, expr_arena, <span class="number">0</span>);
-                    <span class="kw">if </span>options.slice {
-                        apply_slice(<span class="kw-2">&amp;mut </span>out, <span class="prelude-val">Some</span>((<span class="number">0</span>, options.slice_len <span class="kw">as </span>usize)))
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>((_offset, len)) = options.slice {
+                        apply_slice(<span class="kw-2">&amp;mut </span>out, <span class="prelude-val">Some</span>((<span class="number">0</span>, len)))
                     }
                     <span class="comment">// todo! deal with known as well
                     </span><span class="kw">let </span>out = estimate_sizes(out.<span class="number">0</span>, out.<span class="number">1</span>, out.<span class="number">2</span>);
