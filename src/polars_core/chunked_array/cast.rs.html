@@ -609,7 +609,7 @@
             List(child_type) =&gt; {
                 <span class="kw">match </span>(<span class="self">self</span>.inner_dtype(), <span class="kw-2">&amp;**</span>child_type) {
                     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
-                    </span>(dt, Categorical(<span class="prelude-val">None</span>)) <span class="kw">if </span>!<span class="macro">matches!</span>(dt, Utf8) =&gt; {
+                    </span>(dt, Categorical(<span class="prelude-val">None</span>)) <span class="kw">if </span>!<span class="macro">matches!</span>(dt, Utf8 | Null) =&gt; {
                         <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;cannot cast List inner type: &#39;{:?}&#39; to Categorical&quot;</span>, dt)
                     }
                     <span class="kw">_ </span>=&gt; {
