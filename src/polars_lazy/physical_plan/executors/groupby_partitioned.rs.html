@@ -385,6 +385,8 @@
 <a href="#385" id="385">385</a>
 <a href="#386" id="386">386</a>
 <a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::utils::{accumulate_dataframes_vertical, split_df};
 <span class="kw">use </span>polars_core::POOL;
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
@@ -678,8 +680,10 @@
             }
 
             <span class="attr">#[cfg(feature = <span class="string">&quot;streaming&quot;</span>)]
-            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(out) = <span class="self">self</span>.run_streaming(state, original_df.clone()) {
-                <span class="kw">return </span>out;
+            </span><span class="kw">if </span>!<span class="self">self</span>.maintain_order {
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(out) = <span class="self">self</span>.run_streaming(state, original_df.clone()) {
+                    <span class="kw">return </span>out;
+                }
             }
 
             <span class="kw">if </span>state.verbose() {
