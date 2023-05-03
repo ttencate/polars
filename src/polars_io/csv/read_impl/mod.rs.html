@@ -870,25 +870,6 @@
 <a href="#870" id="870">870</a>
 <a href="#871" id="871">871</a>
 <a href="#872" id="872">872</a>
-<a href="#873" id="873">873</a>
-<a href="#874" id="874">874</a>
-<a href="#875" id="875">875</a>
-<a href="#876" id="876">876</a>
-<a href="#877" id="877">877</a>
-<a href="#878" id="878">878</a>
-<a href="#879" id="879">879</a>
-<a href="#880" id="880">880</a>
-<a href="#881" id="881">881</a>
-<a href="#882" id="882">882</a>
-<a href="#883" id="883">883</a>
-<a href="#884" id="884">884</a>
-<a href="#885" id="885">885</a>
-<a href="#886" id="886">886</a>
-<a href="#887" id="887">887</a>
-<a href="#888" id="888">888</a>
-<a href="#889" id="889">889</a>
-<a href="#890" id="890">890</a>
-<a href="#891" id="891">891</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>batched_mmap;
 <span class="kw">mod </span>batched_read;
 
@@ -908,7 +889,6 @@
 </span><span class="kw">use </span>polars_time::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_utils::flatten;
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span>rayon::ThreadPoolBuilder;
 
 <span class="kw">use </span><span class="kw">crate</span>::csv::buffer::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::csv::parser::<span class="kw-2">*</span>;
@@ -1423,24 +1403,6 @@
         <span class="kw">let </span>projection = <span class="self">self</span>.get_projection();
         <span class="kw">let </span>str_columns = <span class="self">self</span>.get_string_columns(<span class="kw-2">&amp;</span>projection)<span class="question-mark">?</span>;
 
-        <span class="comment">// If the number of threads given by the user is lower than our global thread pool we create
-        // new one.
-        </span><span class="attr">#[cfg(not(target_family = <span class="string">&quot;wasm&quot;</span>))]
-        </span><span class="kw">let </span>owned_pool;
-        <span class="attr">#[cfg(not(target_family = <span class="string">&quot;wasm&quot;</span>))]
-        </span><span class="kw">let </span>pool = <span class="kw">if </span>POOL.current_num_threads() != n_threads {
-            owned_pool = <span class="prelude-val">Some</span>(
-                ThreadPoolBuilder::new()
-                    .num_threads(n_threads)
-                    .build()
-                    .unwrap(),
-            );
-            owned_pool.as_ref().unwrap()
-        } <span class="kw">else </span>{
-            <span class="kw-2">&amp;</span>POOL
-        };
-        <span class="attr">#[cfg(target_family = <span class="string">&quot;wasm&quot;</span>)] </span><span class="comment">// use a pre-created pool for wasm
-        </span><span class="kw">let </span>pool = <span class="kw-2">&amp;</span>POOL;
         <span class="comment">// An empty file with a schema should return an empty DataFrame with that schema
         </span><span class="kw">if </span>bytes.is_empty() {
             <span class="comment">// TODO! add DataFrame::new_from_schema
@@ -1467,7 +1429,7 @@
         //      the inner vec has got buffers from all the columns.
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>(predicate) = predicate {
             <span class="kw">let </span>str_capacities = <span class="self">self</span>.init_string_size_stats(<span class="kw-2">&amp;</span>str_columns, chunk_size);
-            <span class="kw">let </span>dfs = pool.install(|| {
+            <span class="kw">let </span>dfs = POOL.install(|| {
                 file_chunks
                     .into_par_iter()
                     .map(|(bytes_offset_thread, stop_at_nbytes)| {
@@ -1560,7 +1522,7 @@
 
             <span class="kw">let </span>str_capacities = <span class="self">self</span>.init_string_size_stats(<span class="kw-2">&amp;</span>str_columns, capacity);
 
-            <span class="kw">let </span><span class="kw-2">mut </span>dfs = pool.install(|| {
+            <span class="kw">let </span><span class="kw-2">mut </span>dfs = POOL.install(|| {
                 file_chunks
                     .into_par_iter()
                     .map(|(bytes_offset_thread, stop_at_nbytes)| {
