@@ -1550,16 +1550,16 @@ document.write(`
 <h1>polars.Expr.str.contains<a class="headerlink" href="#polars-expr-str-contains" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.str.contains">
-<span class="sig-prename descclassname"><span class="pre">Expr.str.</span></span><span class="sig-name descname"><span class="pre">contains</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">literal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/string.py#L676-L722"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.str.contains" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.str.</span></span><span class="sig-name descname"><span class="pre">contains</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">literal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/string.py#L676-L746"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.str.contains" title="Permalink to this definition">#</a></dt>
 <dd><p>Check if string contains a substring that matches a regex.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>pattern</strong></dt><dd><p>A regex pattern compatible with the <a class="reference external" href="https://docs.rs/regex/latest/regex/">regex crate</a>.</p>
+<dt><strong>pattern</strong></dt><dd><p>A valid regular expression pattern, compatible with the <a class="reference external" href="https://docs.rs/regex/latest/regex/">regex crate</a>.</p>
 </dd>
-<dt><strong>literal</strong></dt><dd><p>Treat pattern as a literal string.</p>
+<dt><strong>literal</strong></dt><dd><p>Treat <code class="docutils literal notranslate"><span class="pre">pattern</span></code> as a literal string, not as a regular expression.</p>
 </dd>
-<dt><strong>strict</strong></dt><dd><p>Raise an error if the underlying pattern is not a valid regex expression,
+<dt><strong>strict</strong></dt><dd><p>Raise an error if the underlying pattern is not a valid regex,
 otherwise mask out with a null value.</p>
 </dd>
 </dl>
@@ -1574,6 +1574,27 @@ otherwise mask out with a null value.</p>
 </dd>
 </dl>
 </div>
+<p class="rubric">Notes</p>
+<p>To modify regular expression behaviour (such as case-sensitivity) with
+flags, use the inline <code class="docutils literal notranslate"><span class="pre">(?iLmsuxU)</span></code> syntax.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;AAA&quot;</span><span class="p">,</span> <span class="s2">&quot;aAa&quot;</span><span class="p">,</span> <span class="s2">&quot;aaa&quot;</span><span class="p">]})</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">default_match</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;AA&quot;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">insensitive_match</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;(?i)AA&quot;</span><span class="p">),</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">shape: (3, 3)</span>
+<span class="go">┌─────┬───────────────┬───────────────────┐</span>
+<span class="go">│ s   ┆ default_match ┆ insensitive_match │</span>
+<span class="go">│ --- ┆ ---           ┆ ---               │</span>
+<span class="go">│ str ┆ bool          ┆ bool              │</span>
+<span class="go">╞═════╪═══════════════╪═══════════════════╡</span>
+<span class="go">│ AAA ┆ true          ┆ true              │</span>
+<span class="go">│ aAa ┆ false         ┆ true              │</span>
+<span class="go">│ aaa ┆ false         ┆ true              │</span>
+<span class="go">└─────┴───────────────┴───────────────────┘</span>
+</pre></div>
+</div>
+<p>See the regex crate’s section on <a class="reference external" href="https://docs.rs/regex/latest/regex/#grouping-and-flags">grouping and flags</a> for
+additional information about the use of inline expression modifiers.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Crab&quot;</span><span class="p">,</span> <span class="s2">&quot;cat and dog&quot;</span><span class="p">,</span> <span class="s2">&quot;rab$bit&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
