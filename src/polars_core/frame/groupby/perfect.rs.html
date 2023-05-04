@@ -370,7 +370,7 @@
                                         }
                                     }
                                     <span class="comment">// last thread handles null values
-                                    </span><span class="kw">else if </span>thread_no == n_threads - <span class="number">1 </span>{
+                                    </span><span class="kw">else if </span>thread_no == cache_line_offsets.len() - <span class="number">2 </span>{
                                         <span class="kw">let </span>buf =
                                             <span class="kw">unsafe </span>{ groups.get_unchecked_release_mut(null_idx) };
                                         buf.push(row_nr);
