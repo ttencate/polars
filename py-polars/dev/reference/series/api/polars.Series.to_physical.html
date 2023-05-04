@@ -1550,7 +1550,7 @@ document.write(`
 <h1>polars.Series.to_physical<a class="headerlink" href="#polars-series-to-physical" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.to_physical">
-<span class="sig-prename descclassname"><span class="pre">Series.</span></span><span class="sig-name descname"><span class="pre">to_physical</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/series.py#L2985-L3014"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.to_physical" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.</span></span><span class="sig-name descname"><span class="pre">to_physical</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/series.py#L2985-L3015"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.to_physical" title="Permalink to this definition">#</a></dt>
 <dd><p>Cast to physical representation of the logical dtype.</p>
 <ul class="simple">
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Date()</span></code> -&gt; <code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Int32()</span></code></p></li>
@@ -1558,6 +1558,7 @@ document.write(`
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Time()</span></code> -&gt; <code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Int64()</span></code></p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Duration()</span></code> -&gt; <code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Int64()</span></code></p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.Categorical()</span></code> -&gt; <code class="xref py py-func docutils literal notranslate"><span class="pre">polars.datatypes.UInt32()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">List(inner)</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">List(physical</span> <span class="pre">of</span> <span class="pre">inner)</span></code></p></li>
 <li><p>Other data types will be left unchanged.</p></li>
 </ul>
 <p class="rubric">Examples</p>
