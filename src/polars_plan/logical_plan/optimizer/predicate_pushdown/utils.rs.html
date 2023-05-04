@@ -407,6 +407,27 @@
 <a href="#407" id="407">407</a>
 <a href="#408" id="408">408</a>
 <a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
+<a href="#412" id="412">412</a>
+<a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
+<a href="#429" id="429">429</a>
+<a href="#430" id="430">430</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::datatypes::PlHashMap;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
@@ -483,6 +504,27 @@
     } <span class="kw">else </span>{
         <span class="prelude-val">None
     </span>}
+}
+
+<span class="kw">fn </span>shifts_elements(node: Node, expr_arena: <span class="kw-2">&amp;</span>Arena&lt;AExpr&gt;) -&gt; bool {
+    <span class="kw">let </span>matches = |e: <span class="kw-2">&amp;</span>AExpr| {
+        <span class="macro">matches!</span>(
+            e,
+            AExpr::Function {
+                function: FunctionExpr::Shift(<span class="kw">_</span>) | FunctionExpr::ShiftAndFill { .. },
+                ..
+            }
+        )
+    };
+    has_aexpr(node, expr_arena, matches)
+}
+
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>predicate_is_sort_boundary(node: Node, expr_arena: <span class="kw-2">&amp;</span>Arena&lt;AExpr&gt;) -&gt; bool {
+    <span class="kw">let </span>matches = |e: <span class="kw-2">&amp;</span>AExpr| <span class="kw">match </span>e {
+        AExpr::Window { function, .. } =&gt; shifts_elements(<span class="kw-2">*</span>function, expr_arena),
+        <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
+    };
+    has_aexpr(node, expr_arena, matches)
 }
 
 <span class="comment">// this checks if a predicate from a node upstream can pass
