@@ -671,6 +671,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.struct.rename_fields.html">polars.Series.struct.rename_fields</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Series.struct.unnest</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.struct.fields.html">polars.Series.struct.fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Series.struct.schema.html">polars.Series.struct.schema</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../temporal.html">Temporal</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1553,7 +1554,7 @@ document.write(`
 <h1>polars.Series.struct.unnest<a class="headerlink" href="#polars-series-struct-unnest" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.struct.unnest">
-<span class="sig-prename descclassname"><span class="pre">Series.struct.</span></span><span class="sig-name descname"><span class="pre">unnest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/struct.py#L66-L85"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.struct.unnest" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.struct.</span></span><span class="sig-name descname"><span class="pre">unnest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/struct.py#L74-L93"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.struct.unnest" title="Permalink to this definition">#</a></dt>
 <dd><p>Convert this struct Series to a DataFrame with a separate column for each field.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">([{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}])</span>

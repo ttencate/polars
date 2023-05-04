@@ -667,6 +667,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.struct.rename_fields.html">polars.Series.struct.rename_fields</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.struct.unnest.html">polars.Series.struct.unnest</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Series.struct.fields.html">polars.Series.struct.fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Series.struct.schema.html">polars.Series.struct.schema</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="temporal.html">Temporal</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1617,7 +1618,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.take.html#polars.Series.arr.take" title="polars.Series.arr.take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.take</span></code></a>(index, *[, null_on_oob])</p></td>
 <td><p>Take sublists by multiple indices.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.to_struct.html#polars.Series.arr.to_struct" title="polars.Series.arr.to_struct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.to_struct</span></code></a>([n_field_strategy, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Series.arr.to_struct.html#polars.Series.arr.to_struct" title="polars.Series.arr.to_struct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.to_struct</span></code></a>([n_field_strategy, fields])</p></td>
 <td><p>Convert the series of type <code class="docutils literal notranslate"><span class="pre">List</span></code> to a series of type <code class="docutils literal notranslate"><span class="pre">Struct</span></code>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Series.arr.unique.html#polars.Series.arr.unique" title="polars.Series.arr.unique"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Series.arr.unique</span></code></a>(*[, maintain_order])</p></td>
