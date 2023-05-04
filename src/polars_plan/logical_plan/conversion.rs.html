@@ -902,6 +902,14 @@
 <a href="#902" id="902">902</a>
 <a href="#903" id="903">903</a>
 <a href="#904" id="904">904</a>
+<a href="#905" id="905">905</a>
+<a href="#906" id="906">906</a>
+<a href="#907" id="907">907</a>
+<a href="#908" id="908">908</a>
+<a href="#909" id="909">909</a>
+<a href="#910" id="910">910</a>
+<a href="#911" id="911">911</a>
+<a href="#912" id="912">912</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -1048,6 +1056,10 @@
             input: to_aexpr(<span class="kw-2">*</span>input, arena),
             offset: to_aexpr(<span class="kw-2">*</span>offset, arena),
             length: to_aexpr(<span class="kw-2">*</span>length, arena),
+        },
+        Expr::Cache { input, id } =&gt; AExpr::Cache {
+            input: to_aexpr(<span class="kw-2">*</span>input, arena),
+            id,
         },
         Expr::Wildcard =&gt; AExpr::Wildcard,
         Expr::Count =&gt; AExpr::Count,
@@ -1525,6 +1537,10 @@
             input: Box::new(node_to_expr(input, expr_arena)),
             offset: Box::new(node_to_expr(offset, expr_arena)),
             length: Box::new(node_to_expr(length, expr_arena)),
+        },
+        AExpr::Cache { input, id } =&gt; Expr::Cache {
+            input: Box::new(node_to_expr(input, expr_arena)),
+            id,
         },
         AExpr::Count =&gt; Expr::Count,
         AExpr::Nth(i) =&gt; Expr::Nth(i),

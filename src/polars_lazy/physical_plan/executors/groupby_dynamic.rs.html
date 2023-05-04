@@ -107,6 +107,8 @@
 <a href="#107" id="107">107</a>
 <a href="#108" id="108">108</a>
 <a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;dynamic_groupby&quot;</span>)]
 </span><span class="kw">use </span>polars_time::DynamicGroupOptions;
 
@@ -160,6 +162,7 @@
             }
         }
 
+        state.expr_cache = <span class="prelude-val">Some</span>(Default::default());
         <span class="kw">let </span>agg_columns = POOL.install(|| {
             <span class="self">self</span>.aggs
                 .par_iter()
@@ -170,6 +173,7 @@
                 })
                 .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
         })<span class="question-mark">?</span>;
+        state.expr_cache = <span class="prelude-val">None</span>;
 
         <span class="kw">let </span><span class="kw-2">mut </span>columns = Vec::with_capacity(agg_columns.len() + <span class="number">1 </span>+ keys.len());
         columns.extend_from_slice(<span class="kw-2">&amp;</span>keys);

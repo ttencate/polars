@@ -1397,6 +1397,12 @@
 <a href="#1397" id="1397">1397</a>
 <a href="#1398" id="1398">1398</a>
 <a href="#1399" id="1399">1399</a>
+<a href="#1400" id="1400">1400</a>
+<a href="#1401" id="1401">1401</a>
+<a href="#1402" id="1402">1402</a>
+<a href="#1403" id="1403">1403</a>
+<a href="#1404" id="1404">1404</a>
+<a href="#1405" id="1405">1405</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! # Functions
 //!
 //! Functions on expressions that might be useful.
@@ -2741,6 +2747,8 @@
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
 </span><span class="kw">pub fn </span>rolling_corr(x: Expr, y: Expr, options: RollingCovOptions) -&gt; Expr {
+    <span class="kw">let </span>x = x.cache();
+    <span class="kw">let </span>y = y.cache();
     <span class="comment">// see: https://github.com/pandas-dev/pandas/blob/v1.5.1/pandas/core/window/rolling.py#L1780-L1804
     </span><span class="kw">let </span>rolling_options = RollingOptions {
         window_size: Duration::new(options.window_size <span class="kw">as </span>i64),
@@ -2763,7 +2771,8 @@
     <span class="kw">let </span>count_x_y = (x + y)
         .is_not_null()
         .cast(DataType::Float64)
-        .rolling_sum(rolling_options_count);
+        .rolling_sum(rolling_options_count)
+        .cache();
     <span class="kw">let </span>numerator = (mean_x_y - mean_x * mean_y) * (count_x_y.clone() / (count_x_y - lit(ddof)));
     <span class="kw">let </span>denominator = (var_x * var_y).pow(lit(<span class="number">0.5</span>));
 
@@ -2772,6 +2781,8 @@
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
 </span><span class="kw">pub fn </span>rolling_cov(x: Expr, y: Expr, options: RollingCovOptions) -&gt; Expr {
+    <span class="kw">let </span>x = x.cache();
+    <span class="kw">let </span>y = y.cache();
     <span class="comment">// see: https://github.com/pandas-dev/pandas/blob/91111fd99898d9dcaa6bf6bedb662db4108da6e6/pandas/core/window/rolling.py#L1700
     </span><span class="kw">let </span>rolling_options = RollingOptions {
         window_size: Duration::new(options.window_size <span class="kw">as </span>i64),
@@ -2790,7 +2801,8 @@
     <span class="kw">let </span>count_x_y = (x + y)
         .is_not_null()
         .cast(DataType::Float64)
-        .rolling_sum(rolling_options_count);
+        .rolling_sum(rolling_options_count)
+        .cache();
 
     <span class="kw">let </span>ddof = options.ddof <span class="kw">as </span>f64;
 

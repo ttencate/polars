@@ -261,6 +261,12 @@
 <a href="#261" id="261">261</a>
 <a href="#262" id="262">262</a>
 <a href="#263" id="263">263</a>
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>schema;
 
 <span class="kw">use </span>std::sync::Arc;
@@ -372,6 +378,10 @@
     },
     Count,
     Nth(i64),
+    Cache {
+        input: Node,
+        id: usize,
+    },
 }
 
 <span class="kw">impl </span>AExpr {
@@ -405,6 +415,7 @@
             | Ternary { .. }
             | Wildcard
             | Cast { .. }
+            | Cache{..}
             | Filter { .. } =&gt; <span class="bool-val">false</span>,
         }
     }
@@ -481,6 +492,7 @@
             }
             Wildcard =&gt; <span class="macro">panic!</span>(<span class="string">&quot;no wildcard expected&quot;</span>),
             Slice { input, .. } =&gt; Single(<span class="kw-2">*</span>input),
+            Cache { input, .. } =&gt; Single(<span class="kw-2">*</span>input),
             Count =&gt; Leaf,
             Nth(<span class="kw">_</span>) =&gt; Leaf,
         }

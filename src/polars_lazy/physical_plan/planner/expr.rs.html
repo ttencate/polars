@@ -613,6 +613,14 @@
 <a href="#613" id="613">613</a>
 <a href="#614" id="614">614</a>
 <a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
+<a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
+<a href="#623" id="623">623</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::frame::groupby::GroupByMethod;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::series::IsSorted;
@@ -1222,6 +1230,14 @@
                 function,
                 node_to_expr(expression, expr_arena),
                 ApplyOptions::ApplyGroups,
+            )))
+        }
+        Cache { input, id } =&gt; {
+            <span class="kw">let </span>input = create_physical_expr(input, ctxt, expr_arena, schema)<span class="question-mark">?</span>;
+            <span class="prelude-val">Ok</span>(Arc::new(CacheExpr::new(
+                input,
+                node_to_expr(expression, expr_arena),
+                id,
             )))
         }
         Wildcard =&gt; <span class="macro">panic!</span>(<span class="string">&quot;should be no wildcard at this point&quot;</span>),

@@ -509,6 +509,10 @@
 <a href="#509" id="509">509</a>
 <a href="#510" id="510">510</a>
 <a href="#511" id="511">511</a>
+<a href="#512" id="512">512</a>
+<a href="#513" id="513">513</a>
+<a href="#514" id="514">514</a>
+<a href="#515" id="515">515</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::{Debug, Display, Formatter};
 <span class="kw">use </span>std::hash::{Hash, Hasher};
 <span class="kw">use </span>std::ops::Deref;
@@ -905,6 +909,10 @@
         <span class="doccomment">/// output dtype of the function
         </span>output_type: GetOutput,
         options: FunctionOptions,
+    },
+    Cache {
+        input: Box&lt;Expr&gt;,
+        id: usize,
     },
 }
 

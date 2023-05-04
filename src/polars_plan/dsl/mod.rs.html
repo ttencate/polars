@@ -2026,6 +2026,20 @@
 <a href="#2026" id="2026">2026</a>
 <a href="#2027" id="2027">2027</a>
 <a href="#2028" id="2028">2028</a>
+<a href="#2029" id="2029">2029</a>
+<a href="#2030" id="2030">2030</a>
+<a href="#2031" id="2031">2031</a>
+<a href="#2032" id="2032">2032</a>
+<a href="#2033" id="2033">2033</a>
+<a href="#2034" id="2034">2034</a>
+<a href="#2035" id="2035">2035</a>
+<a href="#2036" id="2036">2036</a>
+<a href="#2037" id="2037">2037</a>
+<a href="#2038" id="2038">2038</a>
+<a href="#2039" id="2039">2039</a>
+<a href="#2040" id="2040">2040</a>
+<a href="#2041" id="2041">2041</a>
+<a href="#2042" id="2042">2042</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -3911,6 +3925,20 @@
             },
             GetOutput::same_type(),
         )
+    }
+
+    <span class="doccomment">/// Cache this expression, so that it is executed only once per context.
+    </span><span class="kw">pub fn </span>cache(<span class="self">self</span>) -&gt; Expr {
+        <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self </span>{
+            <span class="comment">// don&#39;t cache cheap no-ops
+            </span>Expr::Column(<span class="kw">_</span>) =&gt; <span class="self">self</span>,
+            Expr::Alias(input, <span class="kw">_</span>) <span class="kw">if </span><span class="macro">matches!</span>(<span class="kw-2">**</span>input, Expr::Column(<span class="kw">_</span>)) =&gt; <span class="self">self</span>,
+            <span class="kw">_ </span>=&gt; {
+                <span class="kw">let </span>input = Box::new(<span class="self">self</span>);
+                <span class="kw">let </span>id = input.as_ref() <span class="kw">as </span><span class="kw-2">*const </span>Expr <span class="kw">as </span>usize;
+                <span class="self">Self</span>::Cache { input, id }
+            }
+        }
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;row_hash&quot;</span>)]

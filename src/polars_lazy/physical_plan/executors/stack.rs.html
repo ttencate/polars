@@ -64,6 +64,8 @@
 <a href="#64" id="64">64</a>
 <a href="#65" id="65">65</a>
 <a href="#66" id="66">66</a>
+<a href="#67" id="67">67</a>
+<a href="#68" id="68">68</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub struct </span>StackExec {
@@ -79,6 +81,7 @@
         state: <span class="kw-2">&amp;mut </span>ExecutionState,
         <span class="kw-2">mut </span>df: DataFrame,
     ) -&gt; PolarsResult&lt;DataFrame&gt; {
+        state.expr_cache = <span class="prelude-val">Some</span>(Default::default());
         <span class="kw">let </span>res = <span class="kw">if </span><span class="self">self</span>.has_windows {
             <span class="comment">// we have a different run here
             // to ensure the window functions run sequential and share caches
@@ -91,7 +94,8 @@
                     .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
             })<span class="question-mark">?
         </span>};
-        state.clear_expr_cache();
+        state.clear_window_expr_cache();
+        state.expr_cache = <span class="prelude-val">None</span>;
 
         <span class="kw">let </span>schema = <span class="kw-2">&amp;*</span><span class="self">self</span>.input_schema;
         df._add_columns(res, schema)<span class="question-mark">?</span>;
