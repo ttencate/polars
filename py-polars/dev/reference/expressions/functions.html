@@ -1120,6 +1120,8 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.quantile.html">polars.quantile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.reduce.html">polars.reduce</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.repeat.html">polars.repeat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.rolling_corr.html">polars.rolling_corr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.rolling_cov.html">polars.rolling_cov</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.select.html">polars.select</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.spearman_rank_corr.html">polars.spearman_rank_corr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.std.html">polars.std</a></li>
@@ -1660,6 +1662,12 @@ document.write(`
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.repeat.html#polars.repeat" title="polars.repeat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeat</span></code></a>()</p></td>
 <td><p>Repeat a single value n times.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.rolling_corr.html#polars.rolling_corr" title="polars.rolling_corr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_corr</span></code></a>(a, b, *, window_size[, ...])</p></td>
+<td><p>Compute the rolling correlation between two columns/ expressions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.rolling_cov.html#polars.rolling_cov" title="polars.rolling_cov"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rolling_cov</span></code></a>(a, b, *, window_size[, ...])</p></td>
+<td><p>Compute the rolling covariance between two columns/ expressions.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.select.html#polars.select" title="polars.select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select</span></code></a>([exprs])</p></td>
 <td><p>Run polars expressions without a context.</p></td>
