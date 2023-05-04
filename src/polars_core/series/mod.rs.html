@@ -1132,6 +1132,8 @@
 <a href="#1132" id="1132">1132</a>
 <a href="#1133" id="1133">1133</a>
 <a href="#1134" id="1134">1134</a>
+<a href="#1135" id="1135">1135</a>
+<a href="#1136" id="1136">1136</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Type agnostic columnar data structure.
 </span><span class="kw">pub use </span><span class="kw">crate</span>::prelude::ChunkCompare;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -1536,6 +1538,7 @@
     /// * Datetime-&gt; Int64
     /// * Time -&gt; Int64
     /// * Categorical -&gt; UInt32
+    /// * List(inner) -&gt; List(physical of inner)
     ///
     </span><span class="kw">pub fn </span>to_physical_repr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;Series&gt; {
         <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
@@ -1544,6 +1547,7 @@
             Datetime(<span class="kw">_</span>, <span class="kw">_</span>) | Duration(<span class="kw">_</span>) | Time =&gt; Cow::Owned(<span class="self">self</span>.cast(<span class="kw-2">&amp;</span>Int64).unwrap()),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
             </span>Categorical(<span class="kw">_</span>) =&gt; Cow::Owned(<span class="self">self</span>.cast(<span class="kw-2">&amp;</span>UInt32).unwrap()),
+            List(inner) =&gt; Cow::Owned(<span class="self">self</span>.cast(<span class="kw-2">&amp;</span>List(Box::new(inner.to_physical()))).unwrap()),
             <span class="kw">_ </span>=&gt; Cow::Borrowed(<span class="self">self</span>),
         }
     }
