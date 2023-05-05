@@ -584,14 +584,6 @@
 <a href="#584" id="584">584</a>
 <a href="#585" id="585">585</a>
 <a href="#586" id="586">586</a>
-<a href="#587" id="587">587</a>
-<a href="#588" id="588">588</a>
-<a href="#589" id="589">589</a>
-<a href="#590" id="590">590</a>
-<a href="#591" id="591">591</a>
-<a href="#592" id="592">592</a>
-<a href="#593" id="593">593</a>
-<a href="#594" id="594">594</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
 </span><span class="kw">mod </span>abs;
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
@@ -736,8 +728,6 @@
     </span>Diff(i64, NullBehavior),
     <span class="attr">#[cfg(feature = <span class="string">&quot;interpolate&quot;</span>)]
     </span>Interpolate(InterpolationMethod),
-    <span class="attr">#[cfg(feature = <span class="string">&quot;dot_product&quot;</span>)]
-    </span>Dot,
     <span class="attr">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
     </span>Entropy {
         base: f64,
@@ -825,8 +815,6 @@
             </span>Diff(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="string">&quot;diff&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;interpolate&quot;</span>)]
             </span>Interpolate(<span class="kw">_</span>) =&gt; <span class="string">&quot;interpolate&quot;</span>,
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dot_product&quot;</span>)]
-            </span>Dot =&gt; <span class="string">&quot;dot&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
             </span>Entropy { .. } =&gt; <span class="string">&quot;entropy&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
@@ -1036,10 +1024,6 @@
             <span class="attr">#[cfg(feature = <span class="string">&quot;interpolate&quot;</span>)]
             </span>Interpolate(method) =&gt; {
                 <span class="macro">map!</span>(dispatch::interpolate, method)
-            }
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dot_product&quot;</span>)]
-            </span>Dot =&gt; {
-                <span class="macro">map_as_slice!</span>(dispatch::dot_impl)
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
             </span>Entropy { base, normalize } =&gt; <span class="macro">map!</span>(log::entropy, base, normalize),

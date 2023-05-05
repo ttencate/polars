@@ -312,14 +312,6 @@
 <a href="#312" id="312">312</a>
 <a href="#313" id="313">313</a>
 <a href="#314" id="314">314</a>
-<a href="#315" id="315">315</a>
-<a href="#316" id="316">316</a>
-<a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
-<a href="#320" id="320">320</a>
-<a href="#321" id="321">321</a>
-<a href="#322" id="322">322</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">impl </span>FunctionExpr {
@@ -509,14 +501,6 @@
                     }
                 })
             }
-            <span class="attr">#[cfg(feature = <span class="string">&quot;dot_product&quot;</span>)]
-            </span>Dot =&gt; mapper.map_dtype(|dt| {
-                <span class="kw">use </span>DataType::<span class="kw-2">*</span>;
-                <span class="kw">match </span>dt {
-                    Int8 | Int16 | UInt16 | UInt8 =&gt; Int64,
-                    <span class="kw">_ </span>=&gt; dt.clone(),
-                }
-            }),
             <span class="attr">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
             </span>Entropy { .. } | Log { .. } | Log1p | Exp =&gt; mapper.map_to_float_dtype(),
             Unique(<span class="kw">_</span>) =&gt; mapper.with_same_dtype(),

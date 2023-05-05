@@ -2038,8 +2038,6 @@
 <a href="#2038" id="2038">2038</a>
 <a href="#2039" id="2039">2039</a>
 <a href="#2040" id="2040">2040</a>
-<a href="#2041" id="2041">2041</a>
-<a href="#2042" id="2042">2042</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -3287,13 +3285,11 @@
         <span class="self">self</span>.apply_private(BooleanFunction::IsFirst.into())
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;dot_product&quot;</span>)]
-    </span><span class="kw">fn </span>dot_impl(<span class="self">self</span>, other: Expr) -&gt; Expr {
-        <span class="self">self</span>.apply_many_private(FunctionExpr::Dot, <span class="kw-2">&amp;</span>[other], <span class="bool-val">true</span>, <span class="bool-val">true</span>)
+    <span class="kw">fn </span>dot_impl(<span class="self">self</span>, other: Expr) -&gt; Expr {
+        (<span class="self">self </span>* other).sum()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;dot_product&quot;</span>)]
-    </span><span class="kw">pub fn </span>dot&lt;E: Into&lt;Expr&gt;&gt;(<span class="self">self</span>, other: E) -&gt; Expr {
+    <span class="kw">pub fn </span>dot&lt;E: Into&lt;Expr&gt;&gt;(<span class="self">self</span>, other: E) -&gt; Expr {
         <span class="self">self</span>.dot_impl(other.into())
     }
 
