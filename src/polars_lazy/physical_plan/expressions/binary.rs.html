@@ -481,20 +481,6 @@
 <a href="#481" id="481">481</a>
 <a href="#482" id="482">482</a>
 <a href="#483" id="483">483</a>
-<a href="#484" id="484">484</a>
-<a href="#485" id="485">485</a>
-<a href="#486" id="486">486</a>
-<a href="#487" id="487">487</a>
-<a href="#488" id="488">488</a>
-<a href="#489" id="489">489</a>
-<a href="#490" id="490">490</a>
-<a href="#491" id="491">491</a>
-<a href="#492" id="492">492</a>
-<a href="#493" id="493">493</a>
-<a href="#494" id="494">494</a>
-<a href="#495" id="495">495</a>
-<a href="#496" id="496">496</a>
-<a href="#497" id="497">497</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::sync::Arc;
 
 <span class="kw">use </span>polars_core::frame::groupby::GroupsProxy;
@@ -530,24 +516,10 @@
 <span class="doccomment">/// Can partially do operations in place.
 </span><span class="kw">fn </span>apply_operator_owned(left: Series, right: Series, op: Operator) -&gt; PolarsResult&lt;Series&gt; {
     <span class="kw">match </span>op {
-        Operator::Gt =&gt; ChunkCompare::&lt;<span class="kw-2">&amp;</span>Series&gt;::gt(<span class="kw-2">&amp;</span>left, <span class="kw-2">&amp;</span>right).map(|ca| ca.into_series()),
-        Operator::GtEq =&gt; ChunkCompare::&lt;<span class="kw-2">&amp;</span>Series&gt;::gt_eq(<span class="kw-2">&amp;</span>left, <span class="kw-2">&amp;</span>right).map(|ca| ca.into_series()),
-        Operator::Lt =&gt; ChunkCompare::&lt;<span class="kw-2">&amp;</span>Series&gt;::lt(<span class="kw-2">&amp;</span>left, <span class="kw-2">&amp;</span>right).map(|ca| ca.into_series()),
-        Operator::LtEq =&gt; ChunkCompare::&lt;<span class="kw-2">&amp;</span>Series&gt;::lt_eq(<span class="kw-2">&amp;</span>left, <span class="kw-2">&amp;</span>right).map(|ca| ca.into_series()),
-        Operator::Eq =&gt; ChunkCompare::&lt;<span class="kw-2">&amp;</span>Series&gt;::equal(<span class="kw-2">&amp;</span>left, <span class="kw-2">&amp;</span>right).map(|ca| ca.into_series()),
-        Operator::NotEq =&gt; {
-            ChunkCompare::&lt;<span class="kw-2">&amp;</span>Series&gt;::not_equal(<span class="kw-2">&amp;</span>left, <span class="kw-2">&amp;</span>right).map(|ca| ca.into_series())
-        }
         Operator::Plus =&gt; <span class="prelude-val">Ok</span>(left + right),
         Operator::Minus =&gt; <span class="prelude-val">Ok</span>(left - right),
         Operator::Multiply =&gt; <span class="prelude-val">Ok</span>(left * right),
-        Operator::Divide =&gt; <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>left / <span class="kw-2">&amp;</span>right),
-        Operator::TrueDivide =&gt; apply_operator(<span class="kw-2">&amp;</span>left, <span class="kw-2">&amp;</span>right, op),
-        Operator::FloorDivide =&gt; apply_operator(<span class="kw-2">&amp;</span>left, <span class="kw-2">&amp;</span>right, op),
-        Operator::And =&gt; left.bitand(<span class="kw-2">&amp;</span>right),
-        Operator::Or =&gt; left.bitor(<span class="kw-2">&amp;</span>right),
-        Operator::Xor =&gt; left.bitxor(<span class="kw-2">&amp;</span>right),
-        Operator::Modulus =&gt; <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>left % <span class="kw-2">&amp;</span>right),
+        <span class="kw">_ </span>=&gt; apply_operator(<span class="kw-2">&amp;</span>left, <span class="kw-2">&amp;</span>right, op),
     }
 }
 

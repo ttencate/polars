@@ -432,25 +432,6 @@
 <a href="#432" id="432">432</a>
 <a href="#433" id="433">433</a>
 <a href="#434" id="434">434</a>
-<a href="#435" id="435">435</a>
-<a href="#436" id="436">436</a>
-<a href="#437" id="437">437</a>
-<a href="#438" id="438">438</a>
-<a href="#439" id="439">439</a>
-<a href="#440" id="440">440</a>
-<a href="#441" id="441">441</a>
-<a href="#442" id="442">442</a>
-<a href="#443" id="443">443</a>
-<a href="#444" id="444">444</a>
-<a href="#445" id="445">445</a>
-<a href="#446" id="446">446</a>
-<a href="#447" id="447">447</a>
-<a href="#448" id="448">448</a>
-<a href="#449" id="449">449</a>
-<a href="#450" id="450">450</a>
-<a href="#451" id="451">451</a>
-<a href="#452" id="452">452</a>
-<a href="#453" id="453">453</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::fmt::{Debug, Display, Formatter};
@@ -859,26 +840,7 @@
 
 <span class="kw">impl </span>Debug <span class="kw">for </span>Operator {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="kw">use </span>Operator::<span class="kw-2">*</span>;
-        <span class="kw">let </span>s = <span class="kw">match </span><span class="self">self </span>{
-            Eq =&gt; <span class="string">&quot;==&quot;</span>,
-            NotEq =&gt; <span class="string">&quot;!=&quot;</span>,
-            Lt =&gt; <span class="string">&quot;&lt;&quot;</span>,
-            LtEq =&gt; <span class="string">&quot;&lt;=&quot;</span>,
-            Gt =&gt; <span class="string">&quot;&gt;&quot;</span>,
-            GtEq =&gt; <span class="string">&quot;&gt;=&quot;</span>,
-            Plus =&gt; <span class="string">&quot;+&quot;</span>,
-            Minus =&gt; <span class="string">&quot;-&quot;</span>,
-            Multiply =&gt; <span class="string">&quot;*&quot;</span>,
-            Divide =&gt; <span class="string">&quot;/&quot;</span>,
-            TrueDivide =&gt; <span class="string">&quot;/&quot;</span>,
-            FloorDivide =&gt; <span class="string">&quot;//&quot;</span>,
-            Modulus =&gt; <span class="string">&quot;%&quot;</span>,
-            And =&gt; <span class="string">&quot;&amp;&quot;</span>,
-            Or =&gt; <span class="string">&quot;|&quot;</span>,
-            Xor =&gt; <span class="string">&quot;^&quot;</span>,
-        };
-        <span class="macro">write!</span>(f, <span class="string">&quot;{s}&quot;</span>)
+        Display::fmt(<span class="self">self</span>, f)
     }
 }
 
