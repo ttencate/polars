@@ -1554,27 +1554,61 @@ document.write(`
 <h1>polars.Series.str.extract_all<a class="headerlink" href="#polars-series-str-extract-all" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.str.extract_all">
-<span class="sig-prename descclassname"><span class="pre">Series.str.</span></span><span class="sig-name descname"><span class="pre">extract_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/string.py#L638-L666"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.str.extract_all" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.str.</span></span><span class="sig-name descname"><span class="pre">extract_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/string.py#L638-L704"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.str.extract_all" title="Permalink to this definition">#</a></dt>
 <dd><p>Extracts all matches for the given regex pattern.</p>
 <p>Extract each successive non-overlapping regex match in an individual string as
 an array</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>pattern</strong></dt><dd><p>A valid regex pattern</p>
+<dt><strong>pattern</strong></dt><dd><p>A valid regular expression pattern, compatible with the <a class="reference external" href="https://docs.rs/regex/latest/regex/">regex crate</a>.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>List[Utf8] array. Contain null if original value is null or regex capture</dt><dd></dd>
-<dt>nothing.</dt><dd></dd>
+<dt>List[Utf8] array. Contains <code class="docutils literal notranslate"><span class="pre">null</span></code> if the original value is null or</dt><dd></dd>
+<dt>the regex did not capture anything.</dt><dd></dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>To modify regular expression behaviour (such as “verbose” mode and/or
+case-sensitive matching) with flags, use the inline <code class="docutils literal notranslate"><span class="pre">(?iLmsuxU)</span></code> syntax.
+For example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">values</span><span class="o">=</span><span class="p">[</span>
+<span class="gp">... </span>        <span class="s2">&quot;real.email@spam.com&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s2">&quot;some_account@somewhere.net&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s2">&quot;abc.def.ghi.jkl@uvw.xyz.co.uk&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">],</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># extract name/domain parts from email, using verbose regex</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract_all</span><span class="p">(</span>
+<span class="gp">... </span><span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;(?xi)   # activate &#39;verbose&#39; and &#39;case-insensitive&#39; flags</span>
+<span class="gp">... </span><span class="sd">      [         # (start character group)</span>
+<span class="gp">... </span><span class="sd">        A-Z     # letters</span>
+<span class="gp">... </span><span class="sd">        0-9     # digits</span>
+<span class="gp">... </span><span class="sd">        ._%+\-  # special chars</span>
+<span class="gp">... </span><span class="sd">      ]         # (end character group)</span>
+<span class="gp">... </span><span class="sd">      +         # &#39;one or more&#39; quantifier</span>
+<span class="gp">... </span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;email_parts&quot;</span><span class="p">)</span>
+<span class="go">shape: (3,)</span>
+<span class="go">Series: &#39;email_parts&#39; [list[str]]</span>
+<span class="go">[</span>
+<span class="go">    [&quot;real.email&quot;, &quot;spam.com&quot;]</span>
+<span class="go">    [&quot;some_account&quot;, &quot;somewhere.net&quot;]</span>
+<span class="go">    [&quot;abc.def.ghi.jkl&quot;, &quot;uvw.xyz.co.uk&quot;]</span>
+<span class="go">]</span>
+</pre></div>
+</div>
+<p>See the regex crate’s section on <a class="reference external" href="https://docs.rs/regex/latest/regex/#grouping-and-flags">grouping and flags</a> for
+additional information about the use of inline expression modifiers.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;123 bla 45 asd&quot;</span><span class="p">,</span> <span class="s2">&quot;xyz 678 910t&quot;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract_all</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(\d+)&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract_all</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d+&quot;</span><span class="p">)</span>
 <span class="go">shape: (2,)</span>
 <span class="go">Series: &#39;foo&#39; [list[str]]</span>
 <span class="go">[</span>
