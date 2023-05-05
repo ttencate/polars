@@ -1555,9 +1555,10 @@ document.write(`
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.str.extract_all">
 <span class="sig-prename descclassname"><span class="pre">Series.str.</span></span><span class="sig-name descname"><span class="pre">extract_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/string.py#L638-L704"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.str.extract_all" title="Permalink to this definition">#</a></dt>
-<dd><p>Extracts all matches for the given regex pattern.</p>
-<p>Extract each successive non-overlapping regex match in an individual string as
-an array</p>
+<dd><p>Extract all matches for the given regex pattern.</p>
+<p>Extract each successive non-overlapping regex match in an individual string
+as a list. Extracted matches contain <code class="docutils literal notranslate"><span class="pre">null</span></code> if the original value is null
+or the regex did not capture anything.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -1567,8 +1568,7 @@ an array</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>List[Utf8] array. Contains <code class="docutils literal notranslate"><span class="pre">null</span></code> if the original value is null or</dt><dd></dd>
-<dt>the regex did not capture anything.</dt><dd></dd>
+<dt>List[Utf8]</dt><dd></dd>
 </dl>
 </dd>
 </dl>
