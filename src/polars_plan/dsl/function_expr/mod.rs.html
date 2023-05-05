@@ -584,6 +584,16 @@
 <a href="#584" id="584">584</a>
 <a href="#585" id="585">585</a>
 <a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
 </span><span class="kw">mod </span>abs;
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
@@ -600,6 +610,8 @@
 </span><span class="kw">mod </span>datetime;
 <span class="kw">mod </span>dispatch;
 <span class="kw">mod </span>fill_null;
+<span class="attr">#[cfg(feature = <span class="string">&quot;fused&quot;</span>)]
+</span><span class="kw">mod </span>fused;
 <span class="kw">mod </span>list;
 <span class="attr">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
 </span><span class="kw">mod </span>log;
@@ -630,6 +642,8 @@
 
 <span class="kw">use </span>std::fmt::{Display, Formatter};
 
+<span class="attr">#[cfg(feature = <span class="string">&quot;fused&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>fused::FusedOperator;
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">use </span>list::ListFunction;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>schema::FieldsMapper;
@@ -752,6 +766,8 @@
     </span>Ceil,
     UpperBound,
     LowerBound,
+    <span class="attr">#[cfg(feature = <span class="string">&quot;fused&quot;</span>)]
+    </span>Fused(fused::FusedOperator),
 }
 
 <span class="kw">impl </span>Display <span class="kw">for </span>FunctionExpr {
@@ -838,6 +854,8 @@
             </span>Ceil =&gt; <span class="string">&quot;ceil&quot;</span>,
             UpperBound =&gt; <span class="string">&quot;upper_bound&quot;</span>,
             LowerBound =&gt; <span class="string">&quot;lower_bound&quot;</span>,
+            <span class="attr">#[cfg(feature = <span class="string">&quot;fused&quot;</span>)]
+            </span>Fused(fused) =&gt; <span class="kw">return </span>Display::fmt(fused, f),
         };
         <span class="macro">write!</span>(f, <span class="string">&quot;{s}&quot;</span>)
     }
@@ -1042,6 +1060,8 @@
             </span>Ceil =&gt; <span class="macro">map!</span>(round::ceil),
             UpperBound =&gt; <span class="macro">map!</span>(bounds::upper_bound),
             LowerBound =&gt; <span class="macro">map!</span>(bounds::lower_bound),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;fused&quot;</span>)]
+            </span>Fused(op) =&gt; <span class="macro">map_as_slice!</span>(fused::fused, op),
         }
     }
 }

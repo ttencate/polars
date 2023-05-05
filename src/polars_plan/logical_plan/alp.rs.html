@@ -805,6 +805,7 @@
 <a href="#805" id="805">805</a>
 <a href="#806" id="806">806</a>
 <a href="#807" id="807">807</a>
+<a href="#808" id="808">808</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;ipc&quot;</span>, feature = <span class="string">&quot;csv&quot;</span>, feature = <span class="string">&quot;parquet&quot;</span>))]
 </span><span class="kw">use </span>std::path::PathBuf;
@@ -1412,7 +1413,8 @@
     <span class="doccomment">/// panics if more than one input
     </span><span class="attr">#[cfg(any(
         all(feature = <span class="string">&quot;strings&quot;</span>, feature = <span class="string">&quot;concat_str&quot;</span>),
-        feature = <span class="string">&quot;streaming&quot;
+        feature = <span class="string">&quot;streaming&quot;</span>,
+        feature = <span class="string">&quot;fused&quot;
     </span>))]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>get_input(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Node&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>inputs = [<span class="prelude-val">None</span>, <span class="prelude-val">None</span>];
