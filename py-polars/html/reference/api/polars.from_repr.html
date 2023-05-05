@@ -671,6 +671,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.struct.rename_fields.html">polars.Series.struct.rename_fields</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.struct.unnest.html">polars.Series.struct.unnest</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.struct.fields.html">polars.Series.struct.fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.struct.schema.html">polars.Series.struct.schema</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../series/temporal.html">Temporal</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -710,6 +711,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.strftime.html">polars.Series.dt.strftime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.time.html">polars.Series.dt.time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.timestamp.html">polars.Series.dt.timestamp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.to_string.html">polars.Series.dt.to_string</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.truncate.html">polars.Series.dt.truncate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.week.html">polars.Series.dt.week</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.dt.weekday.html">polars.Series.dt.weekday</a></li>
@@ -1123,6 +1125,8 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.quantile.html">polars.quantile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.reduce.html">polars.reduce</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.repeat.html">polars.repeat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.rolling_corr.html">polars.rolling_corr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.rolling_cov.html">polars.rolling_cov</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.select.html">polars.select</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.spearman_rank_corr.html">polars.spearman_rank_corr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.std.html">polars.std</a></li>
@@ -1246,6 +1250,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/miscellaneous.html">Miscellaneous</a><input class="toctree-checkbox" id="toctree-checkbox-44" name="toctree-checkbox-44" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-44"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cache.html">polars.Expr.cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.set_sorted.html">polars.Expr.set_sorted</a></li>
 </ul>
 </li>
@@ -1342,6 +1347,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.strftime.html">polars.Expr.dt.strftime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.time.html">polars.Expr.dt.time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.timestamp.html">polars.Expr.dt.timestamp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.to_string.html">polars.Expr.dt.to_string</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.truncate.html">polars.Expr.dt.truncate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.week.html">polars.Expr.dt.week</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.dt.weekday.html">polars.Expr.dt.weekday</a></li>
@@ -1543,7 +1549,7 @@ document.write(`
 <h1>polars.from_repr<a class="headerlink" href="#polars-from-repr" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="polars.from_repr">
-<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">from_repr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/convert.py#L339-L421"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.from_repr" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">from_repr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/convert.py#L360-L452"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.from_repr" title="Permalink to this definition">#</a></dt>
 <dd><p>Utility function that reconstructs a DataFrame or Series from the object’s repr.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1565,9 +1571,11 @@ found/extracted automatically.</p>
 <p class="rubric">Notes</p>
 <p>This function handles the default UTF8_FULL and UTF8_FULL_CONDENSED DataFrame
 tables (with or without rounded corners). Truncated columns/rows are omitted,
-wrapped headers are accounted for, and dtypes identified.</p>
-<p>Currently compound/nested types such as List and Struct are not supported.</p>
+wrapped headers are accounted for, and dtypes automatically identified.</p>
+<p>Currently compound/nested dtypes such as List and Struct are not supported;
+neither are Object dtypes.</p>
 <p class="rubric">Examples</p>
+<p>From DataFrame table repr:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">from_repr</span><span class="p">(</span>
 <span class="gp">... </span><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="gp">... </span><span class="sd">    Out[3]:</span>
@@ -1601,14 +1609,22 @@ wrapped headers are accounted for, and dtypes identified.</p>
 <span class="go"> &#39;timestamp&#39;: Datetime(time_unit=&#39;us&#39;, time_zone=&#39;Asia/Tokyo&#39;)}</span>
 </pre></div>
 </div>
-<p>srs = pl.from_repr’’’
-… shape: (3,)
-… Series: ‘a’ [bool]
-… [
-…     true
-…     false
-…     true
-… ]</p>
+<p>From Series repr:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">srs</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">from_repr</span><span class="p">(</span>
+<span class="gp">... </span><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="sd">    shape: (3,)</span>
+<span class="gp">... </span><span class="sd">    Series: &#39;s&#39; [bool]</span>
+<span class="gp">... </span><span class="sd">    [</span>
+<span class="gp">... </span><span class="sd">       true</span>
+<span class="gp">... </span><span class="sd">       false</span>
+<span class="gp">... </span><span class="sd">       true</span>
+<span class="gp">... </span><span class="sd">    ]</span>
+<span class="gp">... </span><span class="sd">    &#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">srs</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+<span class="go">[True, False, True]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

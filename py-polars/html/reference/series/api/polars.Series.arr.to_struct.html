@@ -671,6 +671,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.struct.rename_fields.html">polars.Series.struct.rename_fields</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.struct.unnest.html">polars.Series.struct.unnest</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.struct.fields.html">polars.Series.struct.fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Series.struct.schema.html">polars.Series.struct.schema</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../temporal.html">Temporal</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -710,6 +711,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.strftime.html">polars.Series.dt.strftime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.time.html">polars.Series.dt.time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.timestamp.html">polars.Series.dt.timestamp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.to_string.html">polars.Series.dt.to_string</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.truncate.html">polars.Series.dt.truncate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.week.html">polars.Series.dt.week</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Series.dt.weekday.html">polars.Series.dt.weekday</a></li>
@@ -1123,6 +1125,8 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.quantile.html">polars.quantile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.reduce.html">polars.reduce</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.repeat.html">polars.repeat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.rolling_corr.html">polars.rolling_corr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.rolling_cov.html">polars.rolling_cov</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.select.html">polars.select</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.spearman_rank_corr.html">polars.spearman_rank_corr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.std.html">polars.std</a></li>
@@ -1246,6 +1250,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../expressions/miscellaneous.html">Miscellaneous</a><input class="toctree-checkbox" id="toctree-checkbox-44" name="toctree-checkbox-44" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-44"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.cache.html">polars.Expr.cache</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.set_sorted.html">polars.Expr.set_sorted</a></li>
 </ul>
 </li>
@@ -1342,6 +1347,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.strftime.html">polars.Expr.dt.strftime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.time.html">polars.Expr.dt.time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.timestamp.html">polars.Expr.dt.timestamp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.to_string.html">polars.Expr.dt.to_string</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.truncate.html">polars.Expr.dt.truncate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.week.html">polars.Expr.dt.week</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../expressions/api/polars.Expr.dt.weekday.html">polars.Expr.dt.weekday</a></li>
@@ -1548,43 +1554,58 @@ document.write(`
 <h1>polars.Series.arr.to_struct<a class="headerlink" href="#polars-series-arr-to-struct" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.arr.to_struct">
-<span class="sig-prename descclassname"><span class="pre">Series.arr.</span></span><span class="sig-name descname"><span class="pre">to_struct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_field_strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ToStructStrategy</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'first_non_null'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_generator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/list.py#L391-L445"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.arr.to_struct" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.arr.</span></span><span class="sig-name descname"><span class="pre">to_struct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_field_strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ToStructStrategy</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'first_non_null'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/list.py#L391-L464"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.arr.to_struct" title="Permalink to this definition">#</a></dt>
 <dd><p>Convert the series of type <code class="docutils literal notranslate"><span class="pre">List</span></code> to a series of type <code class="docutils literal notranslate"><span class="pre">Struct</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>n_field_strategy</strong><span class="classifier">{‘first_non_null’, ‘max_width’}</span></dt><dd><p>Strategy to determine the number of fields of the struct.
-‘first_non_null’: set number of fields to the length of the first
-non-zero-length sublist.
-‘max_width’: set number of fields as max length of all sublists.</p>
+<dt><strong>n_field_strategy</strong><span class="classifier">{‘first_non_null’, ‘max_width’}</span></dt><dd><p>Strategy to determine the number of fields of the struct.</p>
+<ul class="simple">
+<li><p>“first_non_null”: set number of fields equal to the length of the
+first non zero-length sublist.</p></li>
+<li><p>“max_width”: set number of fields as max length of all sublists.</p></li>
+</ul>
 </dd>
-<dt><strong>name_generator</strong></dt><dd><p>A custom function that can be used to generate the field names.
-Default field names are <cite>field_0, field_1 .. field_n</cite></p>
+<dt><strong>fields</strong></dt><dd><p>If the name and number of the desired fields is known in advance
+a list of field names can be given, which will be assigned by index.
+Otherwise, to dynamically assign field names, a custom function can be
+used; if neither are set, fields will be <cite>field_0, field_1 .. field_n</cite>.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">arr</span><span class="o">.</span><span class="n">to_struct</span><span class="p">()])</span>
-<span class="go">shape: (2, 1)</span>
-<span class="go">┌────────────┐</span>
-<span class="go">│ a          │</span>
-<span class="go">│ ---        │</span>
-<span class="go">│ struct[3]  │</span>
-<span class="go">╞════════════╡</span>
-<span class="go">│ {1,2,3}    │</span>
-<span class="go">│ {1,2,null} │</span>
-<span class="go">└────────────┘</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="p">[</span>
-<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">arr</span><span class="o">.</span><span class="n">to_struct</span><span class="p">(</span>
-<span class="gp">... </span>            <span class="n">name_generator</span><span class="o">=</span><span class="k">lambda</span> <span class="n">idx</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;col_name_</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="gp">... </span>        <span class="p">)</span>
-<span class="gp">... </span>    <span class="p">]</span>
-<span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
-<span class="go">[{&#39;col_name_0&#39;: 1, &#39;col_name_1&#39;: 2, &#39;col_name_2&#39;: 3},</span>
-<span class="go">{&#39;col_name_0&#39;: 1, &#39;col_name_1&#39;: 2, &#39;col_name_2&#39;: None}]</span>
+<p>Convert list to struct with default field name assignment:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s1</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">arr</span><span class="o">.</span><span class="n">to_struct</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span>
+<span class="go">shape: (2,)</span>
+<span class="go">Series: &#39;n&#39; [struct[3]]</span>
+<span class="go">[</span>
+<span class="go">    {0,1,2}</span>
+<span class="go">    {0,1,null}</span>
+<span class="go">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span><span class="o">.</span><span class="n">struct</span><span class="o">.</span><span class="n">fields</span>
+<span class="go">[&#39;field_0&#39;, &#39;field_1&#39;, &#39;field_2&#39;]</span>
+</pre></div>
+</div>
+<p>Convert list to struct with field name assignment by function/index:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">arr</span><span class="o">.</span><span class="n">to_struct</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="k">lambda</span> <span class="n">idx</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;n</span><span class="si">{</span><span class="n">idx</span><span class="si">:</span><span class="s2">02</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">struct</span><span class="o">.</span><span class="n">fields</span>
+<span class="go">[&#39;n00&#39;, &#39;n01&#39;, &#39;n02&#39;]</span>
+</pre></div>
+</div>
+<p>Convert list to struct with field name assignment by index from a list of names:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s1</span><span class="o">.</span><span class="n">arr</span><span class="o">.</span><span class="n">to_struct</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;one&quot;</span><span class="p">,</span> <span class="s2">&quot;two&quot;</span><span class="p">,</span> <span class="s2">&quot;three&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">struct</span><span class="o">.</span><span class="n">unnest</span><span class="p">()</span>
+<span class="go">shape: (2, 3)</span>
+<span class="go">┌─────┬─────┬───────┐</span>
+<span class="go">│ one ┆ two ┆ three │</span>
+<span class="go">│ --- ┆ --- ┆ ---   │</span>
+<span class="go">│ i64 ┆ i64 ┆ i64   │</span>
+<span class="go">╞═════╪═════╪═══════╡</span>
+<span class="go">│ 0   ┆ 1   ┆ 2     │</span>
+<span class="go">│ 0   ┆ 1   ┆ null  │</span>
+<span class="go">└─────┴─────┴───────┘</span>
 </pre></div>
 </div>
 </dd></dl>
