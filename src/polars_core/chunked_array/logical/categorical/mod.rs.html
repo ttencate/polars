@@ -622,7 +622,7 @@
         reset_string_cache();
         enable_string_cache(<span class="bool-val">false</span>);
 
-        <span class="comment">// tests several things that may loose the dtype information
+        <span class="comment">// tests several things that may lose the dtype information
         </span><span class="kw">let </span>s = Series::new(<span class="string">&quot;a&quot;</span>, <span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>]).cast(<span class="kw-2">&amp;</span>DataType::Categorical(<span class="prelude-val">None</span>))<span class="question-mark">?</span>;
 
         <span class="macro">assert_eq!</span>(

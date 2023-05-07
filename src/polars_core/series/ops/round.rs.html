@@ -114,6 +114,11 @@
 <a href="#114" id="114">114</a>
 <a href="#115" id="115">115</a>
 <a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>num_traits::pow::Pow;
 <span class="kw">use </span>num_traits::{clamp_max, clamp_min};
 
@@ -123,13 +128,18 @@
     <span class="doccomment">/// Round underlying floating point array to given decimal.
     </span><span class="kw">pub fn </span>round(<span class="kw-2">&amp;</span><span class="self">self</span>, decimals: u32) -&gt; PolarsResult&lt;<span class="self">Self</span>&gt; {
         <span class="kw">if let </span><span class="prelude-val">Ok</span>(ca) = <span class="self">self</span>.f32() {
-            <span class="comment">// Note we do the computation on f64 floats to not loose precision
-            // when the computation is done, we cast to f32
-            </span><span class="kw">let </span>multiplier = <span class="number">10.0</span>.pow(decimals <span class="kw">as </span>f64);
-            <span class="kw">let </span>s = ca
-                .apply(|val| ((val <span class="kw">as </span>f64 * multiplier).round() / multiplier) <span class="kw">as </span>f32)
-                .into_series();
-            <span class="kw">return </span><span class="prelude-val">Ok</span>(s);
+            <span class="kw">if </span>decimals == <span class="number">0 </span>{
+                <span class="kw">let </span>s = ca.apply(|val| val.round()).into_series();
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(s);
+            } <span class="kw">else </span>{
+                <span class="comment">// Note we do the computation on f64 floats to not lose precision
+                // when the computation is done, we cast to f32
+                </span><span class="kw">let </span>multiplier = <span class="number">10.0</span>.pow(decimals <span class="kw">as </span>f64);
+                <span class="kw">let </span>s = ca
+                    .apply(|val| ((val <span class="kw">as </span>f64 * multiplier).round() / multiplier) <span class="kw">as </span>f32)
+                    .into_series();
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(s);
+            }
         }
         <span class="kw">if let </span><span class="prelude-val">Ok</span>(ca) = <span class="self">self</span>.f64() {
             <span class="kw">let </span>multiplier = <span class="number">10.0</span>.pow(decimals <span class="kw">as </span>f64);
