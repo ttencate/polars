@@ -3712,7 +3712,6 @@
 #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 </span><span class="kw">pub enum </span>UniqueKeepStrategy {
     <span class="doccomment">/// Keep the first unique row.
-    </span><span class="attr">#[default]
     </span>First,
     <span class="doccomment">/// Keep the last unique row.
     </span>Last,
@@ -3720,6 +3719,7 @@
     </span><span class="prelude-val">None</span>,
     <span class="doccomment">/// Keep any of the unique rows
     /// This allows more optimizations
+    </span><span class="attr">#[default]
     </span>Any,
 }
 
