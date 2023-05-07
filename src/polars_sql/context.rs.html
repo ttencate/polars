@@ -438,6 +438,12 @@
 <a href="#438" id="438">438</a>
 <a href="#439" id="439">439</a>
 <a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
+<a href="#445" id="445">445</a>
+<a href="#446" id="446">446</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cell::RefCell;
 <span class="kw">use </span>std::collections::BTreeSet;
 
@@ -644,11 +650,11 @@
             .get(<span class="number">0</span>)
             .ok_or_else(|| <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;no table name provided in query&quot;</span>))<span class="question-mark">?</span>;
 
-        <span class="kw">let </span>lf = <span class="self">self</span>.execute_from_statement(sql_tbl)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>lf = <span class="self">self</span>.execute_from_statement(sql_tbl)<span class="question-mark">?</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>contains_wildcard = <span class="bool-val">false</span>;
 
         <span class="comment">// Filter Expression
-        </span><span class="kw">let </span>lf = <span class="kw">match </span>select_stmt.selection.as_ref() {
+        </span>lf = <span class="kw">match </span>select_stmt.selection.as_ref() {
             <span class="prelude-val">Some</span>(expr) =&gt; {
                 <span class="kw">let </span>filter_expression = parse_sql_expr(expr, <span class="self">self</span>)<span class="question-mark">?</span>;
                 lf.filter(filter_expression)
@@ -702,7 +708,13 @@
         <span class="kw">if </span>groupby_keys.is_empty() {
             <span class="prelude-val">Ok</span>(lf.select(projections))
         } <span class="kw">else </span>{
-            <span class="self">self</span>.process_groupby(lf, contains_wildcard, <span class="kw-2">&amp;</span>groupby_keys, <span class="kw-2">&amp;</span>projections)
+            lf = <span class="self">self</span>.process_groupby(lf, contains_wildcard, <span class="kw-2">&amp;</span>groupby_keys, <span class="kw-2">&amp;</span>projections)<span class="question-mark">?</span>;
+
+            <span class="comment">// Apply &#39;having&#39; clause, post-aggregation
+            </span><span class="kw">match </span>select_stmt.having.as_ref() {
+                <span class="prelude-val">Some</span>(expr) =&gt; <span class="prelude-val">Ok</span>(lf.filter(parse_sql_expr(expr, <span class="self">self</span>)<span class="question-mark">?</span>)),
+                <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(lf),
+            }
         }
     }
 
