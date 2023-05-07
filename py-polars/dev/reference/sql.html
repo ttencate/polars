@@ -1550,7 +1550,7 @@ document.write(`
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="polars.SQLContext">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">SQLContext</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L15-L56"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">SQLContext</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L16-L87"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext" title="Permalink to this definition">#</a></dt>
 <dd><p>Run SQL query against a LazyFrame.</p>
 </dd></dl>
 
@@ -1559,13 +1559,13 @@ document.write(`
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.SQLContext.execute.html#polars.SQLContext.execute" title="polars.SQLContext.execute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.execute</span></code></a>(query)</p></td>
-<td><p>Parse the givens SQL query and transform that to a <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code>.</p></td>
+<td><p>Parse the given SQL query and apply it lazily, returning a <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.SQLContext.register.html#polars.SQLContext.register" title="polars.SQLContext.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.register</span></code></a>(name, lf)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.SQLContext.register.html#polars.SQLContext.register" title="polars.SQLContext.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.register</span></code></a>(name, frame)</p></td>
 <td><p>Register a <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code> in this <code class="docutils literal notranslate"><span class="pre">SQLContext</span></code> under a given <code class="docutils literal notranslate"><span class="pre">name</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.SQLContext.query.html#polars.SQLContext.query" title="polars.SQLContext.query"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.query</span></code></a>(query)</p></td>
-<td><p></p></td>
+<td><p>Parse the given SQL query and execute it eagerly to return a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p></td>
 </tr>
 </tbody>
 </table>
