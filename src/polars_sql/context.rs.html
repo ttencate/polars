@@ -444,6 +444,14 @@
 <a href="#444" id="444">444</a>
 <a href="#445" id="445">445</a>
 <a href="#446" id="446">446</a>
+<a href="#447" id="447">447</a>
+<a href="#448" id="448">448</a>
+<a href="#449" id="449">449</a>
+<a href="#450" id="450">450</a>
+<a href="#451" id="451">451</a>
+<a href="#452" id="452">452</a>
+<a href="#453" id="453">453</a>
+<a href="#454" id="454">454</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cell::RefCell;
 <span class="kw">use </span>std::collections::BTreeSet;
 
@@ -562,6 +570,7 @@
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>execute_query(<span class="kw-2">&amp;mut </span><span class="self">self</span>, query: <span class="kw-2">&amp;</span>Query) -&gt; PolarsResult&lt;LazyFrame&gt; {
         <span class="self">self</span>.register_ctes(query)<span class="question-mark">?</span>;
+
         <span class="kw">let </span><span class="kw-2">mut </span>lf = <span class="kw">match </span><span class="kw-2">&amp;</span>query.body.as_ref() {
             SetExpr::Select(select_stmt) =&gt; <span class="self">self</span>.execute_select(select_stmt)<span class="question-mark">?</span>,
             SetExpr::Query(query) =&gt; <span class="self">self</span>.execute_query(query)<span class="question-mark">?</span>,
@@ -706,15 +715,22 @@
             .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
 
         <span class="kw">if </span>groupby_keys.is_empty() {
-            <span class="prelude-val">Ok</span>(lf.select(projections))
+            lf = lf.select(projections)
         } <span class="kw">else </span>{
             lf = <span class="self">self</span>.process_groupby(lf, contains_wildcard, <span class="kw-2">&amp;</span>groupby_keys, <span class="kw-2">&amp;</span>projections)<span class="question-mark">?</span>;
 
-            <span class="comment">// Apply &#39;having&#39; clause, post-aggregation
-            </span><span class="kw">match </span>select_stmt.having.as_ref() {
-                <span class="prelude-val">Some</span>(expr) =&gt; <span class="prelude-val">Ok</span>(lf.filter(parse_sql_expr(expr, <span class="self">self</span>)<span class="question-mark">?</span>)),
-                <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(lf),
-            }
+            <span class="comment">// Apply optional &#39;having&#39; clause, post-aggregation
+            </span>lf = <span class="kw">match </span>select_stmt.having.as_ref() {
+                <span class="prelude-val">Some</span>(expr) =&gt; lf.filter(parse_sql_expr(expr, <span class="self">self</span>)<span class="question-mark">?</span>),
+                <span class="prelude-val">None </span>=&gt; lf,
+            };
+        };
+
+        <span class="comment">// Apply optional &#39;distinct&#39; clause
+        </span><span class="kw">if </span>select_stmt.distinct {
+            <span class="prelude-val">Ok</span>(lf.unique(<span class="prelude-val">None</span>, UniqueKeepStrategy::Any))
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Ok</span>(lf)
         }
     }
 
