@@ -376,6 +376,12 @@
 <a href="#376" id="376">376</a>
 <a href="#377" id="377">377</a>
 <a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_lazy::dsl::Expr;
 <span class="kw">use </span>polars_lazy::prelude::<span class="kw-2">*</span>;
@@ -750,6 +756,12 @@
                 <span class="kw">return </span><span class="prelude-val">Ok</span>((col(<span class="kw-2">&amp;</span>left.value), col(<span class="kw-2">&amp;</span>right.value)))
             }
             <span class="kw">_ </span>=&gt; {}
+        }
+    }
+    <span class="kw">if let </span>JoinConstraint::Using(idents) = constraint {
+        <span class="kw">if </span>!idents.is_empty() {
+            <span class="kw">let </span>cols = <span class="kw-2">&amp;</span>idents[<span class="number">0</span>].value;
+            <span class="kw">return </span><span class="prelude-val">Ok</span>((col(cols), col(cols)));
         }
     }
     <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;SQL join constraint {:?} is not yet supported&quot;</span>, constraint);
