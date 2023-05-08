@@ -3658,6 +3658,7 @@
 <a href="#3658" id="3658">3658</a>
 <a href="#3659" id="3659">3659</a>
 <a href="#3660" id="3660">3660</a>
+<a href="#3661" id="3661">3661</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! DataFrame module.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::iter::{FromIterator, Iterator};
@@ -3697,7 +3698,8 @@
 <span class="kw">use </span><span class="kw">crate</span>::frame::groupby::GroupsIndicator;
 <span class="attr">#[cfg(feature = <span class="string">&quot;row_hash&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::hashing::df_rows_to_hashes_threaded_vertical;
-<span class="kw">use </span><span class="kw">crate</span>::prelude::min_max_binary::min_max_binary_series;
+<span class="attr">#[cfg(feature = <span class="string">&quot;zip_with&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::prelude::min_max_binary::min_max_binary_series;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::sort::{argsort_multiple_row_fmt, prepare_arg_sort};
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
 <span class="kw">use </span><span class="kw">crate</span>::POOL;
