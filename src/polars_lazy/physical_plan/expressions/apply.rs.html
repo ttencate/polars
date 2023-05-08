@@ -733,9 +733,9 @@
 <span class="kw">fn </span>check_map_output_len(input_len: usize, output_len: usize, expr: <span class="kw-2">&amp;</span>Expr) -&gt; PolarsResult&lt;()&gt; {
     <span class="macro">polars_ensure!</span>(
         input_len == output_len, expr = expr, InvalidOperation:
-        <span class="string">&quot;output length of `map` must be equal to that of the input length; \
-        consider using `apply` instead&quot;
-    </span>);
+        <span class="string">&quot;output length of `map` ({}) must be equal to the input length ({}); \
+        consider using `apply` instead&quot;</span>, input_len, output_len
+    );
     <span class="prelude-val">Ok</span>(())
 }
 

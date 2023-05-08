@@ -457,6 +457,9 @@
 <a href="#457" id="457">457</a>
 <a href="#458" id="458">458</a>
 <a href="#459" id="459">459</a>
+<a href="#460" id="460">460</a>
+<a href="#461" id="461">461</a>
+<a href="#462" id="462">462</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cell::RefCell;
 <span class="kw">use </span>std::collections::BTreeSet;
 
@@ -584,7 +587,10 @@
         <span class="kw">let </span><span class="kw-2">mut </span>lf = <span class="kw">match </span><span class="kw-2">&amp;</span>query.body.as_ref() {
             SetExpr::Select(select_stmt) =&gt; <span class="self">self</span>.execute_select(select_stmt)<span class="question-mark">?</span>,
             SetExpr::Query(query) =&gt; <span class="self">self</span>.execute_query(query)<span class="question-mark">?</span>,
-            <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;INSERT, UPDATE is not supported&quot;</span>),
+            SetExpr::SetOperation { op, .. } =&gt; {
+                <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;{} operation not yet supported&quot;</span>, op)
+            }
+            <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;INSERT, UPDATE, VALUES not yet supported&quot;</span>),
         };
 
         <span class="kw">if </span>!query.order_by.is_empty() {
