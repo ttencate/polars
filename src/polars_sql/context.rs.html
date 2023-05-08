@@ -452,6 +452,11 @@
 <a href="#452" id="452">452</a>
 <a href="#453" id="453">453</a>
 <a href="#454" id="454">454</a>
+<a href="#455" id="455">455</a>
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cell::RefCell;
 <span class="kw">use </span>std::collections::BTreeSet;
 
@@ -494,7 +499,7 @@
         }
     }
 
-    <span class="doccomment">/// Register a DataFrame as a table in the SQLContext.
+    <span class="doccomment">/// Register a LazyFrame as a table in the SQLContext.
     /// ```rust
     /// # use polars_sql::SQLContext;
     /// # use polars_core::prelude::*;
@@ -502,7 +507,6 @@
     /// # fn main() {
     ///
     /// let mut ctx = SQLContext::new();
-    ///
     /// let df = df! {
     ///    &quot;a&quot; =&gt;  [1, 2, 3],
     /// }.unwrap().lazy();
@@ -515,7 +519,13 @@
         <span class="self">self</span>.tables.push(name.to_owned());
     }
 
-    <span class="doccomment">/// Execute a sql query and return the result as a LazyFrame.
+    <span class="doccomment">/// Unregister a LazyFrame table from the SQLContext.
+    </span><span class="kw">pub fn </span>unregister(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) {
+        <span class="self">self</span>.table_map.remove(<span class="kw-2">&amp;</span>name.to_owned());
+        <span class="self">self</span>.tables.retain(|nm| nm != <span class="kw-2">&amp;</span>name.to_owned());
+    }
+
+    <span class="doccomment">/// Execute a SQL query, returning a LazyFrame.
     /// ```rust
     /// # use polars_sql::SQLContext;
     /// # use polars_core::prelude::*;
