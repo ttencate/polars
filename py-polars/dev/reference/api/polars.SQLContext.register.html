@@ -48,8 +48,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.SQLContext.register';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="polars.SQLContext.query" href="polars.SQLContext.query.html" />
-    <link rel="prev" title="polars.SQLContext.execute" href="polars.SQLContext.execute.html" />
+    <link rel="next" title="polars.SQLContext.register_many" href="polars.SQLContext.register_many.html" />
+    <link rel="prev" title="polars.SQLContext.query" href="polars.SQLContext.query.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -1481,8 +1481,9 @@ document.write(`
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../sql.html">SQL</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-57" name="toctree-checkbox-57" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-57"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.execute.html">polars.SQLContext.execute</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.SQLContext.register</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.query.html">polars.SQLContext.query</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.SQLContext.register</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.register_many.html">polars.SQLContext.register_many</a></li>
 </ul>
 </li>
 </ul>
@@ -1549,7 +1550,7 @@ document.write(`
 <h1>polars.SQLContext.register<a class="headerlink" href="#polars-sqlcontext-register" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.SQLContext.register">
-<span class="sig-prename descclassname"><span class="pre">SQLContext.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LazyFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L54-L67"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext.register" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">SQLContext.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">LazyFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L55-L72"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext.register" title="Permalink to this definition">#</a></dt>
 <dd><p>Register a <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code> in this <code class="docutils literal notranslate"><span class="pre">SQLContext</span></code> under a given <code class="docutils literal notranslate"><span class="pre">name</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1577,20 +1578,20 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.SQLContext.execute.html"
+       href="polars.SQLContext.query.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.SQLContext.execute</p>
+        <p class="prev-next-title">polars.SQLContext.query</p>
       </div>
     </a>
     <a class="right-next"
-       href="polars.SQLContext.query.html"
+       href="polars.SQLContext.register_many.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.SQLContext.query</p>
+        <p class="prev-next-title">polars.SQLContext.register_many</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
