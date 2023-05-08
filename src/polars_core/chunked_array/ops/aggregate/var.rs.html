@@ -90,9 +90,6 @@
 <a href="#90" id="90">90</a>
 <a href="#91" id="91">91</a>
 <a href="#92" id="92">92</a>
-<a href="#93" id="93">93</a>
-<a href="#94" id="94">94</a>
-<a href="#95" id="95">95</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub trait </span>VarAggSeries {
@@ -110,9 +107,6 @@
         + compute::aggregate::SimdOrd&lt;T::Native&gt;,
 {
     <span class="kw">fn </span>var(<span class="kw-2">&amp;</span><span class="self">self</span>, ddof: u8) -&gt; <span class="prelude-ty">Option</span>&lt;f64&gt; {
-        <span class="kw">if </span><span class="self">self</span>.len() == <span class="number">1 </span>{
-            <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="number">0.0</span>);
-        }
         <span class="kw">let </span>n_values = <span class="self">self</span>.len() - <span class="self">self</span>.null_count();
 
         <span class="kw">if </span>ddof <span class="kw">as </span>usize &gt; n_values {
