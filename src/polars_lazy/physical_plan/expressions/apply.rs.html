@@ -506,6 +506,23 @@
 <a href="#506" id="506">506</a>
 <a href="#507" id="507">507</a>
 <a href="#508" id="508">508</a>
+<a href="#509" id="509">509</a>
+<a href="#510" id="510">510</a>
+<a href="#511" id="511">511</a>
+<a href="#512" id="512">512</a>
+<a href="#513" id="513">513</a>
+<a href="#514" id="514">514</a>
+<a href="#515" id="515">515</a>
+<a href="#516" id="516">516</a>
+<a href="#517" id="517">517</a>
+<a href="#518" id="518">518</a>
+<a href="#519" id="519">519</a>
+<a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -532,6 +549,7 @@
     <span class="kw">pub </span>allow_rename: bool,
     <span class="kw">pub </span>pass_name_to_apply: bool,
     <span class="kw">pub </span>input_schema: <span class="prelude-ty">Option</span>&lt;SchemaRef&gt;,
+    <span class="kw">pub </span>allow_threading: bool,
 }
 
 <span class="kw">impl </span>ApplyExpr {
@@ -550,6 +568,7 @@
             allow_rename: <span class="bool-val">false</span>,
             pass_name_to_apply: <span class="bool-val">false</span>,
             input_schema: <span class="prelude-val">None</span>,
+            allow_threading: <span class="bool-val">true</span>,
         }
     }
 
@@ -560,12 +579,12 @@
         groups: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>GroupsProxy,
         state: <span class="kw-2">&amp;</span>ExecutionState,
     ) -&gt; PolarsResult&lt;Vec&lt;AggregationContext&lt;<span class="lifetime">&#39;a</span>&gt;&gt;&gt; {
-        POOL.install(|| {
-            <span class="self">self</span>.inputs
-                .par_iter()
-                .map(|e| e.evaluate_on_groups(df, groups, state))
-                .collect()
-        })
+        <span class="kw">let </span>f = |e: <span class="kw-2">&amp;</span>Arc&lt;<span class="kw">dyn </span>PhysicalExpr&gt;| e.evaluate_on_groups(df, groups, state);
+        <span class="kw">if </span><span class="self">self</span>.allow_threading {
+            POOL.install(|| <span class="self">self</span>.inputs.par_iter().map(f).collect())
+        } <span class="kw">else </span>{
+            <span class="self">self</span>.inputs.iter().map(f).collect()
+        }
     }
 
     <span class="kw">fn </span>finish_apply_groups&lt;<span class="lifetime">&#39;a</span>&gt;(
@@ -629,22 +648,32 @@
             <span class="kw">return </span><span class="self">self</span>.finish_apply_groups(ac, ca);
         }
 
-        <span class="kw">let </span><span class="kw-2">mut </span>ca: ListChunked = POOL.install(|| {
+        <span class="kw">let </span>f = |opt_s: <span class="prelude-ty">Option</span>&lt;Series&gt;| <span class="kw">match </span>opt_s {
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
+            <span class="prelude-val">Some</span>(<span class="kw-2">mut </span>s) =&gt; {
+                <span class="kw">if </span><span class="self">self</span>.pass_name_to_apply {
+                    s.rename(<span class="kw-2">&amp;</span>name);
+                }
+                <span class="kw">let </span><span class="kw-2">mut </span>container = [s];
+                <span class="self">self</span>.function.call_udf(<span class="kw-2">&amp;mut </span>container)
+            }
+        };
+
+        <span class="kw">let </span><span class="kw-2">mut </span>ca: ListChunked = <span class="kw">if </span><span class="self">self</span>.allow_threading {
+            POOL.install(|| {
+                agg.list()
+                    .unwrap()
+                    .par_iter()
+                    .map(f)
+                    .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()
+            })<span class="question-mark">?
+        </span>} <span class="kw">else </span>{
             agg.list()
                 .unwrap()
-                .par_iter()
-                .map(|opt_s| <span class="kw">match </span>opt_s {
-                    <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
-                    <span class="prelude-val">Some</span>(<span class="kw-2">mut </span>s) =&gt; {
-                        <span class="kw">if </span><span class="self">self</span>.pass_name_to_apply {
-                            s.rename(<span class="kw-2">&amp;</span>name);
-                        }
-                        <span class="kw">let </span><span class="kw-2">mut </span>container = [s];
-                        <span class="self">self</span>.function.call_udf(<span class="kw-2">&amp;mut </span>container)
-                    }
-                })
-                .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()
-        })<span class="question-mark">?</span>;
+                .into_iter()
+                .map(f)
+                .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?
+        </span>};
 
         ca.rename(<span class="kw-2">&amp;</span>name);
         <span class="self">self</span>.finish_apply_groups(ac, ca)
@@ -745,12 +774,17 @@
     }
 
     <span class="kw">fn </span>evaluate(<span class="kw-2">&amp;</span><span class="self">self</span>, df: <span class="kw-2">&amp;</span>DataFrame, state: <span class="kw-2">&amp;</span>ExecutionState) -&gt; PolarsResult&lt;Series&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>inputs = POOL.install(|| {
-            <span class="self">self</span>.inputs
-                .par_iter()
-                .map(|e| e.evaluate(df, state))
-                .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
-        })<span class="question-mark">?</span>;
+        <span class="kw">let </span>f = |e: <span class="kw-2">&amp;</span>Arc&lt;<span class="kw">dyn </span>PhysicalExpr&gt;| e.evaluate(df, state);
+        <span class="kw">let </span><span class="kw-2">mut </span>inputs = <span class="kw">if </span><span class="self">self</span>.allow_threading {
+            POOL.install(|| {
+                <span class="self">self</span>.inputs
+                    .par_iter()
+                    .map(f)
+                    .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
+            })
+        } <span class="kw">else </span>{
+            <span class="self">self</span>.inputs.iter().map(f).collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
+        }<span class="question-mark">?</span>;
 
         <span class="kw">if </span><span class="self">self</span>.allow_rename {
             <span class="kw">return </span><span class="self">self</span>.eval_and_flatten(<span class="kw-2">&amp;mut </span>inputs);
