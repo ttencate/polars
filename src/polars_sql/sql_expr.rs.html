@@ -396,31 +396,32 @@
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>map_sql_polars_datatype(data_type: <span class="kw-2">&amp;</span>SQLDataType) -&gt; PolarsResult&lt;DataType&gt; {
     <span class="prelude-val">Ok</span>(<span class="kw">match </span>data_type {
+        SQLDataType::Array(<span class="prelude-val">Some</span>(inner_type)) =&gt; {
+            DataType::List(Box::new(map_sql_polars_datatype(inner_type)<span class="question-mark">?</span>))
+        }
+        SQLDataType::BigInt(<span class="kw">_</span>) =&gt; DataType::Int64,
+        SQLDataType::Boolean =&gt; DataType::Boolean,
         SQLDataType::Char(<span class="kw">_</span>)
         | SQLDataType::Varchar(<span class="kw">_</span>)
         | SQLDataType::Uuid
         | SQLDataType::Clob(<span class="kw">_</span>)
         | SQLDataType::Text
         | SQLDataType::String =&gt; DataType::Utf8,
-        SQLDataType::Float(<span class="kw">_</span>) =&gt; DataType::Float32,
-        SQLDataType::Real =&gt; DataType::Float32,
-        SQLDataType::Double =&gt; DataType::Float64,
-        SQLDataType::TinyInt(<span class="kw">_</span>) =&gt; DataType::Int8,
-        SQLDataType::UnsignedTinyInt(<span class="kw">_</span>) =&gt; DataType::UInt8,
-        SQLDataType::SmallInt(<span class="kw">_</span>) =&gt; DataType::Int16,
-        SQLDataType::UnsignedSmallInt(<span class="kw">_</span>) =&gt; DataType::UInt16,
-        SQLDataType::Int(<span class="kw">_</span>) =&gt; DataType::Int32,
-        SQLDataType::UnsignedInt(<span class="kw">_</span>) =&gt; DataType::UInt32,
-        SQLDataType::BigInt(<span class="kw">_</span>) =&gt; DataType::Int64,
-        SQLDataType::UnsignedBigInt(<span class="kw">_</span>) =&gt; DataType::UInt64,
-        SQLDataType::Boolean =&gt; DataType::Boolean,
         SQLDataType::Date =&gt; DataType::Date,
+        SQLDataType::Double =&gt; DataType::Float64,
+        SQLDataType::Float(<span class="kw">_</span>) =&gt; DataType::Float32,
+        SQLDataType::Int(<span class="kw">_</span>) =&gt; DataType::Int32,
+        SQLDataType::Interval =&gt; DataType::Duration(TimeUnit::Milliseconds),
+        SQLDataType::Real =&gt; DataType::Float32,
+        SQLDataType::SmallInt(<span class="kw">_</span>) =&gt; DataType::Int16,
         SQLDataType::Time { .. } =&gt; DataType::Time,
         SQLDataType::Timestamp { .. } =&gt; DataType::Datetime(TimeUnit::Milliseconds, <span class="prelude-val">None</span>),
-        SQLDataType::Interval =&gt; DataType::Duration(TimeUnit::Milliseconds),
-        SQLDataType::Array(<span class="prelude-val">Some</span>(inner_type)) =&gt; {
-            DataType::List(Box::new(map_sql_polars_datatype(inner_type)<span class="question-mark">?</span>))
-        }
+        SQLDataType::TinyInt(<span class="kw">_</span>) =&gt; DataType::Int8,
+        SQLDataType::UnsignedBigInt(<span class="kw">_</span>) =&gt; DataType::UInt64,
+        SQLDataType::UnsignedInt(<span class="kw">_</span>) =&gt; DataType::UInt32,
+        SQLDataType::UnsignedSmallInt(<span class="kw">_</span>) =&gt; DataType::UInt16,
+        SQLDataType::UnsignedTinyInt(<span class="kw">_</span>) =&gt; DataType::UInt8,
+
         <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;SQL datatype {:?} is not yet supported&quot;</span>, data_type),
     })
 }
@@ -433,16 +434,8 @@
 <span class="kw">impl </span>SqlExprVisitor&lt;<span class="lifetime">&#39;_</span>&gt; {
     <span class="kw">fn </span>visit_expr(<span class="kw-2">&amp;</span><span class="self">self</span>, expr: <span class="kw-2">&amp;</span>SqlExpr) -&gt; PolarsResult&lt;Expr&gt; {
         <span class="kw">match </span>expr {
-            SqlExpr::CompoundIdentifier(idents) =&gt; <span class="self">self</span>.visit_compound_identifier(idents),
-            SqlExpr::Identifier(ident) =&gt; <span class="self">self</span>.visit_identifier(ident),
-            SqlExpr::BinaryOp { left, op, right } =&gt; <span class="self">self</span>.visit_binary_op(left, op, right),
-            SqlExpr::Function(function) =&gt; <span class="self">self</span>.visit_function(function),
-            SqlExpr::Cast { expr, data_type } =&gt; <span class="self">self</span>.visit_cast(expr, data_type),
-            SqlExpr::Value(value) =&gt; <span class="self">self</span>.visit_literal(value),
-            SqlExpr::IsNull(expr) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.is_null()),
-            SqlExpr::IsNotNull(expr) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.is_not_null()),
-            SqlExpr::Floor { expr, .. } =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.floor()),
-            SqlExpr::Ceil { expr, .. } =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.ceil()),
+            SqlExpr::AllOp(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.all()),
+            SqlExpr::AnyOp(expr) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.any()),
             SqlExpr::ArrayAgg(expr) =&gt; <span class="self">self</span>.visit_arr_agg(expr),
             SqlExpr::Between {
                 expr,
@@ -450,24 +443,32 @@
                 low,
                 high,
             } =&gt; <span class="self">self</span>.visit_between(expr, <span class="kw-2">*</span>negated, low, high),
-            SqlExpr::Trim {
-                expr,
-                trim_where,
-                trim_what,
-            } =&gt; <span class="self">self</span>.visit_trim(expr, trim_where, trim_what),
-            SqlExpr::IsFalse(expr) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.eq(lit(<span class="bool-val">false</span>))),
-            SqlExpr::IsNotFalse(expr) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.eq(lit(<span class="bool-val">false</span>)).not()),
-            SqlExpr::IsTrue(expr) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.eq(lit(<span class="bool-val">true</span>))),
-            SqlExpr::IsNotTrue(expr) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.eq(lit(<span class="bool-val">true</span>)).not()),
-            SqlExpr::AnyOp(expr) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.any()),
-            SqlExpr::AllOp(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.all()),
-            SqlExpr::Nested(expr) =&gt; <span class="self">self</span>.visit_expr(expr),
-            SqlExpr::UnaryOp { op, expr } =&gt; <span class="self">self</span>.visit_unary_op(op, expr),
+            SqlExpr::BinaryOp { left, op, right } =&gt; <span class="self">self</span>.visit_binary_op(left, op, right),
+            SqlExpr::Cast { expr, data_type } =&gt; <span class="self">self</span>.visit_cast(expr, data_type),
+            SqlExpr::Ceil { expr, .. } =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.ceil()),
+            SqlExpr::CompoundIdentifier(idents) =&gt; <span class="self">self</span>.visit_compound_identifier(idents),
+            SqlExpr::Floor { expr, .. } =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.floor()),
+            SqlExpr::Function(function) =&gt; <span class="self">self</span>.visit_function(function),
+            SqlExpr::Identifier(ident) =&gt; <span class="self">self</span>.visit_identifier(ident),
             SqlExpr::InList {
                 expr,
                 list,
                 negated,
             } =&gt; <span class="self">self</span>.visit_is_in(expr, list, <span class="kw-2">*</span>negated),
+            SqlExpr::IsFalse(expr) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.eq(lit(<span class="bool-val">false</span>))),
+            SqlExpr::IsNotFalse(expr) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.eq(lit(<span class="bool-val">false</span>)).not()),
+            SqlExpr::IsNotNull(expr) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.is_not_null()),
+            SqlExpr::IsNotTrue(expr) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.eq(lit(<span class="bool-val">true</span>)).not()),
+            SqlExpr::IsNull(expr) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.is_null()),
+            SqlExpr::IsTrue(expr) =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.visit_expr(expr)<span class="question-mark">?</span>.eq(lit(<span class="bool-val">true</span>))),
+            SqlExpr::Nested(expr) =&gt; <span class="self">self</span>.visit_expr(expr),
+            SqlExpr::Trim {
+                expr,
+                trim_where,
+                trim_what,
+            } =&gt; <span class="self">self</span>.visit_trim(expr, trim_where, trim_what),
+            SqlExpr::UnaryOp { op, expr } =&gt; <span class="self">self</span>.visit_unary_op(op, expr),
+            SqlExpr::Value(value) =&gt; <span class="self">self</span>.visit_literal(value),
             other =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;SQL expression {:?} is not yet supported&quot;</span>, other),
         }
     }
@@ -520,22 +521,22 @@
         <span class="kw">let </span>left = <span class="self">self</span>.visit_expr(left)<span class="question-mark">?</span>;
         <span class="kw">let </span>right = <span class="self">self</span>.visit_expr(right)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="kw">match </span>op {
-            SQLBinaryOperator::Plus =&gt; left + right,
-            SQLBinaryOperator::Minus =&gt; left - right,
-            SQLBinaryOperator::Multiply =&gt; left * right,
+            SQLBinaryOperator::And =&gt; left.and(right),
             SQLBinaryOperator::Divide =&gt; left / right,
+            SQLBinaryOperator::Eq =&gt; left.eq(right),
+            SQLBinaryOperator::Gt =&gt; left.gt(right),
+            SQLBinaryOperator::GtEq =&gt; left.gt_eq(right),
+            SQLBinaryOperator::Lt =&gt; left.lt(right),
+            SQLBinaryOperator::LtEq =&gt; left.lt_eq(right),
+            SQLBinaryOperator::Minus =&gt; left - right,
             SQLBinaryOperator::Modulo =&gt; left % right,
+            SQLBinaryOperator::Multiply =&gt; left * right,
+            SQLBinaryOperator::NotEq =&gt; left.eq(right).not(),
+            SQLBinaryOperator::Or =&gt; left.or(right),
+            SQLBinaryOperator::Plus =&gt; left + right,
             SQLBinaryOperator::StringConcat =&gt; {
                 left.cast(DataType::Utf8) + right.cast(DataType::Utf8)
             }
-            SQLBinaryOperator::Gt =&gt; left.gt(right),
-            SQLBinaryOperator::Lt =&gt; left.lt(right),
-            SQLBinaryOperator::GtEq =&gt; left.gt_eq(right),
-            SQLBinaryOperator::LtEq =&gt; left.lt_eq(right),
-            SQLBinaryOperator::Eq =&gt; left.eq(right),
-            SQLBinaryOperator::NotEq =&gt; left.eq(right).not(),
-            SQLBinaryOperator::And =&gt; left.and(right),
-            SQLBinaryOperator::Or =&gt; left.or(right),
             SQLBinaryOperator::Xor =&gt; left.xor(right),
             other =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;SQL operator {:?} is not yet supported&quot;</span>, other),
         })
@@ -571,6 +572,11 @@
     /// See [SqlValue] and [LiteralValue] for more details
     </span><span class="kw">fn </span>visit_literal(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>SqlValue) -&gt; PolarsResult&lt;Expr&gt; {
         <span class="prelude-val">Ok</span>(<span class="kw">match </span>value {
+            SqlValue::Boolean(b) =&gt; lit(<span class="kw-2">*</span>b),
+            SqlValue::DoubleQuotedString(s) =&gt; lit(s.clone()),
+            SqlValue::HexStringLiteral(s) =&gt; lit(s.clone()),
+            SqlValue::NationalStringLiteral(s) =&gt; lit(s.clone()),
+            SqlValue::Null =&gt; Expr::Literal(LiteralValue::Null),
             SqlValue::Number(s, <span class="kw">_</span>) =&gt; {
                 <span class="comment">// Check for existence of decimal separator dot
                 </span><span class="kw">if </span>s.contains(<span class="string">&#39;.&#39;</span>) {
@@ -581,11 +587,6 @@
                 .map_err(|<span class="kw">_</span>| <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;cannot parse literal: {:?}&quot;</span>))<span class="question-mark">?
             </span>}
             SqlValue::SingleQuotedString(s) =&gt; lit(s.clone()),
-            SqlValue::NationalStringLiteral(s) =&gt; lit(s.clone()),
-            SqlValue::HexStringLiteral(s) =&gt; lit(s.clone()),
-            SqlValue::DoubleQuotedString(s) =&gt; lit(s.clone()),
-            SqlValue::Boolean(b) =&gt; lit(<span class="kw-2">*</span>b),
-            SqlValue::Null =&gt; Expr::Literal(LiteralValue::Null),
             other =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;SQL value {:?} is not yet supported&quot;</span>, other),
         })
     }
@@ -593,6 +594,8 @@
     <span class="comment">// similar to visit_literal, but returns an AnyValue instead of Expr
     </span><span class="kw">fn </span>visit_anyvalue(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>SqlValue) -&gt; PolarsResult&lt;AnyValue&gt; {
         <span class="prelude-val">Ok</span>(<span class="kw">match </span>value {
+            SqlValue::Boolean(b) =&gt; AnyValue::Boolean(<span class="kw-2">*</span>b),
+            SqlValue::Null =&gt; AnyValue::Null,
             SqlValue::Number(s, <span class="kw">_</span>) =&gt; {
                 <span class="comment">// Check for existence of decimal separator dot
                 </span><span class="kw">if </span>s.contains(<span class="string">&#39;.&#39;</span>) {
@@ -606,8 +609,6 @@
             | SqlValue::NationalStringLiteral(s)
             | SqlValue::HexStringLiteral(s)
             | SqlValue::DoubleQuotedString(s) =&gt; AnyValue::Utf8Owned(s.into()),
-            SqlValue::Boolean(b) =&gt; AnyValue::Boolean(<span class="kw-2">*</span>b),
-            SqlValue::Null =&gt; AnyValue::Null,
             other =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;SQL value {:?} is not yet supported&quot;</span>, other),
         })
     }
@@ -739,7 +740,6 @@
                 <span class="kw">if </span>left.len() == <span class="number">2 </span>&amp;&amp; right.len() == <span class="number">2 </span>{
                     <span class="kw">let </span>tbl_a = <span class="kw-2">&amp;</span>left[<span class="number">0</span>].value;
                     <span class="kw">let </span>col_a = <span class="kw-2">&amp;</span>left[<span class="number">1</span>].value;
-
                     <span class="kw">let </span>tbl_b = <span class="kw-2">&amp;</span>right[<span class="number">0</span>].value;
                     <span class="kw">let </span>col_b = <span class="kw-2">&amp;</span>right[<span class="number">1</span>].value;
 
