@@ -326,8 +326,6 @@
 <a href="#326" id="326">326</a>
 <a href="#327" id="327">327</a>
 <a href="#328" id="328">328</a>
-<a href="#329" id="329">329</a>
-<a href="#330" id="330">330</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::io::Write;
 
 <span class="kw">use </span>arrow::array::Array;
@@ -424,7 +422,7 @@
     </span>compression: CompressionOptions,
     <span class="doccomment">/// Compute and write column statistics.
     </span>statistics: bool,
-    <span class="doccomment">/// If `None` will be all written to a single row group.
+    <span class="doccomment">/// if `None` will be 512^2 rows
     </span>row_group_size: <span class="prelude-ty">Option</span>&lt;usize&gt;,
     <span class="doccomment">/// if `None` will be 1024^2 bytes
     </span>data_pagesize_limit: <span class="prelude-ty">Option</span>&lt;usize&gt;,
@@ -517,12 +515,10 @@
         <span class="comment">// ensures all chunks are aligned.
         </span>df.rechunk();
 
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(n) = <span class="self">self</span>.row_group_size {
-            <span class="kw">let </span>n_splits = df.height() / n;
-            <span class="kw">if </span>n_splits &gt; <span class="number">0 </span>{
-                <span class="kw-2">*</span>df = accumulate_dataframes_vertical_unchecked(split_df(df, n_splits)<span class="question-mark">?</span>);
-            }
-        };
+        <span class="kw">let </span>n_splits = df.height() / <span class="self">self</span>.row_group_size.unwrap_or(<span class="number">512 </span>* <span class="number">512</span>);
+        <span class="kw">if </span>n_splits &gt; <span class="number">0 </span>{
+            <span class="kw-2">*</span>df = accumulate_dataframes_vertical_unchecked(split_df(df, n_splits)<span class="question-mark">?</span>);
+        }
         <span class="kw">let </span><span class="kw-2">mut </span>batched = <span class="self">self</span>.batched(<span class="kw-2">&amp;</span>df.schema())<span class="question-mark">?</span>;
         batched.write_batch(df)<span class="question-mark">?</span>;
         batched.finish()
