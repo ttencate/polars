@@ -347,6 +347,16 @@
 <a href="#347" id="347">347</a>
 <a href="#348" id="348">348</a>
 <a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Implementations of the ChunkCast Trait.
 </span><span class="kw">use </span>std::convert::TryFrom;
 
@@ -429,6 +439,16 @@
     </span>T: PolarsNumericType,
 {
     <span class="kw">fn </span>cast_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, data_type: <span class="kw-2">&amp;</span>DataType, checked: bool) -&gt; PolarsResult&lt;Series&gt; {
+        <span class="kw">if </span><span class="self">self</span>.dtype() == data_type {
+            <span class="comment">// safety: chunks are correct dtype
+            </span><span class="kw">return unsafe </span>{
+                <span class="prelude-val">Ok</span>(Series::from_chunks_and_dtype_unchecked(
+                    <span class="self">self</span>.name(),
+                    <span class="self">self</span>.chunks.clone(),
+                    data_type,
+                ))
+            };
+        }
         <span class="kw">match </span>data_type {
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
             </span>DataType::Categorical(<span class="kw">_</span>) =&gt; {

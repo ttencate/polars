@@ -531,6 +531,14 @@
 <a href="#531" id="531">531</a>
 <a href="#532" id="532">532</a>
 <a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>binary;
 
 <span class="kw">use </span>std::borrow::Cow;
@@ -979,7 +987,15 @@
                         <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
                     }
                     <span class="kw">let </span>new_st = <span class="macro">unpack!</span>(get_supertype(<span class="kw-2">&amp;</span>super_type, <span class="kw-2">&amp;</span>type_other));
-                    super_type = modify_supertype(new_st, self_ae, other, <span class="kw-2">&amp;</span>type_self, <span class="kw-2">&amp;</span>type_other)
+                    <span class="kw">if </span>input.len() == <span class="number">2 </span>{
+                        <span class="comment">// modify_supertype is a bit more conservative of casting columns
+                        // to literals
+                        </span>super_type =
+                            modify_supertype(new_st, self_ae, other, <span class="kw-2">&amp;</span>type_self, <span class="kw-2">&amp;</span>type_other)
+                    } <span class="kw">else </span>{
+                        <span class="comment">// when dealing with more than 1 argument, we simply find the supertypes
+                        </span>super_type = new_st
+                    }
                 }
                 <span class="comment">// only cast if the type is not already the super type.
                 // this can prevent an expensive flattening and subsequent aggregation
