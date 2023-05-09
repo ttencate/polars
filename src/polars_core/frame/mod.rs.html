@@ -3658,7 +3658,6 @@
 <a href="#3658" id="3658">3658</a>
 <a href="#3659" id="3659">3659</a>
 <a href="#3660" id="3660">3660</a>
-<a href="#3661" id="3661">3661</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! DataFrame module.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::iter::{FromIterator, Iterator};
@@ -3800,7 +3799,6 @@
 /// # Ok::&lt;(), PolarsError&gt;(())
 /// ```
 </span><span class="attr">#[derive(Clone)]
-#[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 </span><span class="kw">pub struct </span>DataFrame {
     <span class="kw">pub</span>(<span class="kw">crate</span>) columns: Vec&lt;Series&gt;,
 }
