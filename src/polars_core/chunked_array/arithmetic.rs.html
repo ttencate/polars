@@ -701,6 +701,42 @@
 <a href="#701" id="701">701</a>
 <a href="#702" id="702">702</a>
 <a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
+<a href="#711" id="711">711</a>
+<a href="#712" id="712">712</a>
+<a href="#713" id="713">713</a>
+<a href="#714" id="714">714</a>
+<a href="#715" id="715">715</a>
+<a href="#716" id="716">716</a>
+<a href="#717" id="717">717</a>
+<a href="#718" id="718">718</a>
+<a href="#719" id="719">719</a>
+<a href="#720" id="720">720</a>
+<a href="#721" id="721">721</a>
+<a href="#722" id="722">722</a>
+<a href="#723" id="723">723</a>
+<a href="#724" id="724">724</a>
+<a href="#725" id="725">725</a>
+<a href="#726" id="726">726</a>
+<a href="#727" id="727">727</a>
+<a href="#728" id="728">728</a>
+<a href="#729" id="729">729</a>
+<a href="#730" id="730">730</a>
+<a href="#731" id="731">731</a>
+<a href="#732" id="732">732</a>
+<a href="#733" id="733">733</a>
+<a href="#734" id="734">734</a>
+<a href="#735" id="735">735</a>
+<a href="#736" id="736">736</a>
+<a href="#737" id="737">737</a>
+<a href="#738" id="738">738</a>
+<a href="#739" id="739">739</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Implementations of arithmetic operations on ChunkedArray&#39;s.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::ops::{Add, Div, Mul, Rem, Sub};
@@ -712,6 +748,7 @@
 <span class="kw">use </span>arrow::compute::arity_assign;
 <span class="kw">use </span>arrow::types::NativeType;
 <span class="kw">use </span>num_traits::{Num, NumCast, ToPrimitive, Zero};
+<span class="kw">use </span>polars_arrow::utils::combine_validities_and;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
@@ -1298,18 +1335,7 @@
     <span class="kw">type </span>Output = Utf8Chunked;
 
     <span class="kw">fn </span>add(<span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>str) -&gt; <span class="self">Self</span>::Output {
-        <span class="kw">let </span><span class="kw-2">mut </span>ca: <span class="self">Self</span>::Output = <span class="kw">match </span><span class="self">self</span>.has_validity() {
-            <span class="bool-val">false </span>=&gt; <span class="self">self
-                </span>.into_no_null_iter()
-                .map(|l| concat_strings(l, rhs))
-                .collect_trusted(),
-            <span class="kw">_ </span>=&gt; <span class="self">self
-                </span>.into_iter()
-                .map(|opt_l| opt_l.map(|l| concat_strings(l, rhs)))
-                .collect_trusted(),
-        };
-        ca.rename(<span class="self">self</span>.name());
-        ca
+        <span class="kw">unsafe </span>{ ((<span class="kw-2">&amp;</span><span class="self">self</span>.as_binary()) + rhs.as_bytes()).to_utf8() }
     }
 }
 
@@ -1372,6 +1398,52 @@
         };
         ca.rename(<span class="self">self</span>.name());
         ca
+    }
+}
+
+<span class="kw">fn </span>add_boolean(a: <span class="kw-2">&amp;</span>BooleanArray, b: <span class="kw-2">&amp;</span>BooleanArray) -&gt; PrimitiveArray&lt;IdxSize&gt; {
+    <span class="kw">let </span>validity = combine_validities_and(a.validity(), b.validity());
+
+    <span class="kw">let </span>values = a
+        .values_iter()
+        .zip(b.values_iter())
+        .map(|(a, b)| a <span class="kw">as </span>IdxSize + b <span class="kw">as </span>IdxSize)
+        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+    PrimitiveArray::from_data_default(values.into(), validity)
+}
+
+<span class="kw">impl </span>Add <span class="kw">for </span><span class="kw-2">&amp;</span>BooleanChunked {
+    <span class="kw">type </span>Output = IdxCa;
+
+    <span class="kw">fn </span>add(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
+        <span class="comment">// broadcasting path rhs
+        </span><span class="kw">if </span>rhs.len() == <span class="number">1 </span>{
+            <span class="kw">let </span>rhs = rhs.get(<span class="number">0</span>);
+            <span class="kw">return match </span>rhs {
+                <span class="prelude-val">Some</span>(rhs) =&gt; <span class="self">self</span>.apply_cast_numeric(|v| v <span class="kw">as </span>IdxSize + rhs <span class="kw">as </span>IdxSize),
+                <span class="prelude-val">None </span>=&gt; IdxCa::full_null(<span class="self">self</span>.name(), <span class="self">self</span>.len()),
+            };
+        }
+        <span class="comment">// broadcasting path lhs
+        </span><span class="kw">if </span><span class="self">self</span>.len() == <span class="number">1 </span>{
+            <span class="kw">return </span>rhs.add(<span class="self">self</span>);
+        }
+        <span class="kw">let </span>(lhs, rhs) = align_chunks_binary(<span class="self">self</span>, rhs);
+        <span class="kw">let </span>chunks = lhs
+            .downcast_iter()
+            .zip(rhs.downcast_iter())
+            .map(|(a, b)| Box::new(add_boolean(a, b)) <span class="kw">as </span>ArrayRef)
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+
+        <span class="kw">unsafe </span>{ IdxCa::from_chunks(<span class="self">self</span>.name(), chunks) }
+    }
+}
+
+<span class="kw">impl </span>Add <span class="kw">for </span>BooleanChunked {
+    <span class="kw">type </span>Output = IdxCa;
+
+    <span class="kw">fn </span>add(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
+        (<span class="kw-2">&amp;</span><span class="self">self</span>).add(<span class="kw-2">&amp;</span>rhs)
     }
 }
 

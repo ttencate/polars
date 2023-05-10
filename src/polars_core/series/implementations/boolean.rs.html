@@ -353,6 +353,9 @@
 <a href="#353" id="353">353</a>
 <a href="#354" id="354">354</a>
 <a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::ops::{BitAnd, BitOr, BitXor};
 
@@ -455,6 +458,9 @@
 
     <span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, options: <span class="kw-2">&amp;</span>SortMultipleOptions) -&gt; PolarsResult&lt;IdxCa&gt; {
         <span class="self">self</span>.<span class="number">0</span>.arg_sort_multiple(options)
+    }
+    <span class="kw">fn </span>add_to(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+        NumOpsDispatch::add_to(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, rhs)
     }
 }
 
