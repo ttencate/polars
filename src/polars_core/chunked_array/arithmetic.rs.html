@@ -720,26 +720,8 @@
 <a href="#720" id="720">720</a>
 <a href="#721" id="721">721</a>
 <a href="#722" id="722">722</a>
-<a href="#723" id="723">723</a>
-<a href="#724" id="724">724</a>
-<a href="#725" id="725">725</a>
-<a href="#726" id="726">726</a>
-<a href="#727" id="727">727</a>
-<a href="#728" id="728">728</a>
-<a href="#729" id="729">729</a>
-<a href="#730" id="730">730</a>
-<a href="#731" id="731">731</a>
-<a href="#732" id="732">732</a>
-<a href="#733" id="733">733</a>
-<a href="#734" id="734">734</a>
-<a href="#735" id="735">735</a>
-<a href="#736" id="736">736</a>
-<a href="#737" id="737">737</a>
-<a href="#738" id="738">738</a>
-<a href="#739" id="739">739</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Implementations of arithmetic operations on ChunkedArray&#39;s.
-</span><span class="kw">use </span>std::borrow::Cow;
-<span class="kw">use </span>std::ops::{Add, Div, Mul, Rem, Sub};
+</span><span class="kw">use </span>std::ops::{Add, Div, Mul, Rem, Sub};
 
 <span class="kw">use </span>arrow::array::PrimitiveArray;
 <span class="kw">use </span>arrow::compute::arithmetics::basic;
@@ -1190,7 +1172,8 @@
     <span class="kw">fn </span>mul(<span class="self">self</span>, rhs: N) -&gt; <span class="self">Self</span>::Output {
         <span class="comment">// don&#39;t set sorted flag as probability of overflow is higher
         </span><span class="kw">let </span>multiplier: T::Native = NumCast::from(rhs).unwrap();
-        <span class="self">self</span>.apply(|val| val * multiplier)
+        <span class="kw">let </span>rhs = ChunkedArray::from_vec(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[multiplier]);
+        <span class="self">self</span>.mul(<span class="kw-2">&amp;</span>rhs)
     }
 }
 
@@ -1203,7 +1186,8 @@
 
     <span class="kw">fn </span>rem(<span class="self">self</span>, rhs: N) -&gt; <span class="self">Self</span>::Output {
         <span class="kw">let </span>rhs: T::Native = NumCast::from(rhs).expect(<span class="string">&quot;could not cast&quot;</span>);
-        <span class="self">self</span>.apply_kernel(<span class="kw-2">&amp;</span>|arr| Box::new(&lt;T::Native <span class="kw">as </span>ArrayArithmetics&gt;::rem_scalar(arr, <span class="kw-2">&amp;</span>rhs)))
+        <span class="kw">let </span>rhs = ChunkedArray::from_vec(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[rhs]);
+        <span class="self">self</span>.rem(<span class="kw-2">&amp;</span>rhs)
     }
 }
 
@@ -1251,14 +1235,10 @@
     <span class="kw">type </span>Output = ChunkedArray&lt;T&gt;;
 
     <span class="kw">fn </span>mul(<span class="kw-2">mut </span><span class="self">self</span>, rhs: N) -&gt; <span class="self">Self</span>::Output {
-        <span class="kw">if </span>std::env::var(<span class="string">&quot;ASSIGN&quot;</span>).is_ok() {
-            <span class="kw">let </span>multiplier: T::Native = NumCast::from(rhs).unwrap();
-            <span class="self">self</span>.apply_mut(|val| val * multiplier);
-            <span class="self">self
-        </span>} <span class="kw">else </span>{
-            (<span class="kw-2">&amp;</span><span class="self">self</span>).mul(rhs)
-        }
-    }
+        <span class="kw">let </span>multiplier: T::Native = NumCast::from(rhs).unwrap();
+        <span class="self">self</span>.apply_mut(|val| val * multiplier);
+        <span class="self">self
+    </span>}
 }
 
 <span class="kw">impl</span>&lt;T, N&gt; Rem&lt;N&gt; <span class="kw">for </span>ChunkedArray&lt;T&gt;
@@ -1273,53 +1253,18 @@
     }
 }
 
-<span class="kw">fn </span>concat_strings(l: <span class="kw-2">&amp;</span>str, r: <span class="kw-2">&amp;</span>str) -&gt; String {
-    <span class="comment">// fastest way to concat strings according to https://github.com/hoodie/concatenation_benchmarks-rs
-    </span><span class="kw">let </span><span class="kw-2">mut </span>s = String::with_capacity(l.len() + r.len());
-    s.push_str(l);
-    s.push_str(r);
-    s
-}
+<span class="kw">fn </span>concat_binary_arrs(l: <span class="kw-2">&amp;</span>[u8], r: <span class="kw-2">&amp;</span>[u8], buf: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
+    buf.clear();
 
-<span class="kw">fn </span>concat_binary_arrs(l: <span class="kw-2">&amp;</span>[u8], r: <span class="kw-2">&amp;</span>[u8]) -&gt; Vec&lt;u8&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>v = Vec::with_capacity(l.len() + r.len());
-    v.extend_from_slice(l);
-    v.extend_from_slice(r);
-    v
+    buf.extend_from_slice(l);
+    buf.extend_from_slice(r);
 }
 
 <span class="kw">impl </span>Add <span class="kw">for </span><span class="kw-2">&amp;</span>Utf8Chunked {
     <span class="kw">type </span>Output = Utf8Chunked;
 
     <span class="kw">fn </span>add(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
-        <span class="comment">// broadcasting path rhs
-        </span><span class="kw">if </span>rhs.len() == <span class="number">1 </span>{
-            <span class="kw">let </span>rhs = rhs.get(<span class="number">0</span>);
-            <span class="kw">return match </span>rhs {
-                <span class="prelude-val">Some</span>(rhs) =&gt; <span class="self">self</span>.add(rhs),
-                <span class="prelude-val">None </span>=&gt; Utf8Chunked::full_null(<span class="self">self</span>.name(), <span class="self">self</span>.len()),
-            };
-        }
-        <span class="comment">// broadcasting path lhs
-        </span><span class="kw">if </span><span class="self">self</span>.len() == <span class="number">1 </span>{
-            <span class="kw">let </span>lhs = <span class="self">self</span>.get(<span class="number">0</span>);
-            <span class="kw">return match </span>lhs {
-                <span class="prelude-val">Some</span>(lhs) =&gt; rhs.apply(|s| Cow::Owned(concat_strings(lhs, s))),
-                <span class="prelude-val">None </span>=&gt; Utf8Chunked::full_null(<span class="self">self</span>.name(), rhs.len()),
-            };
-        }
-
-        <span class="comment">// todo! add no_null variants. Need 4 paths.
-        </span><span class="kw">let </span><span class="kw-2">mut </span>ca: <span class="self">Self</span>::Output = <span class="self">self
-            </span>.into_iter()
-            .zip(rhs.into_iter())
-            .map(|(opt_l, opt_r)| <span class="kw">match </span>(opt_l, opt_r) {
-                (<span class="prelude-val">Some</span>(l), <span class="prelude-val">Some</span>(r)) =&gt; <span class="prelude-val">Some</span>(concat_strings(l, r)),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            })
-            .collect_trusted();
-        ca.rename(<span class="self">self</span>.name());
-        ca
+        <span class="kw">unsafe </span>{ (<span class="self">self</span>.as_binary() + rhs.as_binary()).to_utf8() }
     }
 }
 
@@ -1339,6 +1284,22 @@
     }
 }
 
+<span class="kw">fn </span>concat_binary(a: <span class="kw-2">&amp;</span>BinaryArray&lt;i64&gt;, b: <span class="kw-2">&amp;</span>BinaryArray&lt;i64&gt;) -&gt; BinaryArray&lt;i64&gt; {
+    <span class="kw">let </span>validity = combine_validities_and(a.validity(), b.validity());
+    <span class="kw">let </span><span class="kw-2">mut </span>values = Vec::with_capacity(a.get_values_size() + b.get_values_size());
+    <span class="kw">let </span><span class="kw-2">mut </span>offsets = Vec::with_capacity(a.len() + <span class="number">1</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>offset_so_far = <span class="number">0i64</span>;
+    offsets.push(offset_so_far);
+
+    <span class="kw">for </span>(a, b) <span class="kw">in </span>a.values_iter().zip(b.values_iter()) {
+        values.extend_from_slice(a);
+        values.extend_from_slice(b);
+        offset_so_far = values.len() <span class="kw">as </span>i64;
+        offsets.push(offset_so_far)
+    }
+    <span class="kw">unsafe </span>{ BinaryArray::from_data_unchecked_default(offsets.into(), values.into(), validity) }
+}
+
 <span class="kw">impl </span>Add <span class="kw">for </span><span class="kw-2">&amp;</span>BinaryChunked {
     <span class="kw">type </span>Output = BinaryChunked;
 
@@ -1346,31 +1307,45 @@
         <span class="comment">// broadcasting path rhs
         </span><span class="kw">if </span>rhs.len() == <span class="number">1 </span>{
             <span class="kw">let </span>rhs = rhs.get(<span class="number">0</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">vec!</span>[];
             <span class="kw">return match </span>rhs {
-                <span class="prelude-val">Some</span>(rhs) =&gt; <span class="self">self</span>.add(rhs),
+                <span class="prelude-val">Some</span>(rhs) =&gt; {
+                    <span class="self">self</span>.apply_mut(|s| {
+                        concat_binary_arrs(s, rhs, <span class="kw-2">&amp;mut </span>buf);
+                        <span class="kw">let </span>out = buf.as_slice();
+                        <span class="comment">// safety: lifetime is bound to the outer scope and the
+                        // ref is valid for the lifetime of this closure
+                        </span><span class="kw">unsafe </span>{ std::mem::transmute::&lt;<span class="kw">_</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[u8]&gt;(out) }
+                    })
+                }
                 <span class="prelude-val">None </span>=&gt; BinaryChunked::full_null(<span class="self">self</span>.name(), <span class="self">self</span>.len()),
             };
         }
         <span class="comment">// broadcasting path lhs
         </span><span class="kw">if </span><span class="self">self</span>.len() == <span class="number">1 </span>{
             <span class="kw">let </span>lhs = <span class="self">self</span>.get(<span class="number">0</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">vec!</span>[];
             <span class="kw">return match </span>lhs {
-                <span class="prelude-val">Some</span>(lhs) =&gt; rhs.apply(|s| Cow::Owned(concat_binary_arrs(lhs, s))),
+                <span class="prelude-val">Some</span>(lhs) =&gt; rhs.apply_mut(|s| {
+                    concat_binary_arrs(lhs, s, <span class="kw-2">&amp;mut </span>buf);
+
+                    <span class="kw">let </span>out = buf.as_slice();
+                    <span class="comment">// safety: lifetime is bound to the outer scope and the
+                    // ref is valid for the lifetime of this closure
+                    </span><span class="kw">unsafe </span>{ std::mem::transmute::&lt;<span class="kw">_</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[u8]&gt;(out) }
+                }),
                 <span class="prelude-val">None </span>=&gt; BinaryChunked::full_null(<span class="self">self</span>.name(), rhs.len()),
             };
         }
 
-        <span class="comment">// todo! add no_null variants. Need 4 paths.
-        </span><span class="kw">let </span><span class="kw-2">mut </span>ca: <span class="self">Self</span>::Output = <span class="self">self
-            </span>.into_iter()
-            .zip(rhs.into_iter())
-            .map(|(opt_l, opt_r)| <span class="kw">match </span>(opt_l, opt_r) {
-                (<span class="prelude-val">Some</span>(l), <span class="prelude-val">Some</span>(r)) =&gt; <span class="prelude-val">Some</span>(concat_binary_arrs(l, r)),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            })
-            .collect_trusted();
-        ca.rename(<span class="self">self</span>.name());
-        ca
+        <span class="kw">let </span>(lhs, rhs) = align_chunks_binary(<span class="self">self</span>, rhs);
+        <span class="kw">let </span>chunks = lhs
+            .downcast_iter()
+            .zip(rhs.downcast_iter())
+            .map(|(a, b)| Box::new(concat_binary(a, b)) <span class="kw">as </span>ArrayRef)
+            .collect();
+
+        <span class="kw">unsafe </span>{ BinaryChunked::from_chunks(<span class="self">self</span>.name(), chunks) }
     }
 }
 
@@ -1386,18 +1361,9 @@
     <span class="kw">type </span>Output = BinaryChunked;
 
     <span class="kw">fn </span>add(<span class="self">self</span>, rhs: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="self">Self</span>::Output {
-        <span class="kw">let </span><span class="kw-2">mut </span>ca: <span class="self">Self</span>::Output = <span class="kw">match </span><span class="self">self</span>.has_validity() {
-            <span class="bool-val">false </span>=&gt; <span class="self">self
-                </span>.into_no_null_iter()
-                .map(|l| concat_binary_arrs(l, rhs))
-                .collect_trusted(),
-            <span class="kw">_ </span>=&gt; <span class="self">self
-                </span>.into_iter()
-                .map(|opt_l| opt_l.map(|l| concat_binary_arrs(l, rhs)))
-                .collect_trusted(),
-        };
-        ca.rename(<span class="self">self</span>.name());
-        ca
+        <span class="kw">let </span>arr = BinaryArray::&lt;i64&gt;::from_slice([rhs]);
+        <span class="kw">let </span>rhs = <span class="kw">unsafe </span>{ BinaryChunked::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[Box::new(arr) <span class="kw">as </span>ArrayRef]) };
+        <span class="self">self</span>.add(<span class="kw-2">&amp;</span>rhs)
     }
 }
 
