@@ -570,25 +570,12 @@
 <a href="#570" id="570">570</a>
 <a href="#571" id="571">571</a>
 <a href="#572" id="572">572</a>
-<a href="#573" id="573">573</a>
-<a href="#574" id="574">574</a>
-<a href="#575" id="575">575</a>
-<a href="#576" id="576">576</a>
-<a href="#577" id="577">577</a>
-<a href="#578" id="578">578</a>
-<a href="#579" id="579">579</a>
-<a href="#580" id="580">580</a>
-<a href="#581" id="581">581</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::POOL;
 
 <span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::executors::{<span class="self">self</span>, Executor};
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utils::<span class="kw-2">*</span>;
-
-<span class="kw">fn </span>has_windows(expr: <span class="kw-2">&amp;</span>[Node], expr_arena: <span class="kw-2">&amp;</span>Arena&lt;AExpr&gt;) -&gt; bool {
-    expr.iter().any(|node| has_aexpr_window(<span class="kw-2">*</span>node, expr_arena))
-}
 
 <span class="kw">fn </span>partitionable_gb(
     keys: <span class="kw-2">&amp;</span>[Node],
@@ -751,18 +738,13 @@
         }
         Selection { input, predicate } =&gt; {
             <span class="kw">let </span>input = create_physical_plan(input, lp_arena, expr_arena)<span class="question-mark">?</span>;
-            <span class="kw">let </span>has_windows = has_windows(<span class="kw-2">&amp;</span>[predicate], expr_arena);
-            <span class="kw">let </span>predicate = create_physical_expr(
-                predicate,
-                Context::Default,
-                expr_arena,
-                <span class="prelude-val">None</span>,
-                <span class="kw-2">&amp;mut </span>Default::default(),
-            )<span class="question-mark">?</span>;
+            <span class="kw">let </span><span class="kw-2">mut </span>state = ExpressionConversionState::default();
+            <span class="kw">let </span>predicate =
+                create_physical_expr(predicate, Context::Default, expr_arena, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>state)<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(Box::new(executors::FilterExec::new(
                 predicate,
                 input,
-                has_windows,
+                state.has_windows,
             )))
         }
         <span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
@@ -854,19 +836,19 @@
             ..
         } =&gt; {
             <span class="kw">let </span>input_schema = lp_arena.get(input).schema(lp_arena).into_owned();
-            <span class="kw">let </span>has_windows = has_windows(<span class="kw-2">&amp;</span>expr, expr_arena);
             <span class="kw">let </span>input = create_physical_plan(input, lp_arena, expr_arena)<span class="question-mark">?</span>;
+            <span class="kw">let </span><span class="kw-2">mut </span>state = ExpressionConversionState::new(POOL.current_num_threads() &gt; expr.len());
             <span class="kw">let </span>phys_expr = create_physical_expressions(
                 <span class="kw-2">&amp;</span>expr,
                 Context::Default,
                 expr_arena,
                 <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>input_schema),
-                <span class="kw-2">&amp;mut </span>ExpressionConversionState::new(POOL.current_num_threads() &gt; expr.len()),
+                <span class="kw-2">&amp;mut </span>state,
             )<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(Box::new(executors::ProjectionExec {
                 input,
                 expr: phys_expr,
-                has_windows,
+                has_windows: state.has_windows,
                 input_schema,
                 <span class="attr">#[cfg(test)]
                 </span>schema: _schema,
@@ -880,19 +862,19 @@
         } =&gt; {
             <span class="kw">let </span>input_schema = lp_arena.get(input).schema(lp_arena).into_owned();
 
-            <span class="kw">let </span>has_windows = has_windows(<span class="kw-2">&amp;</span>expr, expr_arena);
             <span class="kw">let </span>input = create_physical_plan(input, lp_arena, expr_arena)<span class="question-mark">?</span>;
+            <span class="kw">let </span><span class="kw-2">mut </span>state = ExpressionConversionState::new(POOL.current_num_threads() &gt; expr.len());
             <span class="kw">let </span>phys_expr = create_physical_expressions(
                 <span class="kw-2">&amp;</span>expr,
                 Context::Default,
                 expr_arena,
                 <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>input_schema),
-                <span class="kw-2">&amp;mut </span>Default::default(),
+                <span class="kw-2">&amp;mut </span>state,
             )<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(Box::new(executors::ProjectionExec {
                 input,
                 expr: phys_expr,
-                has_windows,
+                has_windows: state.has_windows,
                 input_schema,
                 <span class="attr">#[cfg(test)]
                 </span>schema: _schema,
@@ -905,9 +887,7 @@
             schema,
             ..
         } =&gt; {
-            <span class="kw">let </span>predicate_has_windows = predicate
-                .map(|node| has_windows(<span class="kw-2">&amp;</span>[node], expr_arena))
-                .unwrap_or(<span class="bool-val">false</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>state = ExpressionConversionState::default();
             <span class="kw">let </span>selection = predicate
                 .map(|pred| {
                     create_physical_expr(
@@ -915,7 +895,7 @@
                         Context::Default,
                         expr_arena,
                         <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>schema),
-                        <span class="kw-2">&amp;mut </span>Default::default(),
+                        <span class="kw-2">&amp;mut </span>state,
                     )
                 })
                 .transpose()<span class="question-mark">?</span>;
@@ -923,7 +903,7 @@
                 df,
                 projection,
                 selection,
-                predicate_has_windows,
+                predicate_has_windows: state.has_windows,
             }))
         }
         AnonymousScan {
@@ -1126,18 +1106,20 @@
         }
         HStack { input, exprs, .. } =&gt; {
             <span class="kw">let </span>input_schema = lp_arena.get(input).schema(lp_arena).into_owned();
-            <span class="kw">let </span>has_windows = has_windows(<span class="kw-2">&amp;</span>exprs, expr_arena);
             <span class="kw">let </span>input = create_physical_plan(input, lp_arena, expr_arena)<span class="question-mark">?</span>;
+
+            <span class="kw">let </span><span class="kw-2">mut </span>state =
+                ExpressionConversionState::new(POOL.current_num_threads() &gt; exprs.len());
             <span class="kw">let </span>phys_expr = create_physical_expressions(
                 <span class="kw-2">&amp;</span>exprs,
                 Context::Default,
                 expr_arena,
                 <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>input_schema),
-                <span class="kw-2">&amp;mut </span>ExpressionConversionState::new(POOL.current_num_threads() &gt; exprs.len()),
+                <span class="kw-2">&amp;mut </span>state,
             )<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(Box::new(executors::StackExec {
                 input,
-                has_windows,
+                has_windows: state.has_windows,
                 expr: phys_expr,
                 input_schema,
             }))

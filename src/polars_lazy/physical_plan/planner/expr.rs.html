@@ -701,6 +701,16 @@
 <a href="#701" id="701">701</a>
 <a href="#702" id="702">702</a>
 <a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
+<a href="#711" id="711">711</a>
+<a href="#712" id="712">712</a>
+<a href="#713" id="713">713</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::frame::groupby::GroupByMethod;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::series::IsSorted;
@@ -728,6 +738,7 @@
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ExpressionConversionState {
     has_cache: bool,
     <span class="kw">pub </span>allow_threading: bool,
+    <span class="kw">pub </span>has_windows: bool,
 }
 
 <span class="kw">impl </span>ExpressionConversionState {
@@ -756,6 +767,7 @@
             order_by: <span class="kw">_</span>,
             options,
         } =&gt; {
+            state.has_windows = <span class="bool-val">true</span>;
             <span class="comment">// TODO! Order by
             </span><span class="kw">let </span>group_by = create_physical_expressions(
                 <span class="kw-2">&amp;</span>partition_by,
@@ -1374,10 +1386,18 @@
 <span class="kw">where
     </span>F: Fn(Series) -&gt; PolarsResult&lt;Series&gt; + Send + Sync,
 {
+    <span class="comment">// set during debug low so
+    // we mimic production size data behavior
+    </span><span class="attr">#[cfg(debug_assertions)]
+    </span><span class="kw">let </span>thread_boundary = <span class="number">0</span>;
+
+    <span class="attr">#[cfg(not(debug_assertions))]
+    </span><span class="kw">let </span>thread_boundary = <span class="number">100_000</span>;
+
     <span class="comment">// threading overhead/ splitting work stealing is costly..
     </span><span class="kw">if </span>!state.allow_threading
-        || s.len() &lt; <span class="number">100_000
-        </span>|| state.has_cache
+        || s.len() &lt; thread_boundary
+        || state.has_cache
         || POOL.current_thread_has_pending_tasks().unwrap_or(<span class="bool-val">false</span>)
     {
         <span class="kw">return </span>f(s).map(<span class="prelude-val">Some</span>);
