@@ -482,6 +482,13 @@
 <a href="#482" id="482">482</a>
 <a href="#483" id="483">483</a>
 <a href="#484" id="484">484</a>
+<a href="#485" id="485">485</a>
+<a href="#486" id="486">486</a>
+<a href="#487" id="487">487</a>
+<a href="#488" id="488">488</a>
+<a href="#489" id="489">489</a>
+<a href="#490" id="490">490</a>
+<a href="#491" id="491">491</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;merge_sorted&quot;</span>)]
 </span><span class="kw">mod </span>merge_sorted;
 <span class="attr">#[cfg(feature = <span class="string">&quot;chunked_ids&quot;</span>)]
@@ -642,15 +649,22 @@
 
         <span class="macro">polars_ensure!</span>(
             selected_left.len() == selected_right.len(),
-            ComputeError: <span class="string">&quot;the number of columns given as join key should be equal&quot;
-        </span>);
-        <span class="macro">polars_ensure!</span>(
-            selected_left
+            ComputeError: <span class="macro">format!</span>(<span class="string">&quot;the number of columns given as join key (left: {}, right:{}) should be equal&quot;</span>, selected_left.len(), selected_right.len())
+        );
+
+        <span class="kw">if let </span><span class="prelude-val">Some</span>((l, r)) = selected_left
             .iter()
             .zip(<span class="kw-2">&amp;</span>selected_right)
-            .all(|(l, r)| l.dtype() == r.dtype()),
-            ComputeError: <span class="string">&quot;datatypes of join keys don&#39;t match&quot;
-        </span>);
+            .find(|(l, r)| l.dtype() != r.dtype())
+        {
+            <span class="macro">polars_bail!</span>(
+                ComputeError:
+                    <span class="macro">format!</span>(
+                        <span class="string">&quot;datatypes of join keys don&#39;t match - `{}`: {} on left does not match `{}`: {} on right&quot;</span>,
+                        l.name(), l.dtype(), r.name(), r.dtype()
+                    )
+            );
+        };
 
         <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
         </span><span class="kw">for </span>(l, r) <span class="kw">in </span>selected_left.iter().zip(<span class="kw-2">&amp;</span>selected_right) {
