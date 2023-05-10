@@ -989,6 +989,19 @@
 <a href="#989" id="989">989</a>
 <a href="#990" id="990">990</a>
 <a href="#991" id="991">991</a>
+<a href="#992" id="992">992</a>
+<a href="#993" id="993">993</a>
+<a href="#994" id="994">994</a>
+<a href="#995" id="995">995</a>
+<a href="#996" id="996">996</a>
+<a href="#997" id="997">997</a>
+<a href="#998" id="998">998</a>
+<a href="#999" id="999">999</a>
+<a href="#1000" id="1000">1000</a>
+<a href="#1001" id="1001">1001</a>
+<a href="#1002" id="1002">1002</a>
+<a href="#1003" id="1003">1003</a>
+<a href="#1004" id="1004">1004</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>arg_sort;
 
 <span class="kw">pub mod </span>arg_sort_multiple;
@@ -1280,21 +1293,34 @@
 
 <span class="kw">fn </span>arg_sort_multiple_numeric&lt;T: PolarsNumericType&gt;(
     ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;,
-    other: <span class="kw-2">&amp;</span>[Series],
-    descending: <span class="kw-2">&amp;</span>[bool],
+    options: <span class="kw-2">&amp;</span>SortMultipleOptions,
 ) -&gt; PolarsResult&lt;IdxCa&gt; {
-    args_validate(ca, other, descending)<span class="question-mark">?</span>;
+    args_validate(ca, <span class="kw-2">&amp;</span>options.other, <span class="kw-2">&amp;</span>options.descending)<span class="question-mark">?</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>count: IdxSize = <span class="number">0</span>;
-    <span class="kw">let </span>vals: Vec&lt;<span class="kw">_</span>&gt; = ca
-        .into_iter()
-        .map(|v| {
-            <span class="kw">let </span>i = count;
-            count += <span class="number">1</span>;
-            (i, v)
-        })
-        .collect_trusted();
 
-    arg_sort_multiple_impl(vals, other, descending)
+    <span class="kw">let </span>no_nulls = ca.null_count() == <span class="number">0</span>;
+
+    <span class="kw">if </span>no_nulls {
+        <span class="kw">let </span><span class="kw-2">mut </span>vals = Vec::with_capacity(ca.len());
+        <span class="kw">for </span>arr <span class="kw">in </span>ca.downcast_iter() {
+            vals.extend_trusted_len(arr.values().as_slice().iter().map(|v| {
+                <span class="kw">let </span>i = count;
+                count += <span class="number">1</span>;
+                (i, <span class="kw-2">*</span>v)
+            }))
+        }
+        arg_sort_multiple_impl(vals, options)
+    } <span class="kw">else </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>vals = Vec::with_capacity(ca.len());
+        <span class="kw">for </span>arr <span class="kw">in </span>ca.downcast_iter() {
+            vals.extend_trusted_len(arr.into_iter().map(|v| {
+                <span class="kw">let </span>i = count;
+                count += <span class="number">1</span>;
+                (i, v.copied())
+            }));
+        }
+        arg_sort_multiple_impl(vals, options)
+    }
 }
 
 <span class="kw">impl</span>&lt;T&gt; ChunkSort&lt;T&gt; <span class="kw">for </span>ChunkedArray&lt;T&gt;
@@ -1321,8 +1347,8 @@
     ///
     /// This function is very opinionated.
     /// We assume that all numeric `Series` are of the same type, if not it will panic
-    </span><span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>[Series], descending: <span class="kw-2">&amp;</span>[bool]) -&gt; PolarsResult&lt;IdxCa&gt; {
-        arg_sort_multiple_numeric(<span class="self">self</span>, other, descending)
+    </span><span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, options: <span class="kw-2">&amp;</span>SortMultipleOptions) -&gt; PolarsResult&lt;IdxCa&gt; {
+        arg_sort_multiple_numeric(<span class="self">self</span>, options)
     }
 }
 
@@ -1346,8 +1372,8 @@
     ///
     /// This function is very opinionated.
     /// We assume that all numeric `Series` are of the same type, if not it will panic
-    </span><span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>[Series], descending: <span class="kw-2">&amp;</span>[bool]) -&gt; PolarsResult&lt;IdxCa&gt; {
-        arg_sort_multiple_numeric(<span class="self">self</span>, other, descending)
+    </span><span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, options: <span class="kw-2">&amp;</span>SortMultipleOptions) -&gt; PolarsResult&lt;IdxCa&gt; {
+        arg_sort_multiple_numeric(<span class="self">self</span>, options)
     }
 }
 
@@ -1371,8 +1397,8 @@
     ///
     /// This function is very opinionated.
     /// We assume that all numeric `Series` are of the same type, if not it will panic
-    </span><span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>[Series], descending: <span class="kw-2">&amp;</span>[bool]) -&gt; PolarsResult&lt;IdxCa&gt; {
-        arg_sort_multiple_numeric(<span class="self">self</span>, other, descending)
+    </span><span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, options: <span class="kw-2">&amp;</span>SortMultipleOptions) -&gt; PolarsResult&lt;IdxCa&gt; {
+        arg_sort_multiple_numeric(<span class="self">self</span>, options)
     }
 }
 
@@ -1510,8 +1536,8 @@
     /// In this case we assume that all numeric `Series` are `f64` types. The caller needs to
     /// uphold this contract. If not, it will panic.
     ///
-    </span><span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>[Series], descending: <span class="kw-2">&amp;</span>[bool]) -&gt; PolarsResult&lt;IdxCa&gt; {
-        <span class="self">self</span>.as_binary().arg_sort_multiple(other, descending)
+    </span><span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, options: <span class="kw-2">&amp;</span>SortMultipleOptions) -&gt; PolarsResult&lt;IdxCa&gt; {
+        <span class="self">self</span>.as_binary().arg_sort_multiple(options)
     }
 }
 
@@ -1635,8 +1661,8 @@
     /// In this case we assume that all numeric `Series` are `f64` types. The caller needs to
     /// uphold this contract. If not, it will panic.
     ///
-    </span><span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>[Series], descending: <span class="kw-2">&amp;</span>[bool]) -&gt; PolarsResult&lt;IdxCa&gt; {
-        args_validate(<span class="self">self</span>, other, descending)<span class="question-mark">?</span>;
+    </span><span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, options: <span class="kw-2">&amp;</span>SortMultipleOptions) -&gt; PolarsResult&lt;IdxCa&gt; {
+        args_validate(<span class="self">self</span>, <span class="kw-2">&amp;</span>options.other, <span class="kw-2">&amp;</span>options.descending)<span class="question-mark">?</span>;
 
         <span class="kw">let </span><span class="kw-2">mut </span>count: IdxSize = <span class="number">0</span>;
         <span class="kw">let </span>vals: Vec&lt;<span class="kw">_</span>&gt; = <span class="self">self
@@ -1647,7 +1673,7 @@
                 (i, v)
             })
             .collect_trusted();
-        arg_sort_multiple_impl(vals, other, descending)
+        arg_sort_multiple_impl(vals, options)
     }
 }
 

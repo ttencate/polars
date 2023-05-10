@@ -117,11 +117,21 @@
 <a href="#117" id="117">117</a>
 <a href="#118" id="118">118</a>
 <a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::sync::Arc;
 
 <span class="kw">use </span>polars_arrow::utils::CustomIterTools;
 <span class="kw">use </span>polars_core::frame::groupby::GroupsProxy;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span>polars_core::POOL;
+<span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::physical_plan::state::ExecutionState;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -193,33 +203,39 @@
             <span class="kw">_ </span>=&gt; {
                 <span class="kw">let </span>series = ac.flat_naive().into_owned();
 
-                <span class="kw">let </span>groups = <span class="kw">match </span>ac.groups().as_ref() {
-                    GroupsProxy::Idx(groups) =&gt; {
-                        groups
-                            .iter()
-                            .map(|(first, idx)| {
-                                <span class="comment">// Safety:
-                                // Group tuples are always in bounds
-                                </span><span class="kw">let </span>group = <span class="kw">unsafe </span>{
-                                    series.take_iter_unchecked(<span class="kw-2">&amp;mut </span>idx.iter().map(|i| <span class="kw-2">*</span>i <span class="kw">as </span>usize))
-                                };
+                <span class="kw">let </span><span class="kw-2">mut </span>sort_options = <span class="self">self</span>.options;
+                sort_options.multithreaded = <span class="bool-val">false</span>;
+                <span class="kw">let </span>groups = POOL.install(|| {
+                    <span class="kw">match </span>ac.groups().as_ref() {
+                        GroupsProxy::Idx(groups) =&gt; {
+                            groups
+                                .par_iter()
+                                .map(|(first, idx)| {
+                                    <span class="comment">// Safety:
+                                    // Group tuples are always in bounds
+                                    </span><span class="kw">let </span>group = <span class="kw">unsafe </span>{
+                                        series.take_iter_unchecked(
+                                            <span class="kw-2">&amp;mut </span>idx.iter().map(|i| <span class="kw-2">*</span>i <span class="kw">as </span>usize),
+                                        )
+                                    };
 
-                                <span class="kw">let </span>sorted_idx = group.arg_sort(<span class="self">self</span>.options);
-                                <span class="kw">let </span>new_idx = map_sorted_indices_to_group_idx(<span class="kw-2">&amp;</span>sorted_idx, idx);
+                                    <span class="kw">let </span>sorted_idx = group.arg_sort(sort_options);
+                                    <span class="kw">let </span>new_idx = map_sorted_indices_to_group_idx(<span class="kw-2">&amp;</span>sorted_idx, idx);
+                                    (new_idx.first().copied().unwrap_or(first), new_idx)
+                                })
+                                .collect()
+                        }
+                        GroupsProxy::Slice { groups, .. } =&gt; groups
+                            .par_iter()
+                            .map(|<span class="kw-2">&amp;</span>[first, len]| {
+                                <span class="kw">let </span>group = series.slice(first <span class="kw">as </span>i64, len <span class="kw">as </span>usize);
+                                <span class="kw">let </span>sorted_idx = group.arg_sort(sort_options);
+                                <span class="kw">let </span>new_idx = map_sorted_indices_to_group_slice(<span class="kw-2">&amp;</span>sorted_idx, first);
                                 (new_idx.first().copied().unwrap_or(first), new_idx)
                             })
-                            .collect()
+                            .collect(),
                     }
-                    GroupsProxy::Slice { groups, .. } =&gt; groups
-                        .iter()
-                        .map(|<span class="kw-2">&amp;</span>[first, len]| {
-                            <span class="kw">let </span>group = series.slice(first <span class="kw">as </span>i64, len <span class="kw">as </span>usize);
-                            <span class="kw">let </span>sorted_idx = group.arg_sort(<span class="self">self</span>.options);
-                            <span class="kw">let </span>new_idx = map_sorted_indices_to_group_slice(<span class="kw-2">&amp;</span>sorted_idx, first);
-                            (new_idx.first().copied().unwrap_or(first), new_idx)
-                        })
-                        .collect(),
-                };
+                });
                 <span class="kw">let </span>groups = GroupsProxy::Idx(groups);
                 ac.with_groups(groups);
             }

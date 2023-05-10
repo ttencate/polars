@@ -741,6 +741,14 @@
 <a href="#741" id="741">741</a>
 <a href="#742" id="742">742</a>
 <a href="#743" id="743">743</a>
+<a href="#744" id="744">744</a>
+<a href="#745" id="745">745</a>
+<a href="#746" id="746">746</a>
+<a href="#747" id="747">747</a>
+<a href="#748" id="748">748</a>
+<a href="#749" id="749">749</a>
+<a href="#750" id="750">750</a>
+<a href="#751" id="751">751</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Traits for miscellaneous operations on ChunkedArray
 </span><span class="kw">use </span>arrow::offset::OffsetsBuffer;
 <span class="kw">use </span>polars_arrow::prelude::QuantileInterpolOptions;
@@ -1219,6 +1227,14 @@
     <span class="kw">pub </span>multithreaded: bool,
 }
 
+<span class="attr">#[derive(Clone)]
+#[cfg_attr(feature = <span class="string">&quot;serde-lazy&quot;</span>, derive(Serialize, Deserialize))]
+</span><span class="kw">pub struct </span>SortMultipleOptions {
+    <span class="kw">pub </span>other: Vec&lt;Series&gt;,
+    <span class="kw">pub </span>descending: Vec&lt;bool&gt;,
+    <span class="kw">pub </span>multithreaded: bool,
+}
+
 <span class="kw">impl </span>Default <span class="kw">for </span>SortOptions {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
@@ -1241,7 +1257,7 @@
     </span><span class="kw">fn </span>arg_sort(<span class="kw-2">&amp;</span><span class="self">self</span>, options: SortOptions) -&gt; IdxCa;
 
     <span class="doccomment">/// Retrieve the indexes need to sort this and the other arrays.
-    </span><span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, _other: <span class="kw-2">&amp;</span>[Series], _descending: <span class="kw-2">&amp;</span>[bool]) -&gt; PolarsResult&lt;IdxCa&gt; {
+    </span><span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, _options: <span class="kw-2">&amp;</span>SortMultipleOptions) -&gt; PolarsResult&lt;IdxCa&gt; {
         <span class="macro">polars_bail!</span>(opq = arg_sort_multiple, T::get_dtype());
     }
 }

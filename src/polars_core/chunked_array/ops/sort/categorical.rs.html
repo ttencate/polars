@@ -215,7 +215,6 @@
 <a href="#215" id="215">215</a>
 <a href="#216" id="216">216</a>
 <a href="#217" id="217">217</a>
-<a href="#218" id="218">218</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utils::NoNull;
 
@@ -338,26 +337,25 @@
 
     <span class="doccomment">/// Retrieve the indexes need to sort this and the other arrays.
 
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>arg_sort_multiple(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        other: <span class="kw-2">&amp;</span>[Series],
-        descending: <span class="kw-2">&amp;</span>[bool],
-    ) -&gt; PolarsResult&lt;IdxCa&gt; {
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>arg_sort_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, options: <span class="kw-2">&amp;</span>SortMultipleOptions) -&gt; PolarsResult&lt;IdxCa&gt; {
         <span class="kw">if </span><span class="self">self</span>.use_lexical_sort() {
-            args_validate(<span class="self">self</span>.logical(), other, descending)<span class="question-mark">?</span>;
+            args_validate(<span class="self">self</span>.logical(), <span class="kw-2">&amp;</span>options.other, <span class="kw-2">&amp;</span>options.descending)<span class="question-mark">?</span>;
             <span class="kw">let </span><span class="kw-2">mut </span>count: IdxSize = <span class="number">0</span>;
-            <span class="kw">let </span>vals: Vec&lt;<span class="kw">_</span>&gt; = <span class="self">self
+
+            <span class="comment">// we use bytes to save a monomorphisized str impl
+            // as bytes already is used for binary and utf8 sorting
+            </span><span class="kw">let </span>vals: Vec&lt;<span class="kw">_</span>&gt; = <span class="self">self
                 </span>.iter_str()
                 .map(|v| {
                     <span class="kw">let </span>i = count;
                     count += <span class="number">1</span>;
-                    (i, v)
+                    (i, v.map(|v| v.as_bytes()))
                 })
                 .collect_trusted();
 
-            arg_sort_multiple_impl(vals, other, descending)
+            arg_sort_multiple_impl(vals, options)
         } <span class="kw">else </span>{
-            <span class="self">self</span>.logical().arg_sort_multiple(other, descending)
+            <span class="self">self</span>.logical().arg_sort_multiple(options)
         }
     }
 }

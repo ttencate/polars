@@ -3658,6 +3658,11 @@
 <a href="#3658" id="3658">3658</a>
 <a href="#3659" id="3659">3659</a>
 <a href="#3660" id="3660">3660</a>
+<a href="#3661" id="3661">3661</a>
+<a href="#3662" id="3662">3662</a>
+<a href="#3663" id="3663">3663</a>
+<a href="#3664" id="3664">3664</a>
+<a href="#3665" id="3665">3665</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! DataFrame module.
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::iter::{FromIterator, Iterator};
@@ -5526,8 +5531,13 @@
                 <span class="kw">if </span>nulls_last || has_struct || std::env::var(<span class="string">&quot;POLARS_ROW_FMT_SORT&quot;</span>).is_ok() {
                     argsort_multiple_row_fmt(<span class="kw-2">&amp;</span>by_column, descending, nulls_last, parallel)<span class="question-mark">?
                 </span>} <span class="kw">else </span>{
-                    <span class="kw">let </span>(first, by_column, descending) = prepare_arg_sort(by_column, descending)<span class="question-mark">?</span>;
-                    first.arg_sort_multiple(<span class="kw-2">&amp;</span>by_column, <span class="kw-2">&amp;</span>descending)<span class="question-mark">?
+                    <span class="kw">let </span>(first, other, descending) = prepare_arg_sort(by_column, descending)<span class="question-mark">?</span>;
+                    <span class="kw">let </span>options = SortMultipleOptions {
+                        other,
+                        descending,
+                        multithreaded: parallel,
+                    };
+                    first.arg_sort_multiple(<span class="kw-2">&amp;</span>options)<span class="question-mark">?
                 </span>}
             }
         };

@@ -289,6 +289,27 @@
 <a href="#289" id="289">289</a>
 <a href="#290" id="290">290</a>
 <a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::sync::atomic::{AtomicBool, Ordering};
 <span class="kw">use </span>std::sync::Arc;
 
@@ -365,7 +386,12 @@
                     })
                     .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
 
-                s_sort_by[<span class="number">0</span>].arg_sort_multiple(<span class="kw-2">&amp;</span>s_sort_by[<span class="number">1</span>..], <span class="kw-2">&amp;</span>descending)
+                <span class="kw">let </span>options = SortMultipleOptions {
+                    other: s_sort_by[<span class="number">1</span>..].to_vec(),
+                    descending,
+                    multithreaded: <span class="bool-val">true</span>,
+                };
+                s_sort_by[<span class="number">0</span>].arg_sort_multiple(<span class="kw-2">&amp;</span>options)
             };
             POOL.install(|| rayon::join(series_f, sorted_idx_f))
         };
@@ -408,27 +434,28 @@
             <span class="kw">let </span><span class="kw-2">mut </span>s = s.list().unwrap().clone();
 
             <span class="kw">let </span>descending = <span class="self">self</span>.descending[<span class="number">0</span>];
-            <span class="kw">let </span><span class="kw-2">mut </span>ca: ListChunked = s
-                .par_iter_indexed()
-                .zip(sort_by.par_iter_indexed())
-                .map(|(opt_s, s_sort_by)| <span class="kw">match </span>(opt_s, s_sort_by) {
-                    (<span class="prelude-val">Some</span>(s), <span class="prelude-val">Some</span>(s_sort_by)) =&gt; {
-                        <span class="kw">if </span>s.len() != s_sort_by.len() {
-                            invalid.store(<span class="bool-val">true</span>, Ordering::Relaxed);
-                            <span class="prelude-val">None
-                        </span>} <span class="kw">else </span>{
-                            <span class="kw">let </span>idx = s_sort_by.arg_sort(SortOptions {
-                                descending,
-                                <span class="comment">// we are already in par iter.
-                                </span>multithreaded: <span class="bool-val">false</span>,
-                                ..Default::default()
-                            });
-                            <span class="prelude-val">Some</span>(<span class="kw">unsafe </span>{ s.take_unchecked(<span class="kw-2">&amp;</span>idx).unwrap() })
+            <span class="kw">let </span><span class="kw-2">mut </span>ca: ListChunked = POOL.install(|| {
+                s.par_iter_indexed()
+                    .zip(sort_by.par_iter_indexed())
+                    .map(|(opt_s, s_sort_by)| <span class="kw">match </span>(opt_s, s_sort_by) {
+                        (<span class="prelude-val">Some</span>(s), <span class="prelude-val">Some</span>(s_sort_by)) =&gt; {
+                            <span class="kw">if </span>s.len() != s_sort_by.len() {
+                                invalid.store(<span class="bool-val">true</span>, Ordering::Relaxed);
+                                <span class="prelude-val">None
+                            </span>} <span class="kw">else </span>{
+                                <span class="kw">let </span>idx = s_sort_by.arg_sort(SortOptions {
+                                    descending,
+                                    <span class="comment">// we are already in par iter.
+                                    </span>multithreaded: <span class="bool-val">false</span>,
+                                    ..Default::default()
+                                });
+                                <span class="prelude-val">Some</span>(<span class="kw">unsafe </span>{ s.take_unchecked(<span class="kw-2">&amp;</span>idx).unwrap() })
+                            }
                         }
-                    }
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                })
-                .collect();
+                        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                    })
+                    .collect()
+            });
             ca.rename(s.name());
             <span class="kw">let </span>s = ca.into_series();
             ac_in.with_series(s, <span class="bool-val">true</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.expr))<span class="question-mark">?</span>;
@@ -449,41 +476,44 @@
                 );
                 <span class="kw">let </span>groups = ac_sort_by.groups();
 
-                <span class="kw">let </span>groups = groups
-                    .par_iter()
-                    .map(|indicator| {
-                        <span class="kw">let </span>new_idx = <span class="kw">match </span>indicator {
-                            GroupsIndicator::Idx((<span class="kw">_</span>, idx)) =&gt; {
-                                <span class="comment">// Safety:
-                                // Group tuples are always in bounds
-                                </span><span class="kw">let </span>group = <span class="kw">unsafe </span>{
-                                    sort_by_s
-                                        .take_iter_unchecked(<span class="kw-2">&amp;mut </span>idx.iter().map(|i| <span class="kw-2">*</span>i <span class="kw">as </span>usize))
-                                };
+                <span class="kw">let </span>groups = POOL.install(|| {
+                    groups
+                        .par_iter()
+                        .map(|indicator| {
+                            <span class="kw">let </span>new_idx = <span class="kw">match </span>indicator {
+                                GroupsIndicator::Idx((<span class="kw">_</span>, idx)) =&gt; {
+                                    <span class="comment">// Safety:
+                                    // Group tuples are always in bounds
+                                    </span><span class="kw">let </span>group = <span class="kw">unsafe </span>{
+                                        sort_by_s.take_iter_unchecked(
+                                            <span class="kw-2">&amp;mut </span>idx.iter().map(|i| <span class="kw-2">*</span>i <span class="kw">as </span>usize),
+                                        )
+                                    };
 
-                                <span class="kw">let </span>sorted_idx = group.arg_sort(SortOptions {
-                                    descending: descending[<span class="number">0</span>],
-                                    <span class="comment">// we are already in par iter.
-                                    </span>multithreaded: <span class="bool-val">false</span>,
-                                    ..Default::default()
-                                });
-                                map_sorted_indices_to_group_idx(<span class="kw-2">&amp;</span>sorted_idx, idx)
-                            }
-                            GroupsIndicator::Slice([first, len]) =&gt; {
-                                <span class="kw">let </span>group = sort_by_s.slice(first <span class="kw">as </span>i64, len <span class="kw">as </span>usize);
-                                <span class="kw">let </span>sorted_idx = group.arg_sort(SortOptions {
-                                    descending: descending[<span class="number">0</span>],
-                                    <span class="comment">// we are already in par iter.
-                                    </span>multithreaded: <span class="bool-val">false</span>,
-                                    ..Default::default()
-                                });
-                                map_sorted_indices_to_group_slice(<span class="kw-2">&amp;</span>sorted_idx, first)
-                            }
-                        };
+                                    <span class="kw">let </span>sorted_idx = group.arg_sort(SortOptions {
+                                        descending: descending[<span class="number">0</span>],
+                                        <span class="comment">// we are already in par iter.
+                                        </span>multithreaded: <span class="bool-val">false</span>,
+                                        ..Default::default()
+                                    });
+                                    map_sorted_indices_to_group_idx(<span class="kw-2">&amp;</span>sorted_idx, idx)
+                                }
+                                GroupsIndicator::Slice([first, len]) =&gt; {
+                                    <span class="kw">let </span>group = sort_by_s.slice(first <span class="kw">as </span>i64, len <span class="kw">as </span>usize);
+                                    <span class="kw">let </span>sorted_idx = group.arg_sort(SortOptions {
+                                        descending: descending[<span class="number">0</span>],
+                                        <span class="comment">// we are already in par iter.
+                                        </span>multithreaded: <span class="bool-val">false</span>,
+                                        ..Default::default()
+                                    });
+                                    map_sorted_indices_to_group_slice(<span class="kw-2">&amp;</span>sorted_idx, first)
+                                }
+                            };
 
-                        (new_idx[<span class="number">0</span>], new_idx)
-                    })
-                    .collect();
+                            (new_idx[<span class="number">0</span>], new_idx)
+                        })
+                        .collect()
+                });
 
                 (GroupsProxy::Idx(groups), ordered_by_group_operation)
             } <span class="kw">else </span>{
@@ -517,40 +547,52 @@
                 );
                 <span class="kw">let </span>groups = ac_sort_by[<span class="number">0</span>].groups();
 
-                <span class="kw">let </span>groups = groups
-                    .par_iter()
-                    .map(|indicator| {
-                        <span class="kw">let </span>new_idx = <span class="kw">match </span>indicator {
-                            GroupsIndicator::Idx((_first, idx)) =&gt; {
-                                <span class="comment">// Safety:
-                                // Group tuples are always in bounds
-                                </span><span class="kw">let </span>groups = sort_by_s
-                                    .iter()
-                                    .map(|s| <span class="kw">unsafe </span>{
-                                        s.take_iter_unchecked(<span class="kw-2">&amp;mut </span>idx.iter().map(|i| <span class="kw-2">*</span>i <span class="kw">as </span>usize))
-                                    })
-                                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+                <span class="kw">let </span>groups = POOL.install(|| {
+                    groups
+                        .par_iter()
+                        .map(|indicator| {
+                            <span class="kw">let </span>new_idx = <span class="kw">match </span>indicator {
+                                GroupsIndicator::Idx((_first, idx)) =&gt; {
+                                    <span class="comment">// Safety:
+                                    // Group tuples are always in bounds
+                                    </span><span class="kw">let </span>groups = sort_by_s
+                                        .iter()
+                                        .map(|s| <span class="kw">unsafe </span>{
+                                            s.take_iter_unchecked(
+                                                <span class="kw-2">&amp;mut </span>idx.iter().map(|i| <span class="kw-2">*</span>i <span class="kw">as </span>usize),
+                                            )
+                                        })
+                                        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
-                                <span class="kw">let </span>sorted_idx = groups[<span class="number">0</span>]
-                                    .arg_sort_multiple(<span class="kw-2">&amp;</span>groups[<span class="number">1</span>..], <span class="kw-2">&amp;</span>descending)
-                                    .unwrap();
-                                map_sorted_indices_to_group_idx(<span class="kw-2">&amp;</span>sorted_idx, idx)
-                            }
-                            GroupsIndicator::Slice([first, len]) =&gt; {
-                                <span class="kw">let </span>groups = sort_by_s
-                                    .iter()
-                                    .map(|s| s.slice(first <span class="kw">as </span>i64, len <span class="kw">as </span>usize))
-                                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-                                <span class="kw">let </span>sorted_idx = groups[<span class="number">0</span>]
-                                    .arg_sort_multiple(<span class="kw-2">&amp;</span>groups[<span class="number">1</span>..], <span class="kw-2">&amp;</span>descending)
-                                    .unwrap();
-                                map_sorted_indices_to_group_slice(<span class="kw-2">&amp;</span>sorted_idx, first)
-                            }
-                        };
+                                    <span class="kw">let </span>options = SortMultipleOptions {
+                                        other: groups[<span class="number">1</span>..].to_vec(),
+                                        descending: descending.clone(),
+                                        multithreaded: <span class="bool-val">false</span>,
+                                    };
 
-                        (new_idx[<span class="number">0</span>], new_idx)
-                    })
-                    .collect();
+                                    <span class="kw">let </span>sorted_idx = groups[<span class="number">0</span>].arg_sort_multiple(<span class="kw-2">&amp;</span>options).unwrap();
+                                    map_sorted_indices_to_group_idx(<span class="kw-2">&amp;</span>sorted_idx, idx)
+                                }
+                                GroupsIndicator::Slice([first, len]) =&gt; {
+                                    <span class="kw">let </span>groups = sort_by_s
+                                        .iter()
+                                        .map(|s| s.slice(first <span class="kw">as </span>i64, len <span class="kw">as </span>usize))
+                                        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+
+                                    <span class="kw">let </span>options = SortMultipleOptions {
+                                        other: groups[<span class="number">1</span>..].to_vec(),
+                                        descending: descending.clone(),
+                                        multithreaded: <span class="bool-val">false</span>,
+                                    };
+                                    <span class="kw">let </span>sorted_idx = groups[<span class="number">0</span>].arg_sort_multiple(<span class="kw-2">&amp;</span>options).unwrap();
+                                    map_sorted_indices_to_group_slice(<span class="kw-2">&amp;</span>sorted_idx, first)
+                                }
+                            };
+
+                            (new_idx[<span class="number">0</span>], new_idx)
+                        })
+                        .collect()
+                });
 
                 (GroupsProxy::Idx(groups), ordered_by_group_operation)
             };

@@ -1403,6 +1403,36 @@
 <a href="#1403" id="1403">1403</a>
 <a href="#1404" id="1404">1404</a>
 <a href="#1405" id="1405">1405</a>
+<a href="#1406" id="1406">1406</a>
+<a href="#1407" id="1407">1407</a>
+<a href="#1408" id="1408">1408</a>
+<a href="#1409" id="1409">1409</a>
+<a href="#1410" id="1410">1410</a>
+<a href="#1411" id="1411">1411</a>
+<a href="#1412" id="1412">1412</a>
+<a href="#1413" id="1413">1413</a>
+<a href="#1414" id="1414">1414</a>
+<a href="#1415" id="1415">1415</a>
+<a href="#1416" id="1416">1416</a>
+<a href="#1417" id="1417">1417</a>
+<a href="#1418" id="1418">1418</a>
+<a href="#1419" id="1419">1419</a>
+<a href="#1420" id="1420">1420</a>
+<a href="#1421" id="1421">1421</a>
+<a href="#1422" id="1422">1422</a>
+<a href="#1423" id="1423">1423</a>
+<a href="#1424" id="1424">1424</a>
+<a href="#1425" id="1425">1425</a>
+<a href="#1426" id="1426">1426</a>
+<a href="#1427" id="1427">1427</a>
+<a href="#1428" id="1428">1428</a>
+<a href="#1429" id="1429">1429</a>
+<a href="#1430" id="1430">1430</a>
+<a href="#1431" id="1431">1431</a>
+<a href="#1432" id="1432">1432</a>
+<a href="#1433" id="1433">1433</a>
+<a href="#1434" id="1434">1434</a>
+<a href="#1435" id="1435">1435</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! # Functions
 //!
 //! Functions on expressions that might be useful.
@@ -1645,23 +1675,13 @@
 /// That means that the first `Series` will be used to determine the ordering
 /// until duplicates are found. Once duplicates are found, the next `Series` will
 /// be used and so on.
+</span><span class="attr">#[cfg(feature = <span class="string">&quot;arange&quot;</span>)]
 </span><span class="kw">pub fn </span>arg_sort_by&lt;E: AsRef&lt;[Expr]&gt;&gt;(by: E, descending: <span class="kw-2">&amp;</span>[bool]) -&gt; Expr {
-    <span class="kw">let </span>descending = descending.to_vec();
-    <span class="kw">let </span>function = SpecialEq::new(Arc::new(<span class="kw">move </span>|by: <span class="kw-2">&amp;mut </span>[Series]| {
-        polars_core::functions::arg_sort_by(by, <span class="kw-2">&amp;</span>descending).map(|ca| <span class="prelude-val">Some</span>(ca.into_series()))
-    }) <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>SeriesUdf&gt;);
-
-    Expr::AnonymousFunction {
-        input: by.as_ref().to_vec(),
-        function,
-        output_type: GetOutput::from_type(IDX_DTYPE),
-        options: FunctionOptions {
-            collect_groups: ApplyOptions::ApplyGroups,
-            input_wildcard_expansion: <span class="bool-val">true</span>,
-            fmt_str: <span class="string">&quot;arg_sort_by&quot;</span>,
-            ..Default::default()
-        },
-    }
+    <span class="kw">let </span>e = <span class="kw-2">&amp;</span>by.as_ref()[<span class="number">0</span>];
+    <span class="kw">let </span>name = expr_output_name(e).unwrap();
+    arange(lit(<span class="number">0 </span><span class="kw">as </span>IdxSize), count().cast(IDX_DTYPE), <span class="number">1</span>)
+        .sort_by(by, descending)
+        .alias(name.as_ref())
 }
 
 <span class="attr">#[cfg(all(feature = <span class="string">&quot;concat_str&quot;</span>, feature = <span class="string">&quot;strings&quot;</span>))]
@@ -1730,7 +1750,36 @@
     })
 }
 
-<span class="doccomment">/// Create list entries that are range arrays
+<span class="attr">#[cfg(feature = <span class="string">&quot;arange&quot;</span>)]
+</span><span class="kw">fn </span>arange_impl&lt;T&gt;(start: T::Native, end: T::Native, step: i64) -&gt; PolarsResult&lt;<span class="prelude-ty">Option</span>&lt;Series&gt;&gt;
+<span class="kw">where
+    </span>T: PolarsNumericType,
+    ChunkedArray&lt;T&gt;: IntoSeries,
+    std::ops::Range&lt;T::Native&gt;: Iterator&lt;Item = T::Native&gt;,
+    std::ops::RangeInclusive&lt;T::Native&gt;: DoubleEndedIterator&lt;Item = T::Native&gt;,
+{
+    <span class="kw">let </span><span class="kw-2">mut </span>ca = <span class="kw">match </span>step {
+        <span class="number">1 </span>=&gt; ChunkedArray::&lt;T&gt;::from_iter_values(<span class="string">&quot;arange&quot;</span>, start..end),
+        <span class="number">2</span>.. =&gt; ChunkedArray::&lt;T&gt;::from_iter_values(<span class="string">&quot;arange&quot;</span>, (start..end).step_by(step <span class="kw">as </span>usize)),
+        <span class="kw">_ </span>=&gt; {
+            <span class="macro">polars_ensure!</span>(start &gt; end, InvalidOperation: <span class="string">&quot;range must be decreasing if &#39;step&#39; is negative&quot;</span>);
+            ChunkedArray::&lt;T&gt;::from_iter_values(
+                <span class="string">&quot;arange&quot;</span>,
+                (end..=start).rev().step_by(step.unsigned_abs() <span class="kw">as </span>usize),
+            )
+        }
+    };
+    <span class="kw">let </span>is_sorted = <span class="kw">if </span>end &lt; start {
+        IsSorted::Descending
+    } <span class="kw">else </span>{
+        IsSorted::Ascending
+    };
+    ca.set_sorted_flag(is_sorted);
+    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(ca.into_series()))
+}
+
+<span class="comment">// TODO! rewrite this with the apply_private architecture
+</span><span class="doccomment">/// Create list entries that are range arrays
 /// - if `start` and `end` are a column, every element will expand into an array in a list column.
 /// - if `start` and `end` are literals the output will be of `Int64`.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;arange&quot;</span>)]
@@ -1772,43 +1821,54 @@
     <span class="kw">if </span>(literal_start || literal_end) &amp;&amp; !any_column_no_agg {
         <span class="kw">let </span>f = <span class="kw">move </span>|sa: Series, sb: Series| {
             <span class="macro">polars_ensure!</span>(step != <span class="number">0</span>, InvalidOperation: <span class="string">&quot;step must not be zero&quot;</span>);
-            <span class="kw">let </span>sa = sa.cast(<span class="kw-2">&amp;</span>DataType::Int64)<span class="question-mark">?</span>;
-            <span class="kw">let </span>sb = sb.cast(<span class="kw-2">&amp;</span>DataType::Int64)<span class="question-mark">?</span>;
-            <span class="kw">let </span>start = sa
-                .i64()<span class="question-mark">?
-                </span>.get(<span class="number">0</span>)
-                .ok_or_else(|| <span class="macro">polars_err!</span>(NoData: <span class="string">&quot;no data in `start` evaluation&quot;</span>))<span class="question-mark">?</span>;
-            <span class="kw">let </span>end = sb
-                .i64()<span class="question-mark">?
-                </span>.get(<span class="number">0</span>)
-                .ok_or_else(|| <span class="macro">polars_err!</span>(NoData: <span class="string">&quot;no data in `end` evaluation&quot;</span>))<span class="question-mark">?</span>;
 
-            <span class="kw">let </span><span class="kw-2">mut </span>ca = <span class="kw">match </span>step {
-                <span class="number">1 </span>=&gt; Int64Chunked::from_iter_values(<span class="string">&quot;arange&quot;</span>, start..end),
-                <span class="number">2</span>.. =&gt; {
-                    Int64Chunked::from_iter_values(<span class="string">&quot;arange&quot;</span>, (start..end).step_by(step <span class="kw">as </span>usize))
+            <span class="kw">match </span>sa.dtype() {
+                dt <span class="kw">if </span>dt == <span class="kw-2">&amp;</span>IDX_DTYPE =&gt; {
+                    <span class="kw">let </span>start = sa
+                        .idx()<span class="question-mark">?
+                        </span>.get(<span class="number">0</span>)
+                        .ok_or_else(|| <span class="macro">polars_err!</span>(NoData: <span class="string">&quot;no data in `start` evaluation&quot;</span>))<span class="question-mark">?</span>;
+                    <span class="kw">let </span>sb = sb.cast(<span class="kw-2">&amp;</span>IDX_DTYPE)<span class="question-mark">?</span>;
+                    <span class="kw">let </span>end = sb
+                        .idx()<span class="question-mark">?
+                        </span>.get(<span class="number">0</span>)
+                        .ok_or_else(|| <span class="macro">polars_err!</span>(NoData: <span class="string">&quot;no data in `end` evaluation&quot;</span>))<span class="question-mark">?</span>;
+                    <span class="attr">#[cfg(feature = <span class="string">&quot;bigidx&quot;</span>)]
+                    </span>{
+                        arange_impl::&lt;UInt64Type&gt;(start, end, step)
+                    }
+                    <span class="attr">#[cfg(not(feature = <span class="string">&quot;bigidx&quot;</span>))]
+                    </span>{
+                        arange_impl::&lt;UInt32Type&gt;(start, end, step)
+                    }
                 }
                 <span class="kw">_ </span>=&gt; {
-                    <span class="macro">polars_ensure!</span>(start &gt; end, InvalidOperation: <span class="string">&quot;range must be decreasing if &#39;step&#39; is negative&quot;</span>);
-                    Int64Chunked::from_iter_values(
-                        <span class="string">&quot;arange&quot;</span>,
-                        (end..=start).rev().step_by(step.unsigned_abs() <span class="kw">as </span>usize),
-                    )
+                    <span class="kw">let </span>sa = sa.cast(<span class="kw-2">&amp;</span>DataType::Int64)<span class="question-mark">?</span>;
+                    <span class="kw">let </span>sb = sb.cast(<span class="kw-2">&amp;</span>DataType::Int64)<span class="question-mark">?</span>;
+                    <span class="kw">let </span>start = sa
+                        .i64()<span class="question-mark">?
+                        </span>.get(<span class="number">0</span>)
+                        .ok_or_else(|| <span class="macro">polars_err!</span>(NoData: <span class="string">&quot;no data in `start` evaluation&quot;</span>))<span class="question-mark">?</span>;
+                    <span class="kw">let </span>end = sb
+                        .i64()<span class="question-mark">?
+                        </span>.get(<span class="number">0</span>)
+                        .ok_or_else(|| <span class="macro">polars_err!</span>(NoData: <span class="string">&quot;no data in `end` evaluation&quot;</span>))<span class="question-mark">?</span>;
+                    arange_impl::&lt;Int64Type&gt;(start, end, step)
                 }
-            };
-            <span class="kw">let </span>is_sorted = <span class="kw">if </span>end &lt; start {
-                IsSorted::Descending
-            } <span class="kw">else </span>{
-                IsSorted::Ascending
-            };
-            ca.set_sorted_flag(is_sorted);
-            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(ca.into_series()))
+            }
         };
         apply_binary(
             start,
             end,
             f,
-            GetOutput::map_field(|<span class="kw">_</span>| Field::new(<span class="string">&quot;arange&quot;</span>, DataType::Int64)),
+            GetOutput::map_field(|input| {
+                <span class="kw">let </span>dtype = <span class="kw">if </span>input.data_type() == <span class="kw-2">&amp;</span>IDX_DTYPE {
+                    IDX_DTYPE
+                } <span class="kw">else </span>{
+                    DataType::Int64
+                };
+                Field::new(<span class="string">&quot;arange&quot;</span>, dtype)
+            }),
         )
     } <span class="kw">else </span>{
         <span class="kw">let </span>f = <span class="kw">move </span>|sa: Series, sb: Series| {
