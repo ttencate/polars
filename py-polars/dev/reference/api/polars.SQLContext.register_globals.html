@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
     <link rel="icon" sizes="32x32" href="https://raw.githubusercontent.com/pola-rs/polars-static/master/icons/favicon-32x32.png" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/pola-rs/polars-static/master/icons/touchicon-180x180.png" type="image/png">
-    <title>polars.SQLContext.query &#8212; Polars  documentation</title>
+    <title>polars.SQLContext.register_globals &#8212; Polars  documentation</title>
   
   
   
@@ -45,11 +45,11 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.SQLContext.query';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.SQLContext.register_globals';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="polars.SQLContext.register" href="polars.SQLContext.register.html" />
-    <link rel="prev" title="polars.SQLContext.execute" href="polars.SQLContext.execute.html" />
+    <link rel="next" title="polars.SQLContext.register_many" href="polars.SQLContext.register_many.html" />
+    <link rel="prev" title="polars.SQLContext.register" href="polars.SQLContext.register.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -1481,8 +1481,8 @@ document.write(`
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../sql.html">SQL</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-57" name="toctree-checkbox-57" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-57"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.execute.html">polars.SQLContext.execute</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.SQLContext.query</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.register.html">polars.SQLContext.register</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.SQLContext.register_globals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.register_many.html">polars.SQLContext.register_many</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.unregister.html">polars.SQLContext.unregister</a></li>
 </ul>
@@ -1530,7 +1530,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../sql.html" class="nav-link">SQL</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">polars.SQLContext.query</li>
+    <li class="breadcrumb-item active" aria-current="page">polars.SQLContext.register_globals</li>
   </ul>
 </nav>
 </div>
@@ -1547,20 +1547,40 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="polars-sqlcontext-query">
-<h1>polars.SQLContext.query<a class="headerlink" href="#polars-sqlcontext-query" title="Permalink to this heading">#</a></h1>
+  <section id="polars-sqlcontext-register-globals">
+<h1>polars.SQLContext.register_globals<a class="headerlink" href="#polars-sqlcontext-register-globals" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
-<dt class="sig sig-object py" id="polars.SQLContext.query">
-<span class="sig-prename descclassname"><span class="pre">SQLContext.</span></span><span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L97-L107"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext.query" title="Permalink to this definition">#</a></dt>
-<dd><p>Parse the given SQL query and execute it eagerly to return a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
+<dt class="sig sig-object py" id="polars.SQLContext.register_globals">
+<span class="sig-prename descclassname"><span class="pre">SQLContext.</span></span><span class="sig-name descname"><span class="pre">register_globals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L212-L245"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext.register_globals" title="Permalink to this definition">#</a></dt>
+<dd><p>Register <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code> objects present in the current globals scope.</p>
+<p>Automatically maps variable names to table names.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>query</strong></dt><dd><p>A valid string SQL query.</p>
+<dt><strong>n</strong></dt><dd><p>Register only the most recent “n” <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code> objects.</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lf1</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">LazyFrame</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lf2</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">LazyFrame</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pl</span><span class="o">.</span><span class="n">SQLContext</span><span class="p">(</span><span class="n">register_globals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;SELECT a, b, c FROM lf1 LEFT JOIN lf2 USING (a) ORDER BY a DESC&quot;</span>
+<span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="go">shape: (3, 3)</span>
+<span class="go">┌─────┬──────┬──────┐</span>
+<span class="go">│ a   ┆ b    ┆ c    │</span>
+<span class="go">│ --- ┆ ---  ┆ ---  │</span>
+<span class="go">│ i64 ┆ str  ┆ str  │</span>
+<span class="go">╞═════╪══════╪══════╡</span>
+<span class="go">│ 3   ┆ z    ┆ w    │</span>
+<span class="go">│ 2   ┆ null ┆ t    │</span>
+<span class="go">│ 1   ┆ x    ┆ null │</span>
+<span class="go">└─────┴──────┴──────┘</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -1577,20 +1597,20 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.SQLContext.execute.html"
+       href="polars.SQLContext.register.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.SQLContext.execute</p>
+        <p class="prev-next-title">polars.SQLContext.register</p>
       </div>
     </a>
     <a class="right-next"
-       href="polars.SQLContext.register.html"
+       href="polars.SQLContext.register_many.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.SQLContext.register</p>
+        <p class="prev-next-title">polars.SQLContext.register_many</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1612,7 +1632,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.SQLContext.query"><code class="docutils literal notranslate"><span class="pre">SQLContext.query()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.SQLContext.register_globals"><code class="docutils literal notranslate"><span class="pre">SQLContext.register_globals()</span></code></a></li>
 </ul>
   </nav></div>
 
