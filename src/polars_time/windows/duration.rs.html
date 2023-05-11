@@ -741,6 +741,10 @@
 <a href="#741" id="741">741</a>
 <a href="#742" id="742">742</a>
 <a href="#743" id="743">743</a>
+<a href="#744" id="744">744</a>
+<a href="#745" id="745">745</a>
+<a href="#746" id="746">746</a>
+<a href="#747" id="747">747</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
 <span class="kw">use </span>std::ops::Mul;
 
@@ -1325,7 +1329,11 @@
                 <span class="macro">polars_err!</span>(
                     ComputeError: <span class="macro">format!</span>(
                         <span class="string">&quot;cannot advance &#39;{}&#39; by {} month(s). \
-                         If you were trying to get the last day of each month, you may want to try `.dt.month_end`&quot;</span>, ts, <span class="kw">if </span>d.negative {-d.months} <span class="kw">else </span>{d.months})
+                         If you were trying to get the last day of each month, you may want to try `.dt.month_end` \
+                         or append \&quot;_saturating\&quot; to your duration string.&quot;</span>,
+                         ts,
+                         <span class="kw">if </span>d.negative {-d.months} <span class="kw">else </span>{d.months}
+                    )
                 ),
             )<span class="question-mark">?</span>;
             new_t = <span class="kw">match </span>tz {
