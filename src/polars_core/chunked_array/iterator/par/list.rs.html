@@ -37,6 +37,7 @@
 <a href="#37" id="37">37</a>
 <a href="#38" id="38">38</a>
 <a href="#39" id="39">39</a>
+<a href="#40" id="40">40</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -66,6 +67,7 @@
     }
 
     <span class="comment">// Get an indexed parallel iterator over the [`Series`] in this [`ListChunked`].
+    // Also might be faster as it doesn&#39;t use `flat_map`.
     </span><span class="kw">pub fn </span>par_iter_indexed(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw">impl </span>IndexedParallelIterator&lt;Item = <span class="prelude-ty">Option</span>&lt;Series&gt;&gt; + <span class="lifetime">&#39;_ </span>{
         <span class="kw-2">*</span><span class="self">self </span>= <span class="self">self</span>.rechunk();
         <span class="kw">let </span>arr = <span class="self">self</span>.downcast_iter().next().unwrap();
