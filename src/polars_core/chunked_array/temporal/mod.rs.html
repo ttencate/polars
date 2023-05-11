@@ -20,6 +20,7 @@
 <a href="#20" id="20">20</a>
 <a href="#21" id="21">21</a>
 <a href="#22" id="22">22</a>
+<a href="#23" id="23">23</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Traits and utilities for temporal data.
 </span><span class="kw">pub mod </span>conversion;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
@@ -30,12 +31,13 @@
 </span><span class="kw">mod </span>duration;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-time&quot;</span>)]
 </span><span class="kw">mod </span>time;
-
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
 </span><span class="kw">use </span>chrono::NaiveDate;
 <span class="kw">use </span>chrono::NaiveDateTime;
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;dtype-time&quot;</span>, feature = <span class="string">&quot;dtype-date&quot;</span>))]
 </span><span class="kw">use </span>chrono::NaiveTime;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-time&quot;</span>)]
+</span><span class="kw">pub use </span>time::time_to_time64ns;
 
 <span class="kw">pub use </span><span class="self">self</span>::conversion::<span class="kw-2">*</span>;
 

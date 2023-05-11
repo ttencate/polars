@@ -563,12 +563,12 @@
 
 <span class="kw">use </span>chrono::ParseError;
 <span class="kw">pub use </span>patterns::{Pattern, PatternWithOffset};
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-time&quot;</span>)]
+</span><span class="kw">use </span>polars_core::chunked_array::temporal::time_to_time64ns;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::chunkedarray::date::naive_date_to_date;
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-time&quot;</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::chunkedarray::time::time_to_time64ns;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::utf8::strptime::StrpTimeState;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-time&quot;</span>)]

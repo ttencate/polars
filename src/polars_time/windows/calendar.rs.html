@@ -94,6 +94,7 @@
 <a href="#94" id="94">94</a>
 <a href="#95" id="95">95</a>
 <a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_arrow::time_zone::PolarsTimeZone;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
@@ -131,7 +132,8 @@
 <span class="kw">pub const </span>NS_DAY: i64 = <span class="number">24 </span>* NS_HOUR;
 <span class="kw">pub const </span>NS_WEEK: i64 = <span class="number">7 </span>* NS_DAY;
 
-<span class="kw">pub fn </span>date_range&lt;T: PolarsTimeZone&gt;(
+<span class="doccomment">/// vector of i64 representing temporal values
+</span><span class="kw">pub fn </span>temporal_range&lt;T: PolarsTimeZone&gt;(
     start: i64,
     stop: i64,
     every: Duration,
