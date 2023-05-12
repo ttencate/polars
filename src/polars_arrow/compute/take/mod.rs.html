@@ -772,6 +772,9 @@
 <a href="#772" id="772">772</a>
 <a href="#773" id="773">773</a>
 <a href="#774" id="774">774</a>
+<a href="#775" id="775">775</a>
+<a href="#776" id="776">776</a>
+<a href="#777" id="777">777</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>boolean;
 
 <span class="kw">use </span>arrow::array::<span class="kw-2">*</span>;
@@ -789,6 +792,9 @@
 <span class="doccomment">/// # Safety
 /// Does not do bounds checks
 </span><span class="kw">pub unsafe fn </span>take_unchecked(arr: <span class="kw-2">&amp;</span><span class="kw">dyn </span>Array, idx: <span class="kw-2">&amp;</span>IdxArr) -&gt; ArrayRef {
+    <span class="kw">if </span>idx.null_count() == idx.len() {
+        <span class="kw">return </span>new_null_array(arr.data_type().clone(), idx.len());
+    }
     <span class="kw">use </span>PhysicalType::<span class="kw-2">*</span>;
     <span class="kw">match </span>arr.data_type().to_physical_type() {
         Primitive(primitive) =&gt; <span class="macro">with_match_primitive_type!</span>(primitive, |<span class="macro-nonterminal">$T</span>| {
