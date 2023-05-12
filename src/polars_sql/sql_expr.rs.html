@@ -629,7 +629,7 @@
         <span class="kw">if </span>negated {
             <span class="prelude-val">Ok</span>(expr.clone().lt(low).or(expr.gt(high)))
         } <span class="kw">else </span>{
-            <span class="prelude-val">Ok</span>(expr.clone().gt(low).and(expr.lt(high)))
+            <span class="prelude-val">Ok</span>(expr.clone().gt_eq(low).and(expr.lt_eq(high)))
         }
     }
 
