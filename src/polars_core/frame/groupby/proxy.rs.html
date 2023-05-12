@@ -645,6 +645,7 @@
 <a href="#645" id="645">645</a>
 <a href="#646" id="646">646</a>
 <a href="#647" id="647">647</a>
+<a href="#648" id="648">648</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::mem::ManuallyDrop;
 <span class="kw">use </span>std::ops::Deref;
 
@@ -929,12 +930,15 @@
 ///  - first value is an index to the start of the group
 ///  - second value is the length of the group
 /// Only used when group values are stored together
+///
+/// This type should have the invariant that it is always sorted in ascending order.
 </span><span class="kw">pub type </span>GroupsSlice = Vec&lt;[IdxSize; <span class="number">2</span>]&gt;;
 
 <span class="attr">#[derive(Debug, Clone, PartialEq, Eq)]
 </span><span class="kw">pub enum </span>GroupsProxy {
     Idx(GroupsIdx),
-    Slice {
+    <span class="doccomment">/// Slice is always sorted in ascending order.
+    </span>Slice {
         <span class="comment">// the groups slices
         </span>groups: GroupsSlice,
         <span class="comment">// indicates if we do a rolling groupby
@@ -975,11 +979,9 @@
                     groups.sort()
                 }
             }
-            GroupsProxy::Slice { groups, rolling } =&gt; {
-                <span class="kw">if </span>!<span class="kw-2">*</span>rolling {
-                    groups.sort_unstable_by_key(|[first, <span class="kw">_</span>]| <span class="kw-2">*</span>first);
-                }
-            }
+            GroupsProxy::Slice { .. } =&gt; {
+                <span class="comment">// invariant of the type
+            </span>}
         }
     }
 
