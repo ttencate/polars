@@ -1133,6 +1133,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.struct.html">polars.struct</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.sum.html">polars.sum</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.tail.html">polars.tail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.time.html">polars.time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.var.html">polars.var</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.when.html">polars.when</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.Expr.all.html">polars.Expr.all</a></li>
@@ -1384,6 +1385,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/polars.date_range.html">polars.date_range</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.get_dummies.html">polars.get_dummies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.ones.html">polars.ones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.time_range.html">polars.time_range</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.collect_all.html">polars.collect_all</a></li>
@@ -1482,7 +1484,9 @@ document.write(`
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">SQL</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-57" name="toctree-checkbox-57" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-57"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.SQLContext.execute.html">polars.SQLContext.execute</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.SQLContext.register.html">polars.SQLContext.register</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/polars.SQLContext.query.html">polars.SQLContext.query</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.SQLContext.register_globals.html">polars.SQLContext.register_globals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.SQLContext.register_many.html">polars.SQLContext.register_many</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.SQLContext.unregister.html">polars.SQLContext.unregister</a></li>
 </ul>
 </li>
 </ul>
@@ -1550,7 +1554,7 @@ document.write(`
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="polars.SQLContext">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">SQLContext</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L15-L56"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">SQLContext</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L39-L284"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext" title="Permalink to this definition">#</a></dt>
 <dd><p>Run SQL query against a LazyFrame.</p>
 </dd></dl>
 
@@ -1558,14 +1562,20 @@ document.write(`
 <h2>Methods<a class="headerlink" href="#methods" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.SQLContext.execute.html#polars.SQLContext.execute" title="polars.SQLContext.execute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.execute</span></code></a>(query)</p></td>
-<td><p>Parse the givens SQL query and transform that to a <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code>.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.SQLContext.execute.html#polars.SQLContext.execute" title="polars.SQLContext.execute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.execute</span></code></a>()</p></td>
+<td><p>Parse the given SQL query and execute it against the underlying frame data.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.SQLContext.register.html#polars.SQLContext.register" title="polars.SQLContext.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.register</span></code></a>(name, lf)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.SQLContext.register.html#polars.SQLContext.register" title="polars.SQLContext.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.register</span></code></a>(name, frame)</p></td>
 <td><p>Register a <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code> in this <code class="docutils literal notranslate"><span class="pre">SQLContext</span></code> under a given <code class="docutils literal notranslate"><span class="pre">name</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.SQLContext.query.html#polars.SQLContext.query" title="polars.SQLContext.query"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.query</span></code></a>(query)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.SQLContext.register_globals.html#polars.SQLContext.register_globals" title="polars.SQLContext.register_globals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.register_globals</span></code></a>([n])</p></td>
+<td><p>Register <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code> objects present in the current globals scope.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.SQLContext.register_many.html#polars.SQLContext.register_many" title="polars.SQLContext.register_many"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.register_many</span></code></a>([frames])</p></td>
+<td><p>Register multiple named <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code> objects in this <code class="docutils literal notranslate"><span class="pre">SQLContext</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.SQLContext.unregister.html#polars.SQLContext.unregister" title="polars.SQLContext.unregister"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.unregister</span></code></a>(names)</p></td>
+<td><p>Unregister one or more table names from this <code class="docutils literal notranslate"><span class="pre">SQLContext</span></code>.</p></td>
 </tr>
 </tbody>
 </table>

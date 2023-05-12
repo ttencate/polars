@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
     <link rel="icon" sizes="32x32" href="https://raw.githubusercontent.com/pola-rs/polars-static/master/icons/favicon-32x32.png" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/pola-rs/polars-static/master/icons/touchicon-180x180.png" type="image/png">
-    <title>polars.SQLContext.query &#8212; Polars  documentation</title>
+    <title>polars.time_range &#8212; Polars  documentation</title>
   
   
   
@@ -45,10 +45,11 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.SQLContext.query';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.time_range';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="polars.SQLContext.register" href="polars.SQLContext.register.html" />
+    <link rel="next" title="polars.zeros" href="polars.zeros.html" />
+    <link rel="prev" title="polars.ones" href="polars.ones.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -1132,6 +1133,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.struct.html">polars.struct</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.sum.html">polars.sum</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.tail.html">polars.tail</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.time.html">polars.time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.var.html">polars.var</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.when.html">polars.when</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.all.html">polars.Expr.all</a></li>
@@ -1368,7 +1370,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.api.register_series_namespace.html">polars.api.register_series_namespace</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../functions.html">Functions</a><input class="toctree-checkbox" id="toctree-checkbox-51" name="toctree-checkbox-51" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-51"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../functions.html">Functions</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-51" name="toctree-checkbox-51" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-51"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="polars.from_arrow.html">polars.from_arrow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.from_dataframe.html">polars.from_dataframe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.from_dict.html">polars.from_dict</a></li>
@@ -1383,6 +1385,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.date_range.html">polars.date_range</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.get_dummies.html">polars.get_dummies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.ones.html">polars.ones</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.time_range</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.collect_all.html">polars.collect_all</a></li>
@@ -1478,10 +1481,12 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.threadpool_size.html">polars.threadpool_size</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../sql.html">SQL</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-57" name="toctree-checkbox-57" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-57"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sql.html">SQL</a><input class="toctree-checkbox" id="toctree-checkbox-57" name="toctree-checkbox-57" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-57"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.execute.html">polars.SQLContext.execute</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.register.html">polars.SQLContext.register</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.SQLContext.query</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.register_globals.html">polars.SQLContext.register_globals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.register_many.html">polars.SQLContext.register_many</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.unregister.html">polars.SQLContext.unregister</a></li>
 </ul>
 </li>
 </ul>
@@ -1525,9 +1530,9 @@ document.write(`
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API reference</a></li>
     
     
-    <li class="breadcrumb-item"><a href="../sql.html" class="nav-link">SQL</a></li>
+    <li class="breadcrumb-item"><a href="../functions.html" class="nav-link">Functions</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">polars.SQLContext.query</li>
+    <li class="breadcrumb-item active" aria-current="page">polars.time_range</li>
   </ul>
 </nav>
 </div>
@@ -1544,12 +1549,84 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="polars-sqlcontext-query">
-<h1>polars.SQLContext.query<a class="headerlink" href="#polars-sqlcontext-query" title="Permalink to this heading">#</a></h1>
-<dl class="py method">
-<dt class="sig sig-object py" id="polars.SQLContext.query">
-<span class="sig-prename descclassname"><span class="pre">SQLContext.</span></span><span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L55-L56"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext.query" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+  <section id="polars-time-range">
+<h1>polars.time_range<a class="headerlink" href="#polars-time-range" title="Permalink to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="polars.time_range">
+<span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">time_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">time</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">time</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">timedelta</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'1h'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">closed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClosedInterval</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'both'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/functions/eager.py#L580-L704"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.time_range" title="Permalink to this definition">#</a></dt>
+<dd><p>Create a range of type <cite>Time</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>start</strong></dt><dd><p>Lower bound of the time range, given as a time, Expr, or column name.
+If omitted, will default to <code class="docutils literal notranslate"><span class="pre">time(0,0,0,0)</span></code>.</p>
+</dd>
+<dt><strong>end</strong></dt><dd><p>Upper bound of the time range, given as a time, Expr, or column name.
+If omitted, will default to <code class="docutils literal notranslate"><span class="pre">time(23,59,59,999999)</span></code>.</p>
+</dd>
+<dt><strong>interval</strong></dt><dd><p>Interval of the range periods; can be a python timedelta object like
+<code class="docutils literal notranslate"><span class="pre">timedelta(minutes=10)</span></code> or a polars duration string, such as <code class="docutils literal notranslate"><span class="pre">1h30m25s</span></code>
+(representing 1 hour, 30 minutes, and 25 seconds).</p>
+</dd>
+<dt><strong>eager:</strong></dt><dd><p>Evaluate immediately and return a <code class="docutils literal notranslate"><span class="pre">Series</span></code>; if set to <code class="docutils literal notranslate"><span class="pre">False</span></code> (default),
+return an expression instead.</p>
+</dd>
+<dt><strong>closed</strong><span class="classifier">{‘both’, ‘left’, ‘right’, ‘none’}</span></dt><dd><p>Define whether the temporal window interval is closed or not.</p>
+</dd>
+<dt><strong>name</strong></dt><dd><p>Name of the output Series.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>A Series of type <cite>Time</cite>.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Create a Series that starts at 14:00, with intervals of 3 hours and 15 mins:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pl</span><span class="o">.</span><span class="n">time_range</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">start</span><span class="o">=</span><span class="n">time</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">interval</span><span class="o">=</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="mi">15</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">eager</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;tm&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">shape: (4,)</span>
+<span class="go">Series: &#39;tm&#39; [time]</span>
+<span class="go">[</span>
+<span class="go">    14:00:00</span>
+<span class="go">    17:15:00</span>
+<span class="go">    20:30:00</span>
+<span class="go">    23:45:00</span>
+<span class="go">]</span>
+</pre></div>
+</div>
+<p>Generate a DataFrame with two columns made of eager <code class="docutils literal notranslate"><span class="pre">time_range</span></code> Series,
+and create a third column using <code class="docutils literal notranslate"><span class="pre">time_range</span></code> in expression context:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lf</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">LazyFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">time_range</span><span class="p">(</span><span class="n">interval</span><span class="o">=</span><span class="s2">&quot;6h&quot;</span><span class="p">,</span> <span class="n">eager</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="s2">&quot;stop&quot;</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">time_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">time</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">59</span><span class="p">),</span> <span class="n">interval</span><span class="o">=</span><span class="s2">&quot;5h59m&quot;</span><span class="p">,</span> <span class="n">eager</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">intervals</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">time_range</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s2">&quot;1h29m&quot;</span><span class="p">,</span> <span class="n">eager</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lf</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="go">shape: (4, 3)</span>
+<span class="go">┌──────────┬──────────┬────────────────────────────────┐</span>
+<span class="go">│ start    ┆ stop     ┆ intervals                      │</span>
+<span class="go">│ ---      ┆ ---      ┆ ---                            │</span>
+<span class="go">│ time     ┆ time     ┆ list[time]                     │</span>
+<span class="go">╞══════════╪══════════╪════════════════════════════════╡</span>
+<span class="go">│ 00:00:00 ┆ 02:59:00 ┆ [00:00:00, 01:29:00, 02:58:00] │</span>
+<span class="go">│ 06:00:00 ┆ 08:58:00 ┆ [06:00:00, 07:29:00, 08:58:00] │</span>
+<span class="go">│ 12:00:00 ┆ 14:57:00 ┆ [12:00:00, 13:29:00]           │</span>
+<span class="go">│ 18:00:00 ┆ 20:56:00 ┆ [18:00:00, 19:29:00]           │</span>
+<span class="go">└──────────┴──────────┴────────────────────────────────┘</span>
+</pre></div>
+</div>
+</dd></dl>
 
 </section>
 
@@ -1565,13 +1642,22 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.SQLContext.register.html"
+       href="polars.ones.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.SQLContext.register</p>
+        <p class="prev-next-title">polars.ones</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="polars.zeros.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">polars.zeros</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div></div>
   
@@ -1591,7 +1677,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.SQLContext.query"><code class="docutils literal notranslate"><span class="pre">SQLContext.query()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.time_range"><code class="docutils literal notranslate"><span class="pre">time_range()</span></code></a></li>
 </ul>
   </nav></div>
 
