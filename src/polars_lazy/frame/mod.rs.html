@@ -1459,6 +1459,11 @@
 <a href="#1459" id="1459">1459</a>
 <a href="#1460" id="1460">1460</a>
 <a href="#1461" id="1461">1461</a>
+<a href="#1462" id="1462">1462</a>
+<a href="#1463" id="1463">1463</a>
+<a href="#1464" id="1464">1464</a>
+<a href="#1465" id="1465">1465</a>
+<a href="#1466" id="1466">1466</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Lazy variant of a [DataFrame](polars_core::frame::DataFrame).
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 </span><span class="kw">mod </span>csv;
@@ -2483,6 +2488,11 @@
         <span class="kw">let </span>opt_state = <span class="self">self</span>.get_opt_state();
         <span class="kw">let </span>lp = <span class="self">self</span>.get_plan_builder().explode(columns).build();
         <span class="self">Self</span>::from_logical_plan(lp, opt_state)
+    }
+
+    <span class="doccomment">/// Aggregate all the columns as the sum of their null value count.
+    </span><span class="kw">pub fn </span>null_count(<span class="self">self</span>) -&gt; LazyFrame {
+        <span class="self">self</span>.select_local(<span class="macro">vec!</span>[col(<span class="string">&quot;*&quot;</span>).null_count()])
     }
 
     <span class="doccomment">/// Keep unique rows and maintain order
