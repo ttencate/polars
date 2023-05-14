@@ -117,7 +117,7 @@
         <span class="prelude-val">Ok</span>(AggregationContext::new(s, Cow::Borrowed(groups), <span class="bool-val">true</span>))
     }
     <span class="kw">fn </span>to_field(<span class="kw-2">&amp;</span><span class="self">self</span>, _input_schema: <span class="kw-2">&amp;</span>Schema) -&gt; PolarsResult&lt;Field&gt; {
-        <span class="prelude-val">Ok</span>(Field::new(<span class="string">&quot;count&quot;</span>, DataType::UInt32))
+        <span class="prelude-val">Ok</span>(Field::new(<span class="string">&quot;count&quot;</span>, IDX_DTYPE))
     }
 
     <span class="kw">fn </span>as_partitioned_aggregator(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">dyn </span>PartitionedAggregation&gt; {

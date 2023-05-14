@@ -567,6 +567,12 @@
 <a href="#567" id="567">567</a>
 <a href="#568" id="568">568</a>
 <a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -588,13 +594,15 @@
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>AggregationExpr {
     <span class="kw">pub</span>(<span class="kw">crate</span>) input: Arc&lt;<span class="kw">dyn </span>PhysicalExpr&gt;,
     <span class="kw">pub</span>(<span class="kw">crate</span>) agg_type: GroupByMethod,
+    field: <span class="prelude-ty">Option</span>&lt;Field&gt;,
 }
 
 <span class="kw">impl </span>AggregationExpr {
-    <span class="kw">pub fn </span>new(expr: Arc&lt;<span class="kw">dyn </span>PhysicalExpr&gt;, agg_type: GroupByMethod) -&gt; <span class="self">Self </span>{
+    <span class="kw">pub fn </span>new(expr: Arc&lt;<span class="kw">dyn </span>PhysicalExpr&gt;, agg_type: GroupByMethod, field: <span class="prelude-ty">Option</span>&lt;Field&gt;) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             input: expr,
             agg_type,
+            field,
         }
     }
 }
@@ -841,7 +849,11 @@
     }
 
     <span class="kw">fn </span>to_field(<span class="kw-2">&amp;</span><span class="self">self</span>, input_schema: <span class="kw-2">&amp;</span>Schema) -&gt; PolarsResult&lt;Field&gt; {
-        <span class="self">self</span>.input.to_field(input_schema)
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(field) = <span class="self">self</span>.field.as_ref() {
+            <span class="prelude-val">Ok</span>(field.clone())
+        } <span class="kw">else </span>{
+            <span class="self">self</span>.input.to_field(input_schema)
+        }
     }
 
     <span class="kw">fn </span>as_partitioned_aggregator(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">dyn </span>PartitionedAggregation&gt; {
