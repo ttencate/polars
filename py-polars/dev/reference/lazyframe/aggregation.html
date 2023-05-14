@@ -866,6 +866,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.LazyFrame.mean.html">polars.LazyFrame.mean</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.LazyFrame.median.html">polars.LazyFrame.median</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.LazyFrame.min.html">polars.LazyFrame.min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.LazyFrame.null_count.html">polars.LazyFrame.null_count</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.LazyFrame.quantile.html">polars.LazyFrame.quantile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.LazyFrame.std.html">polars.LazyFrame.std</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.LazyFrame.sum.html">polars.LazyFrame.sum</a></li>
@@ -1550,28 +1551,31 @@ document.write(`
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.LazyFrame.max.html#polars.LazyFrame.max" title="polars.LazyFrame.max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.max</span></code></a>()</p></td>
-<td><p>Aggregate the columns in the DataFrame to their maximum value.</p></td>
+<td><p>Aggregate the columns in the LazyFrame to their maximum value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.LazyFrame.mean.html#polars.LazyFrame.mean" title="polars.LazyFrame.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.mean</span></code></a>()</p></td>
-<td><p>Aggregate the columns in the DataFrame to their mean value.</p></td>
+<td><p>Aggregate the columns in the LazyFrame to their mean value.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.LazyFrame.median.html#polars.LazyFrame.median" title="polars.LazyFrame.median"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.median</span></code></a>()</p></td>
-<td><p>Aggregate the columns in the DataFrame to their median value.</p></td>
+<td><p>Aggregate the columns in the LazyFrame to their median value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.LazyFrame.min.html#polars.LazyFrame.min" title="polars.LazyFrame.min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.min</span></code></a>()</p></td>
-<td><p>Aggregate the columns in the DataFrame to their minimum value.</p></td>
+<td><p>Aggregate the columns in the LazyFrame to their minimum value.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.LazyFrame.quantile.html#polars.LazyFrame.quantile" title="polars.LazyFrame.quantile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.quantile</span></code></a>(quantile[, interpolation])</p></td>
-<td><p>Aggregate the columns in the DataFrame to their quantile value.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.LazyFrame.null_count.html#polars.LazyFrame.null_count" title="polars.LazyFrame.null_count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.null_count</span></code></a>()</p></td>
+<td><p>Aggregate the columns in the LazyFrame as the sum of their null value count.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.LazyFrame.std.html#polars.LazyFrame.std" title="polars.LazyFrame.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.std</span></code></a>([ddof])</p></td>
-<td><p>Aggregate the columns in the DataFrame to their standard deviation value.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.LazyFrame.quantile.html#polars.LazyFrame.quantile" title="polars.LazyFrame.quantile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.quantile</span></code></a>(quantile[, interpolation])</p></td>
+<td><p>Aggregate the columns in the LazyFrame to their quantile value.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.LazyFrame.sum.html#polars.LazyFrame.sum" title="polars.LazyFrame.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.sum</span></code></a>()</p></td>
-<td><p>Aggregate the columns in the DataFrame to their sum value.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.LazyFrame.std.html#polars.LazyFrame.std" title="polars.LazyFrame.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.std</span></code></a>([ddof])</p></td>
+<td><p>Aggregate the columns in the LazyFrame to their standard deviation value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.LazyFrame.var.html#polars.LazyFrame.var" title="polars.LazyFrame.var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.var</span></code></a>([ddof])</p></td>
-<td><p>Aggregate the columns in the DataFrame to their variance value.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.LazyFrame.sum.html#polars.LazyFrame.sum" title="polars.LazyFrame.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.sum</span></code></a>()</p></td>
+<td><p>Aggregate the columns in the LazyFrame to their sum value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.LazyFrame.var.html#polars.LazyFrame.var" title="polars.LazyFrame.var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFrame.var</span></code></a>([ddof])</p></td>
+<td><p>Aggregate the columns in the LazyFrame to their variance value.</p></td>
 </tr>
 </tbody>
 </table>
