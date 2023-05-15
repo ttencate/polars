@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sqlparser-0.30.0/src/tokenizer.rs`."><title>tokenizer.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="sqlparser" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0-nightly (a77c55248 2023-05-06)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-6f6ffb5395b17c6e.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../sqlparser/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/git/checkouts/sqlparser-rs-51bf8a7a3bf4f739/ae3b584/src/tokenizer.rs`."><title>tokenizer.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="sqlparser" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0-nightly (a77c55248 2023-05-06)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-6f6ffb5395b17c6e.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../sqlparser/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1834,6 +1834,68 @@
 <a href="#1834" id="1834">1834</a>
 <a href="#1835" id="1835">1835</a>
 <a href="#1836" id="1836">1836</a>
+<a href="#1837" id="1837">1837</a>
+<a href="#1838" id="1838">1838</a>
+<a href="#1839" id="1839">1839</a>
+<a href="#1840" id="1840">1840</a>
+<a href="#1841" id="1841">1841</a>
+<a href="#1842" id="1842">1842</a>
+<a href="#1843" id="1843">1843</a>
+<a href="#1844" id="1844">1844</a>
+<a href="#1845" id="1845">1845</a>
+<a href="#1846" id="1846">1846</a>
+<a href="#1847" id="1847">1847</a>
+<a href="#1848" id="1848">1848</a>
+<a href="#1849" id="1849">1849</a>
+<a href="#1850" id="1850">1850</a>
+<a href="#1851" id="1851">1851</a>
+<a href="#1852" id="1852">1852</a>
+<a href="#1853" id="1853">1853</a>
+<a href="#1854" id="1854">1854</a>
+<a href="#1855" id="1855">1855</a>
+<a href="#1856" id="1856">1856</a>
+<a href="#1857" id="1857">1857</a>
+<a href="#1858" id="1858">1858</a>
+<a href="#1859" id="1859">1859</a>
+<a href="#1860" id="1860">1860</a>
+<a href="#1861" id="1861">1861</a>
+<a href="#1862" id="1862">1862</a>
+<a href="#1863" id="1863">1863</a>
+<a href="#1864" id="1864">1864</a>
+<a href="#1865" id="1865">1865</a>
+<a href="#1866" id="1866">1866</a>
+<a href="#1867" id="1867">1867</a>
+<a href="#1868" id="1868">1868</a>
+<a href="#1869" id="1869">1869</a>
+<a href="#1870" id="1870">1870</a>
+<a href="#1871" id="1871">1871</a>
+<a href="#1872" id="1872">1872</a>
+<a href="#1873" id="1873">1873</a>
+<a href="#1874" id="1874">1874</a>
+<a href="#1875" id="1875">1875</a>
+<a href="#1876" id="1876">1876</a>
+<a href="#1877" id="1877">1877</a>
+<a href="#1878" id="1878">1878</a>
+<a href="#1879" id="1879">1879</a>
+<a href="#1880" id="1880">1880</a>
+<a href="#1881" id="1881">1881</a>
+<a href="#1882" id="1882">1882</a>
+<a href="#1883" id="1883">1883</a>
+<a href="#1884" id="1884">1884</a>
+<a href="#1885" id="1885">1885</a>
+<a href="#1886" id="1886">1886</a>
+<a href="#1887" id="1887">1887</a>
+<a href="#1888" id="1888">1888</a>
+<a href="#1889" id="1889">1889</a>
+<a href="#1890" id="1890">1890</a>
+<a href="#1891" id="1891">1891</a>
+<a href="#1892" id="1892">1892</a>
+<a href="#1893" id="1893">1893</a>
+<a href="#1894" id="1894">1894</a>
+<a href="#1895" id="1895">1895</a>
+<a href="#1896" id="1896">1896</a>
+<a href="#1897" id="1897">1897</a>
+<a href="#1898" id="1898">1898</a>
 </pre></div><pre class="rust"><code><span class="comment">// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -1871,7 +1933,7 @@
 </span><span class="kw">use </span>sqlparser_derive::{Visit, VisitMut};
 
 <span class="kw">use </span><span class="kw">crate</span>::ast::DollarQuotedString;
-<span class="kw">use </span><span class="kw">crate</span>::dialect::SnowflakeDialect;
+<span class="kw">use </span><span class="kw">crate</span>::dialect::{BigQueryDialect, GenericDialect, SnowflakeDialect};
 <span class="kw">use </span><span class="kw">crate</span>::dialect::{Dialect, MySqlDialect};
 <span class="kw">use </span><span class="kw">crate</span>::keywords::{Keyword, ALL_KEYWORDS, ALL_KEYWORDS_INDEX};
 
@@ -1894,6 +1956,12 @@
     </span>DoubleQuotedString(String),
     <span class="doccomment">/// Dollar quoted string: i.e: $$string$$ or $tag_name$string$tag_name$
     </span>DollarQuotedString(DollarQuotedString),
+    <span class="doccomment">/// Byte string literal: i.e: b&#39;string&#39; or B&#39;string&#39;
+    </span>SingleQuotedByteStringLiteral(String),
+    <span class="doccomment">/// Byte string literal: i.e: b&quot;string&quot; or B&quot;string&quot;
+    </span>DoubleQuotedByteStringLiteral(String),
+    <span class="doccomment">/// Raw string literal: i.e: r&#39;string&#39; or R&#39;string&#39; or r&quot;string&quot; or R&quot;string&quot;
+    </span>RawStringLiteral(String),
     <span class="doccomment">/// &quot;National&quot; string literal: i.e: N&#39;string&#39;
     </span>NationalStringLiteral(String),
     <span class="doccomment">/// &quot;escaped&quot; string literal, which are an extension to the SQL standard: i.e: e&#39;first \n second&#39; or E &#39;first \n second&#39;
@@ -2016,17 +2084,20 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
             Token::EOF =&gt; f.write_str(<span class="string">&quot;EOF&quot;</span>),
-            Token::Word(<span class="kw-2">ref </span>w) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, w),
+            Token::Word(<span class="kw-2">ref </span>w) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{w}&quot;</span>),
             Token::Number(<span class="kw-2">ref </span>n, l) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}{long}&quot;</span>, n, long = <span class="kw">if </span><span class="kw-2">*</span>l { <span class="string">&quot;L&quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>}),
-            Token::Char(<span class="kw-2">ref </span>c) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, c),
-            Token::SingleQuotedString(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;&#39;{}&#39;&quot;</span>, s),
-            Token::DoubleQuotedString(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;\&quot;{}\&quot;&quot;</span>, s),
-            Token::DollarQuotedString(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, s),
-            Token::NationalStringLiteral(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;N&#39;{}&#39;&quot;</span>, s),
-            Token::EscapedStringLiteral(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;E&#39;{}&#39;&quot;</span>, s),
-            Token::HexStringLiteral(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;X&#39;{}&#39;&quot;</span>, s),
+            Token::Char(<span class="kw-2">ref </span>c) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{c}&quot;</span>),
+            Token::SingleQuotedString(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;&#39;{s}&#39;&quot;</span>),
+            Token::DoubleQuotedString(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;\&quot;{s}\&quot;&quot;</span>),
+            Token::DollarQuotedString(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{s}&quot;</span>),
+            Token::NationalStringLiteral(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;N&#39;{s}&#39;&quot;</span>),
+            Token::EscapedStringLiteral(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;E&#39;{s}&#39;&quot;</span>),
+            Token::HexStringLiteral(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;X&#39;{s}&#39;&quot;</span>),
+            Token::SingleQuotedByteStringLiteral(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;B&#39;{s}&#39;&quot;</span>),
+            Token::DoubleQuotedByteStringLiteral(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;B\&quot;{s}\&quot;&quot;</span>),
+            Token::RawStringLiteral(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;R&#39;{s}&#39;&quot;</span>),
             Token::Comma =&gt; f.write_str(<span class="string">&quot;,&quot;</span>),
-            Token::Whitespace(ws) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, ws),
+            Token::Whitespace(ws) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{ws}&quot;</span>),
             Token::DoubleEq =&gt; f.write_str(<span class="string">&quot;==&quot;</span>),
             Token::Spaceship =&gt; f.write_str(<span class="string">&quot;&lt;=&gt;&quot;</span>),
             Token::Eq =&gt; f.write_str(<span class="string">&quot;=&quot;</span>),
@@ -2068,7 +2139,7 @@
             Token::ShiftRight =&gt; f.write_str(<span class="string">&quot;&gt;&gt;&quot;</span>),
             Token::PGSquareRoot =&gt; f.write_str(<span class="string">&quot;|/&quot;</span>),
             Token::PGCubeRoot =&gt; f.write_str(<span class="string">&quot;||/&quot;</span>),
-            Token::Placeholder(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, s),
+            Token::Placeholder(<span class="kw-2">ref </span>s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{s}&quot;</span>),
             Token::Arrow =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;-&gt;&quot;</span>),
             Token::LongArrow =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;-&gt;&gt;&quot;</span>),
             Token::HashArrow =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;#&gt;&quot;</span>),
@@ -2159,8 +2230,8 @@
             Whitespace::Space =&gt; f.write_str(<span class="string">&quot; &quot;</span>),
             Whitespace::Newline =&gt; f.write_str(<span class="string">&quot;\n&quot;</span>),
             Whitespace::Tab =&gt; f.write_str(<span class="string">&quot;\t&quot;</span>),
-            Whitespace::SingleLineComment { prefix, comment } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}{}&quot;</span>, prefix, comment),
-            Whitespace::MultiLineComment(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;/*{}*/&quot;</span>, s),
+            Whitespace::SingleLineComment { prefix, comment } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{prefix}{comment}&quot;</span>),
+            Whitespace::MultiLineComment(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;/*{s}*/&quot;</span>),
         }
     }
 }
@@ -2329,6 +2400,44 @@
                     }
                     <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Token::Whitespace(Whitespace::Newline)))
                 }
+                <span class="comment">// BigQuery uses b or B for byte string literal
+                </span>b @ <span class="string">&#39;B&#39; </span>| b @ <span class="string">&#39;b&#39; </span><span class="kw">if </span><span class="macro">dialect_of!</span>(<span class="self">self </span>is BigQueryDialect | GenericDialect) =&gt; {
+                    chars.next(); <span class="comment">// consume
+                    </span><span class="kw">match </span>chars.peek() {
+                        <span class="prelude-val">Some</span>(<span class="string">&#39;\&#39;&#39;</span>) =&gt; {
+                            <span class="kw">let </span>s = <span class="self">self</span>.tokenize_quoted_string(chars, <span class="string">&#39;\&#39;&#39;</span>)<span class="question-mark">?</span>;
+                            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Token::SingleQuotedByteStringLiteral(s)))
+                        }
+                        <span class="prelude-val">Some</span>(<span class="string">&#39;\&quot;&#39;</span>) =&gt; {
+                            <span class="kw">let </span>s = <span class="self">self</span>.tokenize_quoted_string(chars, <span class="string">&#39;\&quot;&#39;</span>)<span class="question-mark">?</span>;
+                            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Token::DoubleQuotedByteStringLiteral(s)))
+                        }
+                        <span class="kw">_ </span>=&gt; {
+                            <span class="comment">// regular identifier starting with an &quot;b&quot; or &quot;B&quot;
+                            </span><span class="kw">let </span>s = <span class="self">self</span>.tokenize_word(b, chars);
+                            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Token::make_word(<span class="kw-2">&amp;</span>s, <span class="prelude-val">None</span>)))
+                        }
+                    }
+                }
+                <span class="comment">// BigQuery uses r or R for raw string literal
+                </span>b @ <span class="string">&#39;R&#39; </span>| b @ <span class="string">&#39;r&#39; </span><span class="kw">if </span><span class="macro">dialect_of!</span>(<span class="self">self </span>is BigQueryDialect | GenericDialect) =&gt; {
+                    chars.next(); <span class="comment">// consume
+                    </span><span class="kw">match </span>chars.peek() {
+                        <span class="prelude-val">Some</span>(<span class="string">&#39;\&#39;&#39;</span>) =&gt; {
+                            <span class="kw">let </span>s = <span class="self">self</span>.tokenize_quoted_string(chars, <span class="string">&#39;\&#39;&#39;</span>)<span class="question-mark">?</span>;
+                            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Token::RawStringLiteral(s)))
+                        }
+                        <span class="prelude-val">Some</span>(<span class="string">&#39;\&quot;&#39;</span>) =&gt; {
+                            <span class="kw">let </span>s = <span class="self">self</span>.tokenize_quoted_string(chars, <span class="string">&#39;\&quot;&#39;</span>)<span class="question-mark">?</span>;
+                            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Token::RawStringLiteral(s)))
+                        }
+                        <span class="kw">_ </span>=&gt; {
+                            <span class="comment">// regular identifier starting with an &quot;r&quot; or &quot;R&quot;
+                            </span><span class="kw">let </span>s = <span class="self">self</span>.tokenize_word(b, chars);
+                            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Token::make_word(<span class="kw-2">&amp;</span>s, <span class="prelude-val">None</span>)))
+                        }
+                    }
+                }
                 <span class="comment">// Redshift uses lower case n for national string literal
                 </span>n @ <span class="string">&#39;N&#39; </span>| n @ <span class="string">&#39;n&#39; </span>=&gt; {
                     chars.next(); <span class="comment">// consume, to check the next char
@@ -2382,12 +2491,12 @@
                 <span class="comment">// identifier or keyword
                 </span>ch <span class="kw">if </span><span class="self">self</span>.dialect.is_identifier_start(ch) =&gt; {
                     chars.next(); <span class="comment">// consume the first char
-                    </span><span class="kw">let </span>s = <span class="self">self</span>.tokenize_word(ch, chars);
+                    </span><span class="kw">let </span>word = <span class="self">self</span>.tokenize_word(ch, chars);
 
                     <span class="comment">// TODO: implement parsing of exponent here
-                    </span><span class="kw">if </span>s.chars().all(|x| (<span class="string">&#39;0&#39;</span>..=<span class="string">&#39;9&#39;</span>).contains(<span class="kw-2">&amp;</span>x) || x == <span class="string">&#39;.&#39;</span>) {
+                    </span><span class="kw">if </span>word.chars().all(|x| x.is_ascii_digit() || x == <span class="string">&#39;.&#39;</span>) {
                         <span class="kw">let </span><span class="kw-2">mut </span>inner_state = State {
-                            peekable: s.chars().peekable(),
+                            peekable: word.chars().peekable(),
                             line: <span class="number">0</span>,
                             col: <span class="number">0</span>,
                         };
@@ -2398,7 +2507,8 @@
                         s += s2.as_str();
                         <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Token::Number(s, <span class="bool-val">false</span>)));
                     }
-                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Token::make_word(<span class="kw-2">&amp;</span>s, <span class="prelude-val">None</span>)))
+
+                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Token::make_word(<span class="kw-2">&amp;</span>word, <span class="prelude-val">None</span>)))
                 }
                 <span class="comment">// single quoted string
                 </span><span class="string">&#39;\&#39;&#39; </span>=&gt; {
@@ -2431,13 +2541,13 @@
                     } <span class="kw">else </span>{
                         <span class="self">self</span>.tokenizer_error(
                             error_loc,
-                            <span class="macro">format!</span>(<span class="string">&quot;Expected close delimiter &#39;{}&#39; before EOF.&quot;</span>, quote_end),
+                            <span class="macro">format!</span>(<span class="string">&quot;Expected close delimiter &#39;{quote_end}&#39; before EOF.&quot;</span>),
                         )
                     }
                 }
                 <span class="comment">// numbers and period
                 </span><span class="string">&#39;0&#39;</span>..=<span class="string">&#39;9&#39; </span>| <span class="string">&#39;.&#39; </span>=&gt; {
-                    <span class="kw">let </span><span class="kw-2">mut </span>s = peeking_take_while(chars, |ch| <span class="macro">matches!</span>(ch, <span class="string">&#39;0&#39;</span>..=<span class="string">&#39;9&#39;</span>));
+                    <span class="kw">let </span><span class="kw-2">mut </span>s = peeking_take_while(chars, |ch| ch.is_ascii_digit());
 
                     <span class="comment">// match binary literal that starts with 0x
                     </span><span class="kw">if </span>s == <span class="string">&quot;0&quot; </span>&amp;&amp; chars.peek() == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">&#39;x&#39;</span>) {
@@ -2454,17 +2564,17 @@
                         s.push(<span class="string">&#39;.&#39;</span>);
                         chars.next();
                     }
-                    s += <span class="kw-2">&amp;</span>peeking_take_while(chars, |ch| <span class="macro">matches!</span>(ch, <span class="string">&#39;0&#39;</span>..=<span class="string">&#39;9&#39;</span>));
+                    s += <span class="kw-2">&amp;</span>peeking_take_while(chars, |ch| ch.is_ascii_digit());
 
                     <span class="comment">// No number -&gt; Token::Period
                     </span><span class="kw">if </span>s == <span class="string">&quot;.&quot; </span>{
                         <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Token::Period));
                     }
 
+                    <span class="kw">let </span><span class="kw-2">mut </span>exponent_part = String::new();
                     <span class="comment">// Parse exponent as number
                     </span><span class="kw">if </span>chars.peek() == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">&#39;e&#39;</span>) || chars.peek() == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">&#39;E&#39;</span>) {
                         <span class="kw">let </span><span class="kw-2">mut </span>char_clone = chars.peekable.clone();
-                        <span class="kw">let </span><span class="kw-2">mut </span>exponent_part = String::new();
                         exponent_part.push(char_clone.next().unwrap());
 
                         <span class="comment">// Optional sign
@@ -2478,16 +2588,28 @@
 
                         <span class="kw">match </span>char_clone.peek() {
                             <span class="comment">// Definitely an exponent, get original iterator up to speed and use it
-                            </span><span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>c) <span class="kw">if </span><span class="macro">matches!</span>(c, <span class="string">&#39;0&#39;</span>..=<span class="string">&#39;9&#39;</span>) =&gt; {
+                            </span><span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>c) <span class="kw">if </span>c.is_ascii_digit() =&gt; {
                                 <span class="kw">for _ in </span><span class="number">0</span>..exponent_part.len() {
                                     chars.next();
                                 }
                                 exponent_part +=
-                                    <span class="kw-2">&amp;</span>peeking_take_while(chars, |ch| <span class="macro">matches!</span>(ch, <span class="string">&#39;0&#39;</span>..=<span class="string">&#39;9&#39;</span>));
+                                    <span class="kw-2">&amp;</span>peeking_take_while(chars, |ch| ch.is_ascii_digit());
                                 s += exponent_part.as_str();
                             }
                             <span class="comment">// Not an exponent, discard the work done
                             </span><span class="kw">_ </span>=&gt; (),
+                        }
+                    }
+
+                    <span class="comment">// mysql dialect supports identifiers that start with a numeric prefix,
+                    // as long as they aren&#39;t an exponent number.
+                    </span><span class="kw">if </span><span class="macro">dialect_of!</span>(<span class="self">self </span>is MySqlDialect) &amp;&amp; exponent_part.is_empty() {
+                        <span class="kw">let </span>word =
+                            peeking_take_while(chars, |ch| <span class="self">self</span>.dialect.is_identifier_part(ch));
+
+                        <span class="kw">if </span>!word.is_empty() {
+                            s += word.as_str();
+                            <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Token::make_word(s.as_str(), <span class="prelude-val">None</span>)));
                         }
                     }
 
@@ -2743,9 +2865,8 @@
                                 <span class="kw">return </span><span class="self">self</span>.tokenizer_error(
                                     chars.location(),
                                     <span class="macro">format!</span>(
-                                        <span class="string">&quot;Unterminated dollar-quoted string at or near \&quot;{}\&quot;&quot;</span>,
-                                        value
-                                    ),
+                                        <span class="string">&quot;Unterminated dollar-quoted string at or near \&quot;{value}\&quot;&quot;
+                                    </span>),
                                 );
                             }
                         }
@@ -2883,16 +3004,11 @@
 
         chars.next(); <span class="comment">// consume the opening quote
 
-        // slash escaping is specific to MySQL dialect
-        </span><span class="kw">let </span><span class="kw-2">mut </span>is_escaped = <span class="bool-val">false</span>;
-        <span class="kw">while let </span><span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ch) = chars.peek() {
+        </span><span class="kw">while let </span><span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ch) = chars.peek() {
             <span class="kw">match </span>ch {
                 char <span class="kw">if </span>char == quote_style =&gt; {
                     chars.next(); <span class="comment">// consume
-                    </span><span class="kw">if </span>is_escaped {
-                        s.push(ch);
-                        is_escaped = <span class="bool-val">false</span>;
-                    } <span class="kw">else if </span>chars.peek().map(|c| <span class="kw-2">*</span>c == quote_style).unwrap_or(<span class="bool-val">false</span>) {
+                    </span><span class="kw">if </span>chars.peek().map(|c| <span class="kw-2">*</span>c == quote_style).unwrap_or(<span class="bool-val">false</span>) {
                         s.push(ch);
                         chars.next();
                     } <span class="kw">else </span>{
@@ -2900,12 +3016,28 @@
                     }
                 }
                 <span class="string">&#39;\\&#39; </span>=&gt; {
-                    <span class="kw">if </span><span class="macro">dialect_of!</span>(<span class="self">self </span>is MySqlDialect) {
-                        is_escaped = !is_escaped;
+                    <span class="comment">// consume
+                    </span>chars.next();
+                    <span class="comment">// slash escaping is specific to MySQL dialect
+                    </span><span class="kw">if </span><span class="macro">dialect_of!</span>(<span class="self">self </span>is MySqlDialect) {
+                        <span class="kw">if let </span><span class="prelude-val">Some</span>(next) = chars.peek() {
+                            <span class="comment">// See https://dev.mysql.com/doc/refman/8.0/en/string-literals.html#character-escape-sequences
+                            </span><span class="kw">let </span>n = <span class="kw">match </span>next {
+                                <span class="string">&#39;\&#39;&#39; </span>| <span class="string">&#39;\&quot;&#39; </span>| <span class="string">&#39;\\&#39; </span>| <span class="string">&#39;%&#39; </span>| <span class="string">&#39;_&#39; </span>=&gt; <span class="kw-2">*</span>next,
+                                <span class="string">&#39;0&#39; </span>=&gt; <span class="string">&#39;\0&#39;</span>,
+                                <span class="string">&#39;b&#39; </span>=&gt; <span class="string">&#39;\u{8}&#39;</span>,
+                                <span class="string">&#39;n&#39; </span>=&gt; <span class="string">&#39;\n&#39;</span>,
+                                <span class="string">&#39;r&#39; </span>=&gt; <span class="string">&#39;\r&#39;</span>,
+                                <span class="string">&#39;t&#39; </span>=&gt; <span class="string">&#39;\t&#39;</span>,
+                                <span class="string">&#39;Z&#39; </span>=&gt; <span class="string">&#39;\u{1a}&#39;</span>,
+                                <span class="kw">_ </span>=&gt; <span class="kw-2">*</span>next,
+                            };
+                            s.push(n);
+                            chars.next(); <span class="comment">// consume next
+                        </span>}
                     } <span class="kw">else </span>{
                         s.push(ch);
                     }
-                    chars.next();
                 }
                 <span class="kw">_ </span>=&gt; {
                     chars.next(); <span class="comment">// consume
@@ -3308,7 +3440,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>tokenize_invalid_string() {
-        <span class="kw">let </span>sql = String::from(<span class="string">&quot;\nمصطفىh&quot;</span>);
+        <span class="kw">let </span>sql = String::from(<span class="string">&quot;\n💝مصطفىh&quot;</span>);
 
         <span class="kw">let </span>dialect = GenericDialect {};
         <span class="kw">let </span><span class="kw-2">mut </span>tokenizer = Tokenizer::new(<span class="kw-2">&amp;</span>dialect, <span class="kw-2">&amp;</span>sql);
@@ -3316,12 +3448,8 @@
         <span class="comment">// println!(&quot;tokens: {:#?}&quot;, tokens);
         </span><span class="kw">let </span>expected = <span class="macro">vec!</span>[
             Token::Whitespace(Whitespace::Newline),
-            Token::Char(<span class="string">&#39;م&#39;</span>),
-            Token::Char(<span class="string">&#39;ص&#39;</span>),
-            Token::Char(<span class="string">&#39;ط&#39;</span>),
-            Token::Char(<span class="string">&#39;ف&#39;</span>),
-            Token::Char(<span class="string">&#39;ى&#39;</span>),
-            Token::make_word(<span class="string">&quot;h&quot;</span>, <span class="prelude-val">None</span>),
+            Token::Char(<span class="string">&#39;💝&#39;</span>),
+            Token::make_word(<span class="string">&quot;مصطفىh&quot;</span>, <span class="prelude-val">None</span>),
         ];
         compare(expected, tokens);
     }
@@ -3371,7 +3499,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>tokenize_invalid_string_cols() {
-        <span class="kw">let </span>sql = String::from(<span class="string">&quot;\n\nSELECT * FROM table\tمصطفىh&quot;</span>);
+        <span class="kw">let </span>sql = String::from(<span class="string">&quot;\n\nSELECT * FROM table\t💝مصطفىh&quot;</span>);
 
         <span class="kw">let </span>dialect = GenericDialect {};
         <span class="kw">let </span><span class="kw-2">mut </span>tokenizer = Tokenizer::new(<span class="kw-2">&amp;</span>dialect, <span class="kw-2">&amp;</span>sql);
@@ -3388,12 +3516,8 @@
             Token::Whitespace(Whitespace::Space),
             Token::make_keyword(<span class="string">&quot;table&quot;</span>),
             Token::Whitespace(Whitespace::Tab),
-            Token::Char(<span class="string">&#39;م&#39;</span>),
-            Token::Char(<span class="string">&#39;ص&#39;</span>),
-            Token::Char(<span class="string">&#39;ط&#39;</span>),
-            Token::Char(<span class="string">&#39;ف&#39;</span>),
-            Token::Char(<span class="string">&#39;ى&#39;</span>),
-            Token::make_word(<span class="string">&quot;h&quot;</span>, <span class="prelude-val">None</span>),
+            Token::Char(<span class="string">&#39;💝&#39;</span>),
+            Token::make_word(<span class="string">&quot;مصطفىh&quot;</span>, <span class="prelude-val">None</span>),
         ];
         compare(expected, tokens);
     }

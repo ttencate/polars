@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sqlparser-0.30.0/src/ast/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="sqlparser" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0-nightly (a77c55248 2023-05-06)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-6f6ffb5395b17c6e.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../sqlparser/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/git/checkouts/sqlparser-rs-51bf8a7a3bf4f739/ae3b584/src/ast/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="sqlparser" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0-nightly (a77c55248 2023-05-06)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-6f6ffb5395b17c6e.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../sqlparser/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -4246,6 +4246,210 @@
 <a href="#4246" id="4246">4246</a>
 <a href="#4247" id="4247">4247</a>
 <a href="#4248" id="4248">4248</a>
+<a href="#4249" id="4249">4249</a>
+<a href="#4250" id="4250">4250</a>
+<a href="#4251" id="4251">4251</a>
+<a href="#4252" id="4252">4252</a>
+<a href="#4253" id="4253">4253</a>
+<a href="#4254" id="4254">4254</a>
+<a href="#4255" id="4255">4255</a>
+<a href="#4256" id="4256">4256</a>
+<a href="#4257" id="4257">4257</a>
+<a href="#4258" id="4258">4258</a>
+<a href="#4259" id="4259">4259</a>
+<a href="#4260" id="4260">4260</a>
+<a href="#4261" id="4261">4261</a>
+<a href="#4262" id="4262">4262</a>
+<a href="#4263" id="4263">4263</a>
+<a href="#4264" id="4264">4264</a>
+<a href="#4265" id="4265">4265</a>
+<a href="#4266" id="4266">4266</a>
+<a href="#4267" id="4267">4267</a>
+<a href="#4268" id="4268">4268</a>
+<a href="#4269" id="4269">4269</a>
+<a href="#4270" id="4270">4270</a>
+<a href="#4271" id="4271">4271</a>
+<a href="#4272" id="4272">4272</a>
+<a href="#4273" id="4273">4273</a>
+<a href="#4274" id="4274">4274</a>
+<a href="#4275" id="4275">4275</a>
+<a href="#4276" id="4276">4276</a>
+<a href="#4277" id="4277">4277</a>
+<a href="#4278" id="4278">4278</a>
+<a href="#4279" id="4279">4279</a>
+<a href="#4280" id="4280">4280</a>
+<a href="#4281" id="4281">4281</a>
+<a href="#4282" id="4282">4282</a>
+<a href="#4283" id="4283">4283</a>
+<a href="#4284" id="4284">4284</a>
+<a href="#4285" id="4285">4285</a>
+<a href="#4286" id="4286">4286</a>
+<a href="#4287" id="4287">4287</a>
+<a href="#4288" id="4288">4288</a>
+<a href="#4289" id="4289">4289</a>
+<a href="#4290" id="4290">4290</a>
+<a href="#4291" id="4291">4291</a>
+<a href="#4292" id="4292">4292</a>
+<a href="#4293" id="4293">4293</a>
+<a href="#4294" id="4294">4294</a>
+<a href="#4295" id="4295">4295</a>
+<a href="#4296" id="4296">4296</a>
+<a href="#4297" id="4297">4297</a>
+<a href="#4298" id="4298">4298</a>
+<a href="#4299" id="4299">4299</a>
+<a href="#4300" id="4300">4300</a>
+<a href="#4301" id="4301">4301</a>
+<a href="#4302" id="4302">4302</a>
+<a href="#4303" id="4303">4303</a>
+<a href="#4304" id="4304">4304</a>
+<a href="#4305" id="4305">4305</a>
+<a href="#4306" id="4306">4306</a>
+<a href="#4307" id="4307">4307</a>
+<a href="#4308" id="4308">4308</a>
+<a href="#4309" id="4309">4309</a>
+<a href="#4310" id="4310">4310</a>
+<a href="#4311" id="4311">4311</a>
+<a href="#4312" id="4312">4312</a>
+<a href="#4313" id="4313">4313</a>
+<a href="#4314" id="4314">4314</a>
+<a href="#4315" id="4315">4315</a>
+<a href="#4316" id="4316">4316</a>
+<a href="#4317" id="4317">4317</a>
+<a href="#4318" id="4318">4318</a>
+<a href="#4319" id="4319">4319</a>
+<a href="#4320" id="4320">4320</a>
+<a href="#4321" id="4321">4321</a>
+<a href="#4322" id="4322">4322</a>
+<a href="#4323" id="4323">4323</a>
+<a href="#4324" id="4324">4324</a>
+<a href="#4325" id="4325">4325</a>
+<a href="#4326" id="4326">4326</a>
+<a href="#4327" id="4327">4327</a>
+<a href="#4328" id="4328">4328</a>
+<a href="#4329" id="4329">4329</a>
+<a href="#4330" id="4330">4330</a>
+<a href="#4331" id="4331">4331</a>
+<a href="#4332" id="4332">4332</a>
+<a href="#4333" id="4333">4333</a>
+<a href="#4334" id="4334">4334</a>
+<a href="#4335" id="4335">4335</a>
+<a href="#4336" id="4336">4336</a>
+<a href="#4337" id="4337">4337</a>
+<a href="#4338" id="4338">4338</a>
+<a href="#4339" id="4339">4339</a>
+<a href="#4340" id="4340">4340</a>
+<a href="#4341" id="4341">4341</a>
+<a href="#4342" id="4342">4342</a>
+<a href="#4343" id="4343">4343</a>
+<a href="#4344" id="4344">4344</a>
+<a href="#4345" id="4345">4345</a>
+<a href="#4346" id="4346">4346</a>
+<a href="#4347" id="4347">4347</a>
+<a href="#4348" id="4348">4348</a>
+<a href="#4349" id="4349">4349</a>
+<a href="#4350" id="4350">4350</a>
+<a href="#4351" id="4351">4351</a>
+<a href="#4352" id="4352">4352</a>
+<a href="#4353" id="4353">4353</a>
+<a href="#4354" id="4354">4354</a>
+<a href="#4355" id="4355">4355</a>
+<a href="#4356" id="4356">4356</a>
+<a href="#4357" id="4357">4357</a>
+<a href="#4358" id="4358">4358</a>
+<a href="#4359" id="4359">4359</a>
+<a href="#4360" id="4360">4360</a>
+<a href="#4361" id="4361">4361</a>
+<a href="#4362" id="4362">4362</a>
+<a href="#4363" id="4363">4363</a>
+<a href="#4364" id="4364">4364</a>
+<a href="#4365" id="4365">4365</a>
+<a href="#4366" id="4366">4366</a>
+<a href="#4367" id="4367">4367</a>
+<a href="#4368" id="4368">4368</a>
+<a href="#4369" id="4369">4369</a>
+<a href="#4370" id="4370">4370</a>
+<a href="#4371" id="4371">4371</a>
+<a href="#4372" id="4372">4372</a>
+<a href="#4373" id="4373">4373</a>
+<a href="#4374" id="4374">4374</a>
+<a href="#4375" id="4375">4375</a>
+<a href="#4376" id="4376">4376</a>
+<a href="#4377" id="4377">4377</a>
+<a href="#4378" id="4378">4378</a>
+<a href="#4379" id="4379">4379</a>
+<a href="#4380" id="4380">4380</a>
+<a href="#4381" id="4381">4381</a>
+<a href="#4382" id="4382">4382</a>
+<a href="#4383" id="4383">4383</a>
+<a href="#4384" id="4384">4384</a>
+<a href="#4385" id="4385">4385</a>
+<a href="#4386" id="4386">4386</a>
+<a href="#4387" id="4387">4387</a>
+<a href="#4388" id="4388">4388</a>
+<a href="#4389" id="4389">4389</a>
+<a href="#4390" id="4390">4390</a>
+<a href="#4391" id="4391">4391</a>
+<a href="#4392" id="4392">4392</a>
+<a href="#4393" id="4393">4393</a>
+<a href="#4394" id="4394">4394</a>
+<a href="#4395" id="4395">4395</a>
+<a href="#4396" id="4396">4396</a>
+<a href="#4397" id="4397">4397</a>
+<a href="#4398" id="4398">4398</a>
+<a href="#4399" id="4399">4399</a>
+<a href="#4400" id="4400">4400</a>
+<a href="#4401" id="4401">4401</a>
+<a href="#4402" id="4402">4402</a>
+<a href="#4403" id="4403">4403</a>
+<a href="#4404" id="4404">4404</a>
+<a href="#4405" id="4405">4405</a>
+<a href="#4406" id="4406">4406</a>
+<a href="#4407" id="4407">4407</a>
+<a href="#4408" id="4408">4408</a>
+<a href="#4409" id="4409">4409</a>
+<a href="#4410" id="4410">4410</a>
+<a href="#4411" id="4411">4411</a>
+<a href="#4412" id="4412">4412</a>
+<a href="#4413" id="4413">4413</a>
+<a href="#4414" id="4414">4414</a>
+<a href="#4415" id="4415">4415</a>
+<a href="#4416" id="4416">4416</a>
+<a href="#4417" id="4417">4417</a>
+<a href="#4418" id="4418">4418</a>
+<a href="#4419" id="4419">4419</a>
+<a href="#4420" id="4420">4420</a>
+<a href="#4421" id="4421">4421</a>
+<a href="#4422" id="4422">4422</a>
+<a href="#4423" id="4423">4423</a>
+<a href="#4424" id="4424">4424</a>
+<a href="#4425" id="4425">4425</a>
+<a href="#4426" id="4426">4426</a>
+<a href="#4427" id="4427">4427</a>
+<a href="#4428" id="4428">4428</a>
+<a href="#4429" id="4429">4429</a>
+<a href="#4430" id="4430">4430</a>
+<a href="#4431" id="4431">4431</a>
+<a href="#4432" id="4432">4432</a>
+<a href="#4433" id="4433">4433</a>
+<a href="#4434" id="4434">4434</a>
+<a href="#4435" id="4435">4435</a>
+<a href="#4436" id="4436">4436</a>
+<a href="#4437" id="4437">4437</a>
+<a href="#4438" id="4438">4438</a>
+<a href="#4439" id="4439">4439</a>
+<a href="#4440" id="4440">4440</a>
+<a href="#4441" id="4441">4441</a>
+<a href="#4442" id="4442">4442</a>
+<a href="#4443" id="4443">4443</a>
+<a href="#4444" id="4444">4444</a>
+<a href="#4445" id="4445">4445</a>
+<a href="#4446" id="4446">4446</a>
+<a href="#4447" id="4447">4447</a>
+<a href="#4448" id="4448">4448</a>
+<a href="#4449" id="4449">4449</a>
+<a href="#4450" id="4450">4450</a>
+<a href="#4451" id="4451">4451</a>
+<a href="#4452" id="4452">4452</a>
 </pre></div><pre class="rust"><code><span class="comment">// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -4278,19 +4482,23 @@
 };
 <span class="kw">pub use </span><span class="self">self</span>::ddl::{
     AlterColumnOperation, AlterIndexOperation, AlterTableOperation, ColumnDef, ColumnOption,
-    ColumnOptionDef, IndexType, KeyOrIndexDisplay, ReferentialAction, TableConstraint,
+    ColumnOptionDef, GeneratedAs, IndexType, KeyOrIndexDisplay, ReferentialAction, TableConstraint,
 };
 <span class="kw">pub use </span><span class="self">self</span>::operator::{BinaryOperator, UnaryOperator};
 <span class="kw">pub use </span><span class="self">self</span>::query::{
-    Cte, ExceptSelectItem, ExcludeSelectItem, Fetch, IdentWithAlias, Join, JoinConstraint,
-    JoinOperator, LateralView, LockClause, LockType, NonBlock, Offset, OffsetRows, OrderByExpr,
-    Query, RenameSelectItem, Select, SelectInto, SelectItem, SetExpr, SetOperator, SetQuantifier,
-    Table, TableAlias, TableFactor, TableWithJoins, Top, Values, WildcardAdditionalOptions, With,
+    Cte, Distinct, ExceptSelectItem, ExcludeSelectItem, Fetch, IdentWithAlias, Join,
+    JoinConstraint, JoinOperator, LateralView, LockClause, LockType, NonBlock, Offset, OffsetRows,
+    OrderByExpr, Query, RenameSelectItem, ReplaceSelectElement, ReplaceSelectItem, Select,
+    SelectInto, SelectItem, SetExpr, SetOperator, SetQuantifier, Table, TableAlias, TableFactor,
+    TableWithJoins, Top, Values, WildcardAdditionalOptions, With,
 };
 <span class="kw">pub use </span><span class="self">self</span>::value::{
     escape_quoted_string, DateTimeField, DollarQuotedString, TrimWhereField, Value,
 };
 
+<span class="kw">use </span><span class="kw">crate</span>::ast::helpers::stmt_data_loading::{
+    DataLoadingOptions, StageLoadSelectItem, StageParamsObject,
+};
 <span class="attr">#[cfg(feature = <span class="string">&quot;visitor&quot;</span>)]
 </span><span class="kw">pub use </span>visitor::<span class="kw-2">*</span>;
 
@@ -4319,9 +4527,9 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">let </span><span class="kw-2">mut </span>delim = <span class="string">&quot;&quot;</span>;
         <span class="kw">for </span>t <span class="kw">in </span><span class="self">self</span>.slice {
-            <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, delim)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">&quot;{delim}&quot;</span>)<span class="question-mark">?</span>;
             delim = <span class="self">self</span>.sep;
-            <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, t)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">&quot;{t}&quot;</span>)<span class="question-mark">?</span>;
         }
         <span class="prelude-val">Ok</span>(())
     }
@@ -4393,7 +4601,7 @@
         <span class="kw">match </span><span class="self">self</span>.quote_style {
             <span class="prelude-val">Some</span>(q) <span class="kw">if </span>q == <span class="string">&#39;&quot;&#39; </span>|| q == <span class="string">&#39;\&#39;&#39; </span>|| q == <span class="string">&#39;`&#39; </span>=&gt; {
                 <span class="kw">let </span>escaped = value::escape_quoted_string(<span class="kw-2">&amp;</span><span class="self">self</span>.value, q);
-                <span class="macro">write!</span>(f, <span class="string">&quot;{}{}{}&quot;</span>, q, escaped, q)
+                <span class="macro">write!</span>(f, <span class="string">&quot;{q}{escaped}{q}&quot;</span>)
             }
             <span class="prelude-val">Some</span>(q) <span class="kw">if </span>q == <span class="string">&#39;[&#39; </span>=&gt; <span class="macro">write!</span>(f, <span class="string">&quot;[{}]&quot;</span>, <span class="self">self</span>.value),
             <span class="prelude-val">None </span>=&gt; f.write_str(<span class="kw-2">&amp;</span><span class="self">self</span>.value),
@@ -4435,6 +4643,70 @@
             <span class="kw">if </span><span class="self">self</span>.named { <span class="string">&quot;ARRAY&quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>},
             display_comma_separated(<span class="kw-2">&amp;</span><span class="self">self</span>.elem)
         )
+    }
+}
+
+<span class="doccomment">/// Represents an INTERVAL expression, roughly in the following format:
+/// `INTERVAL &#39;&lt;value&gt;&#39; [ &lt;leading_field&gt; [ (&lt;leading_precision&gt;) ] ]
+/// [ TO &lt;last_field&gt; [ (&lt;fractional_seconds_precision&gt;) ] ]`,
+/// e.g. `INTERVAL &#39;123:45.67&#39; MINUTE(3) TO SECOND(2)`.
+///
+/// The parser does not validate the `&lt;value&gt;`, nor does it ensure
+/// that the `&lt;leading_field&gt;` units &gt;= the units in `&lt;last_field&gt;`,
+/// so the user will have to reject intervals like `HOUR TO YEAR`.
+</span><span class="attr">#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
+#[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
+#[cfg_attr(feature = <span class="string">&quot;visitor&quot;</span>, derive(Visit, VisitMut))]
+</span><span class="kw">pub struct </span>Interval {
+    <span class="kw">pub </span>value: Box&lt;Expr&gt;,
+    <span class="kw">pub </span>leading_field: <span class="prelude-ty">Option</span>&lt;DateTimeField&gt;,
+    <span class="kw">pub </span>leading_precision: <span class="prelude-ty">Option</span>&lt;u64&gt;,
+    <span class="kw">pub </span>last_field: <span class="prelude-ty">Option</span>&lt;DateTimeField&gt;,
+    <span class="doccomment">/// The seconds precision can be specified in SQL source as
+    /// `INTERVAL &#39;__&#39; SECOND(_, x)` (in which case the `leading_field`
+    /// will be `Second` and the `last_field` will be `None`),
+    /// or as `__ TO SECOND(x)`.
+    </span><span class="kw">pub </span>fractional_seconds_precision: <span class="prelude-ty">Option</span>&lt;u64&gt;,
+}
+
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Interval {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        <span class="kw">let </span>value = <span class="self">self</span>.value.as_ref();
+        <span class="kw">match </span>(
+            <span class="self">self</span>.leading_field,
+            <span class="self">self</span>.leading_precision,
+            <span class="self">self</span>.fractional_seconds_precision,
+        ) {
+            (
+                <span class="prelude-val">Some</span>(DateTimeField::Second),
+                <span class="prelude-val">Some</span>(leading_precision),
+                <span class="prelude-val">Some</span>(fractional_seconds_precision),
+            ) =&gt; {
+                <span class="comment">// When the leading field is SECOND, the parser guarantees that
+                // the last field is None.
+                </span><span class="macro">assert!</span>(<span class="self">self</span>.last_field.is_none());
+                <span class="macro">write!</span>(
+                    f,
+                    <span class="string">&quot;INTERVAL {value} SECOND ({leading_precision}, {fractional_seconds_precision})&quot;
+                </span>)
+            }
+            <span class="kw">_ </span>=&gt; {
+                <span class="macro">write!</span>(f, <span class="string">&quot;INTERVAL {value}&quot;</span>)<span class="question-mark">?</span>;
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(leading_field) = <span class="self">self</span>.leading_field {
+                    <span class="macro">write!</span>(f, <span class="string">&quot; {leading_field}&quot;</span>)<span class="question-mark">?</span>;
+                }
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(leading_precision) = <span class="self">self</span>.leading_precision {
+                    <span class="macro">write!</span>(f, <span class="string">&quot; ({leading_precision})&quot;</span>)<span class="question-mark">?</span>;
+                }
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(last_field) = <span class="self">self</span>.last_field {
+                    <span class="macro">write!</span>(f, <span class="string">&quot; TO {last_field}&quot;</span>)<span class="question-mark">?</span>;
+                }
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(fractional_seconds_precision) = <span class="self">self</span>.fractional_seconds_precision {
+                    <span class="macro">write!</span>(f, <span class="string">&quot; ({fractional_seconds_precision})&quot;</span>)<span class="question-mark">?</span>;
+                }
+                <span class="prelude-val">Ok</span>(())
+            }
+        }
     }
 }
 
@@ -4685,6 +4957,8 @@
     </span>Nested(Box&lt;Expr&gt;),
     <span class="doccomment">/// A literal value, such as string, number, date or NULL
     </span>Value(Value),
+    <span class="doccomment">/// &lt;https://dev.mysql.com/doc/refman/8.0/en/charset-introducer.html&gt;
+    </span>IntroducedString { introducer: String, value: Value },
     <span class="doccomment">/// A constant of form `&lt;data_type&gt; &#39;value&#39;`.
     /// This can represent ANSI SQL `DATE`, `TIME`, and `TIMESTAMP` literals (such as `DATE &#39;2020-01-01&#39;`),
     /// as well as constants of other types (a non-standard PostgreSQL extension).
@@ -4733,25 +5007,8 @@
     </span>ArrayIndex { obj: Box&lt;Expr&gt;, indexes: Vec&lt;Expr&gt; },
     <span class="doccomment">/// An array expression e.g. `ARRAY[1, 2]`
     </span>Array(Array),
-    <span class="doccomment">/// INTERVAL literals, roughly in the following format:
-    /// `INTERVAL &#39;&lt;value&gt;&#39; [ &lt;leading_field&gt; [ (&lt;leading_precision&gt;) ] ]
-    /// [ TO &lt;last_field&gt; [ (&lt;fractional_seconds_precision&gt;) ] ]`,
-    /// e.g. `INTERVAL &#39;123:45.67&#39; MINUTE(3) TO SECOND(2)`.
-    ///
-    /// The parser does not validate the `&lt;value&gt;`, nor does it ensure
-    /// that the `&lt;leading_field&gt;` units &gt;= the units in `&lt;last_field&gt;`,
-    /// so the user will have to reject intervals like `HOUR TO YEAR`.
-    </span>Interval {
-        value: Box&lt;Expr&gt;,
-        leading_field: <span class="prelude-ty">Option</span>&lt;DateTimeField&gt;,
-        leading_precision: <span class="prelude-ty">Option</span>&lt;u64&gt;,
-        last_field: <span class="prelude-ty">Option</span>&lt;DateTimeField&gt;,
-        <span class="doccomment">/// The seconds precision can be specified in SQL source as
-        /// `INTERVAL &#39;__&#39; SECOND(_, x)` (in which case the `leading_field`
-        /// will be `Second` and the `last_field` will be `None`),
-        /// or as `__ TO SECOND(x)`.
-        </span>fractional_seconds_precision: <span class="prelude-ty">Option</span>&lt;u64&gt;,
-    },
+    <span class="doccomment">/// An interval expression e.g. `INTERVAL &#39;1&#39; YEAR`
+    </span>Interval(Interval),
     <span class="doccomment">/// `MySQL` specific text search function [(1)].
     ///
     /// Syntax:
@@ -4777,27 +5034,27 @@
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Expr {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
-            Expr::Identifier(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, s),
+            Expr::Identifier(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{s}&quot;</span>),
             Expr::MapAccess { column, keys } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, column)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;{column}&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">for </span>k <span class="kw">in </span>keys {
                     <span class="kw">match </span>k {
-                        k @ Expr::Value(Value::Number(<span class="kw">_</span>, <span class="kw">_</span>)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;[{}]&quot;</span>, k)<span class="question-mark">?</span>,
-                        Expr::Value(Value::SingleQuotedString(s)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;[\&quot;{}\&quot;]&quot;</span>, s)<span class="question-mark">?</span>,
-                        <span class="kw">_ </span>=&gt; <span class="macro">write!</span>(f, <span class="string">&quot;[{}]&quot;</span>, k)<span class="question-mark">?</span>,
+                        k @ Expr::Value(Value::Number(<span class="kw">_</span>, <span class="kw">_</span>)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;[{k}]&quot;</span>)<span class="question-mark">?</span>,
+                        Expr::Value(Value::SingleQuotedString(s)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;[\&quot;{s}\&quot;]&quot;</span>)<span class="question-mark">?</span>,
+                        <span class="kw">_ </span>=&gt; <span class="macro">write!</span>(f, <span class="string">&quot;[{k}]&quot;</span>)<span class="question-mark">?</span>,
                     }
                 }
                 <span class="prelude-val">Ok</span>(())
             }
             Expr::CompoundIdentifier(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, display_separated(s, <span class="string">&quot;.&quot;</span>)),
-            Expr::IsTrue(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} IS TRUE&quot;</span>, ast),
-            Expr::IsNotTrue(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} IS NOT TRUE&quot;</span>, ast),
-            Expr::IsFalse(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} IS FALSE&quot;</span>, ast),
-            Expr::IsNotFalse(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} IS NOT FALSE&quot;</span>, ast),
-            Expr::IsNull(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} IS NULL&quot;</span>, ast),
-            Expr::IsNotNull(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} IS NOT NULL&quot;</span>, ast),
-            Expr::IsUnknown(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} IS UNKNOWN&quot;</span>, ast),
-            Expr::IsNotUnknown(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} IS NOT UNKNOWN&quot;</span>, ast),
+            Expr::IsTrue(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{ast} IS TRUE&quot;</span>),
+            Expr::IsNotTrue(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{ast} IS NOT TRUE&quot;</span>),
+            Expr::IsFalse(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{ast} IS FALSE&quot;</span>),
+            Expr::IsNotFalse(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{ast} IS NOT FALSE&quot;</span>),
+            Expr::IsNull(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{ast} IS NULL&quot;</span>),
+            Expr::IsNotNull(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{ast} IS NOT NULL&quot;</span>),
+            Expr::IsUnknown(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{ast} IS UNKNOWN&quot;</span>),
+            Expr::IsNotUnknown(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{ast} IS NOT UNKNOWN&quot;</span>),
             Expr::InList {
                 expr,
                 list,
@@ -4844,7 +5101,7 @@
                 low,
                 high
             ),
-            Expr::BinaryOp { left, op, right } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} {} {}&quot;</span>, left, op, right),
+            Expr::BinaryOp { left, op, right } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{left} {op} {right}&quot;</span>),
             Expr::Like {
                 negated,
                 expr,
@@ -4911,46 +5168,47 @@
                     pattern
                 ),
             },
-            Expr::AnyOp(expr) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;ANY({})&quot;</span>, expr),
-            Expr::AllOp(expr) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;ALL({})&quot;</span>, expr),
+            Expr::AnyOp(expr) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;ANY({expr})&quot;</span>),
+            Expr::AllOp(expr) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;ALL({expr})&quot;</span>),
             Expr::UnaryOp { op, expr } =&gt; {
                 <span class="kw">if </span>op == <span class="kw-2">&amp;</span>UnaryOperator::PGPostfixFactorial {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;{}{}&quot;</span>, expr, op)
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{expr}{op}&quot;</span>)
                 } <span class="kw">else if </span>op == <span class="kw-2">&amp;</span>UnaryOperator::Not {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;{} {}&quot;</span>, op, expr)
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{op} {expr}&quot;</span>)
                 } <span class="kw">else </span>{
-                    <span class="macro">write!</span>(f, <span class="string">&quot;{}{}&quot;</span>, op, expr)
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{op}{expr}&quot;</span>)
                 }
             }
-            Expr::Cast { expr, data_type } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;CAST({} AS {})&quot;</span>, expr, data_type),
-            Expr::TryCast { expr, data_type } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;TRY_CAST({} AS {})&quot;</span>, expr, data_type),
-            Expr::SafeCast { expr, data_type } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;SAFE_CAST({} AS {})&quot;</span>, expr, data_type),
-            Expr::Extract { field, expr } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;EXTRACT({} FROM {})&quot;</span>, field, expr),
+            Expr::Cast { expr, data_type } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;CAST({expr} AS {data_type})&quot;</span>),
+            Expr::TryCast { expr, data_type } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;TRY_CAST({expr} AS {data_type})&quot;</span>),
+            Expr::SafeCast { expr, data_type } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;SAFE_CAST({expr} AS {data_type})&quot;</span>),
+            Expr::Extract { field, expr } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;EXTRACT({field} FROM {expr})&quot;</span>),
             Expr::Ceil { expr, field } =&gt; {
                 <span class="kw">if </span>field == <span class="kw-2">&amp;</span>DateTimeField::NoDateTime {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;CEIL({})&quot;</span>, expr)
+                    <span class="macro">write!</span>(f, <span class="string">&quot;CEIL({expr})&quot;</span>)
                 } <span class="kw">else </span>{
-                    <span class="macro">write!</span>(f, <span class="string">&quot;CEIL({} TO {})&quot;</span>, expr, field)
+                    <span class="macro">write!</span>(f, <span class="string">&quot;CEIL({expr} TO {field})&quot;</span>)
                 }
             }
             Expr::Floor { expr, field } =&gt; {
                 <span class="kw">if </span>field == <span class="kw-2">&amp;</span>DateTimeField::NoDateTime {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;FLOOR({})&quot;</span>, expr)
+                    <span class="macro">write!</span>(f, <span class="string">&quot;FLOOR({expr})&quot;</span>)
                 } <span class="kw">else </span>{
-                    <span class="macro">write!</span>(f, <span class="string">&quot;FLOOR({} TO {})&quot;</span>, expr, field)
+                    <span class="macro">write!</span>(f, <span class="string">&quot;FLOOR({expr} TO {field})&quot;</span>)
                 }
             }
-            Expr::Position { expr, r#in } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;POSITION({} IN {})&quot;</span>, expr, r#in),
-            Expr::Collate { expr, collation } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} COLLATE {}&quot;</span>, expr, collation),
-            Expr::Nested(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;({})&quot;</span>, ast),
-            Expr::Value(v) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, v),
+            Expr::Position { expr, r#in } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;POSITION({expr} IN {in})&quot;</span>),
+            Expr::Collate { expr, collation } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{expr} COLLATE {collation}&quot;</span>),
+            Expr::Nested(ast) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;({ast})&quot;</span>),
+            Expr::Value(v) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{v}&quot;</span>),
+            Expr::IntroducedString { introducer, value } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{introducer} {value}&quot;</span>),
             Expr::TypedString { data_type, value } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, data_type)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;{data_type}&quot;</span>)<span class="question-mark">?</span>;
                 <span class="macro">write!</span>(f, <span class="string">&quot; &#39;{}&#39;&quot;</span>, <span class="kw-2">&amp;</span>value::escape_single_quote_string(value))
             }
-            Expr::Function(fun) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, fun),
+            Expr::Function(fun) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{fun}&quot;</span>),
             Expr::AggregateExpressionWithFilter { expr, filter } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;{} FILTER (WHERE {})&quot;</span>, expr, filter)
+                <span class="macro">write!</span>(f, <span class="string">&quot;{expr} FILTER (WHERE {filter})&quot;</span>)
             }
             Expr::Case {
                 operand,
@@ -4960,14 +5218,14 @@
             } =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot;CASE&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(operand) = operand {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, operand)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; {operand}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">for </span>(c, r) <span class="kw">in </span>conditions.iter().zip(results) {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; WHEN {} THEN {}&quot;</span>, c, r)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; WHEN {c} THEN {r}&quot;</span>)<span class="question-mark">?</span>;
                 }
 
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(else_result) = else_result {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; ELSE {}&quot;</span>, else_result)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; ELSE {else_result}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="macro">write!</span>(f, <span class="string">&quot; END&quot;</span>)
             }
@@ -4977,15 +5235,15 @@
                 <span class="kw">if </span><span class="kw-2">*</span>negated { <span class="string">&quot;NOT &quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>},
                 subquery
             ),
-            Expr::Subquery(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;({})&quot;</span>, s),
-            Expr::ArraySubquery(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;ARRAY({})&quot;</span>, s),
-            Expr::ListAgg(listagg) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, listagg),
-            Expr::ArrayAgg(arrayagg) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, arrayagg),
+            Expr::Subquery(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;({s})&quot;</span>),
+            Expr::ArraySubquery(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;ARRAY({s})&quot;</span>),
+            Expr::ListAgg(listagg) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{listagg}&quot;</span>),
+            Expr::ArrayAgg(arrayagg) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{arrayagg}&quot;</span>),
             Expr::GroupingSets(sets) =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot;GROUPING SETS (&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">let </span><span class="kw-2">mut </span>sep = <span class="string">&quot;&quot;</span>;
                 <span class="kw">for </span>set <span class="kw">in </span>sets {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, sep)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{sep}&quot;</span>)<span class="question-mark">?</span>;
                     sep = <span class="string">&quot;, &quot;</span>;
                     <span class="macro">write!</span>(f, <span class="string">&quot;({})&quot;</span>, display_comma_separated(set))<span class="question-mark">?</span>;
                 }
@@ -4995,7 +5253,7 @@
                 <span class="macro">write!</span>(f, <span class="string">&quot;CUBE (&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">let </span><span class="kw-2">mut </span>sep = <span class="string">&quot;&quot;</span>;
                 <span class="kw">for </span>set <span class="kw">in </span>sets {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, sep)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{sep}&quot;</span>)<span class="question-mark">?</span>;
                     sep = <span class="string">&quot;, &quot;</span>;
                     <span class="kw">if </span>set.len() == <span class="number">1 </span>{
                         <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, set[<span class="number">0</span>])<span class="question-mark">?</span>;
@@ -5009,7 +5267,7 @@
                 <span class="macro">write!</span>(f, <span class="string">&quot;ROLLUP (&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">let </span><span class="kw-2">mut </span>sep = <span class="string">&quot;&quot;</span>;
                 <span class="kw">for </span>set <span class="kw">in </span>sets {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, sep)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{sep}&quot;</span>)<span class="question-mark">?</span>;
                     sep = <span class="string">&quot;, &quot;</span>;
                     <span class="kw">if </span>set.len() == <span class="number">1 </span>{
                         <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, set[<span class="number">0</span>])<span class="question-mark">?</span>;
@@ -5024,12 +5282,12 @@
                 substring_from,
                 substring_for,
             } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;SUBSTRING({}&quot;</span>, expr)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;SUBSTRING({expr}&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(from_part) = substring_from {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; FROM {}&quot;</span>, from_part)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; FROM {from_part}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(for_part) = substring_for {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; FOR {}&quot;</span>, for_part)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; FOR {for_part}&quot;</span>)<span class="question-mark">?</span>;
                 }
 
                 <span class="macro">write!</span>(f, <span class="string">&quot;)&quot;</span>)
@@ -5042,17 +5300,16 @@
             } =&gt; {
                 <span class="macro">write!</span>(
                     f,
-                    <span class="string">&quot;OVERLAY({} PLACING {} FROM {}&quot;</span>,
-                    expr, overlay_what, overlay_from
-                )<span class="question-mark">?</span>;
+                    <span class="string">&quot;OVERLAY({expr} PLACING {overlay_what} FROM {overlay_from}&quot;
+                </span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(for_part) = overlay_for {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; FOR {}&quot;</span>, for_part)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; FOR {for_part}&quot;</span>)<span class="question-mark">?</span>;
                 }
 
                 <span class="macro">write!</span>(f, <span class="string">&quot;)&quot;</span>)
             }
-            Expr::IsDistinctFrom(a, b) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} IS DISTINCT FROM {}&quot;</span>, a, b),
-            Expr::IsNotDistinctFrom(a, b) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} IS NOT DISTINCT FROM {}&quot;</span>, a, b),
+            Expr::IsDistinctFrom(a, b) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{a} IS DISTINCT FROM {b}&quot;</span>),
+            Expr::IsNotDistinctFrom(a, b) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{a} IS NOT DISTINCT FROM {b}&quot;</span>),
             Expr::Trim {
                 expr,
                 trim_where,
@@ -5060,12 +5317,12 @@
             } =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot;TRIM(&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(ident) = trim_where {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;{} &quot;</span>, ident)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{ident} &quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(trim_char) = trim_what {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;{} FROM {}&quot;</span>, trim_char, expr)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{trim_char} FROM {expr}&quot;</span>)<span class="question-mark">?</span>;
                 } <span class="kw">else </span>{
-                    <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, expr)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{expr}&quot;</span>)<span class="question-mark">?</span>;
                 }
 
                 <span class="macro">write!</span>(f, <span class="string">&quot;)&quot;</span>)
@@ -5074,14 +5331,14 @@
                 <span class="macro">write!</span>(f, <span class="string">&quot;({})&quot;</span>, display_comma_separated(exprs))
             }
             Expr::ArrayIndex { obj, indexes } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, obj)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;{obj}&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">for </span>i <span class="kw">in </span>indexes {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;[{}]&quot;</span>, i)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot;[{i}]&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="prelude-val">Ok</span>(())
             }
             Expr::Array(set) =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, set)
+                <span class="macro">write!</span>(f, <span class="string">&quot;{set}&quot;</span>)
             }
             Expr::JsonAccess {
                 left,
@@ -5089,57 +5346,22 @@
                 right,
             } =&gt; {
                 <span class="kw">if </span>operator == <span class="kw-2">&amp;</span>JsonOperator::Colon {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;{}{}{}&quot;</span>, left, operator, right)
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{left}{operator}{right}&quot;</span>)
                 } <span class="kw">else </span>{
-                    <span class="macro">write!</span>(f, <span class="string">&quot;{} {} {}&quot;</span>, left, operator, right)
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{left} {operator} {right}&quot;</span>)
                 }
             }
             Expr::CompositeAccess { expr, key } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;{}.{}&quot;</span>, expr, key)
+                <span class="macro">write!</span>(f, <span class="string">&quot;{expr}.{key}&quot;</span>)
             }
             Expr::AtTimeZone {
                 timestamp,
                 time_zone,
             } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;{} AT TIME ZONE &#39;{}&#39;&quot;</span>, timestamp, time_zone)
+                <span class="macro">write!</span>(f, <span class="string">&quot;{timestamp} AT TIME ZONE &#39;{time_zone}&#39;&quot;</span>)
             }
-            Expr::Interval {
-                value,
-                leading_field: <span class="prelude-val">Some</span>(DateTimeField::Second),
-                leading_precision: <span class="prelude-val">Some</span>(leading_precision),
-                last_field,
-                fractional_seconds_precision: <span class="prelude-val">Some</span>(fractional_seconds_precision),
-            } =&gt; {
-                <span class="comment">// When the leading field is SECOND, the parser guarantees that
-                // the last field is None.
-                </span><span class="macro">assert!</span>(last_field.is_none());
-                <span class="macro">write!</span>(
-                    f,
-                    <span class="string">&quot;INTERVAL {} SECOND ({}, {})&quot;</span>,
-                    value, leading_precision, fractional_seconds_precision
-                )
-            }
-            Expr::Interval {
-                value,
-                leading_field,
-                leading_precision,
-                last_field,
-                fractional_seconds_precision,
-            } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;INTERVAL {}&quot;</span>, value)<span class="question-mark">?</span>;
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(leading_field) = leading_field {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, leading_field)<span class="question-mark">?</span>;
-                }
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(leading_precision) = leading_precision {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; ({})&quot;</span>, leading_precision)<span class="question-mark">?</span>;
-                }
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(last_field) = last_field {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; TO {}&quot;</span>, last_field)<span class="question-mark">?</span>;
-                }
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(fractional_seconds_precision) = fractional_seconds_precision {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; ({})&quot;</span>, fractional_seconds_precision)<span class="question-mark">?</span>;
-                }
-                <span class="prelude-val">Ok</span>(())
+            Expr::Interval(interval) =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">&quot;{interval}&quot;</span>)
             }
             Expr::MatchAgainst {
                 columns,
@@ -5271,8 +5493,8 @@
             WindowFrameBound::CurrentRow =&gt; f.write_str(<span class="string">&quot;CURRENT ROW&quot;</span>),
             WindowFrameBound::Preceding(<span class="prelude-val">None</span>) =&gt; f.write_str(<span class="string">&quot;UNBOUNDED PRECEDING&quot;</span>),
             WindowFrameBound::Following(<span class="prelude-val">None</span>) =&gt; f.write_str(<span class="string">&quot;UNBOUNDED FOLLOWING&quot;</span>),
-            WindowFrameBound::Preceding(<span class="prelude-val">Some</span>(n)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} PRECEDING&quot;</span>, n),
-            WindowFrameBound::Following(<span class="prelude-val">Some</span>(n)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} FOLLOWING&quot;</span>, n),
+            WindowFrameBound::Preceding(<span class="prelude-val">Some</span>(n)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{n} PRECEDING&quot;</span>),
+            WindowFrameBound::Following(<span class="prelude-val">Some</span>(n)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{n} FOLLOWING&quot;</span>),
         }
     }
 }
@@ -5416,14 +5638,11 @@
         source: Box&lt;Query&gt;,
     },
     Copy {
-        <span class="doccomment">/// TABLE
-        </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;visitor&quot;</span>, visit(with = <span class="string">&quot;visit_relation&quot;</span>))]
-        </span>table_name: ObjectName,
-        <span class="doccomment">/// COLUMNS
-        </span>columns: Vec&lt;Ident&gt;,
+        <span class="doccomment">/// The source of &#39;COPY TO&#39;, or the target of &#39;COPY FROM&#39;
+        </span>source: CopySource,
         <span class="doccomment">/// If true, is a &#39;COPY TO&#39; statement. If false is a &#39;COPY FROM&#39;
         </span>to: bool,
-        <span class="doccomment">/// The source of &#39;COPY FROM&#39;, or the target of &#39;COPY TO&#39;
+        <span class="doccomment">/// The target of &#39;COPY TO&#39;, or the source of &#39;COPY FROM&#39;
         </span>target: CopyTarget,
         <span class="doccomment">/// WITH options (from PostgreSQL version 9.0)
         </span>options: Vec&lt;CopyOption&gt;,
@@ -5431,6 +5650,26 @@
         </span>legacy_options: Vec&lt;CopyLegacyOption&gt;,
         <span class="doccomment">/// VALUES a vector of values to be copied
         </span>values: Vec&lt;<span class="prelude-ty">Option</span>&lt;String&gt;&gt;,
+    },
+    <span class="doccomment">/// ```sql
+    /// COPY INTO
+    /// ```
+    /// See &lt;https://docs.snowflake.com/en/sql-reference/sql/copy-into-table&gt;
+    /// Copy Into syntax available for Snowflake is different than the one implemented in
+    /// Postgres. Although they share common prefix, it is reasonable to implement them
+    /// in different enums. This can be refactored later once custom dialects
+    /// are allowed to have custom Statements.
+    </span>CopyIntoSnowflake {
+        into: ObjectName,
+        from_stage: ObjectName,
+        from_stage_alias: <span class="prelude-ty">Option</span>&lt;Ident&gt;,
+        stage_params: StageParamsObject,
+        from_transformations: <span class="prelude-ty">Option</span>&lt;Vec&lt;StageLoadSelectItem&gt;&gt;,
+        files: <span class="prelude-ty">Option</span>&lt;Vec&lt;String&gt;&gt;,
+        pattern: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        file_format: DataLoadingOptions,
+        copy_options: DataLoadingOptions,
+        validation_mode: <span class="prelude-ty">Option</span>&lt;String&gt;,
     },
     <span class="doccomment">/// Close - closes the portal underlying an open cursor.
     </span>Close {
@@ -5452,10 +5691,12 @@
     },
     <span class="doccomment">/// DELETE
     </span>Delete {
+        <span class="doccomment">/// Multi tables delete are supported in mysql
+        </span>tables: Vec&lt;ObjectName&gt;,
         <span class="doccomment">/// FROM
-        </span>table_name: TableFactor,
-        <span class="doccomment">/// USING (Snowflake, Postgres)
-        </span>using: <span class="prelude-ty">Option</span>&lt;TableFactor&gt;,
+        </span>from: Vec&lt;TableWithJoins&gt;,
+        <span class="doccomment">/// USING (Snowflake, Postgres, MySQL)
+        </span>using: <span class="prelude-ty">Option</span>&lt;Vec&lt;TableWithJoins&gt;&gt;,
         <span class="doccomment">/// WHERE
         </span>selection: <span class="prelude-ty">Option</span>&lt;Expr&gt;,
         <span class="doccomment">/// RETURNING
@@ -5479,6 +5720,7 @@
         external: bool,
         global: <span class="prelude-ty">Option</span>&lt;bool&gt;,
         if_not_exists: bool,
+        transient: bool,
         <span class="doccomment">/// Table name
         </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;visitor&quot;</span>, visit(with = <span class="string">&quot;visit_relation&quot;</span>))]
         </span>name: ObjectName,
@@ -5499,9 +5741,13 @@
         default_charset: <span class="prelude-ty">Option</span>&lt;String&gt;,
         collation: <span class="prelude-ty">Option</span>&lt;String&gt;,
         on_commit: <span class="prelude-ty">Option</span>&lt;OnCommit&gt;,
-        <span class="doccomment">/// Click house &quot;ON CLUSTER&quot; clause:
+        <span class="doccomment">/// ClickHouse &quot;ON CLUSTER&quot; clause:
         /// &lt;https://clickhouse.com/docs/en/sql-reference/distributed-ddl/&gt;
         </span>on_cluster: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        <span class="doccomment">/// ClickHouse &quot;ORDER BY &quot; clause. Note that omitted ORDER BY is different
+        /// than empty (represented as ()), the latter meaning &quot;no sorting&quot;.
+        /// &lt;https://clickhouse.com/docs/en/sql-reference/statements/create/table/&gt;
+        </span>order_by: <span class="prelude-ty">Option</span>&lt;Vec&lt;Ident&gt;&gt;,
     },
     <span class="doccomment">/// SQLite&#39;s `CREATE VIRTUAL TABLE .. USING &lt;module_name&gt; (&lt;module_args&gt;)`
     </span>CreateVirtualTable {
@@ -5728,6 +5974,9 @@
         object_type: CommentObject,
         object_name: ObjectName,
         comment: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        <span class="doccomment">/// An optional `IF EXISTS` clause. (Non-standard.)
+        /// See &lt;https://docs.snowflake.com/en/sql-reference/sql/comment&gt;
+        </span>if_exists: bool,
     },
     <span class="doccomment">/// `COMMIT [ TRANSACTION | WORK ] [ AND [ NO ] CHAIN ]`
     </span>Commit { chain: bool },
@@ -5761,6 +6010,21 @@
         return_type: <span class="prelude-ty">Option</span>&lt;DataType&gt;,
         <span class="doccomment">/// Optional parameters.
         </span>params: CreateFunctionBody,
+    },
+    <span class="doccomment">/// ```sql
+    /// CREATE STAGE
+    /// ```
+    /// See &lt;https://docs.snowflake.com/en/sql-reference/sql/create-stage&gt;
+    </span>CreateStage {
+        or_replace: bool,
+        temporary: bool,
+        if_not_exists: bool,
+        name: ObjectName,
+        stage_params: StageParamsObject,
+        directory_table_params: DataLoadingOptions,
+        file_format: DataLoadingOptions,
+        copy_options: DataLoadingOptions,
+        comment: <span class="prelude-ty">Option</span>&lt;String&gt;,
     },
     <span class="doccomment">/// `ASSERT &lt;condition&gt; [AS &lt;message&gt;]`
     </span>Assert {
@@ -5892,10 +6156,10 @@
                 <span class="macro">write!</span>(f, <span class="string">&quot;KILL &quot;</span>)<span class="question-mark">?</span>;
 
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(m) = modifier {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;{} &quot;</span>, m)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{m} &quot;</span>)<span class="question-mark">?</span>;
                 }
 
-                <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, id)
+                <span class="macro">write!</span>(f, <span class="string">&quot;{id}&quot;</span>)
             }
             Statement::ExplainTable {
                 describe_alias,
@@ -5907,7 +6171,7 @@
                     <span class="macro">write!</span>(f, <span class="string">&quot;EXPLAIN &quot;</span>)<span class="question-mark">?</span>;
                 }
 
-                <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, table_name)
+                <span class="macro">write!</span>(f, <span class="string">&quot;{table_name}&quot;</span>)
             }
             Statement::Explain {
                 describe_alias,
@@ -5931,12 +6195,12 @@
                 }
 
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(format) = format {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;FORMAT {} &quot;</span>, format)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot;FORMAT {format} &quot;</span>)<span class="question-mark">?</span>;
                 }
 
-                <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, statement)
+                <span class="macro">write!</span>(f, <span class="string">&quot;{statement}&quot;</span>)
             }
-            Statement::Query(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, s),
+            Statement::Query(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{s}&quot;</span>),
             Statement::Declare {
                 name,
                 binary,
@@ -5945,7 +6209,7 @@
                 hold,
                 query,
             } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;DECLARE {} &quot;</span>, name)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;DECLARE {name} &quot;</span>)<span class="question-mark">?</span>;
 
                 <span class="kw">if </span><span class="kw-2">*</span>binary {
                     <span class="macro">write!</span>(f, <span class="string">&quot;BINARY &quot;</span>)<span class="question-mark">?</span>;
@@ -5977,19 +6241,19 @@
                     }
                 }
 
-                <span class="macro">write!</span>(f, <span class="string">&quot;FOR {}&quot;</span>, query)
+                <span class="macro">write!</span>(f, <span class="string">&quot;FOR {query}&quot;</span>)
             }
             Statement::Fetch {
                 name,
                 direction,
                 into,
             } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;FETCH {} &quot;</span>, direction)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;FETCH {direction} &quot;</span>)<span class="question-mark">?</span>;
 
-                <span class="macro">write!</span>(f, <span class="string">&quot;IN {}&quot;</span>, name)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;IN {name}&quot;</span>)<span class="question-mark">?</span>;
 
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(into) = into {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; INTO {}&quot;</span>, into)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; INTO {into}&quot;</span>)<span class="question-mark">?</span>;
                 }
 
                 <span class="prelude-val">Ok</span>(())
@@ -6009,9 +6273,9 @@
                     path = path
                 )<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>ff) = file_format {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; STORED AS {}&quot;</span>, ff)<span class="question-mark">?
+                    <span class="macro">write!</span>(f, <span class="string">&quot; STORED AS {ff}&quot;</span>)<span class="question-mark">?
                 </span>}
-                <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, source)
+                <span class="macro">write!</span>(f, <span class="string">&quot; {source}&quot;</span>)
             }
             Statement::Msck {
                 table_name,
@@ -6025,7 +6289,7 @@
                     table = table_name
                 )<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(pa) = partition_action {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, pa)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; {pa}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="prelude-val">Ok</span>(())
             }
@@ -6033,7 +6297,7 @@
                 table_name,
                 partitions,
             } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;TRUNCATE TABLE {}&quot;</span>, table_name)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;TRUNCATE TABLE {table_name}&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>parts) = partitions {
                     <span class="kw">if </span>!parts.is_empty() {
                         <span class="macro">write!</span>(f, <span class="string">&quot; PARTITION ({})&quot;</span>, display_comma_separated(parts))<span class="question-mark">?</span>;
@@ -6050,7 +6314,7 @@
                 noscan,
                 compute_statistics,
             } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;ANALYZE TABLE {}&quot;</span>, table_name)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;ANALYZE TABLE {table_name}&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>parts) = partitions {
                     <span class="kw">if </span>!parts.is_empty() {
                         <span class="macro">write!</span>(f, <span class="string">&quot; PARTITION ({})&quot;</span>, display_comma_separated(parts))<span class="question-mark">?</span>;
@@ -6088,7 +6352,7 @@
                 returning,
             } =&gt; {
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(action) = or {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;INSERT OR {} INTO {} &quot;</span>, action, table_name)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot;INSERT OR {action} INTO {table_name} &quot;</span>)<span class="question-mark">?</span>;
                 } <span class="kw">else </span>{
                     <span class="macro">write!</span>(
                         f,
@@ -6110,10 +6374,10 @@
                 <span class="kw">if </span>!after_columns.is_empty() {
                     <span class="macro">write!</span>(f, <span class="string">&quot;({}) &quot;</span>, display_comma_separated(after_columns))<span class="question-mark">?</span>;
                 }
-                <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, source)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;{source}&quot;</span>)<span class="question-mark">?</span>;
 
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(on) = on {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, on)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{on}&quot;</span>)<span class="question-mark">?</span>;
                 }
 
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(returning) = returning {
@@ -6124,17 +6388,25 @@
             }
 
             Statement::Copy {
-                table_name,
-                columns,
+                source,
                 to,
                 target,
                 options,
                 legacy_options,
                 values,
             } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;COPY {}&quot;</span>, table_name)<span class="question-mark">?</span>;
-                <span class="kw">if </span>!columns.is_empty() {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; ({})&quot;</span>, display_comma_separated(columns))<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;COPY&quot;</span>)<span class="question-mark">?</span>;
+                <span class="kw">match </span>source {
+                    CopySource::Query(query) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot; ({query})&quot;</span>)<span class="question-mark">?</span>,
+                    CopySource::Table {
+                        table_name,
+                        columns,
+                    } =&gt; {
+                        <span class="macro">write!</span>(f, <span class="string">&quot; {table_name}&quot;</span>)<span class="question-mark">?</span>;
+                        <span class="kw">if </span>!columns.is_empty() {
+                            <span class="macro">write!</span>(f, <span class="string">&quot; ({})&quot;</span>, display_comma_separated(columns))<span class="question-mark">?</span>;
+                        }
+                    }
                 }
                 <span class="macro">write!</span>(f, <span class="string">&quot; {} {}&quot;</span>, <span class="kw">if </span><span class="kw-2">*</span>to { <span class="string">&quot;TO&quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;FROM&quot; </span>}, target)<span class="question-mark">?</span>;
                 <span class="kw">if </span>!options.is_empty() {
@@ -6147,10 +6419,10 @@
                     <span class="macro">writeln!</span>(f, <span class="string">&quot;;&quot;</span>)<span class="question-mark">?</span>;
                     <span class="kw">let </span><span class="kw-2">mut </span>delim = <span class="string">&quot;&quot;</span>;
                     <span class="kw">for </span>v <span class="kw">in </span>values {
-                        <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, delim)<span class="question-mark">?</span>;
+                        <span class="macro">write!</span>(f, <span class="string">&quot;{delim}&quot;</span>)<span class="question-mark">?</span>;
                         delim = <span class="string">&quot;\t&quot;</span>;
                         <span class="kw">if let </span><span class="prelude-val">Some</span>(v) = v {
-                            <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, v)<span class="question-mark">?</span>;
+                            <span class="macro">write!</span>(f, <span class="string">&quot;{v}&quot;</span>)<span class="question-mark">?</span>;
                         } <span class="kw">else </span>{
                             <span class="macro">write!</span>(f, <span class="string">&quot;\\N&quot;</span>)<span class="question-mark">?</span>;
                         }
@@ -6166,15 +6438,15 @@
                 selection,
                 returning,
             } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;UPDATE {}&quot;</span>, table)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;UPDATE {table}&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if </span>!assignments.is_empty() {
                     <span class="macro">write!</span>(f, <span class="string">&quot; SET {}&quot;</span>, display_comma_separated(assignments))<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(from) = from {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; FROM {}&quot;</span>, from)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; FROM {from}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(selection) = selection {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; WHERE {}&quot;</span>, selection)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; WHERE {selection}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(returning) = returning {
                     <span class="macro">write!</span>(f, <span class="string">&quot; RETURNING {}&quot;</span>, display_comma_separated(returning))<span class="question-mark">?</span>;
@@ -6182,17 +6454,22 @@
                 <span class="prelude-val">Ok</span>(())
             }
             Statement::Delete {
-                table_name,
+                tables,
+                from,
                 using,
                 selection,
                 returning,
             } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;DELETE FROM {}&quot;</span>, table_name)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;DELETE &quot;</span>)<span class="question-mark">?</span>;
+                <span class="kw">if </span>!tables.is_empty() {
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{} &quot;</span>, display_comma_separated(tables))<span class="question-mark">?</span>;
+                }
+                <span class="macro">write!</span>(f, <span class="string">&quot;FROM {}&quot;</span>, display_comma_separated(from))<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(using) = using {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; USING {}&quot;</span>, using)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; USING {}&quot;</span>, display_comma_separated(using))<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(selection) = selection {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; WHERE {}&quot;</span>, selection)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; WHERE {selection}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(returning) = returning {
                     <span class="macro">write!</span>(f, <span class="string">&quot; RETURNING {}&quot;</span>, display_comma_separated(returning))<span class="question-mark">?</span>;
@@ -6200,7 +6477,7 @@
                 <span class="prelude-val">Ok</span>(())
             }
             Statement::Close { cursor } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;CLOSE {}&quot;</span>, cursor)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;CLOSE {cursor}&quot;</span>)<span class="question-mark">?</span>;
 
                 <span class="prelude-val">Ok</span>(())
             }
@@ -6214,12 +6491,12 @@
                 <span class="kw">if </span><span class="kw-2">*</span>if_not_exists {
                     <span class="macro">write!</span>(f, <span class="string">&quot; IF NOT EXISTS&quot;</span>)<span class="question-mark">?</span>;
                 }
-                <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, db_name)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot; {db_name}&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(l) = location {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; LOCATION &#39;{}&#39;&quot;</span>, l)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; LOCATION &#39;{l}&#39;&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(ml) = managed_location {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; MANAGEDLOCATION &#39;{}&#39;&quot;</span>, ml)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; MANAGEDLOCATION &#39;{ml}&#39;&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="prelude-val">Ok</span>(())
             }
@@ -6241,7 +6518,7 @@
                     <span class="macro">write!</span>(f, <span class="string">&quot;({})&quot;</span>, display_comma_separated(args))<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(return_type) = return_type {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; RETURNS {}&quot;</span>, return_type)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; RETURNS {return_type}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="macro">write!</span>(f, <span class="string">&quot;{params}&quot;</span>)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
@@ -6271,7 +6548,7 @@
                 <span class="kw">if </span>!cluster_by.is_empty() {
                     <span class="macro">write!</span>(f, <span class="string">&quot; CLUSTER BY ({})&quot;</span>, display_comma_separated(cluster_by))<span class="question-mark">?</span>;
                 }
-                <span class="macro">write!</span>(f, <span class="string">&quot; AS {}&quot;</span>, query)
+                <span class="macro">write!</span>(f, <span class="string">&quot; AS {query}&quot;</span>)
             }
             Statement::CreateTable {
                 name,
@@ -6281,6 +6558,7 @@
                 with_options,
                 or_replace,
                 if_not_exists,
+                transient,
                 hive_distribution,
                 hive_formats,
                 external,
@@ -6297,6 +6575,7 @@
                 collation,
                 on_commit,
                 on_cluster,
+                order_by,
             } =&gt; {
                 <span class="comment">// We want to allow the following options
                 // Empty column list, allowed by PostgreSQL:
@@ -6307,7 +6586,7 @@
                 //   `CREATE TABLE t (a INT) AS SELECT a from t2`
                 </span><span class="macro">write!</span>(
                     f,
-                    <span class="string">&quot;CREATE {or_replace}{external}{global}{temporary}TABLE {if_not_exists}{name}&quot;</span>,
+                    <span class="string">&quot;CREATE {or_replace}{external}{global}{temporary}{transient}TABLE {if_not_exists}{name}&quot;</span>,
                     or_replace = <span class="kw">if </span><span class="kw-2">*</span>or_replace { <span class="string">&quot;OR REPLACE &quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>},
                     external = <span class="kw">if </span><span class="kw-2">*</span>external { <span class="string">&quot;EXTERNAL &quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>},
                     global = global
@@ -6321,6 +6600,7 @@
                         .unwrap_or(<span class="string">&quot;&quot;</span>),
                     if_not_exists = <span class="kw">if </span><span class="kw-2">*</span>if_not_exists { <span class="string">&quot;IF NOT EXISTS &quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>},
                     temporary = <span class="kw">if </span><span class="kw-2">*</span>temporary { <span class="string">&quot;TEMPORARY &quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>},
+                    transient = <span class="kw">if </span><span class="kw-2">*</span>transient { <span class="string">&quot;TRANSIENT &quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>},
                     name = name,
                 )<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(on_cluster) = on_cluster {
@@ -6347,11 +6627,11 @@
 
                 <span class="comment">// Only for Hive
                 </span><span class="kw">if let </span><span class="prelude-val">Some</span>(l) = like {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; LIKE {}&quot;</span>, l)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; LIKE {l}&quot;</span>)<span class="question-mark">?</span>;
                 }
 
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(c) = clone {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; CLONE {}&quot;</span>, c)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; CLONE {c}&quot;</span>)<span class="question-mark">?</span>;
                 }
 
                 <span class="kw">match </span>hive_distribution {
@@ -6368,7 +6648,7 @@
                             <span class="macro">write!</span>(f, <span class="string">&quot; SORTED BY ({})&quot;</span>, display_comma_separated(sorted_by))<span class="question-mark">?</span>;
                         }
                         <span class="kw">if </span><span class="kw-2">*</span>num_buckets &gt; <span class="number">0 </span>{
-                            <span class="macro">write!</span>(f, <span class="string">&quot; INTO {} BUCKETS&quot;</span>, num_buckets)<span class="question-mark">?</span>;
+                            <span class="macro">write!</span>(f, <span class="string">&quot; INTO {num_buckets} BUCKETS&quot;</span>)<span class="question-mark">?</span>;
                         }
                     }
                     HiveDistributionStyle::SKEWED {
@@ -6397,7 +6677,7 @@
                 {
                     <span class="kw">match </span>row_format {
                         <span class="prelude-val">Some</span>(HiveRowFormat::SERDE { class }) =&gt; {
-                            <span class="macro">write!</span>(f, <span class="string">&quot; ROW FORMAT SERDE &#39;{}&#39;&quot;</span>, class)<span class="question-mark">?
+                            <span class="macro">write!</span>(f, <span class="string">&quot; ROW FORMAT SERDE &#39;{class}&#39;&quot;</span>)<span class="question-mark">?
                         </span>}
                         <span class="prelude-val">Some</span>(HiveRowFormat::DELIMITED) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot; ROW FORMAT DELIMITED&quot;</span>)<span class="question-mark">?</span>,
                         <span class="prelude-val">None </span>=&gt; (),
@@ -6408,17 +6688,16 @@
                             output_format,
                         }) =&gt; <span class="macro">write!</span>(
                             f,
-                            <span class="string">&quot; STORED AS INPUTFORMAT {} OUTPUTFORMAT {}&quot;</span>,
-                            input_format, output_format
-                        )<span class="question-mark">?</span>,
+                            <span class="string">&quot; STORED AS INPUTFORMAT {input_format} OUTPUTFORMAT {output_format}&quot;
+                        </span>)<span class="question-mark">?</span>,
                         <span class="prelude-val">Some</span>(HiveIOFormat::FileFormat { format }) <span class="kw">if </span>!<span class="kw-2">*</span>external =&gt; {
-                            <span class="macro">write!</span>(f, <span class="string">&quot; STORED AS {}&quot;</span>, format)<span class="question-mark">?
+                            <span class="macro">write!</span>(f, <span class="string">&quot; STORED AS {format}&quot;</span>)<span class="question-mark">?
                         </span>}
                         <span class="kw">_ </span>=&gt; (),
                     }
                     <span class="kw">if </span>!<span class="kw-2">*</span>external {
                         <span class="kw">if let </span><span class="prelude-val">Some</span>(loc) = location {
-                            <span class="macro">write!</span>(f, <span class="string">&quot; LOCATION &#39;{}&#39;&quot;</span>, loc)<span class="question-mark">?</span>;
+                            <span class="macro">write!</span>(f, <span class="string">&quot; LOCATION &#39;{loc}&#39;&quot;</span>)<span class="question-mark">?</span>;
                         }
                     }
                 }
@@ -6440,17 +6719,20 @@
                 <span class="kw">if </span>!with_options.is_empty() {
                     <span class="macro">write!</span>(f, <span class="string">&quot; WITH ({})&quot;</span>, display_comma_separated(with_options))<span class="question-mark">?</span>;
                 }
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(query) = query {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; AS {}&quot;</span>, query)<span class="question-mark">?</span>;
-                }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(engine) = engine {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; ENGINE={}&quot;</span>, engine)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; ENGINE={engine}&quot;</span>)<span class="question-mark">?</span>;
+                }
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(order_by) = order_by {
+                    <span class="macro">write!</span>(f, <span class="string">&quot; ORDER BY ({})&quot;</span>, display_comma_separated(order_by))<span class="question-mark">?</span>;
+                }
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(query) = query {
+                    <span class="macro">write!</span>(f, <span class="string">&quot; AS {query}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(default_charset) = default_charset {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; DEFAULT CHARSET={}&quot;</span>, default_charset)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; DEFAULT CHARSET={default_charset}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(collation) = collation {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; COLLATE={}&quot;</span>, collation)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; COLLATE={collation}&quot;</span>)<span class="question-mark">?</span>;
                 }
 
                 <span class="kw">if </span>on_commit.is_some() {
@@ -6460,7 +6742,7 @@
                         <span class="prelude-val">Some</span>(OnCommit::Drop) =&gt; <span class="string">&quot;ON COMMIT DROP&quot;</span>,
                         <span class="prelude-val">None </span>=&gt; <span class="string">&quot;&quot;</span>,
                     };
-                    <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, on_commit)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; {on_commit}&quot;</span>)<span class="question-mark">?</span>;
                 }
 
                 <span class="prelude-val">Ok</span>(())
@@ -6500,7 +6782,7 @@
                     table_name = table_name
                 )<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(value) = using {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; USING {} &quot;</span>, value)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; USING {value} &quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="macro">write!</span>(f, <span class="string">&quot;({})&quot;</span>, display_separated(columns, <span class="string">&quot;,&quot;</span>))
             }
@@ -6566,15 +6848,15 @@
                     </span>}
                 )<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(limit) = connection_limit {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; CONNECTION LIMIT {}&quot;</span>, limit)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; CONNECTION LIMIT {limit}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">match </span>password {
-                    <span class="prelude-val">Some</span>(Password::Password(pass)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot; PASSWORD {}&quot;</span>, pass),
+                    <span class="prelude-val">Some</span>(Password::Password(pass)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot; PASSWORD {pass}&quot;</span>),
                     <span class="prelude-val">Some</span>(Password::NullPassword) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot; PASSWORD NULL&quot;</span>),
                     <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(()),
                 }<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(until) = valid_until {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; VALID UNTIL {}&quot;</span>, until)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; VALID UNTIL {until}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">if </span>!in_role.is_empty() {
                     <span class="macro">write!</span>(f, <span class="string">&quot; IN ROLE {}&quot;</span>, display_comma_separated(in_role))<span class="question-mark">?</span>;
@@ -6592,15 +6874,15 @@
                     <span class="macro">write!</span>(f, <span class="string">&quot; ADMIN {}&quot;</span>, display_comma_separated(admin))<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(owner) = authorization_owner {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; AUTHORIZATION {}&quot;</span>, owner)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; AUTHORIZATION {owner}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="prelude-val">Ok</span>(())
             }
             Statement::AlterTable { name, operation } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;ALTER TABLE {} {}&quot;</span>, name, operation)
+                <span class="macro">write!</span>(f, <span class="string">&quot;ALTER TABLE {name} {operation}&quot;</span>)
             }
             Statement::AlterIndex { name, operation } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;ALTER INDEX {} {}&quot;</span>, name, operation)
+                <span class="macro">write!</span>(f, <span class="string">&quot;ALTER INDEX {name} {operation}&quot;</span>)
             }
             Statement::Drop {
                 object_type,
@@ -6631,12 +6913,12 @@
                     display_comma_separated(func_desc),
                 )<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(op) = option {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, op)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; {op}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="prelude-val">Ok</span>(())
             }
             Statement::Discard { object_type } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;DISCARD {object_type}&quot;</span>, object_type = object_type)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;DISCARD {object_type}&quot;</span>)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
             }
             <span class="self">Self</span>::SetRole {
@@ -6705,12 +6987,7 @@
                 <span class="prelude-val">Ok</span>(())
             }
             Statement::ShowCreate { obj_type, obj_name } =&gt; {
-                <span class="macro">write!</span>(
-                    f,
-                    <span class="string">&quot;SHOW CREATE {obj_type} {obj_name}&quot;</span>,
-                    obj_type = obj_type,
-                    obj_name = obj_name,
-                )<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;SHOW CREATE {obj_type} {obj_name}&quot;</span>,)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
             }
             Statement::ShowColumns {
@@ -6727,7 +7004,7 @@
                     table_name = table_name,
                 )<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(filter) = filter {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, filter)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; {filter}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="prelude-val">Ok</span>(())
             }
@@ -6744,28 +7021,28 @@
                     full = <span class="kw">if </span><span class="kw-2">*</span>full { <span class="string">&quot;FULL &quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>},
                 )<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(db_name) = db_name {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; FROM {}&quot;</span>, db_name)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; FROM {db_name}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(filter) = filter {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, filter)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; {filter}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="prelude-val">Ok</span>(())
             }
             Statement::ShowFunctions { filter } =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot;SHOW FUNCTIONS&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(filter) = filter {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, filter)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; {filter}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="prelude-val">Ok</span>(())
             }
             Statement::Use { db_name } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;USE {}&quot;</span>, db_name)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;USE {db_name}&quot;</span>)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
             }
             Statement::ShowCollation { filter } =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot;SHOW COLLATION&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(filter) = filter {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, filter)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; {filter}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="prelude-val">Ok</span>(())
             }
@@ -6790,7 +7067,7 @@
                     <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, display_comma_separated(modes))<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(snapshot_id) = snapshot {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; SNAPSHOT {}&quot;</span>, snapshot_id)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; SNAPSHOT {snapshot_id}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="prelude-val">Ok</span>(())
             }
@@ -6810,9 +7087,9 @@
                 name = schema_name
             ),
             Statement::Assert { condition, message } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;ASSERT {}&quot;</span>, condition)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;ASSERT {condition}&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(m) = message {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; AS {}&quot;</span>, m)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; AS {m}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="prelude-val">Ok</span>(())
             }
@@ -6823,14 +7100,14 @@
                 with_grant_option,
                 granted_by,
             } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;GRANT {} &quot;</span>, privileges)<span class="question-mark">?</span>;
-                <span class="macro">write!</span>(f, <span class="string">&quot;ON {} &quot;</span>, objects)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;GRANT {privileges} &quot;</span>)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;ON {objects} &quot;</span>)<span class="question-mark">?</span>;
                 <span class="macro">write!</span>(f, <span class="string">&quot;TO {}&quot;</span>, display_comma_separated(grantees))<span class="question-mark">?</span>;
                 <span class="kw">if </span><span class="kw-2">*</span>with_grant_option {
                     <span class="macro">write!</span>(f, <span class="string">&quot; WITH GRANT OPTION&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(grantor) = granted_by {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; GRANTED BY {}&quot;</span>, grantor)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; GRANTED BY {grantor}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="prelude-val">Ok</span>(())
             }
@@ -6841,11 +7118,11 @@
                 granted_by,
                 cascade,
             } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;REVOKE {} &quot;</span>, privileges)<span class="question-mark">?</span>;
-                <span class="macro">write!</span>(f, <span class="string">&quot;ON {} &quot;</span>, objects)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;REVOKE {privileges} &quot;</span>)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;ON {objects} &quot;</span>)<span class="question-mark">?</span>;
                 <span class="macro">write!</span>(f, <span class="string">&quot;FROM {}&quot;</span>, display_comma_separated(grantees))<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(grantor) = granted_by {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; GRANTED BY {}&quot;</span>, grantor)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; GRANTED BY {grantor}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, <span class="kw">if </span><span class="kw-2">*</span>cascade { <span class="string">&quot;CASCADE&quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;RESTRICT&quot; </span>})<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
@@ -6857,7 +7134,7 @@
                 name = name,
             ),
             Statement::Execute { name, parameters } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;EXECUTE {}&quot;</span>, name)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;EXECUTE {name}&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if </span>!parameters.is_empty() {
                     <span class="macro">write!</span>(f, <span class="string">&quot;({})&quot;</span>, display_comma_separated(parameters))<span class="question-mark">?</span>;
                 }
@@ -6868,27 +7145,32 @@
                 data_types,
                 statement,
             } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;PREPARE {} &quot;</span>, name)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;PREPARE {name} &quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if </span>!data_types.is_empty() {
                     <span class="macro">write!</span>(f, <span class="string">&quot;({}) &quot;</span>, display_comma_separated(data_types))<span class="question-mark">?</span>;
                 }
-                <span class="macro">write!</span>(f, <span class="string">&quot;AS {}&quot;</span>, statement)
+                <span class="macro">write!</span>(f, <span class="string">&quot;AS {statement}&quot;</span>)
             }
             Statement::Comment {
                 object_type,
                 object_name,
                 comment,
+                if_exists,
             } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;COMMENT ON {} {} IS &quot;</span>, object_type, object_name)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;COMMENT &quot;</span>)<span class="question-mark">?</span>;
+                <span class="kw">if </span><span class="kw-2">*</span>if_exists {
+                    <span class="macro">write!</span>(f, <span class="string">&quot;IF EXISTS &quot;</span>)<span class="question-mark">?
+                </span>};
+                <span class="macro">write!</span>(f, <span class="string">&quot;ON {object_type} {object_name} IS &quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(c) = comment {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;&#39;{}&#39;&quot;</span>, c)
+                    <span class="macro">write!</span>(f, <span class="string">&quot;&#39;{c}&#39;&quot;</span>)
                 } <span class="kw">else </span>{
                     <span class="macro">write!</span>(f, <span class="string">&quot;NULL&quot;</span>)
                 }
             }
             Statement::Savepoint { name } =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot;SAVEPOINT &quot;</span>)<span class="question-mark">?</span>;
-                <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, name)
+                <span class="macro">write!</span>(f, <span class="string">&quot;{name}&quot;</span>)
             }
             Statement::Merge {
                 into,
@@ -6902,7 +7184,7 @@
                     <span class="string">&quot;MERGE{int} {table} USING {source} &quot;</span>,
                     int = <span class="kw">if </span><span class="kw-2">*</span>into { <span class="string">&quot; INTO&quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>}
                 )<span class="question-mark">?</span>;
-                <span class="macro">write!</span>(f, <span class="string">&quot;ON {} &quot;</span>, on)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot;ON {on} &quot;</span>)<span class="question-mark">?</span>;
                 <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, display_separated(clauses, <span class="string">&quot; &quot;</span>))
             }
             Statement::Cache {
@@ -6920,7 +7202,7 @@
                         table_name = table_name,
                     )<span class="question-mark">?</span>;
                 } <span class="kw">else </span>{
-                    <span class="macro">write!</span>(f, <span class="string">&quot;CACHE TABLE {table_name}&quot;</span>, table_name = table_name,)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot;CACHE TABLE {table_name}&quot;</span>,)<span class="question-mark">?</span>;
                 }
 
                 <span class="kw">if </span>!options.is_empty() {
@@ -6943,13 +7225,9 @@
                 if_exists,
             } =&gt; {
                 <span class="kw">if </span><span class="kw-2">*</span>if_exists {
-                    <span class="macro">write!</span>(
-                        f,
-                        <span class="string">&quot;UNCACHE TABLE IF EXISTS {table_name}&quot;</span>,
-                        table_name = table_name
-                    )
+                    <span class="macro">write!</span>(f, <span class="string">&quot;UNCACHE TABLE IF EXISTS {table_name}&quot;</span>)
                 } <span class="kw">else </span>{
-                    <span class="macro">write!</span>(f, <span class="string">&quot;UNCACHE TABLE {table_name}&quot;</span>, table_name = table_name)
+                    <span class="macro">write!</span>(f, <span class="string">&quot;UNCACHE TABLE {table_name}&quot;</span>)
                 }
             }
             Statement::CreateSequence {
@@ -6976,12 +7254,103 @@
                     as_type = as_type
                 )<span class="question-mark">?</span>;
                 <span class="kw">for </span>sequence_option <span class="kw">in </span>sequence_options {
-                    <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, sequence_option)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot;{sequence_option}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(ob) = owned_by.as_ref() {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; OWNED BY {}&quot;</span>, ob)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; OWNED BY {ob}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="macro">write!</span>(f, <span class="string">&quot;&quot;</span>)
+            }
+            Statement::CreateStage {
+                or_replace,
+                temporary,
+                if_not_exists,
+                name,
+                stage_params,
+                directory_table_params,
+                file_format,
+                copy_options,
+                comment,
+                ..
+            } =&gt; {
+                <span class="macro">write!</span>(
+                    f,
+                    <span class="string">&quot;CREATE {or_replace}{temp}STAGE {if_not_exists}{name}{stage_params}&quot;</span>,
+                    temp = <span class="kw">if </span><span class="kw-2">*</span>temporary { <span class="string">&quot;TEMPORARY &quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>},
+                    or_replace = <span class="kw">if </span><span class="kw-2">*</span>or_replace { <span class="string">&quot;OR REPLACE &quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>},
+                    if_not_exists = <span class="kw">if </span><span class="kw-2">*</span>if_not_exists { <span class="string">&quot;IF NOT EXISTS &quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>},
+                )<span class="question-mark">?</span>;
+                <span class="kw">if </span>!directory_table_params.options.is_empty() {
+                    <span class="macro">write!</span>(f, <span class="string">&quot; DIRECTORY=({})&quot;</span>, directory_table_params)<span class="question-mark">?</span>;
+                }
+                <span class="kw">if </span>!file_format.options.is_empty() {
+                    <span class="macro">write!</span>(f, <span class="string">&quot; FILE_FORMAT=({})&quot;</span>, file_format)<span class="question-mark">?</span>;
+                }
+                <span class="kw">if </span>!copy_options.options.is_empty() {
+                    <span class="macro">write!</span>(f, <span class="string">&quot; COPY_OPTIONS=({})&quot;</span>, copy_options)<span class="question-mark">?</span>;
+                }
+                <span class="kw">if </span>comment.is_some() {
+                    <span class="macro">write!</span>(f, <span class="string">&quot; COMMENT=&#39;{}&#39;&quot;</span>, comment.as_ref().unwrap())<span class="question-mark">?</span>;
+                }
+                <span class="prelude-val">Ok</span>(())
+            }
+            Statement::CopyIntoSnowflake {
+                into,
+                from_stage,
+                from_stage_alias,
+                stage_params,
+                from_transformations,
+                files,
+                pattern,
+                file_format,
+                copy_options,
+                validation_mode,
+            } =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">&quot;COPY INTO {}&quot;</span>, into)<span class="question-mark">?</span>;
+                <span class="kw">if </span>from_transformations.is_none() {
+                    <span class="comment">// Standard data load
+                    </span><span class="macro">write!</span>(f, <span class="string">&quot; FROM {}{}&quot;</span>, from_stage, stage_params)<span class="question-mark">?</span>;
+                    <span class="kw">if </span>from_stage_alias.as_ref().is_some() {
+                        <span class="macro">write!</span>(f, <span class="string">&quot; AS {}&quot;</span>, from_stage_alias.as_ref().unwrap())<span class="question-mark">?</span>;
+                    }
+                } <span class="kw">else </span>{
+                    <span class="comment">// Data load with transformation
+                    </span><span class="macro">write!</span>(
+                        f,
+                        <span class="string">&quot; FROM (SELECT {} FROM {}{}&quot;</span>,
+                        display_separated(from_transformations.as_ref().unwrap(), <span class="string">&quot;, &quot;</span>),
+                        from_stage,
+                        stage_params,
+                    )<span class="question-mark">?</span>;
+                    <span class="kw">if </span>from_stage_alias.as_ref().is_some() {
+                        <span class="macro">write!</span>(f, <span class="string">&quot; AS {}&quot;</span>, from_stage_alias.as_ref().unwrap())<span class="question-mark">?</span>;
+                    }
+                    <span class="macro">write!</span>(f, <span class="string">&quot;)&quot;</span>)<span class="question-mark">?</span>;
+                }
+                <span class="kw">if </span>files.is_some() {
+                    <span class="macro">write!</span>(
+                        f,
+                        <span class="string">&quot; FILES = (&#39;{}&#39;)&quot;</span>,
+                        display_separated(files.as_ref().unwrap(), <span class="string">&quot;&#39;, &#39;&quot;</span>)
+                    )<span class="question-mark">?</span>;
+                }
+                <span class="kw">if </span>pattern.is_some() {
+                    <span class="macro">write!</span>(f, <span class="string">&quot; PATTERN = &#39;{}&#39;&quot;</span>, pattern.as_ref().unwrap())<span class="question-mark">?</span>;
+                }
+                <span class="kw">if </span>!file_format.options.is_empty() {
+                    <span class="macro">write!</span>(f, <span class="string">&quot; FILE_FORMAT=({})&quot;</span>, file_format)<span class="question-mark">?</span>;
+                }
+                <span class="kw">if </span>!copy_options.options.is_empty() {
+                    <span class="macro">write!</span>(f, <span class="string">&quot; COPY_OPTIONS=({})&quot;</span>, copy_options)<span class="question-mark">?</span>;
+                }
+                <span class="kw">if </span>validation_mode.is_some() {
+                    <span class="macro">write!</span>(
+                        f,
+                        <span class="string">&quot; VALIDATION_MODE = {}&quot;</span>,
+                        validation_mode.as_ref().unwrap()
+                    )<span class="question-mark">?</span>;
+                }
+                <span class="prelude-val">Ok</span>(())
             }
         }
     }
@@ -7024,7 +7393,7 @@
                     <span class="macro">write!</span>(f, <span class="string">&quot; NO MINVALUE&quot;</span>)
                 }
                 MinMaxValue::Some(minvalue) =&gt; {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; MINVALUE {minvalue}&quot;</span>, minvalue = minvalue)
+                    <span class="macro">write!</span>(f, <span class="string">&quot; MINVALUE {minvalue}&quot;</span>)
                 }
             },
             SequenceOptions::MaxValue(value) =&gt; <span class="kw">match </span>value {
@@ -7035,7 +7404,7 @@
                     <span class="macro">write!</span>(f, <span class="string">&quot; NO MAXVALUE&quot;</span>)
                 }
                 MinMaxValue::Some(maxvalue) =&gt; {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; MAXVALUE {maxvalue}&quot;</span>, maxvalue = maxvalue)
+                    <span class="macro">write!</span>(f, <span class="string">&quot; MAXVALUE {maxvalue}&quot;</span>)
                 }
             },
             SequenceOptions::StartWith(start, with) =&gt; {
@@ -7129,7 +7498,7 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="macro">write!</span>(f, <span class="string">&quot; ON CONFLICT&quot;</span>)<span class="question-mark">?</span>;
         <span class="kw">if let </span><span class="prelude-val">Some</span>(target) = <span class="kw-2">&amp;</span><span class="self">self</span>.conflict_target {
-            <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, target)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">&quot;{target}&quot;</span>)<span class="question-mark">?</span>;
         }
         <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, <span class="self">self</span>.action)
     }
@@ -7138,7 +7507,7 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
             ConflictTarget::Columns(cols) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;({})&quot;</span>, display_comma_separated(cols)),
-            ConflictTarget::OnConstraint(name) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot; ON CONSTRAINT {}&quot;</span>, name),
+            ConflictTarget::OnConstraint(name) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot; ON CONSTRAINT {name}&quot;</span>),
         }
     }
 }
@@ -7156,7 +7525,7 @@
                     )<span class="question-mark">?</span>;
                 }
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(selection) = <span class="kw-2">&amp;</span>do_update.selection {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; WHERE {}&quot;</span>, selection)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; WHERE {selection}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="prelude-val">Ok</span>(())
             }
@@ -7391,8 +7760,8 @@
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>FunctionArgExpr {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
-            FunctionArgExpr::Expr(expr) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, expr),
-            FunctionArgExpr::QualifiedWildcard(prefix) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}.*&quot;</span>, prefix),
+            FunctionArgExpr::Expr(expr) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{expr}&quot;</span>),
+            FunctionArgExpr::QualifiedWildcard(prefix) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{prefix}.*&quot;</span>),
             FunctionArgExpr::Wildcard =&gt; f.write_str(<span class="string">&quot;*&quot;</span>),
         }
     }
@@ -7409,8 +7778,8 @@
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>FunctionArg {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
-            FunctionArg::Named { name, arg } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{} =&gt; {}&quot;</span>, name, arg),
-            FunctionArg::Unnamed(unnamed_arg) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, unnamed_arg),
+            FunctionArg::Named { name, arg } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{name} =&gt; {arg}&quot;</span>),
+            FunctionArg::Unnamed(unnamed_arg) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{unnamed_arg}&quot;</span>),
         }
     }
 }
@@ -7427,7 +7796,7 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
             CloseCursor::All =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;ALL&quot;</span>),
-            CloseCursor::Specific { name } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, name),
+            CloseCursor::Specific { name } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{name}&quot;</span>),
         }
     }
 }
@@ -7480,7 +7849,7 @@
             )<span class="question-mark">?</span>;
 
             <span class="kw">if let </span><span class="prelude-val">Some</span>(o) = <span class="kw-2">&amp;</span><span class="self">self</span>.over {
-                <span class="macro">write!</span>(f, <span class="string">&quot; OVER ({})&quot;</span>, o)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot; OVER ({o})&quot;</span>)<span class="question-mark">?</span>;
             }
         }
 
@@ -7539,10 +7908,10 @@
             <span class="self">self</span>.expr
         )<span class="question-mark">?</span>;
         <span class="kw">if let </span><span class="prelude-val">Some</span>(separator) = <span class="kw-2">&amp;</span><span class="self">self</span>.separator {
-            <span class="macro">write!</span>(f, <span class="string">&quot;, {}&quot;</span>, separator)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">&quot;, {separator}&quot;</span>)<span class="question-mark">?</span>;
         }
         <span class="kw">if let </span><span class="prelude-val">Some</span>(on_overflow) = <span class="kw-2">&amp;</span><span class="self">self</span>.on_overflow {
-            <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, on_overflow)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">&quot;{on_overflow}&quot;</span>)<span class="question-mark">?</span>;
         }
         <span class="macro">write!</span>(f, <span class="string">&quot;)&quot;</span>)<span class="question-mark">?</span>;
         <span class="kw">if </span>!<span class="self">self</span>.within_group.is_empty() {
@@ -7579,7 +7948,7 @@
             ListAggOnOverflow::Truncate { filler, with_count } =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot; TRUNCATE&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(filler) = filler {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, filler)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; {filler}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="kw">if </span><span class="kw-2">*</span>with_count {
                     <span class="macro">write!</span>(f, <span class="string">&quot; WITH&quot;</span>)<span class="question-mark">?</span>;
@@ -7616,16 +7985,16 @@
         )<span class="question-mark">?</span>;
         <span class="kw">if </span>!<span class="self">self</span>.within_group {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(order_by) = <span class="kw-2">&amp;</span><span class="self">self</span>.order_by {
-                <span class="macro">write!</span>(f, <span class="string">&quot; ORDER BY {}&quot;</span>, order_by)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot; ORDER BY {order_by}&quot;</span>)<span class="question-mark">?</span>;
             }
             <span class="kw">if let </span><span class="prelude-val">Some</span>(limit) = <span class="kw-2">&amp;</span><span class="self">self</span>.limit {
-                <span class="macro">write!</span>(f, <span class="string">&quot; LIMIT {}&quot;</span>, limit)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot; LIMIT {limit}&quot;</span>)<span class="question-mark">?</span>;
             }
         }
         <span class="macro">write!</span>(f, <span class="string">&quot;)&quot;</span>)<span class="question-mark">?</span>;
         <span class="kw">if </span><span class="self">self</span>.within_group {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(order_by) = <span class="kw-2">&amp;</span><span class="self">self</span>.order_by {
-                <span class="macro">write!</span>(f, <span class="string">&quot; WITHIN GROUP (ORDER BY {})&quot;</span>, order_by)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">&quot; WITHIN GROUP (ORDER BY {order_by})&quot;</span>)<span class="question-mark">?</span>;
             }
         }
         <span class="prelude-val">Ok</span>(())
@@ -7642,6 +8011,7 @@
     Schema,
     Role,
     Sequence,
+    Stage,
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>ObjectType {
@@ -7653,6 +8023,7 @@
             ObjectType::Schema =&gt; <span class="string">&quot;SCHEMA&quot;</span>,
             ObjectType::Role =&gt; <span class="string">&quot;ROLE&quot;</span>,
             ObjectType::Sequence =&gt; <span class="string">&quot;SEQUENCE&quot;</span>,
+            ObjectType::Stage =&gt; <span class="string">&quot;STAGE&quot;</span>,
         })
     }
 }
@@ -7755,8 +8126,8 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">use </span>TransactionMode::<span class="kw-2">*</span>;
         <span class="kw">match </span><span class="self">self </span>{
-            AccessMode(access_mode) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, access_mode),
-            IsolationLevel(iso_level) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;ISOLATION LEVEL {}&quot;</span>, iso_level),
+            AccessMode(access_mode) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{access_mode}&quot;</span>),
+            IsolationLevel(iso_level) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;ISOLATION LEVEL {iso_level}&quot;</span>),
         }
     }
 }
@@ -7816,7 +8187,7 @@
         <span class="kw">match </span><span class="self">self </span>{
             Like(pattern) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;LIKE &#39;{}&#39;&quot;</span>, value::escape_single_quote_string(pattern)),
             ILike(pattern) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;ILIKE {}&quot;</span>, value::escape_single_quote_string(pattern)),
-            Where(expr) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;WHERE {}&quot;</span>, expr),
+            Where(expr) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;WHERE {expr}&quot;</span>),
         }
     }
 }
@@ -7847,6 +8218,20 @@
             Replace =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;REPLACE&quot;</span>),
         }
     }
+}
+
+<span class="attr">#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
+#[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
+#[cfg_attr(feature = <span class="string">&quot;visitor&quot;</span>, derive(Visit, VisitMut))]
+</span><span class="kw">pub enum </span>CopySource {
+    Table {
+        <span class="doccomment">/// The name of the table to copy from.
+        </span>table_name: ObjectName,
+        <span class="doccomment">/// A list of column names to copy. Empty list means that all columns
+        /// are copied.
+        </span>columns: Vec&lt;Ident&gt;,
+    },
+    Query(Box&lt;Query&gt;),
 }
 
 <span class="attr">#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
@@ -7925,15 +8310,15 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">use </span>CopyOption::<span class="kw-2">*</span>;
         <span class="kw">match </span><span class="self">self </span>{
-            Format(name) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;FORMAT {}&quot;</span>, name),
+            Format(name) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;FORMAT {name}&quot;</span>),
             Freeze(<span class="bool-val">true</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;FREEZE&quot;</span>),
             Freeze(<span class="bool-val">false</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;FREEZE FALSE&quot;</span>),
-            Delimiter(char) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;DELIMITER &#39;{}&#39;&quot;</span>, char),
+            Delimiter(char) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;DELIMITER &#39;{char}&#39;&quot;</span>),
             Null(string) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;NULL &#39;{}&#39;&quot;</span>, value::escape_single_quote_string(string)),
             Header(<span class="bool-val">true</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;HEADER&quot;</span>),
             Header(<span class="bool-val">false</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;HEADER FALSE&quot;</span>),
-            Quote(char) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;QUOTE &#39;{}&#39;&quot;</span>, char),
-            Escape(char) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;ESCAPE &#39;{}&#39;&quot;</span>, char),
+            Quote(char) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;QUOTE &#39;{char}&#39;&quot;</span>),
+            Escape(char) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;ESCAPE &#39;{char}&#39;&quot;</span>),
             ForceQuote(columns) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;FORCE_QUOTE ({})&quot;</span>, display_comma_separated(columns)),
             ForceNotNull(columns) =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot;FORCE_NOT_NULL ({})&quot;</span>, display_comma_separated(columns))
@@ -7966,7 +8351,7 @@
         <span class="kw">use </span>CopyLegacyOption::<span class="kw-2">*</span>;
         <span class="kw">match </span><span class="self">self </span>{
             Binary =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;BINARY&quot;</span>),
-            Delimiter(char) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;DELIMITER &#39;{}&#39;&quot;</span>, char),
+            Delimiter(char) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;DELIMITER &#39;{char}&#39;&quot;</span>),
             Null(string) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;NULL &#39;{}&#39;&quot;</span>, value::escape_single_quote_string(string)),
             Csv(opts) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;CSV {}&quot;</span>, display_separated(opts, <span class="string">&quot; &quot;</span>)),
         }
@@ -7997,8 +8382,8 @@
         <span class="kw">use </span>CopyLegacyCsvOption::<span class="kw-2">*</span>;
         <span class="kw">match </span><span class="self">self </span>{
             Header =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;HEADER&quot;</span>),
-            Quote(char) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;QUOTE &#39;{}&#39;&quot;</span>, char),
-            Escape(char) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;ESCAPE &#39;{}&#39;&quot;</span>, char),
+            Quote(char) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;QUOTE &#39;{char}&#39;&quot;</span>),
+            Escape(char) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;ESCAPE &#39;{char}&#39;&quot;</span>),
             ForceQuote(columns) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;FORCE QUOTE {}&quot;</span>, display_comma_separated(columns)),
             ForceNotNull(columns) =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot;FORCE NOT NULL {}&quot;</span>, display_comma_separated(columns))
@@ -8035,7 +8420,7 @@
             } =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot; MATCHED&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(pred) = predicate {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; AND {}&quot;</span>, pred)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; AND {pred}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="macro">write!</span>(
                     f,
@@ -8046,7 +8431,7 @@
             MatchedDelete(predicate) =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot; MATCHED&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(pred) = predicate {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; AND {}&quot;</span>, pred)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; AND {pred}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="macro">write!</span>(f, <span class="string">&quot; THEN DELETE&quot;</span>)
             }
@@ -8057,7 +8442,7 @@
             } =&gt; {
                 <span class="macro">write!</span>(f, <span class="string">&quot; NOT MATCHED&quot;</span>)<span class="question-mark">?</span>;
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(pred) = predicate {
-                    <span class="macro">write!</span>(f, <span class="string">&quot; AND {}&quot;</span>, pred)<span class="question-mark">?</span>;
+                    <span class="macro">write!</span>(f, <span class="string">&quot; AND {pred}&quot;</span>)<span class="question-mark">?</span>;
                 }
                 <span class="macro">write!</span>(
                     f,
@@ -8192,14 +8577,14 @@
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>OperateFunctionArg {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(mode) = <span class="kw-2">&amp;</span><span class="self">self</span>.mode {
-            <span class="macro">write!</span>(f, <span class="string">&quot;{} &quot;</span>, mode)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">&quot;{mode} &quot;</span>)<span class="question-mark">?</span>;
         }
         <span class="kw">if let </span><span class="prelude-val">Some</span>(name) = <span class="kw-2">&amp;</span><span class="self">self</span>.name {
-            <span class="macro">write!</span>(f, <span class="string">&quot;{} &quot;</span>, name)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">&quot;{name} &quot;</span>)<span class="question-mark">?</span>;
         }
         <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.data_type)<span class="question-mark">?</span>;
         <span class="kw">if let </span><span class="prelude-val">Some</span>(default_expr) = <span class="kw-2">&amp;</span><span class="self">self</span>.default_expr {
-            <span class="macro">write!</span>(f, <span class="string">&quot; = {}&quot;</span>, default_expr)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">&quot; = {default_expr}&quot;</span>)<span class="question-mark">?</span>;
         }
         <span class="prelude-val">Ok</span>(())
     }
@@ -8412,14 +8797,14 @@
             <span class="macro">vec!</span>[Expr::Identifier(Ident::new(<span class="string">&quot;a&quot;</span>))],
             <span class="macro">vec!</span>[Expr::Identifier(Ident::new(<span class="string">&quot;b&quot;</span>))],
         ]);
-        <span class="macro">assert_eq!</span>(<span class="string">&quot;GROUPING SETS ((a), (b))&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, grouping_sets));
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;GROUPING SETS ((a), (b))&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{grouping_sets}&quot;</span>));
 
         <span class="comment">// a and b in the same group
         </span><span class="kw">let </span>grouping_sets = Expr::GroupingSets(<span class="macro">vec!</span>[<span class="macro">vec!</span>[
             Expr::Identifier(Ident::new(<span class="string">&quot;a&quot;</span>)),
             Expr::Identifier(Ident::new(<span class="string">&quot;b&quot;</span>)),
         ]]);
-        <span class="macro">assert_eq!</span>(<span class="string">&quot;GROUPING SETS ((a, b))&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, grouping_sets));
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;GROUPING SETS ((a, b))&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{grouping_sets}&quot;</span>));
 
         <span class="comment">// (a, b) and (c, d) in different group
         </span><span class="kw">let </span>grouping_sets = Expr::GroupingSets(<span class="macro">vec!</span>[
@@ -8432,28 +8817,25 @@
                 Expr::Identifier(Ident::new(<span class="string">&quot;d&quot;</span>)),
             ],
         ]);
-        <span class="macro">assert_eq!</span>(
-            <span class="string">&quot;GROUPING SETS ((a, b), (c, d))&quot;</span>,
-            <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, grouping_sets)
-        );
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;GROUPING SETS ((a, b), (c, d))&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{grouping_sets}&quot;</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_rollup_display() {
         <span class="kw">let </span>rollup = Expr::Rollup(<span class="macro">vec!</span>[<span class="macro">vec!</span>[Expr::Identifier(Ident::new(<span class="string">&quot;a&quot;</span>))]]);
-        <span class="macro">assert_eq!</span>(<span class="string">&quot;ROLLUP (a)&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, rollup));
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;ROLLUP (a)&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{rollup}&quot;</span>));
 
         <span class="kw">let </span>rollup = Expr::Rollup(<span class="macro">vec!</span>[<span class="macro">vec!</span>[
             Expr::Identifier(Ident::new(<span class="string">&quot;a&quot;</span>)),
             Expr::Identifier(Ident::new(<span class="string">&quot;b&quot;</span>)),
         ]]);
-        <span class="macro">assert_eq!</span>(<span class="string">&quot;ROLLUP ((a, b))&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, rollup));
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;ROLLUP ((a, b))&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{rollup}&quot;</span>));
 
         <span class="kw">let </span>rollup = Expr::Rollup(<span class="macro">vec!</span>[
             <span class="macro">vec!</span>[Expr::Identifier(Ident::new(<span class="string">&quot;a&quot;</span>))],
             <span class="macro">vec!</span>[Expr::Identifier(Ident::new(<span class="string">&quot;b&quot;</span>))],
         ]);
-        <span class="macro">assert_eq!</span>(<span class="string">&quot;ROLLUP (a, b)&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, rollup));
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;ROLLUP (a, b)&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{rollup}&quot;</span>));
 
         <span class="kw">let </span>rollup = Expr::Rollup(<span class="macro">vec!</span>[
             <span class="macro">vec!</span>[Expr::Identifier(Ident::new(<span class="string">&quot;a&quot;</span>))],
@@ -8463,25 +8845,25 @@
             ],
             <span class="macro">vec!</span>[Expr::Identifier(Ident::new(<span class="string">&quot;d&quot;</span>))],
         ]);
-        <span class="macro">assert_eq!</span>(<span class="string">&quot;ROLLUP (a, (b, c), d)&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, rollup));
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;ROLLUP (a, (b, c), d)&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{rollup}&quot;</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_cube_display() {
         <span class="kw">let </span>cube = Expr::Cube(<span class="macro">vec!</span>[<span class="macro">vec!</span>[Expr::Identifier(Ident::new(<span class="string">&quot;a&quot;</span>))]]);
-        <span class="macro">assert_eq!</span>(<span class="string">&quot;CUBE (a)&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, cube));
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;CUBE (a)&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{cube}&quot;</span>));
 
         <span class="kw">let </span>cube = Expr::Cube(<span class="macro">vec!</span>[<span class="macro">vec!</span>[
             Expr::Identifier(Ident::new(<span class="string">&quot;a&quot;</span>)),
             Expr::Identifier(Ident::new(<span class="string">&quot;b&quot;</span>)),
         ]]);
-        <span class="macro">assert_eq!</span>(<span class="string">&quot;CUBE ((a, b))&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, cube));
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;CUBE ((a, b))&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{cube}&quot;</span>));
 
         <span class="kw">let </span>cube = Expr::Cube(<span class="macro">vec!</span>[
             <span class="macro">vec!</span>[Expr::Identifier(Ident::new(<span class="string">&quot;a&quot;</span>))],
             <span class="macro">vec!</span>[Expr::Identifier(Ident::new(<span class="string">&quot;b&quot;</span>))],
         ]);
-        <span class="macro">assert_eq!</span>(<span class="string">&quot;CUBE (a, b)&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, cube));
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;CUBE (a, b)&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{cube}&quot;</span>));
 
         <span class="kw">let </span>cube = Expr::Cube(<span class="macro">vec!</span>[
             <span class="macro">vec!</span>[Expr::Identifier(Ident::new(<span class="string">&quot;a&quot;</span>))],
@@ -8491,7 +8873,33 @@
             ],
             <span class="macro">vec!</span>[Expr::Identifier(Ident::new(<span class="string">&quot;d&quot;</span>))],
         ]);
-        <span class="macro">assert_eq!</span>(<span class="string">&quot;CUBE (a, (b, c), d)&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, cube));
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;CUBE (a, (b, c), d)&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{cube}&quot;</span>));
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_interval_display() {
+        <span class="kw">let </span>interval = Expr::Interval(Interval {
+            value: Box::new(Expr::Value(Value::SingleQuotedString(String::from(
+                <span class="string">&quot;123:45.67&quot;</span>,
+            )))),
+            leading_field: <span class="prelude-val">Some</span>(DateTimeField::Minute),
+            leading_precision: <span class="prelude-val">Some</span>(<span class="number">10</span>),
+            last_field: <span class="prelude-val">Some</span>(DateTimeField::Second),
+            fractional_seconds_precision: <span class="prelude-val">Some</span>(<span class="number">9</span>),
+        });
+        <span class="macro">assert_eq!</span>(
+            <span class="string">&quot;INTERVAL &#39;123:45.67&#39; MINUTE (10) TO SECOND (9)&quot;</span>,
+            <span class="macro">format!</span>(<span class="string">&quot;{interval}&quot;</span>),
+        );
+
+        <span class="kw">let </span>interval = Expr::Interval(Interval {
+            value: Box::new(Expr::Value(Value::SingleQuotedString(String::from(<span class="string">&quot;5&quot;</span>)))),
+            leading_field: <span class="prelude-val">Some</span>(DateTimeField::Second),
+            leading_precision: <span class="prelude-val">Some</span>(<span class="number">1</span>),
+            last_field: <span class="prelude-val">None</span>,
+            fractional_seconds_precision: <span class="prelude-val">Some</span>(<span class="number">3</span>),
+        });
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;INTERVAL &#39;5&#39; SECOND (1, 3)&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{interval}&quot;</span>));
     }
 }
 </code></pre></div></section></main></body></html>
