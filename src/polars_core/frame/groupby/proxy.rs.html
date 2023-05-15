@@ -646,6 +646,9 @@
 <a href="#646" id="646">646</a>
 <a href="#647" id="647">647</a>
 <a href="#648" id="648">648</a>
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::mem::ManuallyDrop;
 <span class="kw">use </span>std::ops::Deref;
 
@@ -712,7 +715,7 @@
 
         POOL.install(|| {
             v.into_par_iter().zip(offsets).for_each(
-                |((local_first_vals, local_all_vals), offset)| <span class="kw">unsafe </span>{
+                |((local_first_vals, <span class="kw-2">mut </span>local_all_vals), offset)| <span class="kw">unsafe </span>{
                     <span class="kw">let </span>global_first: <span class="kw-2">*mut </span>IdxSize = global_first_ptr.get();
                     <span class="kw">let </span>global_all: <span class="kw-2">*mut </span>Vec&lt;IdxSize&gt; = global_all_ptr.get();
                     <span class="kw">let </span>global_first = global_first.add(offset);
@@ -728,8 +731,11 @@
                         global_all,
                         local_all_vals.len(),
                     );
-                    <span class="comment">// ensure the vecs don&#39;t get dropped
-                    </span>std::mem::forget(local_all_vals);
+                    <span class="comment">// local_all_vals: Vec&lt;Vec&lt;IdxSize&gt;&gt;
+                    // we just copied the contents: Vec&lt;IdxSize&gt; to a new buffer
+                    // now, we want to free the outer vec, without freeing
+                    // the inner vecs as they are moved, so we set the len to 0
+                    </span>local_all_vals.set_len(<span class="number">0</span>);
                 },
             );
         });
