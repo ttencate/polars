@@ -870,6 +870,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.mean.html">polars.LazyFrame.mean</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.median.html">polars.LazyFrame.median</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.min.html">polars.LazyFrame.min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.null_count.html">polars.LazyFrame.null_count</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.quantile.html">polars.LazyFrame.quantile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.std.html">polars.LazyFrame.std</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../lazyframe/api/polars.LazyFrame.sum.html">polars.LazyFrame.sum</a></li>
@@ -1553,7 +1554,7 @@ document.write(`
 <h1>polars.Config.set_fmt_str_lengths<a class="headerlink" href="#polars-config-set-fmt-str-lengths" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Config.set_fmt_str_lengths">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Config.</span></span><span class="sig-name descname"><span class="pre">set_fmt_str_lengths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.11)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><span class="pre">polars.config.Config</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/config.py#L305-L320"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Config.set_fmt_str_lengths" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Config.</span></span><span class="sig-name descname"><span class="pre">set_fmt_str_lengths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.11)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><span class="pre">polars.config.Config</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/config.py#L305-L353"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Config.set_fmt_str_lengths" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the number of characters used to display string values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1563,6 +1564,39 @@ document.write(`
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;txt&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">... </span>            <span class="s2">&quot;Play it, Sam. Play &#39;As Time Goes By&#39;.&quot;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s2">&quot;This is the beginning of a beautiful friendship.&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="p">]</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lengths</span><span class="p">()</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;len&quot;</span><span class="p">))</span>
+<span class="go">shape: (2, 2)</span>
+<span class="go">┌───────────────────────────────────┬─────┐</span>
+<span class="go">│ txt                               ┆ len │</span>
+<span class="go">│ ---                               ┆ --- │</span>
+<span class="go">│ str                               ┆ u32 │</span>
+<span class="go">╞═══════════════════════════════════╪═════╡</span>
+<span class="go">│ Play it, Sam. Play &#39;As Time Goes… ┆ 37  │</span>
+<span class="go">│ This is the beginning of a beaut… ┆ 48  │</span>
+<span class="go">└───────────────────────────────────┴─────┘</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">pl</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">fmt_str_lengths</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">shape: (2, 1)</span>
+<span class="go">┌──────────────────────────────────────────────────┐</span>
+<span class="go">│ txt                                              │</span>
+<span class="go">│ ---                                              │</span>
+<span class="go">│ str                                              │</span>
+<span class="go">╞══════════════════════════════════════════════════╡</span>
+<span class="go">│ Play it, Sam. Play &#39;As Time Goes By&#39;.            │</span>
+<span class="go">│ This is the beginning of a beautiful friendship. │</span>
+<span class="go">└──────────────────────────────────────────────────┘</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

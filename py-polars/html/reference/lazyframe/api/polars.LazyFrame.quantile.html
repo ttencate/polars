@@ -49,7 +49,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="polars.LazyFrame.std" href="polars.LazyFrame.std.html" />
-    <link rel="prev" title="polars.LazyFrame.min" href="polars.LazyFrame.min.html" />
+    <link rel="prev" title="polars.LazyFrame.null_count" href="polars.LazyFrame.null_count.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -870,6 +870,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.LazyFrame.mean.html">polars.LazyFrame.mean</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.LazyFrame.median.html">polars.LazyFrame.median</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.LazyFrame.min.html">polars.LazyFrame.min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.LazyFrame.null_count.html">polars.LazyFrame.null_count</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.LazyFrame.quantile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.LazyFrame.std.html">polars.LazyFrame.std</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.LazyFrame.sum.html">polars.LazyFrame.sum</a></li>
@@ -1558,8 +1559,8 @@ document.write(`
 <h1>polars.LazyFrame.quantile<a class="headerlink" href="#polars-lazyframe-quantile" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.LazyFrame.quantile">
-<span class="sig-prename descclassname"><span class="pre">LazyFrame.</span></span><span class="sig-name descname"><span class="pre">quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quantile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">RollingInterpolationMethod</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'nearest'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/lazyframe/frame.py#L4187-L4222"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.LazyFrame.quantile" title="Permalink to this definition">#</a></dt>
-<dd><p>Aggregate the columns in the DataFrame to their quantile value.</p>
+<span class="sig-prename descclassname"><span class="pre">LazyFrame.</span></span><span class="sig-name descname"><span class="pre">quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quantile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">RollingInterpolationMethod</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'nearest'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/lazyframe/frame.py#L4213-L4248"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.LazyFrame.quantile" title="Permalink to this definition">#</a></dt>
+<dd><p>Aggregate the columns in the LazyFrame to their quantile value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -1604,12 +1605,12 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.LazyFrame.min.html"
+       href="polars.LazyFrame.null_count.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.LazyFrame.min</p>
+        <p class="prev-next-title">polars.LazyFrame.null_count</p>
       </div>
     </a>
     <a class="right-next"
