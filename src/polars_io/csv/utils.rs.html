@@ -679,8 +679,6 @@
 <a href="#679" id="679">679</a>
 <a href="#680" id="680">680</a>
 <a href="#681" id="681">681</a>
-<a href="#682" id="682">682</a>
-<a href="#683" id="683">683</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::io::Read;
 <span class="kw">use </span>std::mem::MaybeUninit;
@@ -806,9 +804,8 @@
                         PatternWithOffset {
                             pattern: Pattern::DatetimeYMDZ,
                             offset: <span class="kw">_</span>,
-                        } =&gt; DataType::Utf8, <span class="comment">// TODO: support tz-aware,
-                                             // need to keep track of offset
-                    </span>},
+                        } =&gt; DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>.to_string())),
+                    },
                     <span class="prelude-val">None </span>=&gt; DataType::Utf8,
                 }
             }
@@ -843,9 +840,8 @@
                     PatternWithOffset {
                         pattern: Pattern::DatetimeYMDZ,
                         offset: <span class="kw">_</span>,
-                    } =&gt; DataType::Utf8, <span class="comment">// TODO: support tz-aware,
-                                         // need to keep track of offset
-                </span>},
+                    } =&gt; DataType::Datetime(TimeUnit::Microseconds, <span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>.to_string())),
+                },
                 <span class="prelude-val">None </span>=&gt; DataType::Utf8,
             }
         }

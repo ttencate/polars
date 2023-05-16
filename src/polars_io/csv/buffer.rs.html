@@ -818,6 +818,8 @@
 <a href="#818" id="818">818</a>
 <a href="#819" id="819">819</a>
 <a href="#820" id="820">820</a>
+<a href="#821" id="821">821</a>
+<a href="#822" id="822">822</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::array::Utf8Array;
 <span class="kw">use </span>arrow::bitmap::MutableBitmap;
 <span class="kw">use </span>polars_arrow::prelude::FromDataUtf8;
@@ -1247,7 +1249,8 @@
         <span class="prelude-val">Some</span>(compiled) =&gt; {
             <span class="kw">match </span>DatetimeInfer::&lt;T::Native&gt;::try_from(compiled.pattern_with_offset.pattern) {
                 <span class="prelude-val">Ok</span>(<span class="kw-2">mut </span>infer) =&gt; {
-                    <span class="kw">let </span>parsed = infer.parse(val, compiled.pattern_with_offset.offset);
+                    infer.utc = <span class="bool-val">true</span>;
+                    <span class="kw">let </span>parsed = infer.parse(val, <span class="prelude-val">None</span>);
                     buf.compiled = <span class="prelude-val">Some</span>(infer);
                     buf.builder.append_option(parsed);
                     <span class="prelude-val">Ok</span>(())
@@ -1266,7 +1269,8 @@
             <span class="prelude-val">Some</span>(pattern_with_offset) =&gt; {
                 <span class="kw">match </span>DatetimeInfer::&lt;T::Native&gt;::try_from(pattern_with_offset.pattern) {
                     <span class="prelude-val">Ok</span>(<span class="kw-2">mut </span>infer) =&gt; {
-                        <span class="kw">let </span>parsed = infer.parse(val, pattern_with_offset.offset);
+                        infer.utc = <span class="bool-val">true</span>;
+                        <span class="kw">let </span>parsed = infer.parse(val, <span class="prelude-val">None</span>);
                         buf.compiled = <span class="prelude-val">Some</span>(infer);
                         buf.builder.append_option(parsed);
                         <span class="prelude-val">Ok</span>(())
