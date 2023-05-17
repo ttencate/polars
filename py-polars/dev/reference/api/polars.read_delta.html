@@ -48,7 +48,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/polars.read_delta';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="polars.scan_pyarrow_dataset" href="polars.scan_pyarrow_dataset.html" />
+    <link rel="next" title="polars.DataFrame.write_delta" href="polars.DataFrame.write_delta.html" />
     <link rel="prev" title="polars.scan_delta" href="polars.scan_delta.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -389,6 +389,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.DataFrame.write_excel.html">polars.DataFrame.write_excel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.scan_delta.html">polars.scan_delta</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">polars.read_delta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.DataFrame.write_delta.html">polars.DataFrame.write_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.scan_pyarrow_dataset.html">polars.scan_pyarrow_dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.io.csv.batched_reader.BatchedCsvReader.next_batches.html">polars.io.csv.batched_reader.BatchedCsvReader.next_batches</a></li>
 </ul>
@@ -1630,7 +1631,7 @@ See a list of supported storage options for GCS <a class="reference external" hr
 <li><p>adl://&lt;container&gt;/&lt;path&gt;</p></li>
 <li><p>abfs://&lt;container&gt;/&lt;path&gt;</p></li>
 </ul>
-<p>Supported options for Azure are available <a class="reference external" href="https://docs.rs/object_store/latest/object_store/azure/enum.AzureConfigKey.html#variants">here</a>.</p>
+<p>See a list of supported storage options for Azure <a class="reference external" href="https://docs.rs/object_store/latest/object_store/azure/enum.AzureConfigKey.html#variants">here</a>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">table_path</span> <span class="o">=</span> <span class="s2">&quot;az://container/path/to/delta-table/&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">storage_options</span> <span class="o">=</span> <span class="p">{</span>
 <span class="gp">... </span>    <span class="s2">&quot;AZURE_STORAGE_ACCOUNT_NAME&quot;</span><span class="p">:</span> <span class="s2">&quot;AZURE_STORAGE_ACCOUNT_NAME&quot;</span><span class="p">,</span>
@@ -1674,11 +1675,11 @@ information.</p>
       </div>
     </a>
     <a class="right-next"
-       href="polars.scan_pyarrow_dataset.html"
+       href="polars.DataFrame.write_delta.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">polars.scan_pyarrow_dataset</p>
+        <p class="prev-next-title">polars.DataFrame.write_delta</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
