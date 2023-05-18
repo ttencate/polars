@@ -357,6 +357,12 @@
 <a href="#357" id="357">357</a>
 <a href="#358" id="358">358</a>
 <a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::io::Write;
 
 <span class="attr">#[cfg(any(
@@ -563,6 +569,12 @@
             DataType::List(<span class="kw">_</span>) =&gt; <span class="bool-val">true</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
             </span>DataType::Struct(<span class="kw">_</span>) =&gt; <span class="bool-val">true</span>,
+            <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
+            </span>DataType::Object(<span class="kw">_</span>) =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(PolarsError::ComputeError(
+                    <span class="string">&quot;csv writer does not suppert object dtype&quot;</span>.into(),
+                ))
+            }
             <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
         };
         <span class="macro">polars_ensure!</span>(
