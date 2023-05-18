@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/work/polars/polars/target/debug/build/target-features-e2eed56c9179f08b/out/docs.rs`."><title>docs.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../../../../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../../../../../../../../../" data-static-root-path="../../../../../../../../../../../../static.files/" data-current-crate="target_features" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0-nightly (a77c55248 2023-05-06)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-6f6ffb5395b17c6e.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../../../../../../../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../../../../../../../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../../../../../../../../../../source-files.js"></script><script defer src="../../../../../../../../../../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../../../../../../../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../../../../../../../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../../../../../../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../../../../../../../../target_features/index.html"><img class="rust-logo" src="../../../../../../../../../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../../../../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../../../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../../../../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/work/polars/polars/target/debug/build/target-features-405a52d15aa6c70a/out/docs.rs`."><title>docs.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../../../../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../../../../../../../../../" data-static-root-path="../../../../../../../../../../../../static.files/" data-current-crate="target_features" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0-nightly (a77c55248 2023-05-06)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-6f6ffb5395b17c6e.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../../../../../../../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../../../../../../../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../../../../../../../../../../source-files.js"></script><script defer src="../../../../../../../../../../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../../../../../../../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../../../../../../../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../../../../../../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../../../../../../../../target_features/index.html"><img class="rust-logo" src="../../../../../../../../../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../../../../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../../../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../../../../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -621,54 +621,71 @@
 <a href="#621" id="621">621</a>
 <a href="#622" id="622">622</a>
 <a href="#623" id="623">623</a>
+<a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
+<a href="#627" id="627">627</a>
+<a href="#628" id="628">628</a>
+<a href="#629" id="629">629</a>
+<a href="#630" id="630">630</a>
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a>
+<a href="#636" id="636">636</a>
+<a href="#637" id="637">637</a>
+<a href="#638" id="638">638</a>
+<a href="#639" id="639">639</a>
+<a href="#640" id="640">640</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// aarch64 documentation
 ///
 /// ## Features
 /// | Feature | Description | Also Enables&lt;sup&gt;†&lt;/sup&gt; |
 /// | ------- | ----------- | ------------------------ |
-/// | `aes` | Enable AES support. | `neon` |
-/// | `bf16` | Enable BFloat16 Extension. |  |
-/// | `bti` | Enable Branch Target Identification. |  |
-/// | `crc` | Enable ARMv8 CRC-32 checksum instructions. |  |
-/// | `dit` | Enable v8.4-A Data Independent Timing instructions. |  |
-/// | `dotprod` | Enable dot product support. |  |
-/// | `dpb` | Enable v8.2 data Cache Clean to Point of Persistence. |  |
-/// | `dpb2` | Enable v8.5 Cache Clean to Point of Deep Persistence. |  |
-/// | `f32mm` | Enable Matrix Multiply FP32 Extension. | `fp16`, `neon`, `sve` |
-/// | `f64mm` | Enable Matrix Multiply FP64 Extension. | `fp16`, `neon`, `sve` |
-/// | `fcma` | Enable v8.3-A Floating-point complex number support. | `neon` |
-/// | `fhm` | Enable FP16 FML instructions. | `fp16`, `neon` |
-/// | `flagm` | Enable v8.4-A Flag Manipulation Instructions. |  |
-/// | `fp16` | Full FP16. | `neon` |
-/// | `frintts` | Enable FRInt[32|64][Z|X] instructions that round a floating-point number to an integer (in FP format) forcing it to fit into a 32- or 64-bit int. |  |
-/// | `i8mm` | Enable Matrix Multiply Int8 Extension. |  |
-/// | `jsconv` | Enable v8.3-A JavaScript FP conversion instructions. | `neon` |
-/// | `lor` | Enables ARM v8.1 Limited Ordering Regions extension. |  |
-/// | `lse` | Enable ARMv8.1 Large System Extension (LSE) atomic instructions. |  |
-/// | `mte` | Enable Memory Tagging Extension. |  |
-/// | `neon` | Enable Advanced SIMD instructions. |  |
-/// | `paca` | Enable v8.3-A Pointer Authentication extension. | `pacg` |
-/// | `pacg` | Enable v8.3-A Pointer Authentication extension. | `paca` |
-/// | `pan` | Enables ARM v8.1 Privileged Access-Never extension. |  |
-/// | `pmuv3` | Enable ARMv8 PMUv3 Performance Monitors extension. |  |
-/// | `rand` | Enable Random Number generation instructions. |  |
-/// | `ras` | Enable ARMv8 Reliability, Availability and Serviceability Extensions. |  |
-/// | `rcpc` | Enable support for RCPC extension. |  |
-/// | `rcpc2` | Enable v8.4-A RCPC instructions with Immediate Offsets. | `rcpc` |
-/// | `rdm` | Enable ARMv8.1 Rounding Double Multiply Add/Subtract instructions. |  |
-/// | `sb` | Enable v8.5 Speculation Barrier. |  |
-/// | `sha2` | Enable SHA1 and SHA256 support. | `neon` |
-/// | `sha3` | Enable SHA512 and SHA3 support. | `neon`, `sha2` |
-/// | `sm4` | Enable SM3 and SM4 support. | `neon` |
-/// | `spe` | Enable Statistical Profiling extension. |  |
-/// | `ssbs` | Enable Speculative Store Bypass Safe bit. |  |
-/// | `sve` | Enable Scalable Vector Extension (SVE) instructions. | `fp16`, `neon` |
-/// | `sve2` | Enable Scalable Vector Extension 2 (SVE2) instructions. | `fp16`, `neon`, `sve` |
-/// | `sve2-aes` | Enable AES SVE2 instructions. | `aes`, `fp16`, `neon`, `sve`, `sve2` |
-/// | `sve2-bitperm` | Enable bit permutation SVE2 instructions. | `fp16`, `neon`, `sve`, `sve2` |
-/// | `sve2-sha3` | Enable SHA3 SVE2 instructions. | `fp16`, `neon`, `sha2`, `sha3`, `sve`, `sve2` |
-/// | `sve2-sm4` | Enable SM4 SVE2 instructions. | `fp16`, `neon`, `sm4`, `sve`, `sve2` |
-/// | `tme` | Enable Transactional Memory Extension. |  |
+/// | `aes` | Enable AES support (FEAT_AES, FEAT_PMULL). | `neon` |
+/// | `bf16` | Enable BFloat16 Extension (FEAT_BF16). |  |
+/// | `bti` | Enable Branch Target Identification (FEAT_BTI). |  |
+/// | `crc` | Enable ARMv8 CRC-32 checksum instructions (FEAT_CRC32). |  |
+/// | `dit` | Enable v8.4-A Data Independent Timing instructions (FEAT_DIT). |  |
+/// | `dotprod` | Enable dot product support (FEAT_DotProd). |  |
+/// | `dpb` | Enable v8.2 data Cache Clean to Point of Persistence (FEAT_DPB). |  |
+/// | `dpb2` | Enable v8.5 Cache Clean to Point of Deep Persistence (FEAT_DPB2). |  |
+/// | `f32mm` | Enable Matrix Multiply FP32 Extension (FEAT_F32MM). | `fp16`, `neon`, `sve` |
+/// | `f64mm` | Enable Matrix Multiply FP64 Extension (FEAT_F64MM). | `fp16`, `neon`, `sve` |
+/// | `fcma` | Enable v8.3-A Floating-point complex number support (FEAT_FCMA). | `neon` |
+/// | `fhm` | Enable FP16 FML instructions (FEAT_FHM). | `fp16`, `neon` |
+/// | `flagm` | Enable v8.4-A Flag Manipulation Instructions (FEAT_FlagM). |  |
+/// | `fp16` | Full FP16 (FEAT_FP16). | `neon` |
+/// | `frintts` | Enable FRInt[32|64][Z|X] instructions that round a floating-point number to an integer (in FP format) forcing it to fit into a 32- or 64-bit int (FEAT_FRINTTS). |  |
+/// | `i8mm` | Enable Matrix Multiply Int8 Extension (FEAT_I8MM). |  |
+/// | `jsconv` | Enable v8.3-A JavaScript FP conversion instructions (FEAT_JSCVT). | `neon` |
+/// | `lor` | Enables ARM v8.1 Limited Ordering Regions extension (FEAT_LOR). |  |
+/// | `lse` | Enable ARMv8.1 Large System Extension (LSE) atomic instructions (FEAT_LSE). |  |
+/// | `mte` | Enable Memory Tagging Extension (FEAT_MTE, FEAT_MTE2). |  |
+/// | `neon` | Enable Advanced SIMD instructions (FEAT_AdvSIMD). |  |
+/// | `paca` | Enable v8.3-A Pointer Authentication extension (FEAT_PAuth). | `pacg` |
+/// | `pacg` | Enable v8.3-A Pointer Authentication extension (FEAT_PAuth). | `paca` |
+/// | `pan` | Enables ARM v8.1 Privileged Access-Never extension (FEAT_PAN). |  |
+/// | `pmuv3` | Enable Code Generation for ARMv8 PMUv3 Performance Monitors extension (FEAT_PMUv3). |  |
+/// | `rand` | Enable Random Number generation instructions (FEAT_RNG). |  |
+/// | `ras` | Enable ARMv8 Reliability, Availability and Serviceability Extensions (FEAT_RAS, FEAT_RASv1p1). |  |
+/// | `rcpc` | Enable support for RCPC extension (FEAT_LRCPC). |  |
+/// | `rcpc2` | Enable v8.4-A RCPC instructions with Immediate Offsets (FEAT_LRCPC2). | `rcpc` |
+/// | `rdm` | Enable ARMv8.1 Rounding Double Multiply Add/Subtract instructions (FEAT_RDM). |  |
+/// | `sb` | Enable v8.5 Speculation Barrier (FEAT_SB). |  |
+/// | `sha2` | Enable SHA1 and SHA256 support (FEAT_SHA1, FEAT_SHA256). | `neon` |
+/// | `sha3` | Enable SHA512 and SHA3 support (FEAT_SHA3, FEAT_SHA512). | `neon`, `sha2` |
+/// | `sm4` | Enable SM3 and SM4 support (FEAT_SM4, FEAT_SM3). | `neon` |
+/// | `spe` | Enable Statistical Profiling extension (FEAT_SPE). |  |
+/// | `ssbs` | Enable Speculative Store Bypass Safe bit (FEAT_SSBS, FEAT_SSBS2). |  |
+/// | `sve` | Enable Scalable Vector Extension (SVE) instructions (FEAT_SVE). | `fp16`, `neon` |
+/// | `sve2` | Enable Scalable Vector Extension 2 (SVE2) instructions (FEAT_SVE2). | `fp16`, `neon`, `sve` |
+/// | `sve2-aes` | Enable AES SVE2 instructions (FEAT_SVE_AES, FEAT_SVE_PMULL128). | `aes`, `fp16`, `neon`, `sve`, `sve2` |
+/// | `sve2-bitperm` | Enable bit permutation SVE2 instructions (FEAT_SVE_BitPerm). | `fp16`, `neon`, `sve`, `sve2` |
+/// | `sve2-sha3` | Enable SHA3 SVE2 instructions (FEAT_SVE_SHA3). | `fp16`, `neon`, `sha2`, `sha3`, `sve`, `sve2` |
+/// | `sve2-sm4` | Enable SM4 SVE2 instructions (FEAT_SVE_SM4). | `fp16`, `neon`, `sm4`, `sve`, `sve2` |
+/// | `tme` | Enable Transactional Memory Extension (FEAT_TME). |  |
 /// | `v8.1a` | Support ARM v8.1a instructions. | `crc`, `lor`, `lse`, `pan`, `rdm`, `vh` |
 /// | `v8.2a` | Support ARM v8.2a instructions. | `crc`, `dpb`, `lor`, `lse`, `pan`, `ras`, `rdm`, `v8.1a`, `vh` |
 /// | `v8.3a` | Support ARM v8.3a instructions. | `crc`, `dpb`, `fcma`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `ras`, `rcpc`, `rdm`, `v8.1a`, `v8.2a`, `vh` |
@@ -676,7 +693,7 @@
 /// | `v8.5a` | Support ARM v8.5a instructions. | `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `flagm`, `frintts`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `ssbs`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `vh` |
 /// | `v8.6a` | Support ARM v8.6a instructions. | `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `flagm`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `ssbs`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `vh` |
 /// | `v8.7a` | Support ARM v8.7a instructions. | `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `flagm`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `ssbs`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `v8.6a`, `vh` |
-/// | `vh` | Enables ARM v8.1 Virtual Host extension. |  |
+/// | `vh` | Enables ARM v8.1 Virtual Host extension (FEAT_VHE). |  |
 /// | `crt-static` | Enables C Run-time Libraries to be statically linked. |  |
 ///
 /// &lt;sup&gt;†&lt;/sup&gt; This is often empirical, rather than specified in any standard, i.e. all available CPUs with a particular feature also have another feature.
@@ -685,17 +702,21 @@
 /// | CPU | Enabled Features |
 /// | --- | -------- |
 /// | `a64fx` | `crc`, `dpb`, `fcma`, `fp16`, `lor`, `lse`, `neon`, `pan`, `pmuv3`, `ras`, `rdm`, `sha2`, `sve`, `v8.1a`, `v8.2a`, `vh` |
-/// | `ampere1` | `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `flagm`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `mte`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `ssbs`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `v8.6a`, `vh` |
+/// | `ampere1` | `aes`, `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `flagm`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `rand`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `sha2`, `sha3`, `ssbs`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `v8.6a`, `vh` |
+/// | `ampere1a` | `aes`, `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `flagm`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `mte`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `rand`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `sha2`, `sha3`, `sm4`, `ssbs`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `v8.6a`, `vh` |
 /// | `apple-a10` | `aes`, `crc`, `lor`, `neon`, `pan`, `pmuv3`, `rdm`, `sha2`, `vh` |
 /// | `apple-a11` | `aes`, `crc`, `dpb`, `fp16`, `lor`, `lse`, `neon`, `pan`, `pmuv3`, `ras`, `rdm`, `sha2`, `v8.1a`, `v8.2a`, `vh` |
 /// | `apple-a12` | `aes`, `crc`, `dpb`, `fcma`, `fp16`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rdm`, `sha2`, `v8.1a`, `v8.2a`, `v8.3a`, `vh` |
 /// | `apple-a13` | `aes`, `crc`, `dit`, `dotprod`, `dpb`, `fcma`, `fhm`, `flagm`, `fp16`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sha2`, `sha3`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `vh` |
 /// | `apple-a14` | `aes`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `fhm`, `flagm`, `fp16`, `frintts`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `sha2`, `sha3`, `ssbs`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `vh` |
+/// | `apple-a15` | `aes`, `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `fhm`, `flagm`, `fp16`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `sha2`, `sha3`, `ssbs`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `v8.6a`, `vh` |
+/// | `apple-a16` | `aes`, `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `fhm`, `flagm`, `fp16`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `sha2`, `sha3`, `ssbs`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `v8.6a`, `vh` |
 /// | `apple-a7` | `aes`, `neon`, `pmuv3`, `sha2` |
 /// | `apple-a8` | `aes`, `neon`, `pmuv3`, `sha2` |
 /// | `apple-a9` | `aes`, `neon`, `pmuv3`, `sha2` |
-/// | `apple-latest` | `aes`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `fhm`, `flagm`, `fp16`, `frintts`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `sha2`, `sha3`, `ssbs`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `vh` |
+/// | `apple-latest` | `aes`, `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `fhm`, `flagm`, `fp16`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `sha2`, `sha3`, `ssbs`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `v8.6a`, `vh` |
 /// | `apple-m1` | `aes`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `fhm`, `flagm`, `fp16`, `frintts`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `sha2`, `sha3`, `ssbs`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `vh` |
+/// | `apple-m2` | `aes`, `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `fhm`, `flagm`, `fp16`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `sha2`, `sha3`, `ssbs`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `v8.6a`, `vh` |
 /// | `apple-s4` | `aes`, `crc`, `dpb`, `fcma`, `fp16`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rdm`, `sha2`, `v8.1a`, `v8.2a`, `v8.3a`, `vh` |
 /// | `apple-s5` | `aes`, `crc`, `dpb`, `fcma`, `fp16`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rdm`, `sha2`, `v8.1a`, `v8.2a`, `v8.3a`, `vh` |
 /// | `carmel` | `aes`, `crc`, `dpb`, `fp16`, `lor`, `lse`, `neon`, `pan`, `ras`, `rdm`, `sha2`, `v8.1a`, `v8.2a`, `vh` |
@@ -708,6 +729,7 @@
 /// | `cortex-a65` | `aes`, `crc`, `dotprod`, `dpb`, `fp16`, `lor`, `lse`, `neon`, `pan`, `pmuv3`, `ras`, `rcpc`, `rdm`, `sha2`, `ssbs`, `v8.1a`, `v8.2a`, `vh` |
 /// | `cortex-a65ae` | `aes`, `crc`, `dotprod`, `dpb`, `fp16`, `lor`, `lse`, `neon`, `pan`, `pmuv3`, `ras`, `rcpc`, `rdm`, `sha2`, `ssbs`, `v8.1a`, `v8.2a`, `vh` |
 /// | `cortex-a710` | `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `fhm`, `flagm`, `fp16`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `mte`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `ssbs`, `sve`, `sve2`, `sve2-bitperm`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `vh` |
+/// | `cortex-a715` | `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `fhm`, `flagm`, `fp16`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `mte`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `spe`, `ssbs`, `sve`, `sve2`, `sve2-bitperm`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `vh` |
 /// | `cortex-a72` | `aes`, `crc`, `neon`, `pmuv3`, `sha2` |
 /// | `cortex-a73` | `aes`, `crc`, `neon`, `pmuv3`, `sha2` |
 /// | `cortex-a75` | `aes`, `crc`, `dotprod`, `dpb`, `fp16`, `lor`, `lse`, `neon`, `pan`, `pmuv3`, `ras`, `rcpc`, `rdm`, `sha2`, `v8.1a`, `v8.2a`, `vh` |
@@ -718,8 +740,9 @@
 /// | `cortex-a78c` | `aes`, `crc`, `dotprod`, `dpb`, `fhm`, `flagm`, `fp16`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rdm`, `sha2`, `spe`, `ssbs`, `v8.1a`, `v8.2a`, `vh` |
 /// | `cortex-r82` | `crc`, `dit`, `dotprod`, `dpb`, `fcma`, `fhm`, `flagm`, `fp16`, `jsconv`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `ssbs` |
 /// | `cortex-x1` | `aes`, `crc`, `dotprod`, `dpb`, `fp16`, `lor`, `lse`, `neon`, `pan`, `pmuv3`, `ras`, `rcpc`, `rdm`, `sha2`, `spe`, `ssbs`, `v8.1a`, `v8.2a`, `vh` |
-/// | `cortex-x1c` | `aes`, `crc`, `dotprod`, `dpb`, `fp16`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rdm`, `sha2`, `spe`, `ssbs`, `v8.1a`, `v8.2a`, `vh` |
+/// | `cortex-x1c` | `aes`, `crc`, `dotprod`, `dpb`, `flagm`, `fp16`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sha2`, `spe`, `ssbs`, `v8.1a`, `v8.2a`, `vh` |
 /// | `cortex-x2` | `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `fhm`, `flagm`, `fp16`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `mte`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `ssbs`, `sve`, `sve2`, `sve2-bitperm`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `vh` |
+/// | `cortex-x3` | `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `fhm`, `flagm`, `fp16`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `mte`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `spe`, `ssbs`, `sve`, `sve2`, `sve2-bitperm`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `vh` |
 /// | `cyclone` | `aes`, `neon`, `pmuv3`, `sha2` |
 /// | `exynos-m3` | `aes`, `crc`, `neon`, `pmuv3`, `sha2` |
 /// | `exynos-m4` | `aes`, `crc`, `dotprod`, `dpb`, `fp16`, `lor`, `lse`, `neon`, `pan`, `pmuv3`, `ras`, `rdm`, `sha2`, `v8.1a`, `v8.2a`, `vh` |
@@ -732,6 +755,7 @@
 /// | `neoverse-n1` | `aes`, `crc`, `dotprod`, `dpb`, `fp16`, `lor`, `lse`, `neon`, `pan`, `pmuv3`, `ras`, `rcpc`, `rdm`, `sha2`, `spe`, `ssbs`, `v8.1a`, `v8.2a`, `vh` |
 /// | `neoverse-n2` | `aes`, `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `flagm`, `fp16`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `mte`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `sha2`, `ssbs`, `sve`, `sve2`, `sve2-bitperm`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `vh` |
 /// | `neoverse-v1` | `aes`, `bf16`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `fhm`, `flagm`, `fp16`, `i8mm`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `rand`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sha2`, `spe`, `ssbs`, `sve`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `vh` |
+/// | `neoverse-v2` | `bf16`, `bti`, `crc`, `dit`, `dotprod`, `dpb`, `dpb2`, `fcma`, `fhm`, `flagm`, `fp16`, `frintts`, `i8mm`, `jsconv`, `lor`, `lse`, `mte`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `rand`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sb`, `spe`, `ssbs`, `sve`, `sve2`, `sve2-bitperm`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `v8.5a`, `vh` |
 /// | `saphira` | `aes`, `crc`, `dit`, `dotprod`, `dpb`, `fcma`, `flagm`, `jsconv`, `lor`, `lse`, `neon`, `paca`, `pacg`, `pan`, `pmuv3`, `ras`, `rcpc`, `rcpc2`, `rdm`, `sha2`, `spe`, `v8.1a`, `v8.2a`, `v8.3a`, `v8.4a`, `vh` |
 /// | `thunderx` | `aes`, `crc`, `neon`, `pmuv3`, `sha2` |
 /// | `thunderx2t99` | `aes`, `crc`, `lor`, `lse`, `neon`, `pan`, `rdm`, `sha2`, `v8.1a`, `vh` |
@@ -912,6 +936,9 @@
 /// | `hexagonv67t` | `hvx`, `hvx-length128b` |
 /// | `hexagonv68` | `hvx`, `hvx-length128b` |
 /// | `hexagonv69` | `hvx`, `hvx-length128b` |
+/// | `hexagonv71` | `hvx`, `hvx-length128b` |
+/// | `hexagonv71t` | `hvx`, `hvx-length128b` |
+/// | `hexagonv73` | `hvx`, `hvx-length128b` |
 </span><span class="kw">pub mod </span>hexagon {}
 <span class="doccomment">/// mips documentation
 ///
@@ -1017,6 +1044,7 @@
 /// | `e` | Implements RV32E (provides 16 rather than 32 GPRs). |  |
 /// | `f` | &#39;F&#39; (Single-Precision Floating-Point). |  |
 /// | `m` | &#39;M&#39; (Integer Multiplication and Division). |  |
+/// | `relax` | Enable Linker relaxation.. |  |
 /// | `v` | &#39;V&#39; (Vector Extension for Application Processors). | `d`, `f` |
 /// | `zba` | &#39;Zba&#39; (Address Generation Instructions). |  |
 /// | `zbb` | &#39;Zbb&#39; (Basic Bit-Manipulation). |  |
@@ -1051,10 +1079,10 @@
 /// | `generic` | `a`, `c`, `d`, `f`, `m` |
 /// | `generic-rv32` | `a`, `c`, `d`, `f`, `m` |
 /// | `generic-rv64` | `a`, `c`, `d`, `f`, `m` |
+/// | `rocket` | `a`, `c`, `d`, `f`, `m` |
 /// | `rocket-rv32` | `a`, `c`, `d`, `f`, `m` |
 /// | `rocket-rv64` | `a`, `c`, `d`, `f`, `m` |
-/// | `sifive-7-rv32` | `a`, `c`, `d`, `f`, `m` |
-/// | `sifive-7-rv64` | `a`, `c`, `d`, `f`, `m` |
+/// | `sifive-7-series` | `a`, `c`, `d`, `f`, `m` |
 /// | `sifive-e20` | `a`, `c`, `d`, `f`, `m` |
 /// | `sifive-e21` | `a`, `c`, `d`, `f`, `m` |
 /// | `sifive-e24` | `a`, `c`, `d`, `f`, `m` |
@@ -1067,6 +1095,8 @@
 /// | `sifive-s76` | `a`, `c`, `d`, `f`, `m` |
 /// | `sifive-u54` | `a`, `c`, `d`, `f`, `m` |
 /// | `sifive-u74` | `a`, `c`, `d`, `f`, `m` |
+/// | `syntacore-scr1-base` | `a`, `c`, `d`, `f`, `m` |
+/// | `syntacore-scr1-max` | `a`, `c`, `d`, `f`, `m` |
 </span><span class="kw">pub mod </span>riscv {}
 <span class="doccomment">/// wasm documentation
 ///
@@ -1090,7 +1120,7 @@
 /// | CPU | Enabled Features |
 /// | --- | -------- |
 /// | `bleeding-edge` | `atomics`, `bulk-memory`, `mutable-globals`, `nontrapping-fptoint`, `sign-ext`, `simd128` |
-/// | `generic` |  |
+/// | `generic` | `mutable-globals`, `sign-ext` |
 /// | `mvp` |  |
 </span><span class="kw">pub mod </span>wasm {}
 <span class="doccomment">/// x86 documentation
@@ -1109,16 +1139,13 @@
 /// | `avx512dq` | Enable AVX-512 Doubleword and Quadword Instructions. | `avx`, `avx2`, `avx512f`, `f16c`, `fma`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
 /// | `avx512er` | Enable AVX-512 Exponential and Reciprocal Instructions. | `avx`, `avx2`, `avx512f`, `f16c`, `fma`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
 /// | `avx512f` | Enable AVX-512 instructions. | `avx`, `avx2`, `f16c`, `fma`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
-/// | `avx512gfni` | Enable Galois Field Arithmetic Instructions. | `gfni`, `sse`, `sse2` |
 /// | `avx512ifma` | Enable AVX-512 Integer Fused Multiple-Add. | `avx`, `avx2`, `avx512f`, `f16c`, `fma`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
 /// | `avx512pf` | Enable AVX-512 PreFetch Instructions. | `avx`, `avx2`, `avx512f`, `f16c`, `fma`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
-/// | `avx512vaes` | Promote selected AES instructions to AVX512/AVX registers. | `aes`, `avx`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3`, `vaes` |
 /// | `avx512vbmi` | Enable AVX-512 Vector Byte Manipulation Instructions. | `avx`, `avx2`, `avx512bw`, `avx512f`, `f16c`, `fma`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
 /// | `avx512vbmi2` | Enable AVX-512 further Vector Byte Manipulation Instructions. | `avx`, `avx2`, `avx512bw`, `avx512f`, `f16c`, `fma`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
 /// | `avx512vl` | Enable AVX-512 Vector Length eXtensions. | `avx`, `avx2`, `avx512f`, `f16c`, `fma`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
 /// | `avx512vnni` | Enable AVX-512 Vector Neural Network Instructions. | `avx`, `avx2`, `avx512f`, `f16c`, `fma`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
 /// | `avx512vp2intersect` | Enable AVX-512 vp2intersect. | `avx`, `avx2`, `avx512f`, `f16c`, `fma`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
-/// | `avx512vpclmulqdq` | Enable vpclmulqdq instructions. | `avx`, `pclmulqdq`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3`, `vpclmulqdq` |
 /// | `avx512vpopcntdq` | Enable AVX-512 Population Count Instructions. | `avx`, `avx2`, `avx512f`, `f16c`, `fma`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
 /// | `bmi1` | Support BMI instructions. |  |
 /// | `bmi2` | Support BMI2 instructions. |  |
@@ -1127,7 +1154,7 @@
 /// | `f16c` | Support 16-bit floating point conversion instructions. | `avx`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
 /// | `fma` | Enable three-operand fused multiple-add. | `avx`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
 /// | `fxsr` | Support fxsave/fxrestore instructions. |  |
-/// | `gfni` | Enable Galois Field Arithmetic Instructions. | `avx512gfni`, `sse`, `sse2` |
+/// | `gfni` | Enable Galois Field Arithmetic Instructions. | `sse`, `sse2` |
 /// | `lzcnt` | Support LZCNT instruction. |  |
 /// | `movbe` | Support MOVBE instruction. |  |
 /// | `pclmulqdq` | Enable packed carry-less multiplication instructions. | `sse`, `sse2` |
@@ -1144,8 +1171,8 @@
 /// | `sse4a` | Support SSE 4a instructions. | `sse`, `sse2`, `sse3` |
 /// | `ssse3` | Enable SSSE3 instructions. | `sse`, `sse2`, `sse3` |
 /// | `tbm` | Enable TBM instructions. |  |
-/// | `vaes` | Promote selected AES instructions to AVX512/AVX registers. | `aes`, `avx`, `avx512vaes`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
-/// | `vpclmulqdq` | Enable vpclmulqdq instructions. | `avx`, `avx512vpclmulqdq`, `pclmulqdq`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
+/// | `vaes` | Promote selected AES instructions to AVX512/AVX registers. | `aes`, `avx`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
+/// | `vpclmulqdq` | Enable vpclmulqdq instructions. | `avx`, `pclmulqdq`, `sse`, `sse2`, `sse3`, `sse4.1`, `ssse3` |
 /// | `xsave` | Support xsave instructions. |  |
 /// | `xsavec` | Support xsavec instructions. | `xsave` |
 /// | `xsaveopt` | Support xsaveopt instructions. | `xsave` |
@@ -1157,7 +1184,7 @@
 /// ## CPUs
 /// | CPU | Enabled Features |
 /// | --- | -------- |
-/// | `alderlake` | `adx`, `aes`, `avx`, `avx2`, `avx512gfni`, `avx512vaes`, `avx512vpclmulqdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
+/// | `alderlake` | `adx`, `aes`, `avx`, `avx2`, `bmi1`, `bmi2`, `cmpxchg16b`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
 /// | `amdfam10` | `cmpxchg16b`, `fxsr`, `lzcnt`, `popcnt`, `sse`, `sse2`, `sse3`, `sse4a` |
 /// | `athlon` | `sse`, `sse2` |
 /// | `athlon-4` | `fxsr`, `sse`, `sse2` |
@@ -1187,17 +1214,20 @@
 /// | `core2` | `cmpxchg16b`, `fxsr`, `sse`, `sse2`, `sse3`, `ssse3` |
 /// | `corei7` | `cmpxchg16b`, `fxsr`, `popcnt`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3` |
 /// | `corei7-avx` | `avx`, `cmpxchg16b`, `fxsr`, `pclmulqdq`, `popcnt`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `xsave`, `xsaveopt` |
+/// | `emeraldrapids` | `adx`, `aes`, `avx`, `avx2`, `avx512bf16`, `avx512bitalg`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512ifma`, `avx512vbmi`, `avx512vbmi2`, `avx512vl`, `avx512vnni`, `avx512vpopcntdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
 /// | `generic` | `sse`, `sse2` |
 /// | `geode` | `sse`, `sse2` |
 /// | `goldmont` | `aes`, `cmpxchg16b`, `fxsr`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
 /// | `goldmont-plus` | `aes`, `cmpxchg16b`, `fxsr`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
+/// | `grandridge` | `adx`, `aes`, `avx`, `avx2`, `bmi1`, `bmi2`, `cmpxchg16b`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
+/// | `graniterapids` | `adx`, `aes`, `avx`, `avx2`, `avx512bf16`, `avx512bitalg`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512ifma`, `avx512vbmi`, `avx512vbmi2`, `avx512vl`, `avx512vnni`, `avx512vpopcntdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
 /// | `haswell` | `avx`, `avx2`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `xsave`, `xsaveopt` |
 /// | `i386` | `sse`, `sse2` |
 /// | `i486` | `sse`, `sse2` |
 /// | `i586` | `sse`, `sse2` |
 /// | `i686` | `sse`, `sse2` |
-/// | `icelake-client` | `adx`, `aes`, `avx`, `avx2`, `avx512bitalg`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512gfni`, `avx512ifma`, `avx512vaes`, `avx512vbmi`, `avx512vbmi2`, `avx512vl`, `avx512vnni`, `avx512vpclmulqdq`, `avx512vpopcntdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
-/// | `icelake-server` | `adx`, `aes`, `avx`, `avx2`, `avx512bitalg`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512gfni`, `avx512ifma`, `avx512vaes`, `avx512vbmi`, `avx512vbmi2`, `avx512vl`, `avx512vnni`, `avx512vpclmulqdq`, `avx512vpopcntdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
+/// | `icelake-client` | `adx`, `aes`, `avx`, `avx2`, `avx512bitalg`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512ifma`, `avx512vbmi`, `avx512vbmi2`, `avx512vl`, `avx512vnni`, `avx512vpopcntdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
+/// | `icelake-server` | `adx`, `aes`, `avx`, `avx2`, `avx512bitalg`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512ifma`, `avx512vbmi`, `avx512vbmi2`, `avx512vl`, `avx512vnni`, `avx512vpopcntdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
 /// | `ivybridge` | `avx`, `cmpxchg16b`, `f16c`, `fxsr`, `pclmulqdq`, `popcnt`, `rdrand`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `xsave`, `xsaveopt` |
 /// | `k6` | `sse`, `sse2` |
 /// | `k6-2` | `sse`, `sse2` |
@@ -1207,6 +1237,7 @@
 /// | `knl` | `adx`, `aes`, `avx`, `avx2`, `avx512cd`, `avx512er`, `avx512f`, `avx512pf`, `bmi1`, `bmi2`, `cmpxchg16b`, `f16c`, `fma`, `fxsr`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `xsave`, `xsaveopt` |
 /// | `knm` | `adx`, `aes`, `avx`, `avx2`, `avx512cd`, `avx512er`, `avx512f`, `avx512pf`, `avx512vpopcntdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `f16c`, `fma`, `fxsr`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `xsave`, `xsaveopt` |
 /// | `lakemont` | `sse`, `sse2` |
+/// | `meteorlake` | `adx`, `aes`, `avx`, `avx2`, `bmi1`, `bmi2`, `cmpxchg16b`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
 /// | `nehalem` | `cmpxchg16b`, `fxsr`, `popcnt`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3` |
 /// | `nocona` | `cmpxchg16b`, `fxsr`, `sse`, `sse2`, `sse3` |
 /// | `opteron` | `fxsr`, `sse`, `sse2` |
@@ -1222,16 +1253,18 @@
 /// | `pentium4m` | `fxsr`, `sse`, `sse2` |
 /// | `pentiumpro` | `sse`, `sse2` |
 /// | `prescott` | `fxsr`, `sse`, `sse2`, `sse3` |
-/// | `rocketlake` | `adx`, `aes`, `avx`, `avx2`, `avx512bitalg`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512gfni`, `avx512ifma`, `avx512vaes`, `avx512vbmi`, `avx512vbmi2`, `avx512vl`, `avx512vnni`, `avx512vpclmulqdq`, `avx512vpopcntdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
+/// | `raptorlake` | `adx`, `aes`, `avx`, `avx2`, `bmi1`, `bmi2`, `cmpxchg16b`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
+/// | `rocketlake` | `adx`, `aes`, `avx`, `avx2`, `avx512bitalg`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512ifma`, `avx512vbmi`, `avx512vbmi2`, `avx512vl`, `avx512vnni`, `avx512vpopcntdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
 /// | `sandybridge` | `avx`, `cmpxchg16b`, `fxsr`, `pclmulqdq`, `popcnt`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `xsave`, `xsaveopt` |
-/// | `sapphirerapids` | `adx`, `aes`, `avx`, `avx2`, `avx512bf16`, `avx512bitalg`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512gfni`, `avx512ifma`, `avx512vaes`, `avx512vbmi`, `avx512vbmi2`, `avx512vl`, `avx512vnni`, `avx512vpclmulqdq`, `avx512vpopcntdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
+/// | `sapphirerapids` | `adx`, `aes`, `avx`, `avx2`, `avx512bf16`, `avx512bitalg`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512ifma`, `avx512vbmi`, `avx512vbmi2`, `avx512vl`, `avx512vnni`, `avx512vpopcntdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
+/// | `sierraforest` | `adx`, `aes`, `avx`, `avx2`, `bmi1`, `bmi2`, `cmpxchg16b`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
 /// | `silvermont` | `cmpxchg16b`, `fxsr`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3` |
 /// | `skx` | `adx`, `aes`, `avx`, `avx2`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512vl`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
 /// | `skylake` | `adx`, `aes`, `avx`, `avx2`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
 /// | `skylake-avx512` | `adx`, `aes`, `avx`, `avx2`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512vl`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
 /// | `slm` | `cmpxchg16b`, `fxsr`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3` |
-/// | `tigerlake` | `adx`, `aes`, `avx`, `avx2`, `avx512bitalg`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512gfni`, `avx512ifma`, `avx512vaes`, `avx512vbmi`, `avx512vbmi2`, `avx512vl`, `avx512vnni`, `avx512vp2intersect`, `avx512vpclmulqdq`, `avx512vpopcntdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
-/// | `tremont` | `aes`, `avx512gfni`, `cmpxchg16b`, `fxsr`, `gfni`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
+/// | `tigerlake` | `adx`, `aes`, `avx`, `avx2`, `avx512bitalg`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512ifma`, `avx512vbmi`, `avx512vbmi2`, `avx512vl`, `avx512vnni`, `avx512vp2intersect`, `avx512vpopcntdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `ermsb`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
+/// | `tremont` | `aes`, `cmpxchg16b`, `fxsr`, `gfni`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
 /// | `westmere` | `cmpxchg16b`, `fxsr`, `pclmulqdq`, `popcnt`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `ssse3` |
 /// | `winchip-c6` | `sse`, `sse2` |
 /// | `winchip2` | `sse`, `sse2` |
@@ -1242,6 +1275,7 @@
 /// | `yonah` | `fxsr`, `sse`, `sse2`, `sse3` |
 /// | `znver1` | `adx`, `aes`, `avx`, `avx2`, `bmi1`, `bmi2`, `cmpxchg16b`, `f16c`, `fma`, `fxsr`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `sse4a`, `ssse3`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
 /// | `znver2` | `adx`, `aes`, `avx`, `avx2`, `bmi1`, `bmi2`, `cmpxchg16b`, `f16c`, `fma`, `fxsr`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `sse4a`, `ssse3`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
-/// | `znver3` | `adx`, `aes`, `avx`, `avx2`, `avx512vaes`, `avx512vpclmulqdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `f16c`, `fma`, `fxsr`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `sse4a`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
+/// | `znver3` | `adx`, `aes`, `avx`, `avx2`, `bmi1`, `bmi2`, `cmpxchg16b`, `f16c`, `fma`, `fxsr`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `sse4a`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
+/// | `znver4` | `adx`, `aes`, `avx`, `avx2`, `avx512bf16`, `avx512bitalg`, `avx512bw`, `avx512cd`, `avx512dq`, `avx512f`, `avx512ifma`, `avx512vbmi`, `avx512vbmi2`, `avx512vl`, `avx512vnni`, `avx512vpopcntdq`, `bmi1`, `bmi2`, `cmpxchg16b`, `f16c`, `fma`, `fxsr`, `gfni`, `lzcnt`, `movbe`, `pclmulqdq`, `popcnt`, `rdrand`, `rdseed`, `sha`, `sse`, `sse2`, `sse3`, `sse4.1`, `sse4.2`, `sse4a`, `ssse3`, `vaes`, `vpclmulqdq`, `xsave`, `xsavec`, `xsaveopt`, `xsaves` |
 </span><span class="kw">pub mod </span>x86 {}
 </code></pre></div></section></main></body></html>

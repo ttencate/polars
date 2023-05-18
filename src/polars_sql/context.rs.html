@@ -521,6 +521,23 @@
 <a href="#521" id="521">521</a>
 <a href="#522" id="522">522</a>
 <a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cell::RefCell;
 <span class="kw">use </span>std::collections::BTreeSet;
 
@@ -637,6 +654,7 @@
             Statement::Query(query) =&gt; <span class="self">self</span>.execute_query(query)<span class="question-mark">?</span>,
             stmt @ Statement::ShowTables { .. } =&gt; <span class="self">self</span>.execute_show_tables(stmt)<span class="question-mark">?</span>,
             stmt @ Statement::CreateTable { .. } =&gt; <span class="self">self</span>.execute_create_table(stmt)<span class="question-mark">?</span>,
+            stmt @ Statement::Explain { .. } =&gt; <span class="self">self</span>.execute_explain(stmt)<span class="question-mark">?</span>,
             <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(
                 ComputeError: <span class="string">&quot;SQL statement type {:?} is not supported&quot;</span>, ast,
             ),
@@ -657,8 +675,24 @@
 
         <span class="self">self</span>.process_limit_offset(lf, <span class="kw-2">&amp;</span>query.limit, <span class="kw-2">&amp;</span>query.offset)
     }
+    <span class="comment">// EXPLAIN SELECT * FROM DF
+    </span><span class="kw">fn </span>execute_explain(<span class="kw-2">&amp;mut </span><span class="self">self</span>, stmt: <span class="kw-2">&amp;</span>Statement) -&gt; PolarsResult&lt;LazyFrame&gt; {
+        <span class="kw">match </span>stmt {
+            Statement::Explain { statement, .. } =&gt; {
+                <span class="kw">let </span>lf = <span class="self">self</span>.execute_statement(statement)<span class="question-mark">?</span>;
+                <span class="kw">let </span>plan = lf.describe_optimized_plan()<span class="question-mark">?</span>;
+                <span class="kw">let </span><span class="kw-2">mut </span>plan = plan.split(<span class="string">&#39;\n&#39;</span>).collect::&lt;Series&gt;();
+                plan.rename(<span class="string">&quot;Logical Plan&quot;</span>);
 
-    <span class="kw">fn </span>execute_show_tables(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>Statement) -&gt; PolarsResult&lt;LazyFrame&gt; {
+                <span class="kw">let </span>df = DataFrame::new(<span class="macro">vec!</span>[plan])<span class="question-mark">?</span>;
+                <span class="prelude-val">Ok</span>(df.lazy())
+            }
+            <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(),
+        }
+    }
+
+    <span class="doccomment">/// SHOW TABLES
+    </span><span class="kw">fn </span>execute_show_tables(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>Statement) -&gt; PolarsResult&lt;LazyFrame&gt; {
         <span class="kw">let </span>tables = Series::new(<span class="string">&quot;name&quot;</span>, <span class="self">self</span>.tables.clone());
         <span class="kw">let </span>df = DataFrame::new(<span class="macro">vec!</span>[tables])<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(df.lazy())
