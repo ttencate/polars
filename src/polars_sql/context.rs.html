@@ -538,6 +538,15 @@
 <a href="#538" id="538">538</a>
 <a href="#539" id="539">539</a>
 <a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cell::RefCell;
 <span class="kw">use </span>std::collections::BTreeSet;
 
@@ -552,7 +561,7 @@
     Value <span class="kw">as </span>SQLValue,
 };
 <span class="kw">use </span>sqlparser::dialect::GenericDialect;
-<span class="kw">use </span>sqlparser::parser::Parser;
+<span class="kw">use </span>sqlparser::parser::{Parser, ParserOptions};
 
 <span class="kw">use </span><span class="kw">crate</span>::sql_expr::{parse_sql_expr, process_join_constraint};
 <span class="kw">use </span><span class="kw">crate</span>::table_functions::PolarsTableFunctions;
@@ -626,7 +635,16 @@
     /// # }
     ///```
     </span><span class="kw">pub fn </span>execute(<span class="kw-2">&amp;mut </span><span class="self">self</span>, query: <span class="kw-2">&amp;</span>str) -&gt; PolarsResult&lt;LazyFrame&gt; {
-        <span class="kw">let </span>ast = Parser::parse_sql(<span class="kw-2">&amp;</span>GenericDialect, query).map_err(to_compute_err)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>parser = Parser::new(<span class="kw-2">&amp;</span>GenericDialect);
+        parser = parser.with_options(ParserOptions {
+            trailing_commas: <span class="bool-val">true</span>,
+        });
+
+        <span class="kw">let </span>ast = parser
+            .try_with_sql(query)
+            .map_err(to_compute_err)<span class="question-mark">?
+            </span>.parse_statements()
+            .map_err(to_compute_err)<span class="question-mark">?</span>;
         <span class="macro">polars_ensure!</span>(ast.len() == <span class="number">1</span>, ComputeError: <span class="string">&quot;One and only one statement at a time please&quot;</span>);
         <span class="kw">let </span>res = <span class="self">self</span>.execute_statement(ast.get(<span class="number">0</span>).unwrap());
         <span class="comment">// every execution should clear the cte map
