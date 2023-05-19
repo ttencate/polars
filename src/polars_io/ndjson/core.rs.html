@@ -382,11 +382,6 @@
 <a href="#382" id="382">382</a>
 <a href="#383" id="383">383</a>
 <a href="#384" id="384">384</a>
-<a href="#385" id="385">385</a>
-<a href="#386" id="386">386</a>
-<a href="#387" id="387">387</a>
-<a href="#388" id="388">388</a>
-<a href="#389" id="389">389</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::fs::File;
 <span class="kw">use </span>std::io::Cursor;
@@ -547,7 +542,8 @@
                 <span class="kw">let </span>bytes: <span class="kw-2">&amp;</span>[u8] = <span class="kw-2">&amp;</span>reader_bytes;
                 <span class="kw">let </span><span class="kw-2">mut </span>cursor = Cursor::new(bytes);
 
-                <span class="kw">let </span>data_type = arrow_ndjson::read::infer(<span class="kw-2">&amp;mut </span>cursor, infer_schema_len)<span class="question-mark">?</span>;
+                <span class="kw">let </span>data_type = polars_json::ndjson::infer(<span class="kw-2">&amp;mut </span>cursor, infer_schema_len)<span class="question-mark">?</span>;
+                <span class="macro">dbg!</span>(<span class="kw-2">&amp;</span>data_type);
                 <span class="kw">let </span>schema = StructArray::get_fields(<span class="kw-2">&amp;</span>data_type).iter().collect();
 
                 Cow::Owned(schema)
@@ -602,7 +598,7 @@
                 .into_par_iter()
                 .map(|(start_pos, stop_at_nbytes)| {
                     <span class="kw">let </span><span class="kw-2">mut </span>buffers = init_buffers(<span class="kw-2">&amp;</span><span class="self">self</span>.schema, capacity)<span class="question-mark">?</span>;
-                    <span class="kw">let _ </span>= parse_lines(<span class="kw-2">&amp;</span>bytes[start_pos..stop_at_nbytes], <span class="kw-2">&amp;mut </span>buffers);
+                    parse_lines(<span class="kw-2">&amp;</span>bytes[start_pos..stop_at_nbytes], <span class="kw-2">&amp;mut </span>buffers)<span class="question-mark">?</span>;
                     DataFrame::new(
                         buffers
                             .into_values()
@@ -636,26 +632,27 @@
 </span><span class="kw">fn </span>parse_impl(
     bytes: <span class="kw-2">&amp;</span>[u8],
     buffers: <span class="kw-2">&amp;mut </span>PlIndexMap&lt;BufferKey, Buffer&gt;,
-    line: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;,
+    scratch: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;,
 ) -&gt; PolarsResult&lt;usize&gt; {
-    line.clear();
-    line.extend_from_slice(bytes);
-    <span class="kw">let </span>n = line.len();
+    scratch.clear();
+    scratch.extend_from_slice(bytes);
+    <span class="kw">let </span>n = scratch.len();
     <span class="kw">let </span>all_good = <span class="kw">match </span>n {
         <span class="number">0 </span>=&gt; <span class="bool-val">true</span>,
-        <span class="number">1 </span>=&gt; line[<span class="number">0</span>] == NEWLINE,
-        <span class="number">2 </span>=&gt; line[<span class="number">0</span>] == NEWLINE &amp;&amp; line[<span class="number">1</span>] == RETURN,
+        <span class="number">1 </span>=&gt; scratch[<span class="number">0</span>] == NEWLINE,
+        <span class="number">2 </span>=&gt; scratch[<span class="number">0</span>] == NEWLINE &amp;&amp; scratch[<span class="number">1</span>] == RETURN,
         <span class="kw">_ </span>=&gt; {
-            <span class="kw">let </span>value: simd_json::BorrowedValue = simd_json::to_borrowed_value(line)
+            <span class="kw">let </span>value: simd_json::BorrowedValue = simd_json::to_borrowed_value(scratch)
                 .map_err(|e| <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;error parsing line: {}&quot;</span>, e))<span class="question-mark">?</span>;
             <span class="kw">match </span>value {
                 simd_json::BorrowedValue::Object(value) =&gt; {
-                    buffers
-                        .iter_mut()
-                        .for_each(|(s, inner)| <span class="kw">match </span>s.<span class="number">0</span>.map_lookup(<span class="kw-2">&amp;</span>value) {
-                            <span class="prelude-val">Some</span>(v) =&gt; inner.add(v).expect(<span class="string">&quot;inner.add(v)&quot;</span>),
+                    buffers.iter_mut().try_for_each(|(s, inner)| {
+                        <span class="kw">match </span>s.<span class="number">0</span>.map_lookup(<span class="kw-2">&amp;</span>value) {
+                            <span class="prelude-val">Some</span>(v) =&gt; inner.add(v)<span class="question-mark">?</span>,
                             <span class="prelude-val">None </span>=&gt; inner.add_null(),
-                        });
+                        }
+                        PolarsResult::Ok(())
+                    })<span class="question-mark">?</span>;
                 }
                 <span class="kw">_ </span>=&gt; {
                     buffers.iter_mut().for_each(|(<span class="kw">_</span>, inner)| inner.add_null());
@@ -671,21 +668,14 @@
 <span class="kw">fn </span>parse_lines(bytes: <span class="kw-2">&amp;</span>[u8], buffers: <span class="kw-2">&amp;mut </span>PlIndexMap&lt;BufferKey, Buffer&gt;) -&gt; PolarsResult&lt;()&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">vec!</span>[];
 
-    <span class="kw">let </span>total_bytes = bytes.len();
-    <span class="kw">let </span><span class="kw-2">mut </span>offset = <span class="number">0</span>;
     <span class="comment">// The `RawValue` is a pointer to the original JSON string and does not perform any deserialization.
     // It is used to properly iterate over the lines without re-implementing the splitlines logic when this does the same thing.
     </span><span class="kw">let </span><span class="kw-2">mut </span>iter =
         serde_json::Deserializer::from_slice(bytes).into_iter::&lt;Box&lt;serde_json::value::RawValue&gt;&gt;();
     <span class="kw">while let </span><span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(value)) = iter.next() {
         <span class="kw">let </span>bytes = value.get().as_bytes();
-        offset += bytes.len();
         parse_impl(bytes, buffers, <span class="kw-2">&amp;mut </span>buf)<span class="question-mark">?</span>;
     }
-    <span class="macro">polars_ensure!</span>(
-        offset == total_bytes,
-        ComputeError: <span class="string">&quot;expected {} bytes, but only parsed {}&quot;</span>, total_bytes, offset,
-    );
     <span class="prelude-val">Ok</span>(())
 }
 

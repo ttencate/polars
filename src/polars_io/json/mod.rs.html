@@ -304,6 +304,8 @@
 <a href="#304" id="304">304</a>
 <a href="#305" id="305">305</a>
 <a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! # (De)serialize JSON files.
 //!
 //! ## Read JSON to a DataFrame
@@ -379,6 +381,8 @@
 <span class="kw">use </span>polars_core::error::to_compute_err;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::utils::try_get_supertype;
+<span class="kw">use </span>polars_json::json::infer;
+<span class="kw">use </span>simd_json::BorrowedValue;
 
 <span class="kw">use </span><span class="kw">crate</span>::mmap::{MmapBytesReader, ReaderBytes};
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -505,18 +509,18 @@
 
         <span class="kw">let </span>out = <span class="kw">match </span><span class="self">self</span>.json_format {
             JsonFormat::Json =&gt; {
-                <span class="kw">use </span>arrow::io::json::read::json_deserializer::Value;
-                <span class="kw">let </span>bytes = rb.deref();
+                <span class="kw">let </span><span class="kw-2">mut </span>bytes = rb.deref().to_vec();
                 <span class="kw">let </span>json_value =
-                    json::read::json_deserializer::parse(bytes).map_err(to_compute_err)<span class="question-mark">?</span>;
+                    simd_json::to_borrowed_value(<span class="kw-2">&amp;mut </span>bytes).map_err(to_compute_err)<span class="question-mark">?</span>;
+
                 <span class="comment">// likely struct type
-                </span><span class="kw">let </span>dtype = <span class="kw">if let </span>Value::Array(values) = <span class="kw-2">&amp;</span>json_value {
+                </span><span class="kw">let </span>dtype = <span class="kw">if let </span>BorrowedValue::Array(values) = <span class="kw-2">&amp;</span>json_value {
                     <span class="comment">// struct types may have missing fields so find supertype
                     </span><span class="kw">let </span>dtype = values
                         .iter()
                         .take(<span class="self">self</span>.infer_schema_len.unwrap_or(usize::MAX))
                         .map(|value| {
-                            json::read::infer(value)
+                            infer(value)
                                 .map_err(PolarsError::from)
                                 .map(|dt| DataType::from(<span class="kw-2">&amp;</span>dt))
                         })
@@ -529,9 +533,9 @@
                     <span class="kw">let </span>dtype = DataType::List(Box::new(dtype));
                     dtype.to_arrow()
                 } <span class="kw">else </span>{
-                    json::read::infer(<span class="kw-2">&amp;</span>json_value)<span class="question-mark">?
+                    infer(<span class="kw-2">&amp;</span>json_value)<span class="question-mark">?
                 </span>};
-                <span class="kw">let </span>arr = json::read::deserialize(<span class="kw-2">&amp;</span>json_value, dtype)<span class="question-mark">?</span>;
+                <span class="kw">let </span>arr = polars_json::json::deserialize(<span class="kw-2">&amp;</span>json_value, dtype)<span class="question-mark">?</span>;
                 <span class="kw">let </span>arr = arr.as_any().downcast_ref::&lt;StructArray&gt;().ok_or_else(
                     || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;can only deserialize json objects&quot;</span>),
                 )<span class="question-mark">?</span>;
