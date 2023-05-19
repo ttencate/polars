@@ -444,6 +444,20 @@
 <a href="#444" id="444">444</a>
 <a href="#445" id="445">445</a>
 <a href="#446" id="446">446</a>
+<a href="#447" id="447">447</a>
+<a href="#448" id="448">448</a>
+<a href="#449" id="449">449</a>
+<a href="#450" id="450">450</a>
+<a href="#451" id="451">451</a>
+<a href="#452" id="452">452</a>
+<a href="#453" id="453">453</a>
+<a href="#454" id="454">454</a>
+<a href="#455" id="455">455</a>
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
+<a href="#460" id="460">460</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_lazy::dsl::Expr;
 <span class="kw">use </span>polars_lazy::prelude::<span class="kw-2">*</span>;
@@ -533,7 +547,9 @@
             SqlExpr::UnaryOp { op, expr } =&gt; <span class="self">self</span>.visit_unary_op(op, expr),
             SqlExpr::Value(value) =&gt; <span class="self">self</span>.visit_literal(value),
             e @ SqlExpr::Case { .. } =&gt; <span class="self">self</span>.visit_when_then(e),
-            other =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;SQL expression {:?} is not yet supported&quot;</span>, other),
+            other =&gt; {
+                <span class="macro">polars_bail!</span>(InvalidOperation: <span class="string">&quot;SQL expression {:?} is not yet supported&quot;</span>, other)
+            }
         }
     }
 
@@ -541,19 +557,31 @@
     ///
     /// e.g. df.column or &quot;df&quot;.&quot;column&quot;
     </span><span class="kw">fn </span>visit_compound_identifier(<span class="kw-2">&amp;</span><span class="self">self</span>, idents: <span class="kw-2">&amp;</span>[sqlparser::ast::Ident]) -&gt; PolarsResult&lt;Expr&gt; {
-        <span class="macro">polars_ensure!</span>(
-            idents.len() == <span class="number">2</span>,
-            ComputeError: <span class="string">&quot;compound identifier {:?} is not yet supported&quot;</span>, idents,
-        );
-        <span class="kw">let </span>tbl_name = <span class="kw-2">&amp;</span>idents[<span class="number">0</span>].value;
-        <span class="kw">let </span>refers_main_table =
-            { <span class="self">self</span>.ctx.table_map.len() == <span class="number">1 </span>&amp;&amp; <span class="self">self</span>.ctx.table_map.contains_key(tbl_name) };
-        <span class="macro">polars_ensure!</span>(
-            refers_main_table, ComputeError:
-            <span class="string">&quot;compound identifier {:?} is not yet supported if multiple tables are registered&quot;</span>,
-            idents
-        );
-        <span class="prelude-val">Ok</span>(col(<span class="kw-2">&amp;</span>idents[<span class="number">1</span>].value))
+        <span class="kw">match </span>idents {
+            [tbl_name, column_name] =&gt; {
+                <span class="kw">let </span>lf = <span class="self">self</span>.ctx.table_map.get(<span class="kw-2">&amp;</span>tbl_name.value).ok_or_else(|| {
+                    <span class="macro">polars_err!</span>(
+                        ComputeError: <span class="string">&quot;no table named &#39;{}&#39; found&quot;</span>,
+                        tbl_name
+                    )
+                })<span class="question-mark">?</span>;
+
+                <span class="kw">let </span>schema = lf.schema()<span class="question-mark">?</span>;
+                <span class="kw">if let </span><span class="prelude-val">Some</span>((<span class="kw">_</span>, name, <span class="kw">_</span>)) = schema.get_full(<span class="kw-2">&amp;</span>column_name.value) {
+                    <span class="prelude-val">Ok</span>(col(name))
+                } <span class="kw">else </span>{
+                    <span class="macro">polars_bail!</span>(
+                        ColumnNotFound: <span class="string">&quot;no column named &#39;{}&#39; found in table &#39;{}&#39;&quot;</span>,
+                        column_name,
+                        tbl_name
+                    )
+                }
+            }
+            <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(
+                ComputeError: <span class="string">&quot;Invalid identifier {:?}&quot;</span>,
+                idents
+            ),
+        }
     }
 
     <span class="kw">fn </span>visit_unary_op(<span class="kw-2">&amp;</span><span class="self">self</span>, op: <span class="kw-2">&amp;</span>UnaryOperator, expr: <span class="kw-2">&amp;</span>SqlExpr) -&gt; PolarsResult&lt;Expr&gt; {
@@ -562,7 +590,7 @@
             UnaryOperator::Plus =&gt; lit(<span class="number">0</span>) + expr,
             UnaryOperator::Minus =&gt; lit(<span class="number">0</span>) - expr,
             UnaryOperator::Not =&gt; expr.not(),
-            other =&gt; <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;Unary operator {:?} is not supported&quot;</span>, other),
+            other =&gt; <span class="macro">polars_bail!</span>(InvalidOperation: <span class="string">&quot;Unary operator {:?} is not supported&quot;</span>, other),
         })
     }
 
