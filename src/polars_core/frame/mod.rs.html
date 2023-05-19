@@ -4143,7 +4143,7 @@
     }
 
     <span class="doccomment">/// Ensure all the chunks in the DataFrame are aligned.
-    </span><span class="kw">pub fn </span>rechunk(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>align_chunks(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
         <span class="kw">if </span><span class="self">self</span>.should_rechunk() {
             <span class="self">self</span>.as_single_chunk_par()
         } <span class="kw">else </span>{
@@ -4484,7 +4484,7 @@
 
     <span class="doccomment">/// Concatenate a `DataFrame` to this `DataFrame` and return as newly allocated `DataFrame`.
     ///
-    /// If many `vstack` operations are done, it is recommended to call [`DataFrame::rechunk`].
+    /// If many `vstack` operations are done, it is recommended to call [`DataFrame::align_chunks`].
     ///
     /// # Example
     ///
@@ -4530,7 +4530,7 @@
 
     <span class="doccomment">/// Concatenate a DataFrame to this DataFrame
     ///
-    /// If many `vstack` operations are done, it is recommended to call [`DataFrame::rechunk`].
+    /// If many `vstack` operations are done, it is recommended to call [`DataFrame::align_chunks`].
     ///
     /// # Example
     ///
@@ -4614,7 +4614,7 @@
     ///
     /// Prefer `vstack` over `extend` when you want to append many times before doing a query. For instance
     /// when you read in multiple files and when to store them in a single `DataFrame`. In the latter case, finish the sequence
-    /// of `append` operations with a [`rechunk`](Self::rechunk).
+    /// of `append` operations with a [`rechunk`](Self::align_chunks).
     </span><span class="kw">pub fn </span>extend(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>DataFrame) -&gt; PolarsResult&lt;()&gt; {
         <span class="macro">polars_ensure!</span>(
             <span class="self">self</span>.width() == other.width(),

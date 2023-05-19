@@ -380,7 +380,7 @@
                 compression: <span class="self">self</span>.compression.map(|c| c.into()),
             },
         )<span class="question-mark">?</span>;
-        df.rechunk();
+        df.align_chunks();
         <span class="kw">let </span>iter = df.iter_chunks();
 
         <span class="kw">for </span>batch <span class="kw">in </span>iter {

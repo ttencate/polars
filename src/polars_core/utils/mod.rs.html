@@ -1128,7 +1128,7 @@
         <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="macro">vec!</span>[df.clone()]);
     }
     <span class="comment">// make sure that chunks are aligned.
-    </span>df.rechunk();
+    </span>df.align_chunks();
     split_df_as_ref(df, n)
 }
 

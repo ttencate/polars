@@ -395,7 +395,7 @@
         )
         .map(|<span class="kw-2">mut </span>df| {
             <span class="kw">if </span>rechunk {
-                df.rechunk();
+                df.align_chunks();
             };
             df
         })
@@ -527,7 +527,7 @@
         )
         .map(|<span class="kw-2">mut </span>df| {
             <span class="kw">if </span><span class="self">self</span>.rechunk {
-                df.rechunk();
+                df.as_single_chunk_par();
             }
             df
         })

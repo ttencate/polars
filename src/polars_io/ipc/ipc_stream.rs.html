@@ -602,7 +602,7 @@
 
         ipc_stream_writer.start(<span class="kw-2">&amp;</span>df.schema().to_arrow(), <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
 
-        df.rechunk();
+        df.align_chunks();
         <span class="kw">let </span>iter = df.iter_chunks();
 
         <span class="kw">for </span>batch <span class="kw">in </span>iter {

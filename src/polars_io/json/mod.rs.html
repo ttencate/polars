@@ -441,7 +441,7 @@
     }
 
     <span class="kw">fn </span>finish(<span class="kw-2">&amp;mut </span><span class="self">self</span>, df: <span class="kw-2">&amp;mut </span>DataFrame) -&gt; PolarsResult&lt;()&gt; {
-        df.rechunk();
+        df.align_chunks();
         <span class="kw">let </span>fields = df.iter().map(|s| s.field().to_arrow()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="kw">let </span>batches = df
             .iter_chunks()

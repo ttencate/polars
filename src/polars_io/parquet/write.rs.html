@@ -513,7 +513,7 @@
     <span class="doccomment">/// Write the given DataFrame in the the writer `W`. Returns the total size of the file.
     </span><span class="kw">pub fn </span>finish(<span class="self">self</span>, df: <span class="kw-2">&amp;mut </span>DataFrame) -&gt; PolarsResult&lt;u64&gt; {
         <span class="comment">// ensures all chunks are aligned.
-        </span>df.rechunk();
+        </span>df.align_chunks();
 
         <span class="kw">let </span>n_splits = df.height() / <span class="self">self</span>.row_group_size.unwrap_or(<span class="number">512 </span>* <span class="number">512</span>);
         <span class="kw">if </span>n_splits &gt; <span class="number">0 </span>{
