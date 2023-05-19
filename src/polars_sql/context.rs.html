@@ -559,6 +559,39 @@
 <a href="#559" id="559">559</a>
 <a href="#560" id="560">560</a>
 <a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cell::RefCell;
 <span class="kw">use </span>std::collections::BTreeSet;
 
@@ -570,7 +603,7 @@
 <span class="kw">use </span>sqlparser::ast::{
     Distinct, ExcludeSelectItem, Expr <span class="kw">as </span>SqlExpr, FunctionArg, JoinOperator, ObjectName, Offset,
     OrderByExpr, Query, Select, SelectItem, SetExpr, Statement, TableAlias, TableFactor,
-    TableWithJoins, Value <span class="kw">as </span>SQLValue,
+    TableWithJoins, Value <span class="kw">as </span>SQLValue, WildcardAdditionalOptions,
 };
 <span class="kw">use </span>sqlparser::dialect::GenericDialect;
 <span class="kw">use </span>sqlparser::parser::{Parser, ParserOptions};
@@ -767,7 +800,7 @@
                     JoinOperator::CrossJoin =&gt; lf = lf.cross_join(join_tbl),
                     join_type =&gt; {
                         <span class="macro">polars_bail!</span>(
-                            ComputeError:
+                            InvalidOperation:
                             <span class="string">&quot;join type &#39;{:?}&#39; not yet supported by polars-sql&quot;</span>, join_type
                         );
                     }
@@ -777,7 +810,6 @@
 
         <span class="prelude-val">Ok</span>(lf)
     }
-
     <span class="doccomment">/// execute the &#39;SELECT&#39; part of the query
     </span><span class="kw">fn </span>execute_select(<span class="kw-2">&amp;mut </span><span class="self">self</span>, select_stmt: <span class="kw-2">&amp;</span>Select, query: <span class="kw-2">&amp;</span>Query) -&gt; PolarsResult&lt;LazyFrame&gt; {
         <span class="comment">// Determine involved dataframe
@@ -810,22 +842,14 @@
                         <span class="kw">let </span>expr = parse_sql_expr(expr, <span class="self">self</span>)<span class="question-mark">?</span>;
                         expr.alias(<span class="kw-2">&amp;</span>alias.value)
                     }
-                    SelectItem::QualifiedWildcard(<span class="kw">_</span>, wildcard_options)
-                    | SelectItem::Wildcard(wildcard_options) =&gt; {
+                    SelectItem::QualifiedWildcard(oname, wildcard_options) =&gt; {
+                        <span class="self">self</span>.process_qualified_wildcard(oname, wildcard_options)<span class="question-mark">?
+                    </span>}
+                    SelectItem::Wildcard(wildcard_options) =&gt; {
                         contains_wildcard = <span class="bool-val">true</span>;
                         <span class="kw">let </span>e = col(<span class="string">&quot;*&quot;</span>);
-                        <span class="kw">if </span>wildcard_options.opt_except.is_some() {
-                            <span class="macro">polars_bail!</span>(InvalidOperation: <span class="string">&quot;EXCEPT not supported. Use EXCLUDE instead&quot;</span>)
-                        }
-                        <span class="kw">match </span><span class="kw-2">&amp;</span>wildcard_options.opt_exclude {
-                            <span class="prelude-val">Some</span>(ExcludeSelectItem::Single(ident)) =&gt; e.exclude(<span class="macro">vec!</span>[<span class="kw-2">&amp;</span>ident.value]),
-                            <span class="prelude-val">Some</span>(ExcludeSelectItem::Multiple(idents)) =&gt; {
-                                e.exclude(idents.iter().map(|i| <span class="kw-2">&amp;</span>i.value))
-                            }
-                            <span class="kw">_ </span>=&gt; e,
-                        }
-
-                    }
+                        <span class="self">self</span>.process_wildcard_additional_options(e, wildcard_options)<span class="question-mark">?
+                    </span>}
                 })
             })
             .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
@@ -1093,6 +1117,48 @@
                 ComputeError: <span class="string">&quot;non-numeric arguments for LIMIT/OFFSET are not supported&quot;</span>,
             ),
         }
+    }
+
+    <span class="kw">fn </span>process_qualified_wildcard(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        ObjectName(idents): <span class="kw-2">&amp;</span>ObjectName,
+        options: <span class="kw-2">&amp;</span>WildcardAdditionalOptions,
+    ) -&gt; PolarsResult&lt;Expr&gt; {
+        <span class="kw">let </span>idents = idents.as_slice();
+        <span class="kw">let </span>e = <span class="kw">match </span>idents {
+            [tbl_name] =&gt; {
+                <span class="kw">let </span>lf = <span class="self">self</span>.table_map.get(<span class="kw-2">&amp;</span>tbl_name.value).ok_or_else(|| {
+                    <span class="macro">polars_err!</span>(
+                        ComputeError: <span class="string">&quot;no table named &#39;{}&#39; found&quot;</span>,
+                        tbl_name
+                    )
+                })<span class="question-mark">?</span>;
+                <span class="kw">let </span>schema = lf.schema()<span class="question-mark">?</span>;
+                cols(schema.iter_names())
+            }
+            e =&gt; <span class="macro">polars_bail!</span>(
+                ComputeError: <span class="string">&quot;Invalid wildcard expression: {:?}&quot;</span>,
+                e
+            ),
+        };
+        <span class="self">self</span>.process_wildcard_additional_options(e, options)
+    }
+
+    <span class="kw">fn </span>process_wildcard_additional_options(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        expr: Expr,
+        options: <span class="kw-2">&amp;</span>WildcardAdditionalOptions,
+    ) -&gt; PolarsResult&lt;Expr&gt; {
+        <span class="kw">if </span>options.opt_except.is_some() {
+            <span class="macro">polars_bail!</span>(InvalidOperation: <span class="string">&quot;EXCEPT not supported. Use EXCLUDE instead&quot;</span>)
+        }
+        <span class="prelude-val">Ok</span>(<span class="kw">match </span><span class="kw-2">&amp;</span>options.opt_exclude {
+            <span class="prelude-val">Some</span>(ExcludeSelectItem::Single(ident)) =&gt; expr.exclude(<span class="macro">vec!</span>[<span class="kw-2">&amp;</span>ident.value]),
+            <span class="prelude-val">Some</span>(ExcludeSelectItem::Multiple(idents)) =&gt; {
+                expr.exclude(idents.iter().map(|i| <span class="kw-2">&amp;</span>i.value))
+            }
+            <span class="kw">_ </span>=&gt; expr,
+        })
     }
 }
 
