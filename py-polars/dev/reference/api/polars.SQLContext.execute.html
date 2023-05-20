@@ -1489,6 +1489,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.register_globals.html">polars.SQLContext.register_globals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.register_many.html">polars.SQLContext.register_many</a></li>
 <li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.unregister.html">polars.SQLContext.unregister</a></li>
+<li class="toctree-l2"><a class="reference internal" href="polars.SQLContext.tables.html">polars.SQLContext.tables</a></li>
 </ul>
 </li>
 </ul>
@@ -1555,7 +1556,7 @@ document.write(`
 <h1>polars.SQLContext.execute<a class="headerlink" href="#polars-sqlcontext-execute" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.SQLContext.execute">
-<span class="sig-prename descclassname"><span class="pre">SQLContext.</span></span><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">eager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L174-L189"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext.execute" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">SQLContext.</span></span><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">eager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L199-L277"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext.execute" title="Permalink to this definition">#</a></dt>
 <dt class="sig sig-object py">
 <span class="sig-prename descclassname"><span class="pre">SQLContext.</span></span><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">eager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">False</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LazyFrame</span></span></span></dt>
 <dt class="sig sig-object py">
@@ -1566,7 +1567,7 @@ document.write(`
 <span class="sig-prename descclassname"><span class="pre">SQLContext.</span></span><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">eager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">False</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LazyFrame</span></span></span></dt>
 <dt class="sig sig-object py">
 <span class="sig-prename descclassname"><span class="pre">SQLContext.</span></span><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">eager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">True</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span></dt>
-<dd><p>Parse the given SQL query and execute it against the underlying frame data.</p>
+<dd><p>Parse the given SQL query and execute it against the registered frame data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -1579,6 +1580,69 @@ used (default is False).</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<p>Declare frame data and register with a SQLContext:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">data</span><span class="o">=</span><span class="p">[</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">&quot;The Godfather&quot;</span><span class="p">,</span> <span class="mi">1972</span><span class="p">,</span> <span class="mi">6_000_000</span><span class="p">,</span> <span class="mi">134_821_952</span><span class="p">,</span> <span class="mf">9.2</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">&quot;The Dark Knight&quot;</span><span class="p">,</span> <span class="mi">2008</span><span class="p">,</span> <span class="mi">185_000_000</span><span class="p">,</span> <span class="mi">533_316_061</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">&quot;Schindler&#39;s List&quot;</span><span class="p">,</span> <span class="mi">1993</span><span class="p">,</span> <span class="mi">22_000_000</span><span class="p">,</span> <span class="mi">96_067_179</span><span class="p">,</span> <span class="mf">8.9</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">&quot;Pulp Fiction&quot;</span><span class="p">,</span> <span class="mi">1994</span><span class="p">,</span> <span class="mi">8_000_000</span><span class="p">,</span> <span class="mi">107_930_000</span><span class="p">,</span> <span class="mf">8.9</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="p">(</span><span class="s2">&quot;The Shawshank Redemption&quot;</span><span class="p">,</span> <span class="mi">1994</span><span class="p">,</span> <span class="mi">25_000_000</span><span class="p">,</span> <span class="mi">28_341_469</span><span class="p">,</span> <span class="mf">9.3</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">],</span>
+<span class="gp">... </span>    <span class="n">schema</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;release_year&quot;</span><span class="p">,</span> <span class="s2">&quot;budget&quot;</span><span class="p">,</span> <span class="s2">&quot;gross&quot;</span><span class="p">,</span> <span class="s2">&quot;imdb_score&quot;</span><span class="p">],</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">SQLContext</span><span class="p">(</span><span class="n">films</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Execute a SQL query against the registered frame data:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+<span class="gp">... </span><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="sd">    SELECT title, release_year, imdb_score</span>
+<span class="gp">... </span><span class="sd">    FROM films</span>
+<span class="gp">... </span><span class="sd">    WHERE release_year &gt; 1990</span>
+<span class="gp">... </span><span class="sd">    ORDER BY imdb_score DESC</span>
+<span class="gp">... </span><span class="sd">    &#39;&#39;&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">eager</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">shape: (4, 3)</span>
+<span class="go">┌──────────────────────────┬──────────────┬────────────┐</span>
+<span class="go">│ title                    ┆ release_year ┆ imdb_score │</span>
+<span class="go">│ ---                      ┆ ---          ┆ ---        │</span>
+<span class="go">│ str                      ┆ i64          ┆ f64        │</span>
+<span class="go">╞══════════════════════════╪══════════════╪════════════╡</span>
+<span class="go">│ The Shawshank Redemption ┆ 1994         ┆ 9.3        │</span>
+<span class="go">│ The Dark Knight          ┆ 2008         ┆ 9.0        │</span>
+<span class="go">│ Schindler&#39;s List         ┆ 1993         ┆ 8.9        │</span>
+<span class="go">│ Pulp Fiction             ┆ 1994         ┆ 8.9        │</span>
+<span class="go">└──────────────────────────┴──────────────┴────────────┘</span>
+</pre></div>
+</div>
+<p>Execute a GROUP BY query:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+<span class="gp">... </span><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="sd">    SELECT</span>
+<span class="gp">... </span><span class="sd">        MAX(release_year / 10) * 10 AS decade,</span>
+<span class="gp">... </span><span class="sd">        SUM(gross) AS total_gross,</span>
+<span class="gp">... </span><span class="sd">        COUNT(title) AS n_films,</span>
+<span class="gp">... </span><span class="sd">    FROM films</span>
+<span class="gp">... </span><span class="sd">    GROUP BY (release_year / 10) -- decade</span>
+<span class="gp">... </span><span class="sd">    ORDER BY total_gross DESC</span>
+<span class="gp">... </span><span class="sd">    &#39;&#39;&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">eager</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">shape: (3, 3)</span>
+<span class="go">┌────────┬─────────────┬─────────┐</span>
+<span class="go">│ decade ┆ total_gross ┆ n_films │</span>
+<span class="go">│ ---    ┆ ---         ┆ ---     │</span>
+<span class="go">│ i64    ┆ i64         ┆ u32     │</span>
+<span class="go">╞════════╪═════════════╪═════════╡</span>
+<span class="go">│ 2000   ┆ 533316061   ┆ 1       │</span>
+<span class="go">│ 1990   ┆ 232338648   ┆ 3       │</span>
+<span class="go">│ 1970   ┆ 134821952   ┆ 1       │</span>
+<span class="go">└────────┴─────────────┴─────────┘</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
