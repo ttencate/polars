@@ -434,6 +434,12 @@
 <a href="#434" id="434">434</a>
 <a href="#435" id="435">435</a>
 <a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! this contains code used for rewriting projections, expanding wildcards, regex selection etc.
 </span><span class="kw">use </span>polars_arrow::index::IndexToUsize;
 <span class="kw">use </span>polars_core::utils::get_supertype;
@@ -492,11 +498,11 @@
 </span><span class="kw">fn </span>replace_wildcard(
     expr: <span class="kw-2">&amp;</span>Expr,
     result: <span class="kw-2">&amp;mut </span>Vec&lt;Expr&gt;,
-    exclude: <span class="kw-2">&amp;</span>[Arc&lt;str&gt;],
+    exclude: <span class="kw-2">&amp;</span>PlHashSet&lt;Arc&lt;str&gt;&gt;,
     schema: <span class="kw-2">&amp;</span>Schema,
 ) -&gt; PolarsResult&lt;()&gt; {
     <span class="kw">for </span>name <span class="kw">in </span>schema.iter_names() {
-        <span class="kw">if </span>!exclude.iter().any(|excluded| <span class="kw-2">&amp;**</span>excluded == name) {
+        <span class="kw">if </span>!exclude.contains(name.as_str()) {
             <span class="kw">let </span>new_expr = replace_wildcard_with_column(expr.clone(), Arc::from(name.as_str()));
             <span class="kw">let </span>new_expr = rewrite_special_aliases(new_expr)<span class="question-mark">?</span>;
             result.push(new_expr)
@@ -637,15 +643,15 @@
     result: <span class="kw-2">&amp;mut </span>Vec&lt;Expr&gt;,
     schema: <span class="kw-2">&amp;</span>Schema,
     dtypes: <span class="kw-2">&amp;</span>[DataType],
-    exclude: <span class="kw-2">&amp;</span>[Arc&lt;str&gt;],
+    exclude: <span class="kw-2">&amp;</span>PlHashSet&lt;Arc&lt;str&gt;&gt;,
 ) -&gt; PolarsResult&lt;()&gt; {
     <span class="comment">// note: we loop over the schema to guarantee that we return a stable
     // field-order, irrespective of which dtypes are filtered against
-    </span><span class="kw">for </span>field <span class="kw">in </span>schema.iter_fields().filter(|f| dtypes.contains(<span class="kw-2">&amp;</span>f.dtype)) {
+    </span><span class="kw">for </span>field <span class="kw">in </span>schema
+        .iter_fields()
+        .filter(|f| (dtypes.contains(<span class="kw-2">&amp;</span>f.dtype) &amp;&amp; !exclude.contains(f.name().as_str())))
+    {
         <span class="kw">let </span>name = field.name();
-        <span class="kw">if </span>exclude.iter().any(|excl| excl.as_ref() == name.as_str()) {
-            <span class="kw">continue</span>; <span class="comment">// skip excluded names
-        </span>}
         <span class="kw">let </span>new_expr = expr.clone();
         <span class="kw">let </span>new_expr = replace_dtype_with_column(new_expr, Arc::from(name.as_str()));
         <span class="kw">let </span>new_expr = rewrite_special_aliases(new_expr)<span class="question-mark">?</span>;
@@ -656,8 +662,12 @@
 
 <span class="comment">// schema is not used if regex not activated
 </span><span class="attr">#[allow(unused_variables)]
-</span><span class="kw">fn </span>prepare_excluded(expr: <span class="kw-2">&amp;</span>Expr, schema: <span class="kw-2">&amp;</span>Schema, keys: <span class="kw-2">&amp;</span>[Expr]) -&gt; PolarsResult&lt;Vec&lt;Arc&lt;str&gt;&gt;&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>exclude = <span class="macro">vec!</span>[];
+</span><span class="kw">fn </span>prepare_excluded(
+    expr: <span class="kw-2">&amp;</span>Expr,
+    schema: <span class="kw-2">&amp;</span>Schema,
+    keys: <span class="kw-2">&amp;</span>[Expr],
+) -&gt; PolarsResult&lt;PlHashSet&lt;Arc&lt;str&gt;&gt;&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>exclude = PlHashSet::new();
     <span class="kw">for </span>e <span class="kw">in </span>expr {
         <span class="kw">if let </span>Expr::Exclude(<span class="kw">_</span>, to_exclude) = e {
             <span class="attr">#[cfg(feature = <span class="string">&quot;regex&quot;</span>)]
@@ -675,14 +685,14 @@
                             <span class="comment">// we cannot loop because of bchck
                             </span><span class="kw">while let </span><span class="prelude-val">Some</span>(col) = buf.pop() {
                                 <span class="kw">if let </span>Expr::Column(name) = col {
-                                    exclude.push(name)
+                                    exclude.insert(name);
                                 }
                             }
                         }
                         Excluded::Dtype(dt) =&gt; {
                             <span class="kw">for </span>fld <span class="kw">in </span>schema.iter_fields() {
                                 <span class="kw">if </span>fld.data_type() == dt {
-                                    exclude.push(Arc::from(fld.name().as_ref()))
+                                    exclude.insert(Arc::from(fld.name().as_ref()));
                                 }
                             }
                         }
@@ -694,11 +704,13 @@
             </span>{
                 <span class="kw">for </span>to_exclude_single <span class="kw">in </span>to_exclude {
                     <span class="kw">match </span>to_exclude_single {
-                        Excluded::Name(name) =&gt; exclude.push(name.clone()),
+                        Excluded::Name(name) =&gt; {
+                            exclude.insert(name.clone());
+                        }
                         Excluded::Dtype(dt) =&gt; {
                             <span class="kw">for </span>(name, dtype) <span class="kw">in </span>schema.iter() {
                                 <span class="kw">if </span><span class="macro">matches!</span>(dtype, dt) {
-                                    exclude.push(Arc::from(name.as_str()))
+                                    exclude.insert(Arc::from(name.as_str()));
                                 }
                             }
                         }
@@ -712,7 +724,7 @@
         </span><span class="kw">loop </span>{
             <span class="kw">match </span>expr {
                 Expr::Column(name) =&gt; {
-                    exclude.push(name.clone());
+                    exclude.insert(name.clone());
                     <span class="kw">break</span>;
                 }
                 Expr::Alias(e, <span class="kw">_</span>) =&gt; {
