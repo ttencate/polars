@@ -2761,7 +2761,7 @@
 <span class="doccomment">/// Create a column of length `n` containing `n` copies of the literal `value`. Generally you won&#39;t need this function,
 /// as `lit(value)` already represents a column containing only `value` whose length is automatically set to the correct
 /// number of rows.
-</span><span class="kw">pub fn </span>repeat&lt;L: Literal&gt;(value: L, n_times: Expr) -&gt; Expr {
+</span><span class="kw">pub fn </span>repeat&lt;L: Literal&gt;(value: L, n: Expr) -&gt; Expr {
     <span class="kw">let </span>function = |s: Series, n: Series| {
         <span class="kw">let </span>n =
             n.get(<span class="number">0</span>).unwrap().extract::&lt;usize&gt;().ok_or_else(
@@ -2769,7 +2769,7 @@
             )<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.new_from_index(<span class="number">0</span>, n)))
     };
-    apply_binary(lit(value), n_times, function, GetOutput::same_type())
+    apply_binary(lit(value), n, function, GetOutput::same_type())
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
