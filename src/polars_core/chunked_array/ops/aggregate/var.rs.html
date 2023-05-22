@@ -90,6 +90,8 @@
 <a href="#90" id="90">90</a>
 <a href="#91" id="91">91</a>
 <a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub trait </span>VarAggSeries {
@@ -179,6 +181,8 @@
 
 <span class="kw">impl </span>ChunkVar&lt;String&gt; <span class="kw">for </span>Utf8Chunked {}
 <span class="kw">impl </span>ChunkVar&lt;Series&gt; <span class="kw">for </span>ListChunked {}
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">impl </span>ChunkVar&lt;Series&gt; <span class="kw">for </span>ArrayChunked {}
 <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
 </span><span class="kw">impl</span>&lt;T: PolarsObject&gt; ChunkVar&lt;Series&gt; <span class="kw">for </span>ObjectChunked&lt;T&gt; {}
 <span class="kw">impl </span>ChunkVar&lt;bool&gt; <span class="kw">for </span>BooleanChunked {}

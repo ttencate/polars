@@ -32,7 +32,12 @@
 <a href="#32" id="32">32</a>
 <a href="#33" id="33">33</a>
 <a href="#34" id="34">34</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span>arrow::array::{Array, BinaryArray, BooleanArray, ListArray, PrimitiveArray, Utf8Array};
+<a href="#35" id="35">35</a>
+<a href="#36" id="36">36</a>
+<a href="#37" id="37">37</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>arrow::array::{
+    Array, BinaryArray, BooleanArray, FixedSizeListArray, ListArray, PrimitiveArray, Utf8Array,
+};
 <span class="kw">use </span>arrow::types::NativeType;
 
 <span class="kw">pub trait </span>IsValid {
@@ -52,6 +57,7 @@
 <span class="kw">impl</span>&lt;T: NativeType&gt; ArrowArray <span class="kw">for </span>PrimitiveArray&lt;T&gt; {}
 <span class="kw">impl </span>ArrowArray <span class="kw">for </span>BooleanArray {}
 <span class="kw">impl </span>ArrowArray <span class="kw">for </span>ListArray&lt;i64&gt; {}
+<span class="kw">impl </span>ArrowArray <span class="kw">for </span>FixedSizeListArray {}
 
 <span class="kw">impl</span>&lt;A: ArrowArray&gt; IsValid <span class="kw">for </span>A {
     <span class="kw">unsafe fn </span>is_valid_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, i: usize) -&gt; bool {

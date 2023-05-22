@@ -280,6 +280,19 @@
 <a href="#280" id="280">280</a>
 <a href="#281" id="281">281</a>
 <a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! # Data types supported by Polars.
 //!
 //! At the moment Polars doesn&#39;t include all data types available by Arrow. The goal is to
@@ -332,6 +345,9 @@
 <span class="kw">pub struct </span>Utf8Type {}
 
 <span class="kw">pub struct </span>BinaryType {}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">pub struct </span>FixedSizeListType {}
 
 <span class="attr">#[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 </span><span class="kw">pub struct </span>ListType {}
@@ -396,8 +412,16 @@
 
 <span class="kw">impl </span>PolarsDataType <span class="kw">for </span>ListType {
     <span class="kw">fn </span>get_dtype() -&gt; DataType {
-        <span class="comment">// null as we cannot no anything without self.
+        <span class="comment">// null as we cannot know anything without self.
         </span>DataType::List(Box::new(DataType::Null))
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">impl </span>PolarsDataType <span class="kw">for </span>FixedSizeListType {
+    <span class="kw">fn </span>get_dtype() -&gt; DataType {
+        <span class="comment">// null as we cannot know anything without self.
+        </span>DataType::Array(Box::new(DataType::Null), <span class="number">0</span>)
     }
 }
 
@@ -432,6 +456,8 @@
 
 <span class="kw">impl </span>PolarsSingleType <span class="kw">for </span>BinaryType {}
 
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">pub type </span>ArrayChunked = ChunkedArray&lt;FixedSizeListType&gt;;
 <span class="kw">pub type </span>ListChunked = ChunkedArray&lt;ListType&gt;;
 <span class="kw">pub type </span>BooleanChunked = ChunkedArray&lt;BooleanType&gt;;
 <span class="kw">pub type </span>UInt8Chunked = ChunkedArray&lt;UInt8Type&gt;;

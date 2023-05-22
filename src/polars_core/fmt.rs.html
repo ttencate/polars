@@ -1080,6 +1080,20 @@
 <a href="#1080" id="1080">1080</a>
 <a href="#1081" id="1081">1081</a>
 <a href="#1082" id="1082">1082</a>
+<a href="#1083" id="1083">1083</a>
+<a href="#1084" id="1084">1084</a>
+<a href="#1085" id="1085">1085</a>
+<a href="#1086" id="1086">1086</a>
+<a href="#1087" id="1087">1087</a>
+<a href="#1088" id="1088">1088</a>
+<a href="#1089" id="1089">1089</a>
+<a href="#1090" id="1090">1090</a>
+<a href="#1091" id="1091">1091</a>
+<a href="#1092" id="1092">1092</a>
+<a href="#1093" id="1093">1093</a>
+<a href="#1094" id="1094">1094</a>
+<a href="#1095" id="1095">1095</a>
+<a href="#1096" id="1096">1096</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(any(feature = <span class="string">&quot;fmt&quot;</span>, feature = <span class="string">&quot;fmt_no_tty&quot;</span>))]
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::fmt::{Debug, Display, Formatter};
@@ -1266,6 +1280,13 @@
     }
 }
 
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">impl </span>Debug <span class="kw">for </span>ArrayChunked {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">format_array!</span>(f, <span class="self">self</span>, <span class="string">&quot;fixed size list&quot;</span>, <span class="self">self</span>.name(), <span class="string">&quot;ChunkedArray&quot;</span>)
+    }
+}
+
 <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
 </span><span class="kw">impl</span>&lt;T&gt; Debug <span class="kw">for </span>ObjectChunked&lt;T&gt;
 <span class="kw">where
@@ -1365,6 +1386,11 @@
             </span>DataType::Decimal(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; {
                 <span class="kw">let </span>dt = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.dtype());
                 <span class="macro">format_array!</span>(f, <span class="self">self</span>.decimal().unwrap(), <span class="kw-2">&amp;</span>dt, <span class="self">self</span>.name(), <span class="string">&quot;Series&quot;</span>)
+            }
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+            </span>DataType::Array(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; {
+                <span class="kw">let </span>dt = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.dtype());
+                <span class="macro">format_array!</span>(f, <span class="self">self</span>.array().unwrap(), <span class="kw-2">&amp;</span>dt, <span class="self">self</span>.name(), <span class="string">&quot;Series&quot;</span>)
             }
             DataType::List(<span class="kw">_</span>) =&gt; {
                 <span class="kw">let </span>dt = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.dtype());
@@ -1870,6 +1896,8 @@
                 <span class="kw">let </span>s = <span class="self">self</span>.get_str().unwrap();
                 <span class="macro">write!</span>(f, <span class="string">&quot;\&quot;{s}\&quot;&quot;</span>)
             }
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+            </span>AnyValue::Array(s, _size) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, s.fmt_list()),
             AnyValue::List(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, s.fmt_list()),
             <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
             </span>AnyValue::Object(v) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{v}&quot;</span>),

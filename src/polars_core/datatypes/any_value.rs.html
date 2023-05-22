@@ -1123,6 +1123,8 @@
 <a href="#1123" id="1123">1123</a>
 <a href="#1124" id="1124">1124</a>
 <a href="#1125" id="1125">1125</a>
+<a href="#1126" id="1126">1126</a>
+<a href="#1127" id="1127">1127</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::temporal_conversions::{
     timestamp_ms_to_datetime, timestamp_ns_to_datetime, timestamp_us_to_datetime,
 };
@@ -1196,8 +1198,10 @@
     </span><span class="comment">// If syncptr is_null the data is in the rev-map
     // otherwise it is in the array pointer
     </span>Categorical(u32, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RevMapping, SyncPtr&lt;Utf8Array&lt;i64&gt;&gt;),
-    <span class="doccomment">/// Nested type, contains arrays that are filled with one of the datetypes.
+    <span class="doccomment">/// Nested type, contains arrays that are filled with one of the datatypes.
     </span>List(Series),
+    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+    </span>Array(Series, usize),
     <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
     </span><span class="doccomment">/// Can be used to fmt and implements Any, so can be downcasted to the proper value type.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]

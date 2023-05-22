@@ -78,29 +78,15 @@
 <a href="#78" id="78">78</a>
 <a href="#79" id="79">79</a>
 <a href="#80" id="80">80</a>
-<a href="#81" id="81">81</a>
-<a href="#82" id="82">82</a>
-<a href="#83" id="83">83</a>
-<a href="#84" id="84">84</a>
-<a href="#85" id="85">85</a>
-<a href="#86" id="86">86</a>
-<a href="#87" id="87">87</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::array::{Array, BooleanArray, PrimitiveArray};
 <span class="kw">use </span>arrow::bitmap::{Bitmap, MutableBitmap};
 
+<span class="kw">use </span><span class="kw">super</span>::bitmap::take_bitmap_unchecked;
 <span class="kw">use </span><span class="kw">crate</span>::index::IdxSize;
-
-<span class="kw">unsafe fn </span>take_values(values: <span class="kw-2">&amp;</span>Bitmap, indices: <span class="kw-2">&amp;</span>[IdxSize]) -&gt; Bitmap {
-    <span class="kw">let </span>values = indices.iter().map(|<span class="kw-2">&amp;</span>index| {
-        <span class="macro">debug_assert!</span>((index <span class="kw">as </span>usize) &lt; values.len());
-        values.get_bit_unchecked(index <span class="kw">as </span>usize)
-    });
-    Bitmap::from_trusted_len_iter(values)
-}
 
 <span class="comment">// take implementation when neither values nor indices contain nulls
 </span><span class="kw">unsafe fn </span>take_no_validity(values: <span class="kw-2">&amp;</span>Bitmap, indices: <span class="kw-2">&amp;</span>[IdxSize]) -&gt; (Bitmap, <span class="prelude-ty">Option</span>&lt;Bitmap&gt;) {
-    (take_values(values, indices), <span class="prelude-val">None</span>)
+    (take_bitmap_unchecked(values, indices), <span class="prelude-val">None</span>)
 }
 
 <span class="comment">// take implementation when only values contain nulls
@@ -109,10 +95,10 @@
     indices: <span class="kw-2">&amp;</span>[IdxSize],
 ) -&gt; (Bitmap, <span class="prelude-ty">Option</span>&lt;Bitmap&gt;) {
     <span class="kw">let </span>validity_values = values.validity().unwrap();
-    <span class="kw">let </span>validity = take_values(validity_values, indices);
+    <span class="kw">let </span>validity = take_bitmap_unchecked(validity_values, indices);
 
     <span class="kw">let </span>values_values = values.values();
-    <span class="kw">let </span>buffer = take_values(values_values, indices);
+    <span class="kw">let </span>buffer = take_bitmap_unchecked(values_values, indices);
 
     (buffer, validity.into())
 }
@@ -123,7 +109,7 @@
     indices: <span class="kw-2">&amp;</span>PrimitiveArray&lt;IdxSize&gt;,
 ) -&gt; (Bitmap, <span class="prelude-ty">Option</span>&lt;Bitmap&gt;) {
     <span class="comment">// simply take all and copy the bitmap
-    </span><span class="kw">let </span>buffer = take_values(values, indices.values());
+    </span><span class="kw">let </span>buffer = take_bitmap_unchecked(values, indices.values());
 
     (buffer, indices.validity().cloned())
 }

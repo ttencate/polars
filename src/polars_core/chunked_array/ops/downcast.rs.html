@@ -203,6 +203,30 @@
 <a href="#203" id="203">203</a>
 <a href="#204" id="204">204</a>
 <a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
+<a href="#207" id="207">207</a>
+<a href="#208" id="208">208</a>
+<a href="#209" id="209">209</a>
+<a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a>
+<a href="#213" id="213">213</a>
+<a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
+<a href="#218" id="218">218</a>
+<a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a>
+<a href="#225" id="225">225</a>
+<a href="#226" id="226">226</a>
+<a href="#227" id="227">227</a>
+<a href="#228" id="228">228</a>
+<a href="#229" id="229">229</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::marker::PhantomData;
 
 <span class="kw">use </span>arrow::array::<span class="kw-2">*</span>;
@@ -372,6 +396,30 @@
         })
     }
     <span class="kw">pub fn </span>downcast_chunks(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Chunks&lt;<span class="lifetime">&#39;_</span>, ListArray&lt;i64&gt;&gt; {
+        Chunks::new(<span class="kw-2">&amp;</span><span class="self">self</span>.chunks)
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>index_to_chunked_index(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; (usize, usize) {
+        <span class="kw">if </span><span class="self">self</span>.chunks.len() == <span class="number">1 </span>{
+            <span class="kw">return </span>(<span class="number">0</span>, index);
+        }
+        index_to_chunked_index(<span class="self">self</span>.downcast_iter().map(|arr| arr.len()), index)
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+#[doc(hidden)]
+</span><span class="kw">impl </span>ArrayChunked {
+    <span class="kw">pub fn </span>downcast_iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>FixedSizeListArray&gt; + DoubleEndedIterator {
+        <span class="comment">// Safety:
+        // This is the array type that must be in a ArrayChunked
+        </span><span class="self">self</span>.chunks.iter().map(|arr| {
+            <span class="kw">let </span>arr = <span class="kw-2">&amp;**</span>arr;
+            <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(arr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">dyn </span>Array <span class="kw">as </span><span class="kw-2">*const </span>FixedSizeListArray) }
+        })
+    }
+    <span class="kw">pub fn </span>downcast_chunks(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Chunks&lt;<span class="lifetime">&#39;_</span>, FixedSizeListArray&gt; {
         Chunks::new(<span class="kw-2">&amp;</span><span class="self">self</span>.chunks)
     }
 

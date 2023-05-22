@@ -735,6 +735,29 @@
 <a href="#735" id="735">735</a>
 <a href="#736" id="736">736</a>
 <a href="#737" id="737">737</a>
+<a href="#738" id="738">738</a>
+<a href="#739" id="739">739</a>
+<a href="#740" id="740">740</a>
+<a href="#741" id="741">741</a>
+<a href="#742" id="742">742</a>
+<a href="#743" id="743">743</a>
+<a href="#744" id="744">744</a>
+<a href="#745" id="745">745</a>
+<a href="#746" id="746">746</a>
+<a href="#747" id="747">747</a>
+<a href="#748" id="748">748</a>
+<a href="#749" id="749">749</a>
+<a href="#750" id="750">750</a>
+<a href="#751" id="751">751</a>
+<a href="#752" id="752">752</a>
+<a href="#753" id="753">753</a>
+<a href="#754" id="754">754</a>
+<a href="#755" id="755">755</a>
+<a href="#756" id="756">756</a>
+<a href="#757" id="757">757</a>
+<a href="#758" id="758">758</a>
+<a href="#759" id="759">759</a>
+<a href="#760" id="760">760</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Implementations of upstream traits for ChunkedArray&lt;T&gt;
 </span><span class="kw">use </span>std::borrow::{Borrow, Cow};
 <span class="kw">use </span>std::collections::LinkedList;
@@ -751,6 +774,8 @@
 <span class="kw">use </span><span class="kw">crate</span>::chunked_array::builder::{
     get_list_builder, AnonymousListBuilder, AnonymousOwnedListBuilder,
 };
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::chunked_array::builder::{AnonymousOwnedFixedSizeListBuilder, FixedSizeListBuilder};
 <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::chunked_array::object::ObjectArray;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -1032,6 +1057,27 @@
         <span class="kw">let </span><span class="kw-2">mut </span>builder = AnonymousListBuilder::new(<span class="string">&quot;collected&quot;</span>, cap, <span class="prelude-val">None</span>);
         <span class="kw">for </span>val <span class="kw">in </span><span class="kw-2">&amp;</span>vals {
             builder.append_opt_array(val.as_deref());
+        }
+        builder.finish()
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">impl </span>ArrayChunked {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>from_iter_and_args&lt;I: IntoIterator&lt;Item = <span class="prelude-ty">Option</span>&lt;Box&lt;<span class="kw">dyn </span>Array&gt;&gt;&gt;&gt;(
+        iter: I,
+        width: usize,
+        capacity: usize,
+        inner_dtype: <span class="prelude-ty">Option</span>&lt;DataType&gt;,
+        name: <span class="kw-2">&amp;</span>str,
+    ) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>builder =
+            AnonymousOwnedFixedSizeListBuilder::new(name, width, capacity, inner_dtype);
+        <span class="kw">for </span>val <span class="kw">in </span>iter {
+            <span class="kw">match </span>val {
+                <span class="prelude-val">None </span>=&gt; builder.push_null(),
+                <span class="prelude-val">Some</span>(arr) =&gt; builder.push_unchecked(arr.as_ref(), <span class="number">0</span>),
+            }
         }
         builder.finish()
     }

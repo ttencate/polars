@@ -177,6 +177,31 @@
 <a href="#177" id="177">177</a>
 <a href="#178" id="178">178</a>
 <a href="#179" id="179">179</a>
+<a href="#180" id="180">180</a>
+<a href="#181" id="181">181</a>
+<a href="#182" id="182">182</a>
+<a href="#183" id="183">183</a>
+<a href="#184" id="184">184</a>
+<a href="#185" id="185">185</a>
+<a href="#186" id="186">186</a>
+<a href="#187" id="187">187</a>
+<a href="#188" id="188">188</a>
+<a href="#189" id="189">189</a>
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a>
+<a href="#194" id="194">194</a>
+<a href="#195" id="195">195</a>
+<a href="#196" id="196">196</a>
+<a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a>
+<a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::convert::TryFrom;
 
 <span class="kw">use </span>arrow::array::<span class="kw-2">*</span>;
@@ -350,6 +375,31 @@
     <span class="attr">#[inline]
     </span><span class="kw">unsafe fn </span>get_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
         <span class="kw">let </span>opt_arr = <span class="macro">impl_take_random_get_unchecked!</span>(<span class="self">self</span>, index, LargeListArray);
+        opt_arr.map(|arr| {
+            <span class="kw">let </span>s = Series::try_from((<span class="self">self</span>.name(), arr));
+            s.unwrap()
+        })
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">impl </span>TakeRandom <span class="kw">for </span>ArrayChunked {
+    <span class="kw">type </span>Item = Series;
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
+        <span class="comment">// Safety:
+        // Out of bounds is checked and downcast is of correct type
+        </span><span class="kw">let </span>opt_arr = <span class="kw">unsafe </span>{ <span class="macro">impl_take_random_get!</span>(<span class="self">self</span>, index, FixedSizeListArray) };
+        opt_arr.map(|arr| {
+            <span class="kw">let </span>s = Series::try_from((<span class="self">self</span>.name(), arr));
+            s.unwrap()
+        })
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">unsafe fn </span>get_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
+        <span class="kw">let </span>opt_arr = <span class="macro">impl_take_random_get_unchecked!</span>(<span class="self">self</span>, index, FixedSizeListArray);
         opt_arr.map(|arr| {
             <span class="kw">let </span>s = Series::try_from((<span class="self">self</span>.name(), arr));
             s.unwrap()

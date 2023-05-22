@@ -224,7 +224,7 @@
         <span class="kw">let </span>name = <span class="self">self</span>.name();
 
         <span class="kw">let </span><span class="kw-2">mut </span>ca = <span class="kw">unsafe </span>{ ListChunked::from_chunks(name, <span class="macro">vec!</span>[Box::new(arr)]) };
-        ca.to_logical(inner_type.clone());
+        ca.to_physical(inner_type.clone());
         ca.set_fast_explode();
 
         <span class="prelude-val">Ok</span>(ca)

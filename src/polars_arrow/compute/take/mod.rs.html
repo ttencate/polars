@@ -775,7 +775,18 @@
 <a href="#775" id="775">775</a>
 <a href="#776" id="776">776</a>
 <a href="#777" id="777">777</a>
-</pre></div><pre class="rust"><code><span class="kw">mod </span>boolean;
+<a href="#778" id="778">778</a>
+<a href="#779" id="779">779</a>
+<a href="#780" id="780">780</a>
+<a href="#781" id="781">781</a>
+<a href="#782" id="782">782</a>
+<a href="#783" id="783">783</a>
+<a href="#784" id="784">784</a>
+<a href="#785" id="785">785</a>
+</pre></div><pre class="rust"><code><span class="kw">pub mod </span>bitmap;
+<span class="kw">mod </span>boolean;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">mod </span>fixed_size_list;
 
 <span class="kw">use </span>arrow::array::<span class="kw-2">*</span>;
 <span class="kw">use </span>arrow::bitmap::MutableBitmap;
@@ -812,6 +823,11 @@
         Boolean =&gt; {
             <span class="kw">let </span>arr = arr.as_any().downcast_ref().unwrap();
             Box::new(boolean::take_unchecked(arr, idx))
+        }
+        <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+        </span>FixedSizeList =&gt; {
+            <span class="kw">let </span>arr = arr.as_any().downcast_ref().unwrap();
+            Box::new(fixed_size_list::take_unchecked(arr, idx))
         }
         <span class="comment">// TODO! implement proper unchecked version
         </span><span class="attr">#[cfg(feature = <span class="string">&quot;compute&quot;</span>)]

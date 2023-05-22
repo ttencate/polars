@@ -146,6 +146,13 @@
 <a href="#146" id="146">146</a>
 <a href="#147" id="147">147</a>
 <a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
+<a href="#152" id="152">152</a>
+<a href="#153" id="153">153</a>
+<a href="#154" id="154">154</a>
+<a href="#155" id="155">155</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
 <span class="macro">macro_rules! </span>unpack_chunked {
@@ -162,12 +169,12 @@
 }
 
 <span class="kw">impl </span>Series {
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype i8
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Int8]`
     </span><span class="kw">pub fn </span>i8(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>Int8Chunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Int8 =&gt; Int8Chunked, <span class="string">&quot;Int8&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray i16
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Int16]`
     </span><span class="kw">pub fn </span>i16(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>Int16Chunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Int16 =&gt; Int16Chunked, <span class="string">&quot;Int16&quot;</span>)
     }
@@ -186,85 +193,86 @@
     ///         }
     /// }).collect();
     /// ```
+    /// Unpack to ChunkedArray of dtype `[DataType::Int32]`
     </span><span class="kw">pub fn </span>i32(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>Int32Chunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Int32 =&gt; Int32Chunked, <span class="string">&quot;Int32&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype i64
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Int64]`
     </span><span class="kw">pub fn </span>i64(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>Int64Chunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Int64 =&gt; Int64Chunked, <span class="string">&quot;Int64&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype f32
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Float32]`
     </span><span class="kw">pub fn </span>f32(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>Float32Chunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Float32 =&gt; Float32Chunked, <span class="string">&quot;Float32&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype f64
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Float64]`
     </span><span class="kw">pub fn </span>f64(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>Float64Chunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Float64 =&gt; Float64Chunked, <span class="string">&quot;Float64&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype u8
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::UInt8]`
     </span><span class="kw">pub fn </span>u8(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>UInt8Chunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::UInt8 =&gt; UInt8Chunked, <span class="string">&quot;UInt8&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype u16
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::UInt16]`
     </span><span class="kw">pub fn </span>u16(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>UInt16Chunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::UInt16 =&gt; UInt16Chunked, <span class="string">&quot;UInt16&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype u32
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::UInt32]`
     </span><span class="kw">pub fn </span>u32(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>UInt32Chunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::UInt32 =&gt; UInt32Chunked, <span class="string">&quot;UInt32&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype u64
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::UInt64]`
     </span><span class="kw">pub fn </span>u64(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>UInt64Chunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::UInt64 =&gt; UInt64Chunked, <span class="string">&quot;UInt64&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype bool
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Boolean]`
     </span><span class="kw">pub fn </span>bool(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>BooleanChunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Boolean =&gt; BooleanChunked, <span class="string">&quot;Boolean&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype utf8
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Utf8]`
     </span><span class="kw">pub fn </span>utf8(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>Utf8Chunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Utf8 =&gt; Utf8Chunked, <span class="string">&quot;Utf8&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype binary
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Binary]`
     </span><span class="kw">pub fn </span>binary(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>BinaryChunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Binary =&gt; BinaryChunked, <span class="string">&quot;Binary&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype Time
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Time]`
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-time&quot;</span>)]
     </span><span class="kw">pub fn </span>time(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>TimeChunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Time =&gt; TimeChunked, <span class="string">&quot;Time&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype Date
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Date]`
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
     </span><span class="kw">pub fn </span>date(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>DateChunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Date =&gt; DateChunked, <span class="string">&quot;Date&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype datetime
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Datetime]`
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
     </span><span class="kw">pub fn </span>datetime(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>DatetimeChunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Datetime(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; DatetimeChunked, <span class="string">&quot;Datetime&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype duration
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Duration]`
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-duration&quot;</span>)]
     </span><span class="kw">pub fn </span>duration(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>DurationChunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Duration(<span class="kw">_</span>) =&gt; DurationChunked, <span class="string">&quot;Duration&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype decimal
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Decimal]`
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
     </span><span class="kw">pub fn </span>decimal(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>DecimalChunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Decimal(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; DecimalChunked, <span class="string">&quot;Decimal&quot;</span>)
@@ -275,13 +283,19 @@
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::List(<span class="kw">_</span>) =&gt; ListChunked, <span class="string">&quot;List&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype categorical
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Array]`
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+    </span><span class="kw">pub fn </span>array(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>ArrayChunked&gt; {
+        <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Array(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; ArrayChunked, <span class="string">&quot;FixedSizeList&quot;</span>)
+    }
+
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Categorical]`
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
     </span><span class="kw">pub fn </span>categorical(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>CategoricalChunked&gt; {
         <span class="macro">unpack_chunked!</span>(<span class="self">self</span>, DataType::Categorical(<span class="kw">_</span>) =&gt; CategoricalChunked, <span class="string">&quot;Categorical&quot;</span>)
     }
 
-    <span class="doccomment">/// Unpack to ChunkedArray of dtype struct
+    <span class="doccomment">/// Unpack to ChunkedArray of dtype `[DataType::Struct]`
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
     </span><span class="kw">pub fn </span>struct_(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>StructChunked&gt; {
         <span class="attr">#[cfg(debug_assertions)]

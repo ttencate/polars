@@ -307,12 +307,16 @@
 <a href="#307" id="307">307</a>
 <a href="#308" id="308">308</a>
 <a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::iter::Enumerate;
 
 <span class="kw">use </span>arrow::array::BooleanArray;
 <span class="kw">use </span>arrow::bitmap::utils::BitChunks;
 <span class="attr">#[cfg(feature = <span class="string">&quot;simd&quot;</span>)]
 </span><span class="kw">pub mod </span>agg_mean;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">pub mod </span>comparison;
 <span class="kw">pub mod </span>concatenate;
 <span class="kw">pub mod </span>ewm;
 <span class="kw">pub mod </span>float;

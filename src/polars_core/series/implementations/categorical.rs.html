@@ -512,7 +512,7 @@
         <span class="comment">// we cannot cast and dispatch as the inner type of the list would be incorrect
         </span><span class="kw">let </span>list = <span class="self">self</span>.<span class="number">0</span>.logical().agg_list(groups);
         <span class="kw">let </span><span class="kw-2">mut </span>list = list.list().unwrap().clone();
-        list.to_logical(<span class="self">self</span>.dtype().clone());
+        list.to_physical(<span class="self">self</span>.dtype().clone());
         list.into_series()
     }
 

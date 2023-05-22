@@ -367,6 +367,19 @@
 <a href="#367" id="367">367</a>
 <a href="#368" id="368">368</a>
 <a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;groupby_list&quot;</span>)]
 </span><span class="kw">use </span>polars_arrow::kernels::list_bytes_iter::numeric_list_bytes_iter;
 <span class="kw">use </span>polars_arrow::kernels::sort_partition::{create_clean_partitions, partition_to_groups};
@@ -724,6 +737,19 @@
         </span>{
             <span class="macro">panic!</span>(<span class="string">&quot;activate &#39;groupby_list&#39; feature&quot;</span>)
         }
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">impl </span>IntoGroupsProxy <span class="kw">for </span>ArrayChunked {
+    <span class="attr">#[allow(clippy::needless_lifetimes)]
+    #[allow(unused_variables)]
+    </span><span class="kw">fn </span>group_tuples&lt;<span class="lifetime">&#39;a</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
+        _multithreaded: bool,
+        _sorted: bool,
+    ) -&gt; PolarsResult&lt;GroupsProxy&gt; {
+        <span class="macro">todo!</span>(<span class="string">&quot;grouping FixedSizeList not yet supported&quot;</span>)
     }
 }
 

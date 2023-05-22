@@ -261,6 +261,17 @@
 <a href="#261" id="261">261</a>
 <a href="#262" id="262">262</a>
 <a href="#263" id="263">263</a>
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::compute::concatenate::concatenate;
 <span class="kw">use </span>arrow::Either;
 
@@ -465,6 +476,17 @@
 
 <span class="attr">#[doc(hidden)]
 </span><span class="kw">impl </span>ListChunked {
+    <span class="kw">pub fn </span>extend(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; PolarsResult&lt;()&gt; {
+        <span class="comment">// TODO! properly implement mutation
+        // this is harder because we don&#39;t know the inner type of the list
+        </span><span class="self">self</span>.set_sorted_flag(IsSorted::Not);
+        <span class="self">self</span>.append(other)
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+#[doc(hidden)]
+</span><span class="kw">impl </span>ArrayChunked {
     <span class="kw">pub fn </span>extend(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; PolarsResult&lt;()&gt; {
         <span class="comment">// TODO! properly implement mutation
         // this is harder because we don&#39;t know the inner type of the list

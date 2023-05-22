@@ -540,6 +540,14 @@
 <a href="#540" id="540">540</a>
 <a href="#541" id="541">541</a>
 <a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>binary;
 <span class="kw">mod </span>boolean;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -556,6 +564,8 @@
 </span><span class="kw">mod </span>decimal;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-duration&quot;</span>)]
 </span><span class="kw">mod </span>duration;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">mod </span>fixed_size_list;
 <span class="kw">mod </span>floats;
 <span class="kw">mod </span>list;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>null;
@@ -1037,6 +1047,10 @@
             </span><span class="kw">fn </span>str_concat(<span class="kw-2">&amp;</span><span class="self">self</span>, delimiter: <span class="kw-2">&amp;</span>str) -&gt; Utf8Chunked {
                 <span class="self">self</span>.<span class="number">0</span>.str_concat(delimiter)
             }
+
+            <span class="kw">fn </span>tile(<span class="kw-2">&amp;</span><span class="self">self</span>, n: usize) -&gt; Series {
+                <span class="self">self</span>.<span class="number">0</span>.tile(n).into_series()
+            }
         }
     };
 }
@@ -1069,6 +1083,8 @@
 <span class="kw">impl </span>private::PrivateSeriesNumeric <span class="kw">for </span>SeriesWrap&lt;Utf8Chunked&gt; {}
 <span class="kw">impl </span>private::PrivateSeriesNumeric <span class="kw">for </span>SeriesWrap&lt;BinaryChunked&gt; {}
 <span class="kw">impl </span>private::PrivateSeriesNumeric <span class="kw">for </span>SeriesWrap&lt;ListChunked&gt; {}
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">impl </span>private::PrivateSeriesNumeric <span class="kw">for </span>SeriesWrap&lt;ArrayChunked&gt; {}
 <span class="kw">impl </span>private::PrivateSeriesNumeric <span class="kw">for </span>SeriesWrap&lt;BooleanChunked&gt; {
     <span class="kw">fn </span>bit_repr_is_large(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="bool-val">false

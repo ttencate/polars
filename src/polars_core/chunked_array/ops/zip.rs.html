@@ -211,6 +211,20 @@
 <a href="#211" id="211">211</a>
 <a href="#212" id="212">212</a>
 <a href="#213" id="213">213</a>
+<a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
+<a href="#218" id="218">218</a>
+<a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a>
+<a href="#225" id="225">225</a>
+<a href="#226" id="226">226</a>
+<a href="#227" id="227">227</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::compute::if_then_else::if_then_else;
 <span class="kw">use </span>polars_arrow::array::default_arrays::FromData;
 
@@ -381,11 +395,25 @@
 }
 
 <span class="kw">impl </span>ChunkZip&lt;ListType&gt; <span class="kw">for </span>ListChunked {
-    <span class="kw">fn </span>zip_with(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        mask: <span class="kw-2">&amp;</span>BooleanChunked,
-        other: <span class="kw-2">&amp;</span>ChunkedArray&lt;ListType&gt;,
-    ) -&gt; PolarsResult&lt;ChunkedArray&lt;ListType&gt;&gt; {
+    <span class="kw">fn </span>zip_with(<span class="kw-2">&amp;</span><span class="self">self</span>, mask: <span class="kw-2">&amp;</span>BooleanChunked, other: <span class="kw-2">&amp;</span>ListChunked) -&gt; PolarsResult&lt;ListChunked&gt; {
+        <span class="kw">let </span>(left, right, mask) = align_chunks_ternary(<span class="self">self</span>, other, mask);
+        <span class="kw">let </span>chunks = left
+            .downcast_iter()
+            .zip(right.downcast_iter())
+            .zip(mask.downcast_iter())
+            .map(|((left_c, right_c), mask_c)| {
+                <span class="kw">let </span>mask_c = prepare_mask(mask_c);
+                <span class="kw">let </span>arr = if_then_else(<span class="kw-2">&amp;</span>mask_c, left_c, right_c)<span class="question-mark">?</span>;
+                <span class="prelude-val">Ok</span>(arr)
+            })
+            .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
+        <span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(ChunkedArray::from_chunks(<span class="self">self</span>.name(), chunks)) }
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">impl </span>ChunkZip&lt;FixedSizeListType&gt; <span class="kw">for </span>ArrayChunked {
+    <span class="kw">fn </span>zip_with(<span class="kw-2">&amp;</span><span class="self">self</span>, mask: <span class="kw-2">&amp;</span>BooleanChunked, other: <span class="kw-2">&amp;</span>ArrayChunked) -&gt; PolarsResult&lt;ArrayChunked&gt; {
         <span class="kw">let </span>(left, right, mask) = align_chunks_ternary(<span class="self">self</span>, other, mask);
         <span class="kw">let </span>chunks = left
             .downcast_iter()
