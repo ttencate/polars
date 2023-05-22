@@ -544,10 +544,6 @@
 <a href="#544" id="544">544</a>
 <a href="#545" id="545">545</a>
 <a href="#546" id="546">546</a>
-<a href="#547" id="547">547</a>
-<a href="#548" id="548">548</a>
-<a href="#549" id="549">549</a>
-<a href="#550" id="550">550</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>binary;
 <span class="kw">mod </span>boolean;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -874,10 +870,6 @@
 
             <span class="kw">fn </span>take_iter(<span class="kw-2">&amp;</span><span class="self">self</span>, iter: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>TakeIterator) -&gt; PolarsResult&lt;Series&gt; {
                 <span class="prelude-val">Ok</span>(ChunkTake::take(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, iter.into())<span class="question-mark">?</span>.into_series())
-            }
-
-            <span class="kw">fn </span>take_every(<span class="kw-2">&amp;</span><span class="self">self</span>, n: usize) -&gt; Series {
-                <span class="self">self</span>.<span class="number">0</span>.take_every(n).into_series()
             }
 
             <span class="kw">unsafe fn </span>take_iter_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, iter: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>TakeIterator) -&gt; Series {

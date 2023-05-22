@@ -497,10 +497,6 @@
 <a href="#497" id="497">497</a>
 <a href="#498" id="498">498</a>
 <a href="#499" id="499">499</a>
-<a href="#500" id="500">500</a>
-<a href="#501" id="501">501</a>
-<a href="#502" id="502">502</a>
-<a href="#503" id="503">503</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! This module exists to reduce compilation times.
 //!
 //! All the data types are backed by a physical type in memory e.g. Date -&gt; i32, Datetime-&gt; i64.
@@ -745,10 +741,6 @@
             <span class="kw">fn </span>take_iter(<span class="kw-2">&amp;</span><span class="self">self</span>, iter: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>TakeIterator) -&gt; PolarsResult&lt;Series&gt; {
                 ChunkTake::take(<span class="self">self</span>.<span class="number">0</span>.deref(), iter.into())
                     .map(|ca| ca.<span class="macro-nonterminal">$into_logical</span>().into_series())
-            }
-
-            <span class="kw">fn </span>take_every(<span class="kw-2">&amp;</span><span class="self">self</span>, n: usize) -&gt; Series {
-                <span class="self">self</span>.<span class="number">0</span>.take_every(n).<span class="macro-nonterminal">$into_logical</span>().into_series()
             }
 
             <span class="kw">unsafe fn </span>take_iter_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, iter: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>TakeIterator) -&gt; Series {

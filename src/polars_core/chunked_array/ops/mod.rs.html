@@ -759,12 +759,6 @@
 <a href="#759" id="759">759</a>
 <a href="#760" id="760">760</a>
 <a href="#761" id="761">761</a>
-<a href="#762" id="762">762</a>
-<a href="#763" id="763">763</a>
-<a href="#764" id="764">764</a>
-<a href="#765" id="765">765</a>
-<a href="#766" id="766">766</a>
-<a href="#767" id="767">767</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Traits for miscellaneous operations on ChunkedArray
 </span><span class="kw">use </span>arrow::offset::OffsetsBuffer;
 <span class="kw">use </span>polars_arrow::prelude::QuantileInterpolOptions;
@@ -878,12 +872,6 @@
     </span><span class="kw">fn </span>cumprod(<span class="kw-2">&amp;</span><span class="self">self</span>, _reverse: bool) -&gt; ChunkedArray&lt;T&gt; {
         <span class="macro">panic!</span>(<span class="string">&quot;operation cumprod not supported for this dtype&quot;</span>)
     }
-}
-
-<span class="doccomment">/// Traverse and collect every nth element
-</span><span class="kw">pub trait </span>ChunkTakeEvery&lt;T: PolarsDataType&gt; {
-    <span class="doccomment">/// Traverse and collect every nth element in a new array.
-    </span><span class="kw">fn </span>take_every(<span class="kw-2">&amp;</span><span class="self">self</span>, n: usize) -&gt; ChunkedArray&lt;T&gt;;
 }
 
 <span class="doccomment">/// Explode/ flatten a List or Utf8 Series

@@ -396,11 +396,6 @@
 <a href="#396" id="396">396</a>
 <a href="#397" id="397">397</a>
 <a href="#398" id="398">398</a>
-<a href="#399" id="399">399</a>
-<a href="#400" id="400">400</a>
-<a href="#401" id="401">401</a>
-<a href="#402" id="402">402</a>
-<a href="#403" id="403">403</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="kw">use </span>ahash::RandomState;
@@ -636,11 +631,6 @@
     <span class="kw">fn </span>take_iter(<span class="kw-2">&amp;</span><span class="self">self</span>, iter: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>TakeIterator) -&gt; PolarsResult&lt;Series&gt; {
         <span class="kw">let </span>cats = <span class="self">self</span>.<span class="number">0</span>.logical().take(iter.into())<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="self">self</span>.finish_with_state(<span class="bool-val">false</span>, cats).into_series())
-    }
-
-    <span class="kw">fn </span>take_every(<span class="kw-2">&amp;</span><span class="self">self</span>, n: usize) -&gt; Series {
-        <span class="self">self</span>.with_state(<span class="bool-val">true</span>, |cats| cats.take_every(n))
-            .into_series()
     }
 
     <span class="kw">unsafe fn </span>take_iter_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, iter: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>TakeIterator) -&gt; Series {

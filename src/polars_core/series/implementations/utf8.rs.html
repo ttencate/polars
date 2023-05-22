@@ -316,10 +316,6 @@
 <a href="#316" id="316">316</a>
 <a href="#317" id="317">317</a>
 <a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
-<a href="#320" id="320">320</a>
-<a href="#321" id="321">321</a>
-<a href="#322" id="322">322</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="kw">use </span>ahash::RandomState;
@@ -499,10 +495,6 @@
 
     <span class="kw">fn </span>take_iter(<span class="kw-2">&amp;</span><span class="self">self</span>, iter: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>TakeIterator) -&gt; PolarsResult&lt;Series&gt; {
         <span class="prelude-val">Ok</span>(ChunkTake::take(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, iter.into())<span class="question-mark">?</span>.into_series())
-    }
-
-    <span class="kw">fn </span>take_every(<span class="kw-2">&amp;</span><span class="self">self</span>, n: usize) -&gt; Series {
-        <span class="self">self</span>.<span class="number">0</span>.take_every(n).into_series()
     }
 
     <span class="kw">unsafe fn </span>take_iter_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, iter: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>TakeIterator) -&gt; Series {

@@ -474,13 +474,6 @@
 <a href="#474" id="474">474</a>
 <a href="#475" id="475">475</a>
 <a href="#476" id="476">476</a>
-<a href="#477" id="477">477</a>
-<a href="#478" id="478">478</a>
-<a href="#479" id="479">479</a>
-<a href="#480" id="480">480</a>
-<a href="#481" id="481">481</a>
-<a href="#482" id="482">482</a>
-<a href="#483" id="483">483</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::ops::{Deref, DerefMut};
 
@@ -742,13 +735,6 @@
             ca.into_datetime(<span class="self">self</span>.<span class="number">0</span>.time_unit(), <span class="self">self</span>.<span class="number">0</span>.time_zone().clone())
                 .into_series()
         })
-    }
-
-    <span class="kw">fn </span>take_every(<span class="kw-2">&amp;</span><span class="self">self</span>, n: usize) -&gt; Series {
-        <span class="self">self</span>.<span class="number">0
-            </span>.take_every(n)
-            .into_datetime(<span class="self">self</span>.<span class="number">0</span>.time_unit(), <span class="self">self</span>.<span class="number">0</span>.time_zone().clone())
-            .into_series()
     }
 
     <span class="kw">unsafe fn </span>take_iter_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, iter: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>TakeIterator) -&gt; Series {

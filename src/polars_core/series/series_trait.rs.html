@@ -556,9 +556,6 @@
 <a href="#556" id="556">556</a>
 <a href="#557" id="557">557</a>
 <a href="#558" id="558">558</a>
-<a href="#559" id="559">559</a>
-<a href="#560" id="560">560</a>
-<a href="#561" id="561">561</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::any::Any;
 <span class="kw">use </span>std::borrow::Cow;
 <span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
@@ -870,9 +867,6 @@
 
     <span class="doccomment">/// Aggregate all chunks to a contiguous array of memory.
     </span><span class="kw">fn </span>rechunk(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Series;
-
-    <span class="doccomment">/// Take every nth value as a new Series
-    </span><span class="kw">fn </span>take_every(<span class="kw-2">&amp;</span><span class="self">self</span>, n: usize) -&gt; Series;
 
     <span class="doccomment">/// Drop all null values and return a new Series.
     </span><span class="kw">fn </span>drop_nulls(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Series {
