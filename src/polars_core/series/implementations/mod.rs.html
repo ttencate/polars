@@ -544,7 +544,9 @@
 <a href="#544" id="544">544</a>
 <a href="#545" id="545">545</a>
 <a href="#546" id="546">546</a>
-</pre></div><pre class="rust"><code><span class="kw">mod </span>binary;
+</pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">mod </span>array;
+<span class="kw">mod </span>binary;
 <span class="kw">mod </span>boolean;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
 </span><span class="kw">mod </span>categorical;
@@ -560,8 +562,6 @@
 </span><span class="kw">mod </span>decimal;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-duration&quot;</span>)]
 </span><span class="kw">mod </span>duration;
-<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
-</span><span class="kw">mod </span>fixed_size_list;
 <span class="kw">mod </span>floats;
 <span class="kw">mod </span>list;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>null;
