@@ -2769,7 +2769,7 @@
             )<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.new_from_index(<span class="number">0</span>, n)))
     };
-    apply_binary(lit(value), n, function, GetOutput::same_type())
+    apply_binary(lit(value), n, function, GetOutput::same_type()).alias(<span class="string">&quot;repeat&quot;</span>)
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
