@@ -68,9 +68,6 @@
 <a href="#68" id="68">68</a>
 <a href="#69" id="69">69</a>
 <a href="#70" id="70">70</a>
-<a href="#71" id="71">71</a>
-<a href="#72" id="72">72</a>
-<a href="#73" id="73">73</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="kw">use </span>polars_core::prelude::JoinType;
@@ -98,8 +95,6 @@
     </span><span class="kw">pub </span>exact: bool,
     <span class="doccomment">/// use a cache of unique, converted dates to apply the datetime conversion.
     </span><span class="kw">pub </span>cache: bool,
-    <span class="doccomment">/// Parse a timezone aware timestamp
-    </span><span class="kw">pub </span>tz_aware: bool,
     <span class="doccomment">/// Convert timezone aware to UTC
     </span><span class="kw">pub </span>utc: bool,
 }
@@ -111,7 +106,6 @@
             strict: <span class="bool-val">true</span>,
             exact: <span class="bool-val">true</span>,
             cache: <span class="bool-val">true</span>,
-            tz_aware: <span class="bool-val">false</span>,
             utc: <span class="bool-val">false</span>,
         }
     }
