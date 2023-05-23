@@ -389,6 +389,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.DataFrame.write_excel.html">polars.DataFrame.write_excel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.scan_delta.html">polars.scan_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.read_delta.html">polars.read_delta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.DataFrame.write_delta.html">polars.DataFrame.write_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.scan_pyarrow_dataset.html">polars.scan_pyarrow_dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.io.csv.batched_reader.BatchedCsvReader.next_batches.html">polars.io.csv.batched_reader.BatchedCsvReader.next_batches</a></li>
 </ul>
@@ -1411,6 +1412,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Datetime.html">polars.Datetime</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Duration.html">polars.Duration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Time.html">polars.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.Array.html">polars.Array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.List.html">polars.List</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Struct.html">polars.Struct</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Boolean.html">polars.Boolean</a></li>
@@ -1488,6 +1490,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.SQLContext.register_globals.html">polars.SQLContext.register_globals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.SQLContext.register_many.html">polars.SQLContext.register_many</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.SQLContext.unregister.html">polars.SQLContext.unregister</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.SQLContext.tables.html">polars.SQLContext.tables</a></li>
 </ul>
 </li>
 </ul>
@@ -1559,7 +1562,7 @@ document.write(`
 <h1>polars.Expr.rank<a class="headerlink" href="#polars-expr-rank" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.rank">
-<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">RankMethod</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'average'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descending</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L5513-L5585"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.rank" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">RankMethod</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'average'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descending</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L5512-L5601"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.rank" title="Permalink to this definition">#</a></dt>
 <dd><p>Assign ranks to data, dealing with ties appropriately.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1623,6 +1626,23 @@ on the order that the values occur in the Series.</p></li>
 <span class="go">│ 2   │</span>
 <span class="go">│ 5   │</span>
 <span class="go">└─────┘</span>
+</pre></div>
+</div>
+<p>Use ‘rank’ with ‘over’ to rank within groups:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">11</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span><span class="o">.</span><span class="n">over</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;rank&quot;</span><span class="p">))</span>
+<span class="go">shape: (5, 3)</span>
+<span class="go">┌─────┬─────┬──────┐</span>
+<span class="go">│ a   ┆ b   ┆ rank │</span>
+<span class="go">│ --- ┆ --- ┆ ---  │</span>
+<span class="go">│ i64 ┆ i64 ┆ f32  │</span>
+<span class="go">╞═════╪═════╪══════╡</span>
+<span class="go">│ 1   ┆ 6   ┆ 1.0  │</span>
+<span class="go">│ 1   ┆ 7   ┆ 2.0  │</span>
+<span class="go">│ 2   ┆ 5   ┆ 1.0  │</span>
+<span class="go">│ 2   ┆ 14  ┆ 3.0  │</span>
+<span class="go">│ 2   ┆ 11  ┆ 2.0  │</span>
+<span class="go">└─────┴─────┴──────┘</span>
 </pre></div>
 </div>
 </dd></dl>

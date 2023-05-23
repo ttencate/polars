@@ -389,6 +389,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.DataFrame.write_excel.html">polars.DataFrame.write_excel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.scan_delta.html">polars.scan_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.read_delta.html">polars.read_delta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.DataFrame.write_delta.html">polars.DataFrame.write_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.scan_pyarrow_dataset.html">polars.scan_pyarrow_dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.io.csv.batched_reader.BatchedCsvReader.next_batches.html">polars.io.csv.batched_reader.BatchedCsvReader.next_batches</a></li>
 </ul>
@@ -1411,6 +1412,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Datetime.html">polars.Datetime</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Duration.html">polars.Duration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Time.html">polars.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.Array.html">polars.Array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.List.html">polars.List</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Struct.html">polars.Struct</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.Boolean.html">polars.Boolean</a></li>
@@ -1488,6 +1490,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.SQLContext.register_globals.html">polars.SQLContext.register_globals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.SQLContext.register_many.html">polars.SQLContext.register_many</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.SQLContext.unregister.html">polars.SQLContext.unregister</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.SQLContext.tables.html">polars.SQLContext.tables</a></li>
 </ul>
 </li>
 </ul>
@@ -1559,7 +1562,7 @@ document.write(`
 <h1>polars.Series.cosh<a class="headerlink" href="#polars-series-cosh" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.cosh">
-<span class="sig-prename descclassname"><span class="pre">Series.</span></span><span class="sig-name descname"><span class="pre">cosh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/series.py#L4110-L4126"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.cosh" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.</span></span><span class="sig-name descname"><span class="pre">cosh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/series.py#L4117-L4133"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.cosh" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute the element-wise value for the hyperbolic cosine.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>

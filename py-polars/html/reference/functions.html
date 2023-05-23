@@ -389,6 +389,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/polars.DataFrame.write_excel.html">polars.DataFrame.write_excel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.scan_delta.html">polars.scan_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.read_delta.html">polars.read_delta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.DataFrame.write_delta.html">polars.DataFrame.write_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.scan_pyarrow_dataset.html">polars.scan_pyarrow_dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.io.csv.batched_reader.BatchedCsvReader.next_batches.html">polars.io.csv.batched_reader.BatchedCsvReader.next_batches</a></li>
 </ul>
@@ -1411,6 +1412,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Datetime.html">polars.Datetime</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Duration.html">polars.Duration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Time.html">polars.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.Array.html">polars.Array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.List.html">polars.List</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Struct.html">polars.Struct</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Boolean.html">polars.Boolean</a></li>
@@ -1488,6 +1490,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/polars.SQLContext.register_globals.html">polars.SQLContext.register_globals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.SQLContext.register_many.html">polars.SQLContext.register_many</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.SQLContext.unregister.html">polars.SQLContext.unregister</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.SQLContext.tables.html">polars.SQLContext.tables</a></li>
 </ul>
 </li>
 </ul>
@@ -1599,14 +1602,14 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.get_dummies.html#polars.get_dummies" title="polars.get_dummies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dummies</span></code></a>(df, *[, columns, separator])</p></td>
 <td><p>Convert categorical variables into dummy/indicator variables.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.ones.html#polars.ones" title="polars.ones"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ones</span></code></a>(n[, dtype])</p></td>
-<td><p>Return a new Series of given length and type, filled with ones.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.ones.html#polars.ones" title="polars.ones"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ones</span></code></a>()</p></td>
+<td><p>Construct a column of length <cite>n</cite> filled with ones.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.time_range.html#polars.time_range" title="polars.time_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_range</span></code></a>([start, end, interval, eager, ...])</p></td>
 <td><p>Create a range of type <cite>Time</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.zeros.html#polars.zeros" title="polars.zeros"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zeros</span></code></a>(n[, dtype])</p></td>
-<td><p>Return a new Series of given length and type, filled with zeros.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.zeros.html#polars.zeros" title="polars.zeros"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zeros</span></code></a>()</p></td>
+<td><p>Construct a column of length <cite>n</cite> filled with zeros.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1615,7 +1618,7 @@ document.write(`
 <h2>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.align_frames.html#polars.align_frames" title="polars.align_frames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">align_frames</span></code></a>(*frames, on[, select, descending])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.align_frames.html#polars.align_frames" title="polars.align_frames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">align_frames</span></code></a>(*frames, on[, how, select, ...])</p></td>
 <td><p>Align a sequence of frames using common values from one or more columns as a key.</p></td>
 </tr>
 </tbody>

@@ -389,6 +389,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/polars.DataFrame.write_excel.html">polars.DataFrame.write_excel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.scan_delta.html">polars.scan_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.read_delta.html">polars.read_delta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.DataFrame.write_delta.html">polars.DataFrame.write_delta</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.scan_pyarrow_dataset.html">polars.scan_pyarrow_dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.io.csv.batched_reader.BatchedCsvReader.next_batches.html">polars.io.csv.batched_reader.BatchedCsvReader.next_batches</a></li>
 </ul>
@@ -1411,6 +1412,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Datetime.html">polars.Datetime</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Duration.html">polars.Duration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Time.html">polars.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.Array.html">polars.Array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.List.html">polars.List</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Struct.html">polars.Struct</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.Boolean.html">polars.Boolean</a></li>
@@ -1488,6 +1490,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/polars.SQLContext.register_globals.html">polars.SQLContext.register_globals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.SQLContext.register_many.html">polars.SQLContext.register_many</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.SQLContext.unregister.html">polars.SQLContext.unregister</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.SQLContext.tables.html">polars.SQLContext.tables</a></li>
 </ul>
 </li>
 </ul>
@@ -1549,14 +1552,73 @@ document.write(`
                   
   <section id="sql">
 <h1>SQL<a class="headerlink" href="#sql" title="Permalink to this heading">#</a></h1>
-<table class="autosummary longtable table autosummary">
-<tbody>
-</tbody>
-</table>
 <dl class="py class">
 <dt class="sig sig-object py" id="polars.SQLContext">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">SQLContext</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L36-L281"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext" title="Permalink to this definition">#</a></dt>
-<dd><p>Run SQL query against a LazyFrame.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">SQLContext</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L37-L514"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext" title="Permalink to this definition">#</a></dt>
+<dd><p>Run SQL queries against DataFrame/LazyFrame data.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="polars.SQLContext.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Mapping" title="(in Python v3.11)"><span class="pre">Mapping</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">LazyFrame</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">register_globals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eager_execution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">False</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">named_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">LazyFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L81-L139"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext.__init__" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Mapping" title="(in Python v3.11)"><span class="pre">Mapping</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">LazyFrame</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">register_globals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eager_execution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">True</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">named_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">LazyFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span></dt>
+<dd><p>Initialise a new <code class="docutils literal notranslate"><span class="pre">SQLContext</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>frames</strong></dt><dd><p>A <code class="docutils literal notranslate"><span class="pre">{name:lazyframe,</span> <span class="pre">...}</span></code> mapping.</p>
+</dd>
+<dt><strong>register_globals</strong></dt><dd><p>Register all <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code> objects found in the globals, automatically
+mapping their variable name to a table name. If given an integer then
+only the most recent “n” frames found will be registered.</p>
+</dd>
+<dt><strong>eager_execution</strong></dt><dd><p>Return query execution results as <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> instead of <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code>.
+(Note that the query itself is always executed in lazy-mode; this
+parameter impacts whether <a class="reference internal" href="api/polars.SQLContext.execute.html#polars.SQLContext.execute" title="polars.SQLContext.execute"><code class="xref py py-meth docutils literal notranslate"><span class="pre">execute()</span></code></a> returns an eager or lazy
+result frame).</p>
+</dd>
+<dt><strong>**named_frames</strong></dt><dd><p>Named <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code> objects, provided as kwargs.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lf</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">LazyFrame</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">SQLContext</span><span class="p">(</span><span class="n">frame</span><span class="o">=</span><span class="n">lf</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;SELECT b, a*2 AS two_a FROM frame WHERE b IS NOT NULL&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="go">shape: (2, 2)</span>
+<span class="go">┌─────┬───────┐</span>
+<span class="go">│ b   ┆ two_a │</span>
+<span class="go">│ --- ┆ ---   │</span>
+<span class="go">│ str ┆ i64   │</span>
+<span class="go">╞═════╪═══════╡</span>
+<span class="go">│ x   ┆ 2     │</span>
+<span class="go">│ z   ┆ 6     │</span>
+<span class="go">└─────┴───────┘</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p>Note: can be used as a context manager.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="polars.SQLContext.__enter__">
+<span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SQLContext</span><span class="p"><span class="pre">[</span></span><span class="pre">FrameType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L141-L145"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext.__enter__" title="Permalink to this definition">#</a></dt>
+<dd><p>Track currently registered tables on scope entry; supports nested scopes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="polars.SQLContext.__exit__">
+<span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exc_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.11)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#BaseException" title="(in Python v3.11)"><span class="pre">BaseException</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#BaseException" title="(in Python v3.11)"><span class="pre">BaseException</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_tb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TracebackType</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L147-L163"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext.__exit__" title="Permalink to this definition">#</a></dt>
+<dd><p>Unregister any tables created within the given scope on context exit.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="api/polars.SQLContext.unregister.html#polars.SQLContext.unregister" title="polars.SQLContext.unregister"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unregister</span></code></a></dt><dd></dd>
+</dl>
+</div>
+</dd></dl>
+
 </dd></dl>
 
 <section id="methods">
@@ -1564,19 +1626,22 @@ document.write(`
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.SQLContext.execute.html#polars.SQLContext.execute" title="polars.SQLContext.execute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.execute</span></code></a>()</p></td>
-<td><p>Parse the given SQL query and execute it against the underlying frame data.</p></td>
+<td><p>Parse the given SQL query and execute it against the registered frame data.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.SQLContext.register.html#polars.SQLContext.register" title="polars.SQLContext.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.register</span></code></a>(name, frame)</p></td>
-<td><p>Register a <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code> in this <code class="docutils literal notranslate"><span class="pre">SQLContext</span></code> under a given <code class="docutils literal notranslate"><span class="pre">name</span></code>.</p></td>
+<td><p>Register a single frame as a table, using the given name.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.SQLContext.register_globals.html#polars.SQLContext.register_globals" title="polars.SQLContext.register_globals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.register_globals</span></code></a>([n])</p></td>
-<td><p>Register <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code> objects present in the current globals scope.</p></td>
+<td><p>Register all frames (lazy or eager) found in the current globals scope.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.SQLContext.register_many.html#polars.SQLContext.register_many" title="polars.SQLContext.register_many"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.register_many</span></code></a>([frames])</p></td>
-<td><p>Register multiple named <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code> objects in this <code class="docutils literal notranslate"><span class="pre">SQLContext</span></code>.</p></td>
+<td><p>Register multiple eager/lazy frames as tables, using the associated names.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.SQLContext.unregister.html#polars.SQLContext.unregister" title="polars.SQLContext.unregister"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.unregister</span></code></a>(names)</p></td>
-<td><p>Unregister one or more table names from this <code class="docutils literal notranslate"><span class="pre">SQLContext</span></code>.</p></td>
+<td><p>Unregister one or more eager/lazy frames by name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.SQLContext.tables.html#polars.SQLContext.tables" title="polars.SQLContext.tables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SQLContext.tables</span></code></a>()</p></td>
+<td><p>Return a list of the registered table names.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1630,7 +1695,12 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.SQLContext"><code class="docutils literal notranslate"><span class="pre">SQLContext</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.SQLContext"><code class="docutils literal notranslate"><span class="pre">SQLContext</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.SQLContext.__init__"><code class="docutils literal notranslate"><span class="pre">SQLContext.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.SQLContext.__enter__"><code class="docutils literal notranslate"><span class="pre">SQLContext.__enter__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.SQLContext.__exit__"><code class="docutils literal notranslate"><span class="pre">SQLContext.__exit__()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a></li>
 </ul>
   </nav></div>
