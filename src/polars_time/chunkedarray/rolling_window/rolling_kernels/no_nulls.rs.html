@@ -255,9 +255,11 @@
 <a href="#255" id="255">255</a>
 <a href="#256" id="256">256</a>
 <a href="#257" id="257">257</a>
+<a href="#258" id="258">258</a>
+<a href="#259" id="259">259</a>
+<a href="#260" id="260">260</a>
+<a href="#261" id="261">261</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-</span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
-<span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono_tz::Tz;
 <span class="kw">use </span>polars_arrow::kernels::rolling::no_nulls::{<span class="self">self</span>, RollingAggWindowNoNulls};
 <span class="kw">use </span>polars_core::export::num;
@@ -319,13 +321,14 @@
 {
     <span class="kw">let </span>offset_iter = <span class="kw">match </span>tz {
         <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-        </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="kw">match </span>tz.parse::&lt;Tz&gt;() {
-            <span class="prelude-val">Ok</span>(tz) =&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">Some</span>(tz)),
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(tz) {
-                <span class="prelude-val">Ok</span>(tz) =&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">Some</span>(tz)),
-                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(),
-            },
-        },
+        </span><span class="prelude-val">Some</span>(tz) =&gt; groupby_values_iter(
+            period,
+            offset,
+            time,
+            closed_window,
+            tu,
+            tz.parse::&lt;Tz&gt;().ok(),
+        ),
         <span class="kw">_ </span>=&gt; groupby_values_iter(
             period,
             offset,
@@ -352,13 +355,14 @@
 {
     <span class="kw">let </span>offset_iter = <span class="kw">match </span>tz {
         <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-        </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="kw">match </span>tz.parse::&lt;Tz&gt;() {
-            <span class="prelude-val">Ok</span>(tz) =&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">Some</span>(tz)),
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(tz) {
-                <span class="prelude-val">Ok</span>(tz) =&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">Some</span>(tz)),
-                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(),
-            },
-        },
+        </span><span class="prelude-val">Some</span>(tz) =&gt; groupby_values_iter(
+            period,
+            offset,
+            time,
+            closed_window,
+            tu,
+            tz.parse::&lt;Tz&gt;().ok(),
+        ),
         <span class="kw">_ </span>=&gt; groupby_values_iter(
             period,
             offset,
@@ -385,13 +389,14 @@
 {
     <span class="kw">let </span>offset_iter = <span class="kw">match </span>tz {
         <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-        </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="kw">match </span>tz.parse::&lt;Tz&gt;() {
-            <span class="prelude-val">Ok</span>(tz) =&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">Some</span>(tz)),
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(tz) {
-                <span class="prelude-val">Ok</span>(tz) =&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">Some</span>(tz)),
-                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(),
-            },
-        },
+        </span><span class="prelude-val">Some</span>(tz) =&gt; groupby_values_iter(
+            period,
+            offset,
+            time,
+            closed_window,
+            tu,
+            tz.parse::&lt;Tz&gt;().ok(),
+        ),
         <span class="kw">_ </span>=&gt; groupby_values_iter(
             period,
             offset,
@@ -418,13 +423,14 @@
 {
     <span class="kw">let </span>offset_iter = <span class="kw">match </span>tz {
         <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-        </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="kw">match </span>tz.parse::&lt;Tz&gt;() {
-            <span class="prelude-val">Ok</span>(tz) =&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">Some</span>(tz)),
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(tz) {
-                <span class="prelude-val">Ok</span>(tz) =&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">Some</span>(tz)),
-                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(),
-            },
-        },
+        </span><span class="prelude-val">Some</span>(tz) =&gt; groupby_values_iter(
+            period,
+            offset,
+            time,
+            closed_window,
+            tu,
+            tz.parse::&lt;Tz&gt;().ok(),
+        ),
         <span class="kw">_ </span>=&gt; groupby_values_iter(
             period,
             offset,
@@ -451,13 +457,14 @@
 {
     <span class="kw">let </span>offset_iter = <span class="kw">match </span>tz {
         <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-        </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="kw">match </span>tz.parse::&lt;Tz&gt;() {
-            <span class="prelude-val">Ok</span>(tz) =&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">Some</span>(tz)),
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(tz) {
-                <span class="prelude-val">Ok</span>(tz) =&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">Some</span>(tz)),
-                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(),
-            },
-        },
+        </span><span class="prelude-val">Some</span>(tz) =&gt; groupby_values_iter(
+            period,
+            offset,
+            time,
+            closed_window,
+            tu,
+            tz.parse::&lt;Tz&gt;().ok(),
+        ),
         <span class="kw">_ </span>=&gt; groupby_values_iter(
             period,
             offset,
@@ -494,13 +501,14 @@
 {
     <span class="kw">let </span>offset_iter = <span class="kw">match </span>tz {
         <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-        </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="kw">match </span>tz.parse::&lt;Tz&gt;() {
-            <span class="prelude-val">Ok</span>(tz) =&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">Some</span>(tz)),
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">match </span>parse_offset(tz) {
-                <span class="prelude-val">Ok</span>(tz) =&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">Some</span>(tz)),
-                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(),
-            },
-        },
+        </span><span class="prelude-val">Some</span>(tz) =&gt; groupby_values_iter(
+            period,
+            offset,
+            time,
+            closed_window,
+            tu,
+            tz.parse::&lt;Tz&gt;().ok(),
+        ),
         <span class="kw">_ </span>=&gt; groupby_values_iter(
             period,
             offset,
