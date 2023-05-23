@@ -1873,33 +1873,6 @@
 <a href="#1873" id="1873">1873</a>
 <a href="#1874" id="1874">1874</a>
 <a href="#1875" id="1875">1875</a>
-<a href="#1876" id="1876">1876</a>
-<a href="#1877" id="1877">1877</a>
-<a href="#1878" id="1878">1878</a>
-<a href="#1879" id="1879">1879</a>
-<a href="#1880" id="1880">1880</a>
-<a href="#1881" id="1881">1881</a>
-<a href="#1882" id="1882">1882</a>
-<a href="#1883" id="1883">1883</a>
-<a href="#1884" id="1884">1884</a>
-<a href="#1885" id="1885">1885</a>
-<a href="#1886" id="1886">1886</a>
-<a href="#1887" id="1887">1887</a>
-<a href="#1888" id="1888">1888</a>
-<a href="#1889" id="1889">1889</a>
-<a href="#1890" id="1890">1890</a>
-<a href="#1891" id="1891">1891</a>
-<a href="#1892" id="1892">1892</a>
-<a href="#1893" id="1893">1893</a>
-<a href="#1894" id="1894">1894</a>
-<a href="#1895" id="1895">1895</a>
-<a href="#1896" id="1896">1896</a>
-<a href="#1897" id="1897">1897</a>
-<a href="#1898" id="1898">1898</a>
-<a href="#1899" id="1899">1899</a>
-<a href="#1900" id="1900">1900</a>
-<a href="#1901" id="1901">1901</a>
-<a href="#1902" id="1902">1902</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -2156,34 +2129,7 @@
 
     <span class="doccomment">/// Explode the utf8/ list column
     </span><span class="kw">pub fn </span>explode(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span>has_filter = has_expr(<span class="kw-2">&amp;</span><span class="self">self</span>, |e| <span class="macro">matches!</span>(e, Expr::Filter { .. }));
-
-        <span class="comment">// if we explode right after a window function we don&#39;t self join, but just flatten
-        // the expression
-        </span><span class="kw">if let </span>Expr::Window {
-            function,
-            partition_by,
-            order_by,
-            <span class="kw-2">mut </span>options,
-        } = <span class="self">self
-        </span>{
-            <span class="kw">if </span>has_filter {
-                <span class="macro">panic!</span>(<span class="string">&quot;A Filter of a window function is not allowed in combination with explode/flatten.\
-                The resulting column may not fit the DataFrame/ or the groups
-                &quot;</span>)
-            }
-
-            options.explode = <span class="bool-val">true</span>;
-
-            Expr::Explode(Box::new(Expr::Window {
-                function,
-                partition_by,
-                order_by,
-                options,
-            }))
-        } <span class="kw">else </span>{
-            Expr::Explode(Box::new(<span class="self">self</span>))
-        }
+        Expr::Explode(Box::new(<span class="self">self</span>))
     }
 
     <span class="doccomment">/// Slice the Series.
@@ -2419,12 +2365,8 @@
             output_type,
             options: FunctionOptions {
                 collect_groups: ApplyOptions::ApplyFlat,
-                input_wildcard_expansion: <span class="bool-val">false</span>,
-                auto_explode: <span class="bool-val">false</span>,
                 fmt_str: <span class="string">&quot;map&quot;</span>,
-                cast_to_supertypes: <span class="bool-val">false</span>,
-                allow_rename: <span class="bool-val">false</span>,
-                pass_name_to_apply: <span class="bool-val">false</span>,
+                ..Default::default()
             },
         }
     }
@@ -2435,10 +2377,6 @@
             function: function_expr,
             options: FunctionOptions {
                 collect_groups: ApplyOptions::ApplyFlat,
-                input_wildcard_expansion: <span class="bool-val">false</span>,
-                auto_explode: <span class="bool-val">false</span>,
-                cast_to_supertypes: <span class="bool-val">false</span>,
-                allow_rename: <span class="bool-val">false</span>,
                 ..Default::default()
             },
         }
@@ -2823,6 +2761,14 @@
     /// ╰────────┴────────╯
     /// ```
     </span><span class="kw">pub fn </span>over&lt;E: AsRef&lt;[IE]&gt;, IE: Into&lt;Expr&gt; + Clone&gt;(<span class="self">self</span>, partition_by: E) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.over_with_options(partition_by, Default::default())
+    }
+
+    <span class="kw">pub fn </span>over_with_options&lt;E: AsRef&lt;[IE]&gt;, IE: Into&lt;Expr&gt; + Clone&gt;(
+        <span class="self">self</span>,
+        partition_by: E,
+        options: WindowOptions,
+    ) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>partition_by = partition_by
             .as_ref()
             .iter()
@@ -2832,7 +2778,7 @@
             function: Box::new(<span class="self">self</span>),
             partition_by,
             order_by: <span class="prelude-val">None</span>,
-            options: WindowOptions { explode: <span class="bool-val">false </span>},
+            options,
         }
     }
 
