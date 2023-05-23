@@ -318,7 +318,7 @@
     stable: bool,
 ) -&gt; PolarsResult&lt;DataFrame&gt; {
     <span class="kw">let </span>s = source.column(index_column)<span class="question-mark">?</span>;
-    ensure_sorted_arg(s, <span class="string">&quot;upsample&quot;</span>);
+    ensure_sorted_arg(s, <span class="string">&quot;upsample&quot;</span>)<span class="question-mark">?</span>;
     <span class="kw">if </span><span class="macro">matches!</span>(s.dtype(), DataType::Date) {
         <span class="kw">let </span><span class="kw-2">mut </span>df = source.clone();
         df.try_apply(index_column, |s| {

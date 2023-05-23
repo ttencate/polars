@@ -892,6 +892,9 @@
 <a href="#892" id="892">892</a>
 <a href="#893" id="893">893</a>
 <a href="#894" id="894">894</a>
+<a href="#895" id="895">895</a>
+<a href="#896" id="896">896</a>
+<a href="#897" id="897">897</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>arrow::temporal_conversions::parse_offset;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -1014,7 +1017,7 @@
         <span class="kw">let </span>time = <span class="self">self</span>.<span class="number">0</span>.column(<span class="kw-2">&amp;</span>options.index_column)<span class="question-mark">?</span>.clone();
         <span class="kw">if </span>by.is_empty() &amp;&amp; !options.period.parsed_int {
             <span class="comment">// if by is given, the column must be sorted in the &#39;by&#39; arg, which we can not check now
-            </span>ensure_sorted_arg(<span class="kw-2">&amp;</span>time, <span class="string">&quot;groupby_rolling&quot;</span>);
+            </span>ensure_sorted_arg(<span class="kw-2">&amp;</span>time, <span class="string">&quot;groupby_rolling&quot;</span>)<span class="question-mark">?</span>;
         }
         <span class="kw">let </span>time_type = time.dtype();
 
@@ -1093,7 +1096,7 @@
         <span class="kw">let </span>time = <span class="self">self</span>.<span class="number">0</span>.column(<span class="kw-2">&amp;</span>options.index_column)<span class="question-mark">?</span>.rechunk();
         <span class="kw">if </span>by.is_empty() &amp;&amp; !options.period.parsed_int {
             <span class="comment">// if by is given, the column must be sorted in the &#39;by&#39; arg, which we can not check now
-            </span>ensure_sorted_arg(<span class="kw-2">&amp;</span>time, <span class="string">&quot;groupby_dynamic&quot;</span>);
+            </span>ensure_sorted_arg(<span class="kw-2">&amp;</span>time, <span class="string">&quot;groupby_dynamic&quot;</span>)<span class="question-mark">?</span>;
         }
         <span class="kw">let </span>time_type = time.dtype();
 
@@ -1519,7 +1522,7 @@
             TimeUnit::Microseconds,
             TimeUnit::Milliseconds,
         ] {
-            <span class="kw">let </span>date = Utf8Chunked::new(
+            <span class="kw">let </span><span class="kw-2">mut </span>date = Utf8Chunked::new(
                 <span class="string">&quot;dt&quot;</span>,
                 [
                     <span class="string">&quot;2020-01-01 13:45:48&quot;</span>,
@@ -1532,6 +1535,7 @@
             )
             .as_datetime(<span class="prelude-val">None</span>, tu, <span class="bool-val">false</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)<span class="question-mark">?
             </span>.into_series();
+            date.set_sorted_flag(IsSorted::Ascending);
             <span class="kw">let </span>a = Series::new(<span class="string">&quot;a&quot;</span>, [<span class="number">3</span>, <span class="number">7</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">1</span>]);
             <span class="kw">let </span>df = DataFrame::new(<span class="macro">vec!</span>[date, a.clone()])<span class="question-mark">?</span>;
 
@@ -1557,7 +1561,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_rolling_groupby_aggs() -&gt; PolarsResult&lt;()&gt; {
-        <span class="kw">let </span>date = Utf8Chunked::new(
+        <span class="kw">let </span><span class="kw-2">mut </span>date = Utf8Chunked::new(
             <span class="string">&quot;dt&quot;</span>,
             [
                 <span class="string">&quot;2020-01-01 13:45:48&quot;</span>,
@@ -1570,6 +1574,8 @@
         )
         .as_datetime(<span class="prelude-val">None</span>, TimeUnit::Milliseconds, <span class="bool-val">false</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)<span class="question-mark">?
         </span>.into_series();
+        date.set_sorted_flag(IsSorted::Ascending);
+
         <span class="kw">let </span>a = Series::new(<span class="string">&quot;a&quot;</span>, [<span class="number">3</span>, <span class="number">7</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">1</span>]);
         <span class="kw">let </span>df = DataFrame::new(<span class="macro">vec!</span>[date, a.clone()])<span class="question-mark">?</span>;
 
