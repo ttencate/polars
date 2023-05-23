@@ -197,8 +197,9 @@
 <a href="#197" id="197">197</a>
 <a href="#198" id="198">198</a>
 <a href="#199" id="199">199</a>
-<a href="#200" id="200">200</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
+</pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+</span><span class="kw">use </span>chrono_tz::Tz;
+<span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::utils::ensure_sorted_arg;
 <span class="kw">use </span>polars_ops::prelude::<span class="kw-2">*</span>;
 
@@ -355,13 +356,10 @@
                 (<span class="prelude-val">Some</span>(first), <span class="prelude-val">Some</span>(last)) =&gt; {
                     <span class="kw">let </span>(first, last) = <span class="kw">match </span>tz {
                         <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-                        </span><span class="prelude-val">Some</span>(tz) =&gt; <span class="kw">match </span>tz.parse::&lt;chrono_tz::Tz&gt;() {
-                            <span class="prelude-val">Ok</span>(tz) =&gt; (
-                                unlocalize_timestamp(first, <span class="kw-2">*</span>tu, tz),
-                                unlocalize_timestamp(last, <span class="kw-2">*</span>tu, tz),
-                            ),
-                            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(),
-                        },
+                        </span><span class="prelude-val">Some</span>(tz) =&gt; (
+                            unlocalize_timestamp(first, <span class="kw-2">*</span>tu, tz.parse::&lt;Tz&gt;().unwrap()),
+                            unlocalize_timestamp(last, <span class="kw-2">*</span>tu, tz.parse::&lt;Tz&gt;().unwrap()),
+                        ),
                         <span class="kw">_ </span>=&gt; (first, last),
                     };
                     <span class="kw">let </span>first = <span class="kw">match </span>tu {
