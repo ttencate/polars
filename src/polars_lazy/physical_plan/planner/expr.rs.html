@@ -512,6 +512,7 @@
 <a href="#512" id="512">512</a>
 <a href="#513" id="513">513</a>
 <a href="#514" id="514">514</a>
+<a href="#515" id="515">515</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::frame::groupby::GroupByMethod;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::series::IsSorted;
@@ -657,6 +658,7 @@
             by,
             descending,
         } =&gt; {
+            <span class="macro">polars_ensure!</span>(!by.is_empty(), InvalidOperation: <span class="string">&quot;&#39;sort_by&#39; got an empty set&quot;</span>);
             <span class="kw">let </span>phys_expr = create_physical_expr(expr, ctxt, expr_arena, schema, state)<span class="question-mark">?</span>;
             <span class="kw">let </span>phys_by = create_physical_expressions(<span class="kw-2">&amp;</span>by, ctxt, expr_arena, schema, state)<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(Arc::new(SortByExpr::new(
