@@ -1550,7 +1550,7 @@ document.write(`
 <h1>SQL<a class="headerlink" href="#sql" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="polars.SQLContext">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">SQLContext</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L37-L514"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">SQLContext</span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/sql/context.py#L37-L523"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.SQLContext" title="Permalink to this definition">#</a></dt>
 <dd><p>Run SQL queries against DataFrame/LazyFrame data.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.SQLContext.__init__">
@@ -1561,18 +1561,18 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>frames</strong></dt><dd><p>A <code class="docutils literal notranslate"><span class="pre">{name:lazyframe,</span> <span class="pre">...}</span></code> mapping.</p>
+<dt><strong>frames</strong></dt><dd><p>A <code class="docutils literal notranslate"><span class="pre">{name:frame,</span> <span class="pre">...}</span></code> mapping.</p>
 </dd>
-<dt><strong>register_globals</strong></dt><dd><p>Register all <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code> objects found in the globals, automatically
-mapping their variable name to a table name. If given an integer then
-only the most recent “n” frames found will be registered.</p>
+<dt><strong>register_globals</strong></dt><dd><p>Register all eager/lazy frames found in the globals, automatically
+mapping their variable name to a table name. If given an integer
+then only the most recent “n” frames found will be registered.</p>
 </dd>
 <dt><strong>eager_execution</strong></dt><dd><p>Return query execution results as <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> instead of <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code>.
 (Note that the query itself is always executed in lazy-mode; this
 parameter impacts whether <a class="reference internal" href="api/polars.SQLContext.execute.html#polars.SQLContext.execute" title="polars.SQLContext.execute"><code class="xref py py-meth docutils literal notranslate"><span class="pre">execute()</span></code></a> returns an eager or lazy
 result frame).</p>
 </dd>
-<dt><strong>**named_frames</strong></dt><dd><p>Named <code class="docutils literal notranslate"><span class="pre">LazyFrame</span></code> objects, provided as kwargs.</p>
+<dt><strong>**named_frames</strong></dt><dd><p>Named eager/lazy frames, provided as kwargs.</p>
 </dd>
 </dl>
 </dd>
