@@ -1,6 +1,0 @@
-﻿polars.Series.arr.min
-=====================
-
-.. currentmodule:: polars
-
-.. autoaccessormethod:: Series.arr.min

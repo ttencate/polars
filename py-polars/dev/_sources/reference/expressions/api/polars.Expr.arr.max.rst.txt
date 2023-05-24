@@ -1,6 +1,0 @@
-﻿polars.Expr.arr.max
-===================
-
-.. currentmodule:: polars
-
-.. autoaccessormethod:: Expr.arr.max

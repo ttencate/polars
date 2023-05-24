@@ -1,6 +1,0 @@
-﻿polars.Expr.arr.sum
-===================
-
-.. currentmodule:: polars
-
-.. autoaccessormethod:: Expr.arr.sum
