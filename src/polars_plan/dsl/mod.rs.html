@@ -1873,6 +1873,10 @@
 <a href="#1873" id="1873">1873</a>
 <a href="#1874" id="1874">1874</a>
 <a href="#1875" id="1875">1875</a>
+<a href="#1876" id="1876">1876</a>
+<a href="#1877" id="1877">1877</a>
+<a href="#1878" id="1878">1878</a>
+<a href="#1879" id="1879">1879</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -3626,17 +3630,21 @@
     </span><span class="kw">pub fn </span>dt(<span class="self">self</span>) -&gt; dt::DateLikeNameSpace {
         dt::DateLikeNameSpace(<span class="self">self</span>)
     }
-    <span class="kw">pub fn </span>arr(<span class="self">self</span>) -&gt; list::ListNameSpace {
+
+    <span class="kw">pub fn </span>list(<span class="self">self</span>) -&gt; list::ListNameSpace {
         list::ListNameSpace(<span class="self">self</span>)
     }
+
     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
     </span><span class="kw">pub fn </span>cat(<span class="self">self</span>) -&gt; cat::CategoricalNameSpace {
         cat::CategoricalNameSpace(<span class="self">self</span>)
     }
+
     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
     </span><span class="kw">pub fn </span>struct_(<span class="self">self</span>) -&gt; struct_::StructNameSpace {
         struct_::StructNameSpace(<span class="self">self</span>)
     }
+
     <span class="attr">#[cfg(feature = <span class="string">&quot;meta&quot;</span>)]
     </span><span class="kw">pub fn </span>meta(<span class="self">self</span>) -&gt; meta::MetaNameSpace {
         meta::MetaNameSpace(<span class="self">self</span>)
