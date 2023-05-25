@@ -1584,7 +1584,7 @@ any milli/micro/nanosecond component.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">date</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s2">&quot;500ms&quot;</span><span class="p">,</span> <span class="n">eager</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">date</span>
 <span class="go">shape: (9,)</span>
-<span class="go">Series: &#39;&#39; [datetime[μs]]</span>
+<span class="go">Series: &#39;date&#39; [datetime[μs]]</span>
 <span class="go">[</span>
 <span class="go">        2001-01-01 00:00:00</span>
 <span class="go">        2001-01-01 00:00:00.500</span>
@@ -1598,7 +1598,7 @@ any milli/micro/nanosecond component.</p>
 <span class="go">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">second</span><span class="p">()</span>
 <span class="go">shape: (9,)</span>
-<span class="go">Series: &#39;&#39; [u32]</span>
+<span class="go">Series: &#39;date&#39; [u32]</span>
 <span class="go">[</span>
 <span class="go">        0</span>
 <span class="go">        0</span>
@@ -1612,7 +1612,7 @@ any milli/micro/nanosecond component.</p>
 <span class="go">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">second</span><span class="p">(</span><span class="n">fractional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">shape: (9,)</span>
-<span class="go">Series: &#39;&#39; [f64]</span>
+<span class="go">Series: &#39;date&#39; [f64]</span>
 <span class="go">[</span>
 <span class="go">        0.0</span>
 <span class="go">        0.5</span>

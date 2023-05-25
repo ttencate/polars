@@ -1599,7 +1599,7 @@ their month should saturate at the largest date
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span>
 <span class="go">shape: (6,)</span>
-<span class="go">Series: &#39;&#39; [datetime[μs]]</span>
+<span class="go">Series: &#39;date&#39; [datetime[μs]]</span>
 <span class="go">[</span>
 <span class="go">        2000-01-01 00:00:00</span>
 <span class="go">        2001-01-01 00:00:00</span>
@@ -1635,7 +1635,7 @@ their month should saturate at the largest date
 <p>To get to the end of each month, combine with <cite>truncate</cite>:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dates</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">truncate</span><span class="p">(</span><span class="s2">&quot;1mo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">offset_by</span><span class="p">(</span><span class="s2">&quot;1mo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">offset_by</span><span class="p">(</span><span class="s2">&quot;-1d&quot;</span><span class="p">)</span>
 <span class="go">shape: (6,)</span>
-<span class="go">Series: &#39;&#39; [datetime[μs]]</span>
+<span class="go">Series: &#39;date&#39; [datetime[μs]]</span>
 <span class="go">[</span>
 <span class="go">        2000-01-31 00:00:00</span>
 <span class="go">        2001-01-31 00:00:00</span>

@@ -1577,7 +1577,7 @@ The return value ranges from 1 to 12.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">date</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s2">&quot;1mo&quot;</span><span class="p">,</span> <span class="n">eager</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">date</span>
 <span class="go">shape: (4,)</span>
-<span class="go">Series: &#39;&#39; [datetime[μs]]</span>
+<span class="go">Series: &#39;date&#39; [datetime[μs]]</span>
 <span class="go">[</span>
 <span class="go">        2001-01-01 00:00:00</span>
 <span class="go">        2001-02-01 00:00:00</span>
@@ -1586,7 +1586,7 @@ The return value ranges from 1 to 12.</p>
 <span class="go">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">date</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="p">()</span>
 <span class="go">shape: (4,)</span>
-<span class="go">Series: &#39;&#39; [u32]</span>
+<span class="go">Series: &#39;date&#39; [u32]</span>
 <span class="go">[</span>
 <span class="go">        1</span>
 <span class="go">        2</span>
