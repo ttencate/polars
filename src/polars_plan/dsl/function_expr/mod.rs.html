@@ -598,10 +598,28 @@
 <a href="#598" id="598">598</a>
 <a href="#599" id="599">599</a>
 <a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
 </span><span class="kw">mod </span>abs;
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
 </span><span class="kw">mod </span>arg_where;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">mod </span>array;
 <span class="kw">mod </span>binary;
 <span class="kw">mod </span>boolean;
 <span class="kw">mod </span>bounds;
@@ -646,6 +664,8 @@
 
 <span class="kw">use </span>std::fmt::{Display, Formatter};
 
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">use </span>array::ArrayFunction;
 <span class="attr">#[cfg(feature = <span class="string">&quot;fused&quot;</span>)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>fused::FusedOperator;
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">use </span>list::ListFunction;
@@ -711,6 +731,8 @@
         max: <span class="prelude-ty">Option</span>&lt;AnyValue&lt;<span class="lifetime">&#39;static</span>&gt;&gt;,
     },
     ListExpr(ListFunction),
+    <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+    </span>ArrayExpr(ArrayFunction),
     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
     </span>StructExpr(StructFunction),
     <span class="attr">#[cfg(feature = <span class="string">&quot;top_k&quot;</span>)]
@@ -860,6 +882,8 @@
             LowerBound =&gt; <span class="string">&quot;lower_bound&quot;</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;fused&quot;</span>)]
             </span>Fused(fused) =&gt; <span class="kw">return </span>Display::fmt(fused, f),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+            </span>ArrayExpr(af) =&gt; <span class="kw">return </span>Display::fmt(af, f),
         };
         <span class="macro">write!</span>(f, <span class="string">&quot;{s}&quot;</span>)
     }
@@ -1013,6 +1037,14 @@
                     <span class="attr">#[cfg(feature = <span class="string">&quot;list_count&quot;</span>)]
                     </span>CountMatch =&gt; <span class="macro">map_as_slice!</span>(list::count_match),
                     Sum =&gt; <span class="macro">map!</span>(list::sum),
+                }
+            }
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+            </span>ArrayExpr(lf) =&gt; {
+                <span class="kw">use </span>ArrayFunction::<span class="kw-2">*</span>;
+                <span class="kw">match </span>lf {
+                    Min =&gt; <span class="macro">map!</span>(array::min),
+                    Max =&gt; <span class="macro">map!</span>(array::max),
                 }
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
