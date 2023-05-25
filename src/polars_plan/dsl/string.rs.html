@@ -458,6 +458,11 @@
 <a href="#458" id="458">458</a>
 <a href="#459" id="459">459</a>
 <a href="#460" id="460">460</a>
+<a href="#461" id="461">461</a>
+<a href="#462" id="462">462</a>
+<a href="#463" id="463">463</a>
+<a href="#464" id="464">464</a>
+<a href="#465" id="465">465</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_arrow::array::ValueSize;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">use </span>polars_arrow::export::arrow::array::{MutableArray, MutableUtf8Array};
@@ -916,6 +921,11 @@
             </span>.map_private(FunctionExpr::StringExpr(StringFunction::Slice(
                 start, length,
             )))
+    }
+
+    <span class="kw">pub fn </span>explode(<span class="self">self</span>) -&gt; Expr {
+        <span class="self">self</span>.<span class="number">0
+            </span>.apply_private(FunctionExpr::StringExpr(StringFunction::Explode))
     }
 }
 </code></pre></div></section></main></body></html>

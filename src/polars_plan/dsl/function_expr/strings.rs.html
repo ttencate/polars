@@ -642,6 +642,14 @@
 <a href="#642" id="642">642</a>
 <a href="#643" id="643">643</a>
 <a href="#644" id="644">644</a>
+<a href="#645" id="645">645</a>
+<a href="#646" id="646">646</a>
+<a href="#647" id="647">647</a>
+<a href="#648" id="648">648</a>
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -707,6 +715,7 @@
     <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
     </span>FromRadix(u32, bool),
     Slice(i64, <span class="prelude-ty">Option</span>&lt;u64&gt;),
+    Explode,
 }
 
 <span class="kw">impl </span>StringFunction {
@@ -732,6 +741,7 @@
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
             </span>FromRadix { .. } =&gt; mapper.with_dtype(DataType::Int32),
+            Explode =&gt; mapper.with_same_dtype(),
         }
     }
 }
@@ -769,6 +779,7 @@
             <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]
             </span>StringFunction::FromRadix { .. } =&gt; <span class="string">&quot;from_radix&quot;</span>,
             StringFunction::Slice(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="string">&quot;str_slice&quot;</span>,
+            StringFunction::Explode =&gt; <span class="string">&quot;explode&quot;</span>,
         };
 
         <span class="macro">write!</span>(f, <span class="string">&quot;str.{s}&quot;</span>)
@@ -1285,5 +1296,10 @@
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>str_slice(s: <span class="kw-2">&amp;</span>Series, start: i64, length: <span class="prelude-ty">Option</span>&lt;u64&gt;) -&gt; PolarsResult&lt;Series&gt; {
     <span class="kw">let </span>ca = s.utf8()<span class="question-mark">?</span>;
     ca.str_slice(start, length).map(|ca| ca.into_series())
+}
+
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>explode(s: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;Series&gt; {
+    <span class="kw">let </span>ca = s.utf8()<span class="question-mark">?</span>;
+    ca.explode()
 }
 </code></pre></div></section></main></body></html>
