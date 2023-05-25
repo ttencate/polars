@@ -615,6 +615,7 @@
 <a href="#615" id="615">615</a>
 <a href="#616" id="616">616</a>
 <a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
 </span><span class="kw">mod </span>abs;
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
@@ -1046,6 +1047,7 @@
                 <span class="kw">match </span>lf {
                     Min =&gt; <span class="macro">map!</span>(array::min),
                     Max =&gt; <span class="macro">map!</span>(array::max),
+                    Sum =&gt; <span class="macro">map!</span>(array::sum),
                 }
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
