@@ -140,7 +140,7 @@ var sourcesIndex = JSON.parse('{\
 "smartstring":["",[],["boxed.rs","casts.rs","config.rs","inline.rs","iter.rs","lib.rs","marker_byte.rs","ops.rs"]],\
 "snap":["",[],["bytes.rs","compress.rs","crc32.rs","crc32_table.rs","decompress.rs","error.rs","frame.rs","lib.rs","raw.rs","read.rs","tag.rs","write.rs"]],\
 "socket2":["",[["sys",[],["unix.rs"]]],["lib.rs","sockaddr.rs","socket.rs","sockref.rs"]],\
-"sqlparser":["",[["ast",[["helpers",[],["mod.rs","stmt_create_table.rs","stmt_data_loading.rs"]]],["data_type.rs","ddl.rs","mod.rs","operator.rs","query.rs","value.rs"]],["dialect",[],["ansi.rs","bigquery.rs","clickhouse.rs","generic.rs","hive.rs","mod.rs","mssql.rs","mysql.rs","postgresql.rs","redshift.rs","snowflake.rs","sqlite.rs"]]],["keywords.rs","lib.rs","parser.rs","test_utils.rs","tokenizer.rs"]],\
+"sqlparser":["",[["ast",[["helpers",[],["mod.rs","stmt_create_table.rs","stmt_data_loading.rs"]]],["data_type.rs","ddl.rs","mod.rs","operator.rs","query.rs","value.rs"]],["dialect",[],["ansi.rs","bigquery.rs","clickhouse.rs","duckdb.rs","generic.rs","hive.rs","mod.rs","mssql.rs","mysql.rs","postgresql.rs","redshift.rs","snowflake.rs","sqlite.rs"]]],["keywords.rs","lib.rs","parser.rs","test_utils.rs","tokenizer.rs"]],\
 "static_assertions":["",[],["assert_cfg.rs","assert_eq_align.rs","assert_eq_size.rs","assert_fields.rs","assert_impl.rs","assert_obj_safe.rs","assert_trait.rs","assert_type.rs","const_assert.rs","lib.rs"]],\
 "streaming_decompression":["",[],["lib.rs"]],\
 "streaming_iterator":["",[],["lib.rs","slice.rs","sources.rs"]],\
