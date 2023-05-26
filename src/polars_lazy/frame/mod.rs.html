@@ -2820,8 +2820,8 @@
     {
         <span class="attr">#[cfg(feature = <span class="string">&quot;dynamic_groupby&quot;</span>)]
         </span><span class="kw">let </span>options = GroupbyOptions {
-            dynamic: <span class="prelude-val">None</span>,
-            rolling: <span class="prelude-val">None</span>,
+            dynamic: <span class="self">self</span>.dynamic_options,
+            rolling: <span class="self">self</span>.rolling_options,
             slice: <span class="prelude-val">None</span>,
         };
 
