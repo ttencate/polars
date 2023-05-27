@@ -840,7 +840,7 @@
             <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>infer::to_date(utf8_ca),
         };
         <span class="kw">let </span>cache = cache &amp;&amp; utf8_ca.len() &gt; <span class="number">50</span>;
-        <span class="kw">let </span>fmt = strptime::compile_fmt(fmt);
+        <span class="kw">let </span>fmt = strptime::compile_fmt(fmt)<span class="question-mark">?</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>cache_map = PlHashMap::new();
 
         <span class="comment">// we can use the fast parser
@@ -922,7 +922,7 @@
             <span class="prelude-val">Some</span>(fmt) =&gt; fmt,
             <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>infer::to_datetime(utf8_ca, tu, tz),
         };
-        <span class="kw">let </span>fmt = strptime::compile_fmt(fmt);
+        <span class="kw">let </span>fmt = strptime::compile_fmt(fmt)<span class="question-mark">?</span>;
         <span class="kw">let </span>cache = cache &amp;&amp; utf8_ca.len() &gt; <span class="number">50</span>;
 
         <span class="kw">let </span>func = <span class="kw">match </span>tu {

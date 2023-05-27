@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/comfy-table-6.1.4/src/utils/formatting/content_split.rs`."><title>content_split.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="comfy_table" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0-nightly (a77c55248 2023-05-06)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-6f6ffb5395b17c6e.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../comfy_table/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/comfy-table-6.2.0/src/utils/formatting/content_split/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="comfy_table" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0-nightly (a77c55248 2023-05-06)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-6f6ffb5395b17c6e.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../../../source-files.js"></script><script defer src="../../../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../../comfy_table/index.html"><img class="rust-logo" src="../../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -161,38 +161,17 @@
 <a href="#161" id="161">161</a>
 <a href="#162" id="162">162</a>
 <a href="#163" id="163">163</a>
-<a href="#164" id="164">164</a>
-<a href="#165" id="165">165</a>
-<a href="#166" id="166">166</a>
-<a href="#167" id="167">167</a>
-<a href="#168" id="168">168</a>
-<a href="#169" id="169">169</a>
-<a href="#170" id="170">170</a>
-<a href="#171" id="171">171</a>
-<a href="#172" id="172">172</a>
-<a href="#173" id="173">173</a>
-<a href="#174" id="174">174</a>
-<a href="#175" id="175">175</a>
-<a href="#176" id="176">176</a>
-<a href="#177" id="177">177</a>
-<a href="#178" id="178">178</a>
-<a href="#179" id="179">179</a>
-<a href="#180" id="180">180</a>
-<a href="#181" id="181">181</a>
-<a href="#182" id="182">182</a>
-<a href="#183" id="183">183</a>
-<a href="#184" id="184">184</a>
-<a href="#185" id="185">185</a>
-<a href="#186" id="186">186</a>
-<a href="#187" id="187">187</a>
-<a href="#188" id="188">188</a>
-<a href="#189" id="189">189</a>
-<a href="#190" id="190">190</a>
-<a href="#191" id="191">191</a>
-<a href="#192" id="192">192</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span>unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
+</pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::utils::ColumnDisplayInfo;
 
-<span class="kw">use </span><span class="kw">crate</span>::utils::ColumnDisplayInfo;
+<span class="attr">#[cfg(feature = <span class="string">&quot;custom_styling&quot;</span>)]
+</span><span class="kw">mod </span>custom_styling;
+<span class="attr">#[cfg(not(feature = <span class="string">&quot;custom_styling&quot;</span>))]
+</span><span class="kw">mod </span>normal;
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;custom_styling&quot;</span>)]
+</span><span class="kw">pub use </span>custom_styling::<span class="kw-2">*</span>;
+<span class="attr">#[cfg(not(feature = <span class="string">&quot;custom_styling&quot;</span>))]
+</span><span class="kw">pub use </span>normal::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Split a line if it&#39;s longer than the allowed columns (width - padding).
 ///
@@ -209,19 +188,17 @@
     <span class="kw">let </span>content_width = usize::from(info.content_width);
 
     <span class="comment">// Split the line by the given deliminator and turn the content into a stack.
-    // Reverse it, since we want to push/pop without reversing the text.
     // Also clone it and convert it into a Vec&lt;String&gt;. Otherwise we get some burrowing problems
     // due to early drops of borrowed values that need to be inserted into `Vec&lt;&amp;str&gt;`
-    </span><span class="kw">let </span><span class="kw-2">mut </span>elements = line
-        .split(delimiter)
-        .map(ToString::to_string)
-        .collect::&lt;Vec&lt;String&gt;&gt;();
-    elements.reverse();
+    </span><span class="kw">let </span><span class="kw-2">mut </span>elements = split_line_by_delimiter(line, delimiter);
+
+    <span class="comment">// Reverse it, since we want to push/pop without reversing the text.
+    </span>elements.reverse();
 
     <span class="kw">let </span><span class="kw-2">mut </span>current_line = String::new();
     <span class="kw">while let </span><span class="prelude-val">Some</span>(next) = elements.pop() {
-        <span class="kw">let </span>current_length = current_line.width();
-        <span class="kw">let </span>next_length = next.width();
+        <span class="kw">let </span>current_length = measure_text_width(<span class="kw-2">&amp;</span>current_line);
+        <span class="kw">let </span>next_length = measure_text_width(<span class="kw-2">&amp;</span>next);
 
         <span class="comment">// Some helper variables
         // The length of the current line when combining it with the next element
@@ -231,7 +208,7 @@
             added_length += <span class="number">1</span>;
         }
         <span class="comment">// The remaining width for this column. If we are on a non-empty line, subtract 1 for the delimiter.
-        </span><span class="kw">let </span><span class="kw-2">mut </span>remaining_width = content_width - current_line.width();
+        </span><span class="kw">let </span><span class="kw-2">mut </span>remaining_width = content_width - current_length;
         <span class="kw">if </span>!current_line.is_empty() {
             remaining_width = remaining_width.saturating_sub(<span class="number">1</span>);
         }
@@ -340,46 +317,11 @@
 /// Otherwise, we simply return the current line and basically don&#39;t do anything.
 </span><span class="kw">fn </span>check_if_full(lines: <span class="kw-2">&amp;mut </span>Vec&lt;String&gt;, content_width: usize, current_line: String) -&gt; String {
     <span class="comment">// Already complete the current line, if there isn&#39;t space for more than two chars
-    </span><span class="kw">if </span>current_line.width() &gt; content_width.saturating_sub(MIN_FREE_CHARS) {
+    </span><span class="kw">if </span>measure_text_width(<span class="kw-2">&amp;</span>current_line) &gt; content_width.saturating_sub(MIN_FREE_CHARS) {
         lines.push(current_line);
         <span class="kw">return </span>String::new();
     }
 
     current_line
-}
-
-<span class="doccomment">/// Splits a long word at a given character width.
-/// This needs some special logic, as we have to take multi-character UTF-8 symbols into account.
-/// When simply splitting at a certain char position, we might end up with a string that&#39;s has a
-/// wider display width than allowed.
-</span><span class="kw">fn </span>split_long_word(allowed_width: usize, word: <span class="kw-2">&amp;</span>str) -&gt; (String, String) {
-    <span class="kw">let </span><span class="kw-2">mut </span>current_width = <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>splitted = String::new();
-
-    <span class="kw">let </span><span class="kw-2">mut </span>char_iter = word.chars().peekable();
-    <span class="comment">// Check if the string might be too long, one character at a time.
-    // Peek into the next char and check the exit condition.
-    // That is, pushing the next character would result in the string being too long.
-    </span><span class="kw">while let </span><span class="prelude-val">Some</span>(c) = char_iter.peek() {
-        <span class="kw">if </span>(current_width + c.width().unwrap_or(<span class="number">1</span>)) &gt; allowed_width {
-            <span class="kw">break</span>;
-        }
-
-        <span class="comment">// We can unwrap, as we just checked that a suitable character is next in line.
-        </span><span class="kw">let </span>c = char_iter.next().unwrap();
-
-        <span class="comment">// We default to 1 char, if the character length cannot be determined.
-        // The user has to live with this, if they decide to add control characters or some fancy
-        // stuff into their tables. This is considered undefined behavior and we try to handle this
-        // to the best of our capabilities.
-        </span><span class="kw">let </span>character_width = c.width().unwrap_or(<span class="number">1</span>);
-
-        current_width += character_width;
-        splitted.push(c);
-    }
-
-    <span class="comment">// Collect the remaining characters.
-    </span><span class="kw">let </span>remaining = char_iter.collect();
-    (splitted, remaining)
 }
 </code></pre></div></section></main></body></html>
