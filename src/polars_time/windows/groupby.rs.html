@@ -545,33 +545,10 @@
 <a href="#545" id="545">545</a>
 <a href="#546" id="546">546</a>
 <a href="#547" id="547">547</a>
-<a href="#548" id="548">548</a>
-<a href="#549" id="549">549</a>
-<a href="#550" id="550">550</a>
-<a href="#551" id="551">551</a>
-<a href="#552" id="552">552</a>
-<a href="#553" id="553">553</a>
-<a href="#554" id="554">554</a>
-<a href="#555" id="555">555</a>
-<a href="#556" id="556">556</a>
-<a href="#557" id="557">557</a>
-<a href="#558" id="558">558</a>
-<a href="#559" id="559">559</a>
-<a href="#560" id="560">560</a>
-<a href="#561" id="561">561</a>
-<a href="#562" id="562">562</a>
-<a href="#563" id="563">563</a>
-<a href="#564" id="564">564</a>
-<a href="#565" id="565">565</a>
-<a href="#566" id="566">566</a>
-<a href="#567" id="567">567</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
-
-<span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+</pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono_tz::Tz;
 <span class="kw">use </span>polars_arrow::time_zone::PolarsTimeZone;
 <span class="kw">use </span>polars_arrow::trusted_len::TrustedLen;
-<span class="kw">use </span>polars_arrow::utils::CustomIterTools;
 <span class="kw">use </span>polars_core::export::rayon::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::utils::_split_offsets;
@@ -814,15 +791,10 @@
     };
 
     <span class="kw">let </span><span class="kw-2">mut </span>last_lookbehind_i = <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>last = i64::MIN;
     time[start_offset..]
         .iter()
         .enumerate()
         .map(<span class="kw">move </span>|(<span class="kw-2">mut </span>i, lower)| {
-            <span class="kw">if </span><span class="kw-2">*</span>lower &lt; last {
-                <span class="macro">panic!</span>(<span class="string">&quot;index column of &#39;groupby_rolling&#39; must be sorted in ascending order!&quot;</span>)
-            }
-            last = <span class="kw-2">*</span>lower;
             i += start_offset;
             <span class="kw">let </span>lower = add(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower, tz.as_ref())<span class="question-mark">?</span>;
             <span class="kw">let </span>upper = add(<span class="kw-2">&amp;</span>period, lower, tz.as_ref())<span class="question-mark">?</span>;
@@ -983,16 +955,6 @@
         })
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>partially_check_sorted(time: <span class="kw-2">&amp;</span>[i64]) {
-    <span class="comment">// check sortedness of a small subslice.
-    </span><span class="kw">if </span>time.len() &gt; <span class="number">1 </span>{
-        <span class="macro">assert!</span>(time[..std::cmp::min(time.len(), <span class="number">10</span>)].windows(<span class="number">2</span>).filter_map(|w| <span class="kw">match </span>w[<span class="number">0</span>].cmp(<span class="kw-2">&amp;</span>w[<span class="number">1</span>]) {
-            Ordering::Equal =&gt; <span class="prelude-val">None</span>,
-            t =&gt; <span class="prelude-val">Some</span>(t)
-        }).all_equal(), <span class="string">&quot;Subslice check showed that the values in `groupby_rolling/groupby_dynamic` were not sorted. Pleasure ensure the index column is sorted.&quot;</span>);
-    }
-}
-
 <span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter&lt;<span class="lifetime">&#39;a</span>&gt;(
     period: Duration,
@@ -1002,7 +964,6 @@
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
 ) -&gt; Box&lt;<span class="kw">dyn </span>TrustedLen&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + <span class="lifetime">&#39;a</span>&gt; {
-    partially_check_sorted(time);
     <span class="comment">// we have a (partial) lookbehind window
     </span><span class="kw">if </span>offset.negative {
         <span class="comment">// only lookbehind
@@ -1045,7 +1006,6 @@
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
 ) -&gt; PolarsResult&lt;GroupsSlice&gt; {
-    partially_check_sorted(time);
     <span class="kw">let </span>thread_offsets = _split_offsets(time.len(), POOL.current_num_threads());
 
     <span class="comment">// we have a (partial) lookbehind window
