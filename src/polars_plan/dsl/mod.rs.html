@@ -1888,6 +1888,16 @@
 <a href="#1888" id="1888">1888</a>
 <a href="#1889" id="1889">1889</a>
 <a href="#1890" id="1890">1890</a>
+<a href="#1891" id="1891">1891</a>
+<a href="#1892" id="1892">1892</a>
+<a href="#1893" id="1893">1893</a>
+<a href="#1894" id="1894">1894</a>
+<a href="#1895" id="1895">1895</a>
+<a href="#1896" id="1896">1896</a>
+<a href="#1897" id="1897">1897</a>
+<a href="#1898" id="1898">1898</a>
+<a href="#1899" id="1899">1899</a>
+<a href="#1900" id="1900">1900</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -1995,9 +2005,19 @@
         binary_expr(<span class="self">self</span>, Operator::Eq, other.into())
     }
 
+    <span class="doccomment">/// Compare `Expr` with other `Expr` on equality where `None == None`
+    </span><span class="kw">pub fn </span>eq_missing&lt;E: Into&lt;Expr&gt;&gt;(<span class="self">self</span>, other: E) -&gt; Expr {
+        binary_expr(<span class="self">self</span>, Operator::EqValidity, other.into())
+    }
+
     <span class="doccomment">/// Compare `Expr` with other `Expr` on non-equality
     </span><span class="kw">pub fn </span>neq&lt;E: Into&lt;Expr&gt;&gt;(<span class="self">self</span>, other: E) -&gt; Expr {
         binary_expr(<span class="self">self</span>, Operator::NotEq, other.into())
+    }
+
+    <span class="doccomment">/// Compare `Expr` with other `Expr` on non-equality where `None == None`
+    </span><span class="kw">pub fn </span>neq_missing&lt;E: Into&lt;Expr&gt;&gt;(<span class="self">self</span>, other: E) -&gt; Expr {
+        binary_expr(<span class="self">self</span>, Operator::NotEqValidity, other.into())
     }
 
     <span class="doccomment">/// Check if `Expr` &lt; `Expr`
