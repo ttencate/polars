@@ -103,6 +103,8 @@
 <a href="#103" id="103">103</a>
 <a href="#104" id="104">104</a>
 <a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::array::PrimitiveArray;
 <span class="kw">use </span>arrow::compute::arity::try_unary;
 <span class="kw">use </span>arrow::datatypes::{DataType <span class="kw">as </span>ArrowDataType, TimeUnit};
@@ -112,15 +114,17 @@
 };
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono::{LocalResult, NaiveDateTime, TimeZone};
+<span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+</span><span class="kw">use </span>chrono_tz::Tz;
 <span class="kw">use </span>polars_error::polars_bail;
 
 <span class="kw">use </span><span class="kw">crate</span>::error::PolarsResult;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::ArrayRef;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-</span><span class="kw">fn </span>convert_to_naive_local&lt;T1: TimeZone + std::fmt::Debug + std::fmt::Display, T2: TimeZone&gt;(
-    from_tz: <span class="kw-2">&amp;</span>T1,
-    to_tz: <span class="kw-2">&amp;</span>T2,
+</span><span class="kw">fn </span>convert_to_naive_local(
+    from_tz: <span class="kw-2">&amp;</span>Tz,
+    to_tz: <span class="kw-2">&amp;</span>Tz,
     ndt: NaiveDateTime,
     use_earliest: <span class="prelude-ty">Option</span>&lt;bool&gt;,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;NaiveDateTime&gt; {
@@ -144,9 +148,9 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-</span><span class="kw">fn </span>convert_to_timestamp&lt;T1: TimeZone + std::fmt::Debug + std::fmt::Display, T2: TimeZone&gt;(
-    from_tz: T1,
-    to_tz: T2,
+</span><span class="kw">fn </span>convert_to_timestamp(
+    from_tz: Tz,
+    to_tz: Tz,
     arr: <span class="kw-2">&amp;</span>PrimitiveArray&lt;i64&gt;,
     tu: TimeUnit,
     use_earliest: <span class="prelude-ty">Option</span>&lt;bool&gt;,
