@@ -662,6 +662,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.str.strptime.html">polars.Series.str.strptime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.str.to_date.html">polars.Series.str.to_date</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.str.to_datetime.html">polars.Series.str.to_datetime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.str.to_decimal.html">polars.Series.str.to_decimal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.str.to_lowercase.html">polars.Series.str.to_lowercase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.str.to_time.html">polars.Series.str.to_time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.str.to_uppercase.html">polars.Series.str.to_uppercase</a></li>
@@ -1311,6 +1312,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.strptime.html">polars.Expr.str.strptime</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.to_date.html">polars.Expr.str.to_date</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.to_datetime.html">polars.Expr.str.to_datetime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.to_decimal.html">polars.Expr.str.to_decimal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.to_lowercase.html">polars.Expr.str.to_lowercase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.to_time.html">polars.Expr.str.to_time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.str.to_uppercase.html">polars.Expr.str.to_uppercase</a></li>
@@ -1646,19 +1648,22 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.to_datetime.html#polars.Expr.str.to_datetime" title="polars.Expr.str.to_datetime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.to_datetime</span></code></a>([format, time_unit, ...])</p></td>
 <td><p>Convert a Utf8 column into a Datetime column.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.to_lowercase.html#polars.Expr.str.to_lowercase" title="polars.Expr.str.to_lowercase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.to_lowercase</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.to_decimal.html#polars.Expr.str.to_decimal" title="polars.Expr.str.to_decimal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.to_decimal</span></code></a>([inference_length])</p></td>
+<td><p>Convert a Utf8 column into a Date column.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.to_lowercase.html#polars.Expr.str.to_lowercase" title="polars.Expr.str.to_lowercase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.to_lowercase</span></code></a>()</p></td>
 <td><p>Transform to lowercase variant.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.to_time.html#polars.Expr.str.to_time" title="polars.Expr.str.to_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.to_time</span></code></a>([format, strict, cache])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.to_time.html#polars.Expr.str.to_time" title="polars.Expr.str.to_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.to_time</span></code></a>([format, strict, cache])</p></td>
 <td><p>Convert a Utf8 column into a Time column.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.to_uppercase.html#polars.Expr.str.to_uppercase" title="polars.Expr.str.to_uppercase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.to_uppercase</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.to_uppercase.html#polars.Expr.str.to_uppercase" title="polars.Expr.str.to_uppercase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.to_uppercase</span></code></a>()</p></td>
 <td><p>Transform to uppercase variant.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.zfill.html#polars.Expr.str.zfill" title="polars.Expr.str.zfill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.zfill</span></code></a>(alignment)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.zfill.html#polars.Expr.str.zfill" title="polars.Expr.str.zfill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.zfill</span></code></a>(alignment)</p></td>
 <td><p>Fills the string with zeroes.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.str.parse_int.html#polars.Expr.str.parse_int" title="polars.Expr.str.parse_int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.parse_int</span></code></a>([radix, strict])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.str.parse_int.html#polars.Expr.str.parse_int" title="polars.Expr.str.parse_int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.str.parse_int</span></code></a>([radix, strict])</p></td>
 <td><p>Parse integers with base radix from strings.</p></td>
 </tr>
 </tbody>
