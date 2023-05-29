@@ -543,6 +543,104 @@
 <a href="#543" id="543">543</a>
 <a href="#544" id="544">544</a>
 <a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
+<a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
+<a href="#623" id="623">623</a>
+<a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
+<a href="#627" id="627">627</a>
+<a href="#628" id="628">628</a>
+<a href="#629" id="629">629</a>
+<a href="#630" id="630">630</a>
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a>
+<a href="#636" id="636">636</a>
+<a href="#637" id="637">637</a>
+<a href="#638" id="638">638</a>
+<a href="#639" id="639">639</a>
+<a href="#640" id="640">640</a>
+<a href="#641" id="641">641</a>
+<a href="#642" id="642">642</a>
+<a href="#643" id="643">643</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_arrow::time_zone::Tz;
 <span class="kw">use </span>polars_arrow::trusted_len::TrustedLen;
 <span class="kw">use </span>polars_core::export::rayon::prelude::<span class="kw-2">*</span>;
@@ -914,7 +1012,7 @@
 }
 
 <span class="attr">#[allow(clippy::too_many_arguments)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter_full_lookahead(
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter_partial_lookahead(
     period: Duration,
     offset: Duration,
     time: <span class="kw-2">&amp;</span>[i64],
@@ -950,6 +1048,53 @@
             <span class="prelude-val">Ok</span>((i <span class="kw">as </span>IdxSize, len <span class="kw">as </span>IdxSize))
         })
 }
+<span class="attr">#[allow(clippy::too_many_arguments)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter_full_lookahead(
+    period: Duration,
+    offset: Duration,
+    time: <span class="kw-2">&amp;</span>[i64],
+    closed_window: ClosedWindow,
+    tu: TimeUnit,
+    tz: <span class="prelude-ty">Option</span>&lt;Tz&gt;,
+    start_offset: usize,
+    upper_bound: <span class="prelude-ty">Option</span>&lt;usize&gt;,
+) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen + <span class="lifetime">&#39;_ </span>{
+    <span class="kw">let </span>upper_bound = upper_bound.unwrap_or(time.len());
+    <span class="macro">debug_assert!</span>(!offset.negative);
+
+    <span class="kw">let </span>add = <span class="kw">match </span>tu {
+        TimeUnit::Nanoseconds =&gt; Duration::add_ns,
+        TimeUnit::Microseconds =&gt; Duration::add_us,
+        TimeUnit::Milliseconds =&gt; Duration::add_ms,
+    };
+
+    time[start_offset..upper_bound]
+        .iter()
+        .enumerate()
+        .map(<span class="kw">move </span>|(<span class="kw-2">mut </span>i, lower)| {
+            i += start_offset;
+            <span class="kw">let </span>lower = add(<span class="kw-2">&amp;</span>offset, <span class="kw-2">*</span>lower, tz.as_ref())<span class="question-mark">?</span>;
+            <span class="kw">let </span>upper = add(<span class="kw-2">&amp;</span>period, lower, tz.as_ref())<span class="question-mark">?</span>;
+
+            <span class="kw">let </span>b = Bounds::new(lower, upper);
+
+            <span class="comment">// find starting point of window
+            </span><span class="kw">for </span><span class="kw-2">&amp;</span>t <span class="kw">in </span><span class="kw-2">&amp;</span>time[i..] {
+                <span class="kw">if </span>b.is_member(t, closed_window) {
+                    <span class="kw">break</span>;
+                }
+                i += <span class="number">1</span>;
+            }
+            <span class="kw">if </span>i &gt;= time.len() {
+                <span class="kw">return </span><span class="prelude-val">Ok</span>((i <span class="kw">as </span>IdxSize, <span class="number">0</span>));
+            }
+
+            <span class="kw">let </span>slice = <span class="kw">unsafe </span>{ time.get_unchecked(i..) };
+            <span class="kw">let </span>len = slice.partition_point(|v| b.is_member(<span class="kw-2">*</span>v, closed_window));
+
+            <span class="prelude-val">Ok</span>((i <span class="kw">as </span>IdxSize, len <span class="kw">as </span>IdxSize))
+        })
+}
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter&lt;<span class="lifetime">&#39;a</span>&gt;(
@@ -974,8 +1119,25 @@
                 groupby_values_iter_partial_lookbehind(period, offset, time, closed_window, tu, tz);
             Box::new(iter)
         }
+    } <span class="kw">else if </span>offset != Duration::parse(<span class="string">&quot;0ns&quot;</span>)
+        || closed_window == ClosedWindow::Right
+        || closed_window == ClosedWindow::None
+    {
+        <span class="comment">// only lookahead
+        </span><span class="kw">let </span>iter = groupby_values_iter_full_lookahead(
+            period,
+            offset,
+            time,
+            closed_window,
+            tu,
+            tz,
+            <span class="number">0</span>,
+            <span class="prelude-val">None</span>,
+        );
+        Box::new(iter)
     } <span class="kw">else </span>{
-        <span class="kw">let </span>iter = groupby_values_iter_full_lookahead(
+        <span class="comment">// partial lookahead
+        </span><span class="kw">let </span>iter = groupby_values_iter_partial_lookahead(
             period,
             offset,
             time,
@@ -1062,8 +1224,14 @@
             iter.map(|result| result.map(|(offset, len)| [offset, len]))
                 .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()
         }
-    } <span class="kw">else </span>{
-        <span class="kw">let </span>vals = POOL.install(|| {
+    } <span class="kw">else if </span>offset != Duration::parse(<span class="string">&quot;0ns&quot;</span>)
+        || closed_window == ClosedWindow::Right
+        || closed_window == ClosedWindow::None
+    {
+        <span class="comment">// window is completely ahead of t and t itself is not a member
+        // --t-----------
+        //        [---]
+        </span><span class="kw">let </span>vals = POOL.install(|| {
             thread_offsets
                 .par_iter()
                 .copied()
@@ -1071,6 +1239,34 @@
                     <span class="kw">let </span>lower_bound = base_offset;
                     <span class="kw">let </span>upper_bound = base_offset + len;
                     <span class="kw">let </span>iter = groupby_values_iter_full_lookahead(
+                        period,
+                        offset,
+                        time,
+                        closed_window,
+                        tu,
+                        tz,
+                        lower_bound,
+                        <span class="prelude-val">Some</span>(upper_bound),
+                    );
+                    iter.map(|result| result.map(|(offset, len)| [offset <span class="kw">as </span>IdxSize, len]))
+                        .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
+                })
+                .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
+        })<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(flatten(<span class="kw-2">&amp;</span>vals, <span class="prelude-val">Some</span>(time.len())))
+    } <span class="kw">else </span>{
+        <span class="comment">// Duration is 0 and window is closed on the left:
+        // it must be that the window starts at t and t is a member
+        // --t-----------
+        //  [---]
+        </span><span class="kw">let </span>vals = POOL.install(|| {
+            thread_offsets
+                .par_iter()
+                .copied()
+                .map(|(base_offset, len)| {
+                    <span class="kw">let </span>lower_bound = base_offset;
+                    <span class="kw">let </span>upper_bound = base_offset + len;
+                    <span class="kw">let </span>iter = groupby_values_iter_partial_lookahead(
                         period,
                         offset,
                         time,
