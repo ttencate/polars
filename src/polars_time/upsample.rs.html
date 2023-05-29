@@ -363,9 +363,9 @@
                         <span class="kw">_ </span>=&gt; (first, last),
                     };
                     <span class="kw">let </span>first = <span class="kw">match </span>tu {
-                        TimeUnit::Nanoseconds =&gt; offset.add_ns(first, NO_TIMEZONE)<span class="question-mark">?</span>,
-                        TimeUnit::Microseconds =&gt; offset.add_us(first, NO_TIMEZONE)<span class="question-mark">?</span>,
-                        TimeUnit::Milliseconds =&gt; offset.add_ms(first, NO_TIMEZONE)<span class="question-mark">?</span>,
+                        TimeUnit::Nanoseconds =&gt; offset.add_ns(first, <span class="prelude-val">None</span>)<span class="question-mark">?</span>,
+                        TimeUnit::Microseconds =&gt; offset.add_us(first, <span class="prelude-val">None</span>)<span class="question-mark">?</span>,
+                        TimeUnit::Milliseconds =&gt; offset.add_ms(first, <span class="prelude-val">None</span>)<span class="question-mark">?</span>,
                     };
                     <span class="kw">let </span>range = date_range_impl(
                         index_col_name,

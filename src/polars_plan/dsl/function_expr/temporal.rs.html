@@ -155,14 +155,8 @@
 <a href="#155" id="155">155</a>
 <a href="#156" id="156">156</a>
 <a href="#157" id="157">157</a>
-<a href="#158" id="158">158</a>
-<a href="#159" id="159">159</a>
-<a href="#160" id="160">160</a>
-<a href="#161" id="161">161</a>
-</pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-</span><span class="kw">use </span>chrono_tz::Tz;
-<span class="attr">#[cfg(feature = <span class="string">&quot;date_offset&quot;</span>)]
-</span><span class="kw">use </span>polars_arrow::time_zone::PolarsTimeZone;
+</pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;date_offset&quot;</span>)]
+</span><span class="kw">use </span>polars_arrow::time_zone::Tz;
 <span class="kw">use </span>polars_core::utils::arrow::temporal_conversions::SECONDS_IN_DAY;
 <span class="attr">#[cfg(feature = <span class="string">&quot;date_offset&quot;</span>)]
 </span><span class="kw">use </span>polars_time::prelude::<span class="kw-2">*</span>;
@@ -181,9 +175,7 @@
         DataType::Datetime(tu, tz) =&gt; {
             <span class="kw">let </span>ca = s.datetime().unwrap();
 
-            <span class="kw">fn </span>offset_fn&lt;T: PolarsTimeZone&gt;(
-                tu: TimeUnit,
-            ) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;) -&gt; PolarsResult&lt;i64&gt; {
+            <span class="kw">fn </span>offset_fn(tu: TimeUnit) -&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Duration, i64, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Tz&gt;) -&gt; PolarsResult&lt;i64&gt; {
                 <span class="kw">match </span>tu {
                     TimeUnit::Nanoseconds =&gt; Duration::add_ns,
                     TimeUnit::Microseconds =&gt; Duration::add_us,
@@ -199,7 +191,7 @@
                 }
                 <span class="kw">_ </span>=&gt; {
                     <span class="kw">let </span>offset_fn = offset_fn(tu);
-                    ca.<span class="number">0</span>.try_apply(|v| offset_fn(<span class="kw-2">&amp;</span>offset, v, NO_TIMEZONE))
+                    ca.<span class="number">0</span>.try_apply(|v| offset_fn(<span class="kw-2">&amp;</span>offset, v, <span class="prelude-val">None</span>))
                 }
             }<span class="question-mark">?</span>;
             out.cast(<span class="kw-2">&amp;</span>DataType::Datetime(tu, tz))

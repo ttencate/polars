@@ -936,11 +936,7 @@
 <a href="#936" id="936">936</a>
 <a href="#937" id="937">937</a>
 <a href="#938" id="938">938</a>
-<a href="#939" id="939">939</a>
-<a href="#940" id="940">940</a>
-</pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-</span><span class="kw">use </span>chrono_tz::Tz;
-<span class="kw">use </span>polars_arrow::time_zone::PolarsTimeZone;
+</pre></div><pre class="rust"><code><span class="kw">use </span>polars_arrow::time_zone::Tz;
 <span class="kw">use </span>polars_arrow::utils::CustomIterTools;
 <span class="kw">use </span>polars_core::export::rayon::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::frame::groupby::GroupsProxy;
@@ -1097,7 +1093,7 @@
                     by,
                     options,
                     TimeUnit::Nanoseconds,
-                    NO_TIMEZONE.copied(),
+                    <span class="prelude-val">None</span>,
                     <span class="kw-2">&amp;</span>time_type,
                 )<span class="question-mark">?</span>;
                 <span class="kw">let </span>out = out.cast(<span class="kw-2">&amp;</span>Int64).unwrap().cast(<span class="kw-2">&amp;</span>Int32).unwrap();
@@ -1111,7 +1107,7 @@
                     by,
                     options,
                     TimeUnit::Nanoseconds,
-                    NO_TIMEZONE.copied(),
+                    <span class="prelude-val">None</span>,
                     <span class="kw-2">&amp;</span>time_type,
                 )<span class="question-mark">?</span>;
                 <span class="kw">let </span>out = out.cast(<span class="kw-2">&amp;</span>Int64).unwrap();
@@ -1128,7 +1124,7 @@
             </span><span class="prelude-val">Some</span>(tz) =&gt; {
                 <span class="self">self</span>.impl_groupby_rolling(dt, by, options, tu, tz.parse::&lt;Tz&gt;().ok(), time_type)
             }
-            <span class="kw">_ </span>=&gt; <span class="self">self</span>.impl_groupby_rolling(dt, by, options, tu, NO_TIMEZONE.copied(), time_type),
+            <span class="kw">_ </span>=&gt; <span class="self">self</span>.impl_groupby_rolling(dt, by, options, tu, <span class="prelude-val">None</span>, time_type),
         }
     }
 
@@ -1459,7 +1455,7 @@
         by: Vec&lt;Series&gt;,
         options: <span class="kw-2">&amp;</span>RollingGroupOptions,
         tu: TimeUnit,
-        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone&gt;,
+        tz: <span class="prelude-ty">Option</span>&lt;Tz&gt;,
         time_type: <span class="kw-2">&amp;</span>DataType,
     ) -&gt; PolarsResult&lt;(Series, Vec&lt;Series&gt;, GroupsProxy)&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>dt = dt.rechunk();
@@ -1516,7 +1512,7 @@
                                 ts,
                                 options.closed_window,
                                 tu,
-                                tz.clone(),
+                                tz,
                             )<span class="question-mark">?</span>;
                             <span class="prelude-val">Ok</span>(update_subgroups_idx(<span class="kw-2">&amp;</span>sub_groups, base_g))
                         })
@@ -1537,7 +1533,7 @@
                                 ts,
                                 options.closed_window,
                                 tu,
-                                tz.clone(),
+                                tz,
                             )<span class="question-mark">?</span>;
                             <span class="prelude-val">Ok</span>(update_subgroups_slice(<span class="kw-2">&amp;</span>sub_groups, <span class="kw-2">*</span>base_g))
                         })

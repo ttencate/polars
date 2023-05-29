@@ -543,11 +543,7 @@
 <a href="#543" id="543">543</a>
 <a href="#544" id="544">544</a>
 <a href="#545" id="545">545</a>
-<a href="#546" id="546">546</a>
-<a href="#547" id="547">547</a>
-</pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-</span><span class="kw">use </span>chrono_tz::Tz;
-<span class="kw">use </span>polars_arrow::time_zone::PolarsTimeZone;
+</pre></div><pre class="rust"><code><span class="kw">use </span>polars_arrow::time_zone::Tz;
 <span class="kw">use </span>polars_arrow::trusted_len::TrustedLen;
 <span class="kw">use </span>polars_core::export::rayon::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
@@ -605,8 +601,8 @@
 }
 
 <span class="attr">#[allow(clippy::too_many_arguments)]
-</span><span class="kw">fn </span>update_groups_and_bounds&lt;T: PolarsTimeZone&gt;(
-    bounds_iter: BoundsIter&lt;<span class="lifetime">&#39;_</span>, T&gt;,
+</span><span class="kw">fn </span>update_groups_and_bounds(
+    bounds_iter: BoundsIter&lt;<span class="lifetime">&#39;_</span>&gt;,
     <span class="kw-2">mut </span>start_offset: usize,
     time: <span class="kw-2">&amp;</span>[i64],
     closed_window: ClosedWindow,
@@ -755,7 +751,7 @@
         <span class="kw">_ </span>=&gt; {
             update_groups_and_bounds(
                 window
-                    .get_overlapping_bounds_iter(boundary, tu, NO_TIMEZONE, start_by)
+                    .get_overlapping_bounds_iter(boundary, tu, <span class="prelude-val">None</span>, start_by)
                     .unwrap(),
                 start_offset,
                 time,
@@ -773,15 +769,15 @@
 }
 
 <span class="comment">// this assumes that the starting point is alwa
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter_full_lookbehind&lt;<span class="lifetime">&#39;a</span>&gt;(
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter_full_lookbehind(
     period: Duration,
     offset: Duration,
-    time: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[i64],
+    time: <span class="kw-2">&amp;</span>[i64],
     closed_window: ClosedWindow,
     tu: TimeUnit,
-    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
+    tz: <span class="prelude-ty">Option</span>&lt;Tz&gt;,
     start_offset: usize,
-) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
+) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen + <span class="lifetime">&#39;_ </span>{
     <span class="macro">debug_assert!</span>(offset.duration_ns() &gt;= period.duration_ns());
     <span class="macro">debug_assert!</span>(offset.negative);
     <span class="kw">let </span>add = <span class="kw">match </span>tu {
@@ -830,14 +826,14 @@
 }
 
 <span class="comment">// this one is correct for all lookbehind/lookaheads, but is slower
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter_window_behind_t&lt;<span class="lifetime">&#39;a</span>&gt;(
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter_window_behind_t(
     period: Duration,
     offset: Duration,
-    time: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[i64],
+    time: <span class="kw-2">&amp;</span>[i64],
     closed_window: ClosedWindow,
     tu: TimeUnit,
-    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
-) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
+    tz: <span class="prelude-ty">Option</span>&lt;Tz&gt;,
+) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen + <span class="lifetime">&#39;_ </span>{
     <span class="kw">let </span>add = <span class="kw">match </span>tu {
         TimeUnit::Nanoseconds =&gt; Duration::add_ns,
         TimeUnit::Microseconds =&gt; Duration::add_us,
@@ -880,14 +876,14 @@
 }
 
 <span class="comment">// this one is correct for all lookbehind/lookaheads, but is slower
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter_partial_lookbehind&lt;<span class="lifetime">&#39;a</span>&gt;(
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter_partial_lookbehind(
     period: Duration,
     offset: Duration,
-    time: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[i64],
+    time: <span class="kw-2">&amp;</span>[i64],
     closed_window: ClosedWindow,
     tu: TimeUnit,
-    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
-) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
+    tz: <span class="prelude-ty">Option</span>&lt;Tz&gt;,
+) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen + <span class="lifetime">&#39;_ </span>{
     <span class="kw">let </span>add = <span class="kw">match </span>tu {
         TimeUnit::Nanoseconds =&gt; Duration::add_ns,
         TimeUnit::Microseconds =&gt; Duration::add_us,
@@ -918,16 +914,16 @@
 }
 
 <span class="attr">#[allow(clippy::too_many_arguments)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter_full_lookahead&lt;<span class="lifetime">&#39;a</span>&gt;(
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter_full_lookahead(
     period: Duration,
     offset: Duration,
-    time: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[i64],
+    time: <span class="kw-2">&amp;</span>[i64],
     closed_window: ClosedWindow,
     tu: TimeUnit,
-    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
+    tz: <span class="prelude-ty">Option</span>&lt;Tz&gt;,
     start_offset: usize,
     upper_bound: <span class="prelude-ty">Option</span>&lt;usize&gt;,
-) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen + <span class="lifetime">&#39;a </span>{
+) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen + <span class="lifetime">&#39;_ </span>{
     <span class="kw">let </span>upper_bound = upper_bound.unwrap_or(time.len());
     <span class="macro">debug_assert!</span>(!offset.negative);
 
@@ -962,7 +958,7 @@
     time: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[i64],
     closed_window: ClosedWindow,
     tu: TimeUnit,
-    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
+    tz: <span class="prelude-ty">Option</span>&lt;Tz&gt;,
 ) -&gt; Box&lt;<span class="kw">dyn </span>TrustedLen&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + <span class="lifetime">&#39;a</span>&gt; {
     <span class="comment">// we have a (partial) lookbehind window
     </span><span class="kw">if </span>offset.negative {
@@ -998,13 +994,13 @@
 ///     - timestamp (lower bound)
 ///     - timestamp + period (upper bound)
 /// where timestamps are the individual values in the array `time`
-</span><span class="kw">pub fn </span>groupby_values&lt;<span class="lifetime">&#39;a</span>&gt;(
+</span><span class="kw">pub fn </span>groupby_values(
     period: Duration,
     offset: Duration,
-    time: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[i64],
+    time: <span class="kw-2">&amp;</span>[i64],
     closed_window: ClosedWindow,
     tu: TimeUnit,
-    tz: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>PolarsTimeZone + <span class="lifetime">&#39;a</span>&gt;,
+    tz: <span class="prelude-ty">Option</span>&lt;Tz&gt;,
 ) -&gt; PolarsResult&lt;GroupsSlice&gt; {
     <span class="kw">let </span>thread_offsets = _split_offsets(time.len(), POOL.current_num_threads());
 
@@ -1028,7 +1024,7 @@
                                 <span class="kw-2">&amp;</span>time[..upper_bound],
                                 closed_window,
                                 tu,
-                                tz.clone(),
+                                tz,
                                 base_offset,
                             );
                             iter.map(|result| result.map(|(offset, len)| [offset, len]))
@@ -1080,7 +1076,7 @@
                         time,
                         closed_window,
                         tu,
-                        tz.clone(),
+                        tz,
                         lower_bound,
                         <span class="prelude-val">Some</span>(upper_bound),
                     );

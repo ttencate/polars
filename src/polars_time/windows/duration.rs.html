@@ -753,7 +753,6 @@
 <a href="#753" id="753">753</a>
 <a href="#754" id="754">754</a>
 <a href="#755" id="755">755</a>
-<a href="#756" id="756">756</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
 <span class="kw">use </span>std::ops::Mul;
 
@@ -762,7 +761,7 @@
 <span class="kw">use </span>polars_arrow::export::arrow::temporal_conversions::{
     timestamp_ms_to_datetime, timestamp_ns_to_datetime, timestamp_us_to_datetime, MILLISECONDS,
 };
-<span class="kw">use </span>polars_arrow::time_zone::PolarsTimeZone;
+<span class="kw">use </span>polars_arrow::time_zone::Tz;
 <span class="kw">use </span>polars_core::export::arrow::temporal_conversions::MICROSECONDS;
 <span class="kw">use </span>polars_core::prelude::{
     datetime_to_timestamp_ms, datetime_to_timestamp_ns, datetime_to_timestamp_us, polars_bail,
@@ -1183,7 +1182,7 @@
     </span><span class="kw">pub fn </span>truncate_impl&lt;F, G, J&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         t: i64,
-        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>PolarsTimeZone&gt;,
+        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Tz&gt;,
         nsecs_to_unit: F,
         timestamp_to_datetime: G,
         datetime_to_timestamp: J,
@@ -1297,7 +1296,7 @@
 
     <span class="comment">// Truncate the given ns timestamp by the window boundary.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>truncate_ns(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>PolarsTimeZone&gt;) -&gt; PolarsResult&lt;i64&gt; {
+    </span><span class="kw">pub fn </span>truncate_ns(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Tz&gt;) -&gt; PolarsResult&lt;i64&gt; {
         <span class="self">self</span>.truncate_impl(
             t,
             tz,
@@ -1309,7 +1308,7 @@
 
     <span class="comment">// Truncate the given ns timestamp by the window boundary.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>truncate_us(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>PolarsTimeZone&gt;) -&gt; PolarsResult&lt;i64&gt; {
+    </span><span class="kw">pub fn </span>truncate_us(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Tz&gt;) -&gt; PolarsResult&lt;i64&gt; {
         <span class="self">self</span>.truncate_impl(
             t,
             tz,
@@ -1321,7 +1320,7 @@
 
     <span class="comment">// Truncate the given ms timestamp by the window boundary.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>truncate_ms(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>PolarsTimeZone&gt;) -&gt; PolarsResult&lt;i64&gt; {
+    </span><span class="kw">pub fn </span>truncate_ms(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Tz&gt;) -&gt; PolarsResult&lt;i64&gt; {
         <span class="self">self</span>.truncate_impl(
             t,
             tz,
@@ -1334,7 +1333,7 @@
     <span class="kw">fn </span>add_impl_month_week_or_day&lt;F, G, J&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         t: i64,
-        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>PolarsTimeZone&gt;,
+        tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Tz&gt;,
         nsecs_to_unit: F,
         timestamp_to_datetime: G,
         datetime_to_timestamp: J,
@@ -1394,7 +1393,7 @@
         <span class="prelude-val">Ok</span>(new_t)
     }
 
-    <span class="kw">pub fn </span>add_ns(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>PolarsTimeZone&gt;) -&gt; PolarsResult&lt;i64&gt; {
+    <span class="kw">pub fn </span>add_ns(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Tz&gt;) -&gt; PolarsResult&lt;i64&gt; {
         <span class="kw">let </span>d = <span class="self">self</span>;
         <span class="kw">let </span>new_t = <span class="self">self</span>.add_impl_month_week_or_day(
             t,
@@ -1407,7 +1406,7 @@
         <span class="prelude-val">Ok</span>(new_t<span class="question-mark">? </span>+ nsecs)
     }
 
-    <span class="kw">pub fn </span>add_us(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>PolarsTimeZone&gt;) -&gt; PolarsResult&lt;i64&gt; {
+    <span class="kw">pub fn </span>add_us(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Tz&gt;) -&gt; PolarsResult&lt;i64&gt; {
         <span class="kw">let </span>d = <span class="self">self</span>;
         <span class="kw">let </span>new_t = <span class="self">self</span>.add_impl_month_week_or_day(
             t,
@@ -1420,7 +1419,7 @@
         <span class="prelude-val">Ok</span>(new_t<span class="question-mark">? </span>+ nsecs / <span class="number">1_000</span>)
     }
 
-    <span class="kw">pub fn </span>add_ms(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">impl </span>PolarsTimeZone&gt;) -&gt; PolarsResult&lt;i64&gt; {
+    <span class="kw">pub fn </span>add_ms(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Tz&gt;) -&gt; PolarsResult&lt;i64&gt; {
         <span class="kw">let </span>d = <span class="self">self</span>;
         <span class="kw">let </span>new_t = <span class="self">self</span>.add_impl_month_week_or_day(
             t,
@@ -1487,7 +1486,6 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_add_ns() {
-        <span class="kw">use </span>polars_arrow::time_zone::NO_TIMEZONE;
         <span class="kw">let </span>t = <span class="number">1</span>;
         <span class="kw">let </span>seven_days = Duration::parse(<span class="string">&quot;7d&quot;</span>);
         <span class="kw">let </span>one_week = Duration::parse(<span class="string">&quot;1w&quot;</span>);
@@ -1495,8 +1493,8 @@
         <span class="comment">// add_ns can only error if a time zone is passed, so it&#39;s
         // safe to unwrap here
         </span><span class="macro">assert_eq!</span>(
-            seven_days.add_ns(t, NO_TIMEZONE).unwrap(),
-            one_week.add_ns(t, NO_TIMEZONE).unwrap()
+            seven_days.add_ns(t, <span class="prelude-val">None</span>).unwrap(),
+            one_week.add_ns(t, <span class="prelude-val">None</span>).unwrap()
         );
 
         <span class="kw">let </span>seven_days_negative = Duration::parse(<span class="string">&quot;-7d&quot;</span>);
@@ -1505,8 +1503,8 @@
         <span class="comment">// add_ns can only error if a time zone is passed, so it&#39;s
         // safe to unwrap here
         </span><span class="macro">assert_eq!</span>(
-            seven_days_negative.add_ns(t, NO_TIMEZONE).unwrap(),
-            one_week_negative.add_ns(t, NO_TIMEZONE).unwrap()
+            seven_days_negative.add_ns(t, <span class="prelude-val">None</span>).unwrap(),
+            one_week_negative.add_ns(t, <span class="prelude-val">None</span>).unwrap()
         );
     }
 }
