@@ -765,6 +765,8 @@
 <a href="#765" id="765">765</a>
 <a href="#766" id="766">766</a>
 <a href="#767" id="767">767</a>
+<a href="#768" id="768">768</a>
+<a href="#769" id="769">769</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Traits for miscellaneous operations on ChunkedArray
 </span><span class="kw">use </span>arrow::offset::OffsetsBuffer;
 <span class="kw">use </span>polars_arrow::prelude::QuantileInterpolOptions;
@@ -787,6 +789,8 @@
 </span><span class="kw">mod </span>concat_str;
 <span class="attr">#[cfg(feature = <span class="string">&quot;cum_agg&quot;</span>)]
 </span><span class="kw">mod </span>cum_agg;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+</span><span class="kw">mod </span>decimal;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>downcast;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>explode;
 <span class="kw">mod </span>extend;

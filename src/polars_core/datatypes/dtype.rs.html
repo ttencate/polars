@@ -666,7 +666,7 @@
                     (<span class="kw">_</span>, <span class="prelude-val">None</span>) =&gt; f.write_str(<span class="string">&quot;decimal[?]&quot;</span>), <span class="comment">// shouldn&#39;t happen
                     </span>(<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(scale)) =&gt; f.write_str(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;decimal[{scale}]&quot;</span>)),
                     (<span class="prelude-val">Some</span>(precision), <span class="prelude-val">Some</span>(scale)) =&gt; {
-                        f.write_str(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;decimal[.{precision},{scale}]&quot;</span>))
+                        f.write_str(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;decimal[{precision},{scale}]&quot;</span>))
                     }
                 };
             }

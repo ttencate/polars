@@ -616,6 +616,8 @@
 <a href="#616" id="616">616</a>
 <a href="#617" id="617">617</a>
 <a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
 </span><span class="kw">mod </span>abs;
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
@@ -1154,6 +1156,8 @@
             </span>FromRadix(radix, strict) =&gt; <span class="macro">map!</span>(strings::from_radix, radix, strict),
             Slice(start, length) =&gt; <span class="macro">map!</span>(strings::str_slice, start, length),
             Explode =&gt; <span class="macro">map!</span>(strings::explode),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+            </span>ToDecimal(infer_len) =&gt; <span class="macro">map!</span>(strings::to_decimal, infer_len),
         }
     }
 }

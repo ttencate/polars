@@ -436,6 +436,28 @@
 <a href="#436" id="436">436</a>
 <a href="#437" id="437">437</a>
 <a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
+<a href="#445" id="445">445</a>
+<a href="#446" id="446">446</a>
+<a href="#447" id="447">447</a>
+<a href="#448" id="448">448</a>
+<a href="#449" id="449">449</a>
+<a href="#450" id="450">450</a>
+<a href="#451" id="451">451</a>
+<a href="#452" id="452">452</a>
+<a href="#453" id="453">453</a>
+<a href="#454" id="454">454</a>
+<a href="#455" id="455">455</a>
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
+<a href="#460" id="460">460</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Implementations of the ChunkCast Trait.
 </span><span class="kw">use </span>std::convert::TryFrom;
 
@@ -610,6 +632,28 @@
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
             </span>DataType::Struct(fields) =&gt; cast_single_to_struct(<span class="self">self</span>.name(), <span class="kw-2">&amp;</span><span class="self">self</span>.chunks, fields),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+            </span>DataType::Decimal(precision, scale) =&gt; <span class="kw">match </span>(precision, scale) {
+                (<span class="prelude-val">Some</span>(precision), <span class="prelude-val">Some</span>(scale)) =&gt; {
+                    <span class="kw">let </span>chunks = <span class="self">self
+                        </span>.downcast_iter()
+                        .map(|arr| {
+                            polars_arrow::compute::cast::cast_utf8_to_decimal(
+                                arr, <span class="kw-2">*</span>precision, <span class="kw-2">*</span>scale,
+                            )
+                        })
+                        .collect();
+                    <span class="kw">unsafe </span>{
+                        <span class="prelude-val">Ok</span>(Int128Chunked::from_chunks(<span class="self">self</span>.name(), chunks)
+                            .into_decimal_unchecked(<span class="prelude-val">Some</span>(<span class="kw-2">*</span>precision), <span class="kw-2">*</span>scale)
+                            .into_series())
+                    }
+                }
+                (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="self">self</span>.to_decimal(<span class="number">100</span>),
+                <span class="kw">_ </span>=&gt; {
+                    <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;expected &#39;precision&#39; or &#39;scale&#39; when casting to Decimal&quot;</span>)
+                }
+            },
             <span class="kw">_ </span>=&gt; cast_impl(<span class="self">self</span>.name(), <span class="kw-2">&amp;</span><span class="self">self</span>.chunks, data_type),
         }
     }
