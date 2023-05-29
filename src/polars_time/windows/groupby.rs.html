@@ -646,8 +646,8 @@
 <span class="kw">use </span>polars_core::export::rayon::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::utils::_split_offsets;
+<span class="kw">use </span>polars_core::utils::flatten::flatten_par;
 <span class="kw">use </span>polars_core::POOL;
-<span class="kw">use </span>polars_utils::flatten;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
 
@@ -1174,8 +1174,8 @@
             // ------t---
             // [------]
             </span><span class="kw">if </span>offset.duration_ns() &lt; period.duration_ns() * <span class="number">2 </span>{
-                <span class="kw">let </span>vals = POOL.install(|| {
-                    thread_offsets
+                POOL.install(|| {
+                    <span class="kw">let </span>vals = thread_offsets
                         .par_iter()
                         .copied()
                         .map(|(base_offset, len)| {
@@ -1192,9 +1192,9 @@
                             iter.map(|result| result.map(|(offset, len)| [offset, len]))
                                 .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
                         })
-                        .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
-                })<span class="question-mark">?</span>;
-                <span class="prelude-val">Ok</span>(flatten(<span class="kw-2">&amp;</span>vals, <span class="prelude-val">Some</span>(time.len())))
+                        .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
+                    <span class="prelude-val">Ok</span>(flatten_par(<span class="kw-2">&amp;</span>vals))
+                })
             }
             <span class="comment">// window is completely behind t and t itself is not a member
             // ---------------t---
@@ -1231,8 +1231,8 @@
         <span class="comment">// window is completely ahead of t and t itself is not a member
         // --t-----------
         //        [---]
-        </span><span class="kw">let </span>vals = POOL.install(|| {
-            thread_offsets
+        </span>POOL.install(|| {
+            <span class="kw">let </span>vals = thread_offsets
                 .par_iter()
                 .copied()
                 .map(|(base_offset, len)| {
@@ -1251,16 +1251,16 @@
                     iter.map(|result| result.map(|(offset, len)| [offset <span class="kw">as </span>IdxSize, len]))
                         .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
                 })
-                .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
-        })<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(flatten(<span class="kw-2">&amp;</span>vals, <span class="prelude-val">Some</span>(time.len())))
+                .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
+            <span class="prelude-val">Ok</span>(flatten_par(<span class="kw-2">&amp;</span>vals))
+        })
     } <span class="kw">else </span>{
         <span class="comment">// Duration is 0 and window is closed on the left:
         // it must be that the window starts at t and t is a member
         // --t-----------
         //  [---]
-        </span><span class="kw">let </span>vals = POOL.install(|| {
-            thread_offsets
+        </span>POOL.install(|| {
+            <span class="kw">let </span>vals = thread_offsets
                 .par_iter()
                 .copied()
                 .map(|(base_offset, len)| {
@@ -1279,9 +1279,9 @@
                     iter.map(|result| result.map(|(offset, len)| [offset <span class="kw">as </span>IdxSize, len]))
                         .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
                 })
-                .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
-        })<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(flatten(<span class="kw-2">&amp;</span>vals, <span class="prelude-val">Some</span>(time.len())))
+                .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
+            <span class="prelude-val">Ok</span>(flatten_par(<span class="kw-2">&amp;</span>vals))
+        })
     }
 }
 </code></pre></div></section></main></body></html>
