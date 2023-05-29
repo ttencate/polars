@@ -531,7 +531,7 @@
 
     <span class="doccomment">/// Get the tail of every sublist
     </span><span class="kw">pub fn </span>tail(<span class="self">self</span>, n: Expr) -&gt; Expr {
-        <span class="self">self</span>.slice(lit(<span class="number">0</span>) - n.clone().cast(DataType::Int64), n)
+        <span class="self">self</span>.slice(lit(<span class="number">0i64</span>) - n.clone().cast(DataType::Int64), n)
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;list_to_struct&quot;</span>)]
