@@ -130,6 +130,15 @@
 <a href="#130" id="130">130</a>
 <a href="#131" id="131">131</a>
 <a href="#132" id="132">132</a>
+<a href="#133" id="133">133</a>
+<a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
+<a href="#139" id="139">139</a>
+<a href="#140" id="140">140</a>
+<a href="#141" id="141">141</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>atoi::atoi;
 
 <span class="kw">fn </span>significant_digits(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; u8 {
@@ -173,8 +182,9 @@
 <span class="doccomment">/// Deserializes bytes to a single i128 representing a decimal
 /// The decimal precision and scale are not checked.
 </span><span class="attr">#[inline]
-</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>deserialize_decimal(bytes: <span class="kw-2">&amp;</span>[u8], precision: u8, scale: u8) -&gt; <span class="prelude-ty">Option</span>&lt;i128&gt; {
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>deserialize_decimal(bytes: <span class="kw-2">&amp;</span>[u8], precision: <span class="prelude-ty">Option</span>&lt;u8&gt;, scale: u8) -&gt; <span class="prelude-ty">Option</span>&lt;i128&gt; {
     <span class="kw">let </span>(lhs, rhs) = split_decimal_bytes(bytes);
+    <span class="kw">let </span>precision = precision.unwrap_or(u8::MAX);
     <span class="kw">match </span>(lhs, rhs) {
         (<span class="prelude-val">Some</span>(lhs), <span class="prelude-val">Some</span>(rhs)) =&gt; atoi::&lt;i128&gt;(lhs).and_then(|x| {
             atoi::&lt;i128&gt;(rhs)
@@ -192,7 +202,8 @@
                     </span><span class="kw">else if </span>rhs_s &lt; scale {
                         <span class="comment">// scale: 2
                         // number: x.09
-                        // sign digits: 1
+                        // significant digits: 1
+                        // leading_zeros: 1
                         // parsed: 9
                         // so this is correct
                         </span><span class="kw">if </span>leading_zeros_rhs + rhs_s == scale {
@@ -200,17 +211,17 @@
                         }
                         <span class="comment">// scale: 2
                         // number: x.9
-                        // sign digits: 1
+                        // significant digits: 1
                         // parsed: 9
                         // so we must multiply by 10 to get 90
                         </span><span class="kw">else </span>{
-                            <span class="kw">let </span>diff = scale <span class="kw">as </span>u32 - rhs_s <span class="kw">as </span>u32;
+                            <span class="kw">let </span>diff = scale <span class="kw">as </span>u32 - (rhs_s + leading_zeros_rhs) <span class="kw">as </span>u32;
                             <span class="prelude-val">Some</span>((lhs, rhs * <span class="number">10i128</span>.pow(diff)))
                         }
                     }
                     <span class="comment">// scale: 2
                     // number: x.90
-                    // sign digits: 2
+                    // significant digits: 2
                     // parsed: 90
                     // so this is correct
                     </span><span class="kw">else </span>{
@@ -220,13 +231,13 @@
                 .map(|(lhs, rhs)| lhs * <span class="number">10i128</span>.pow(scale <span class="kw">as </span>u32) + rhs)
         }),
         (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(rhs)) =&gt; {
-            <span class="kw">if </span>rhs.len() != precision <span class="kw">as </span>usize || rhs.len() != scale <span class="kw">as </span>usize {
+            <span class="kw">if </span>rhs.len() &gt; precision <span class="kw">as </span>usize || rhs.len() != scale <span class="kw">as </span>usize {
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
             atoi::&lt;i128&gt;(rhs)
         }
         (<span class="prelude-val">Some</span>(lhs), <span class="prelude-val">None</span>) =&gt; {
-            <span class="kw">if </span>lhs.len() != precision <span class="kw">as </span>usize || scale != <span class="number">0 </span>{
+            <span class="kw">if </span>lhs.len() &gt; precision <span class="kw">as </span>usize || scale != <span class="number">0 </span>{
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
             atoi::&lt;i128&gt;(lhs)
@@ -240,7 +251,7 @@
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_decimal() {
-        <span class="kw">let </span>precision = <span class="number">8</span>;
+        <span class="kw">let </span>precision = <span class="prelude-val">Some</span>(<span class="number">8</span>);
         <span class="kw">let </span>scale = <span class="number">2</span>;
 
         <span class="kw">let </span>val = <span class="string">&quot;12.09&quot;</span>;
@@ -259,6 +270,13 @@
         <span class="macro">assert_eq!</span>(
             deserialize_decimal(val.as_bytes(), precision, scale),
             <span class="prelude-val">Some</span>(<span class="number">14390</span>)
+        );
+
+        <span class="kw">let </span>scale = <span class="number">20</span>;
+        <span class="kw">let </span>val = <span class="string">&quot;0.01&quot;</span>;
+        <span class="macro">assert_eq!</span>(
+            deserialize_decimal(val.as_bytes(), precision, scale),
+            <span class="prelude-val">Some</span>(<span class="number">1000000000000000000</span>)
         );
     }
 }

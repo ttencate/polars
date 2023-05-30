@@ -634,7 +634,7 @@
             </span>DataType::Struct(fields) =&gt; cast_single_to_struct(<span class="self">self</span>.name(), <span class="kw-2">&amp;</span><span class="self">self</span>.chunks, fields),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
             </span>DataType::Decimal(precision, scale) =&gt; <span class="kw">match </span>(precision, scale) {
-                (<span class="prelude-val">Some</span>(precision), <span class="prelude-val">Some</span>(scale)) =&gt; {
+                (precision, <span class="prelude-val">Some</span>(scale)) =&gt; {
                     <span class="kw">let </span>chunks = <span class="self">self
                         </span>.downcast_iter()
                         .map(|arr| {
@@ -645,7 +645,7 @@
                         .collect();
                     <span class="kw">unsafe </span>{
                         <span class="prelude-val">Ok</span>(Int128Chunked::from_chunks(<span class="self">self</span>.name(), chunks)
-                            .into_decimal_unchecked(<span class="prelude-val">Some</span>(<span class="kw-2">*</span>precision), <span class="kw-2">*</span>scale)
+                            .into_decimal_unchecked(<span class="kw-2">*</span>precision, <span class="kw-2">*</span>scale)
                             .into_series())
                     }
                 }

@@ -30,6 +30,9 @@
 <a href="#30" id="30">30</a>
 <a href="#31" id="31">31</a>
 <a href="#32" id="32">32</a>
+<a href="#33" id="33">33</a>
+<a href="#34" id="34">34</a>
+<a href="#35" id="35">35</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::array::Array;
 <span class="kw">use </span>arrow::datatypes::DataType;
 <span class="kw">use </span>arrow::error::Result;
@@ -39,7 +42,7 @@
         <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
         </span>DataType::Decimal(precision, scale) <span class="kw">if </span><span class="macro">matches!</span>(array.data_type(), DataType::LargeUtf8) =&gt; {
             <span class="kw">let </span>array = array.as_any().downcast_ref::&lt;LargeStringArray&gt;().unwrap();
-            <span class="prelude-val">Ok</span>(cast_utf8_to_decimal(array, <span class="kw-2">*</span>precision, <span class="kw-2">*</span>scale))
+            <span class="prelude-val">Ok</span>(cast_utf8_to_decimal(array, <span class="prelude-val">Some</span>(<span class="kw-2">*</span>precision), <span class="kw-2">*</span>scale))
         }
         <span class="kw">_ </span>=&gt; arrow::compute::cast::cast(array, to_type, Default::default()),
     }
@@ -53,12 +56,15 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::prelude::{ArrayRef, LargeStringArray};
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
-</span><span class="kw">pub fn </span>cast_utf8_to_decimal(array: <span class="kw-2">&amp;</span>Utf8Array&lt;i64&gt;, precision: usize, scale: usize) -&gt; ArrayRef {
+</span><span class="kw">pub fn </span>cast_utf8_to_decimal(
+    array: <span class="kw-2">&amp;</span>Utf8Array&lt;i64&gt;,
+    precision: <span class="prelude-ty">Option</span>&lt;usize&gt;,
+    scale: usize,
+) -&gt; ArrayRef {
+    <span class="kw">let </span>precision = precision.map(|p| p <span class="kw">as </span>u8);
     <span class="kw">let </span>values: PrimitiveArray&lt;i128&gt; = array
         .iter()
-        .map(|val| {
-            val.and_then(|val| deserialize_decimal(val.as_bytes(), precision <span class="kw">as </span>u8, scale <span class="kw">as </span>u8))
-        })
+        .map(|val| val.and_then(|val| deserialize_decimal(val.as_bytes(), precision, scale <span class="kw">as </span>u8)))
         .collect();
     Box::new(values)
 }
