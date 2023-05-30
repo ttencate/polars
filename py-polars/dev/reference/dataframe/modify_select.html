@@ -1567,7 +1567,7 @@ document.write(`
 <td><p>Return the <cite>k</cite> smallest elements.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.clear.html#polars.DataFrame.clear" title="polars.DataFrame.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.clear</span></code></a>([n])</p></td>
-<td><p>Create an empty copy of the current DataFrame, with zero to 'n' rows.</p></td>
+<td><p>Create an empty (n=0) or <cite>n</cite>-row null-filled (n&gt;0) copy of the DataFrame.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.clone.html#polars.DataFrame.clone" title="polars.DataFrame.clone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.clone</span></code></a>()</p></td>
 <td><p>Cheap deepcopy/clone.</p></td>
