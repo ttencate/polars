@@ -1451,6 +1451,10 @@
 <a href="#1451" id="1451">1451</a>
 <a href="#1452" id="1452">1452</a>
 <a href="#1453" id="1453">1453</a>
+<a href="#1454" id="1454">1454</a>
+<a href="#1455" id="1455">1455</a>
+<a href="#1456" id="1456">1456</a>
+<a href="#1457" id="1457">1457</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! # Functions
 //!
 //! Functions on expressions that might be useful.
@@ -2761,10 +2765,14 @@
 /// number of rows.
 </span><span class="kw">pub fn </span>repeat&lt;L: Literal&gt;(value: L, n: Expr) -&gt; Expr {
     <span class="kw">let </span>function = |s: Series, n: Series| {
-        <span class="kw">let </span>n =
-            n.get(<span class="number">0</span>).unwrap().extract::&lt;usize&gt;().ok_or_else(
-                || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;could not extract a size from {:?}&quot;</span>, n),
-            )<span class="question-mark">?</span>;
+        <span class="macro">polars_ensure!</span>(
+            n.dtype().is_integer(),
+            SchemaMismatch: <span class="string">&quot;expected expression of dtype &#39;integer&#39;, got &#39;{}&#39;&quot;</span>, n.dtype()
+        );
+        <span class="kw">let </span>first_value = n.get(<span class="number">0</span>)<span class="question-mark">?</span>;
+        <span class="kw">let </span>n = first_value.extract::&lt;usize&gt;().ok_or_else(
+            || <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;could not parse value &#39;{}&#39; as a size.&quot;</span>, first_value),
+        )<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(s.new_from_index(<span class="number">0</span>, n)))
     };
     apply_binary(lit(value), n, function, GetOutput::same_type()).alias(<span class="string">&quot;repeat&quot;</span>)
