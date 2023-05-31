@@ -121,24 +121,6 @@
 <a href="#121" id="121">121</a>
 <a href="#122" id="122">122</a>
 <a href="#123" id="123">123</a>
-<a href="#124" id="124">124</a>
-<a href="#125" id="125">125</a>
-<a href="#126" id="126">126</a>
-<a href="#127" id="127">127</a>
-<a href="#128" id="128">128</a>
-<a href="#129" id="129">129</a>
-<a href="#130" id="130">130</a>
-<a href="#131" id="131">131</a>
-<a href="#132" id="132">132</a>
-<a href="#133" id="133">133</a>
-<a href="#134" id="134">134</a>
-<a href="#135" id="135">135</a>
-<a href="#136" id="136">136</a>
-<a href="#137" id="137">137</a>
-<a href="#138" id="138">138</a>
-<a href="#139" id="139">139</a>
-<a href="#140" id="140">140</a>
-<a href="#141" id="141">141</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>atoi::atoi;
 
 <span class="kw">fn </span>significant_digits(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; u8 {
@@ -156,27 +138,9 @@
     (lhs, rhs)
 }
 
-<span class="kw">pub fn </span>infer_params(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;(u8, u8)&gt; {
-    <span class="kw">let </span>(lhs, rhs) = split_decimal_bytes(bytes);
-    <span class="kw">match </span>(lhs, rhs) {
-        (<span class="prelude-val">Some</span>(lhs), <span class="prelude-val">Some</span>(rhs)) =&gt; {
-            <span class="kw">let </span>lhs_s = significant_digits(lhs);
-            <span class="kw">let </span>rhs_s = significant_digits(rhs);
-
-            <span class="kw">let </span>precision = lhs_s + rhs_s;
-            <span class="kw">let </span>scale = rhs_s;
-            <span class="prelude-val">Some</span>((precision, scale))
-        }
-        (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(rhs)) =&gt; {
-            <span class="kw">let </span>precision = rhs.len() <span class="kw">as </span>u8;
-            <span class="prelude-val">Some</span>((precision, precision))
-        }
-        (<span class="prelude-val">Some</span>(lhs), <span class="prelude-val">None</span>) =&gt; {
-            <span class="kw">let </span>precision = lhs.len() <span class="kw">as </span>u8;
-            <span class="prelude-val">Some</span>((precision, <span class="number">0</span>))
-        }
-        (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="prelude-val">None</span>,
-    }
+<span class="kw">pub fn </span>infer_scale(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;u8&gt; {
+    <span class="kw">let </span>(_lhs, rhs) = split_decimal_bytes(bytes);
+    rhs.map(significant_digits)
 }
 
 <span class="doccomment">/// Deserializes bytes to a single i128 representing a decimal
