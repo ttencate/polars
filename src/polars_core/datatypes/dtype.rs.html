@@ -359,6 +359,8 @@
 <a href="#359" id="359">359</a>
 <a href="#360" id="360">360</a>
 <a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub type </span>TimeZone = String;
@@ -521,7 +523,7 @@
         <span class="self">self</span>.is_numeric() | <span class="macro">matches!</span>(<span class="self">self</span>, DataType::Boolean | DataType::Utf8 | DataType::Binary)
     }
 
-    <span class="doccomment">/// Check if this [`DataType`] is a numeric type
+    <span class="doccomment">/// Check if this [`DataType`] is a numeric type.
     </span><span class="kw">pub fn </span>is_numeric(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="comment">// allow because it cannot be replaced when object feature is activated
         </span><span class="attr">#[allow(clippy::match_like_matches_macro)]
@@ -542,6 +544,8 @@
             </span>DataType::Categorical(<span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
             </span>DataType::Struct(<span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-decimal&quot;</span>)]
+            </span>DataType::Decimal(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
             <span class="kw">_ </span>=&gt; <span class="bool-val">true</span>,
         }
     }
