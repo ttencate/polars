@@ -33,6 +33,8 @@
 <a href="#33" id="33">33</a>
 <a href="#34" id="34">34</a>
 <a href="#35" id="35">35</a>
+<a href="#36" id="36">36</a>
+<a href="#37" id="37">37</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>simd_json::BorrowedValue;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -55,7 +57,9 @@
         buf.push_str(row);
         buf.push(<span class="string">&#39;,&#39;</span>)
     }
-    <span class="kw">let _ </span>= buf.pop();
+    <span class="kw">if </span>buf.len() &gt; <span class="number">1 </span>{
+        <span class="kw">let _ </span>= buf.pop();
+    }
     buf.push(<span class="string">&#39;]&#39;</span>);
     <span class="kw">let </span>slice = <span class="kw">unsafe </span>{ buf.as_bytes_mut() };
     <span class="kw">let </span>out = simd_json::to_borrowed_value(slice)
