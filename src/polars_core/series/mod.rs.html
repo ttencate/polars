@@ -1140,6 +1140,8 @@
 <a href="#1140" id="1140">1140</a>
 <a href="#1141" id="1141">1141</a>
 <a href="#1142" id="1142">1142</a>
+<a href="#1143" id="1143">1143</a>
+<a href="#1144" id="1144">1144</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Type agnostic columnar data structure.
 </span><span class="kw">pub use </span><span class="kw">crate</span>::prelude::ChunkCompare;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -1490,6 +1492,8 @@
     </span><span class="kw">pub fn </span>explode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;Series&gt; {
         <span class="kw">match </span><span class="self">self</span>.dtype() {
             DataType::List(<span class="kw">_</span>) =&gt; <span class="self">self</span>.list().unwrap().explode(),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+            </span>DataType::Array(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="self">self</span>.array().unwrap().explode(),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.clone()),
         }
     }
