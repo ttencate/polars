@@ -439,6 +439,30 @@
 <a href="#439" id="439">439</a>
 <a href="#440" id="440">440</a>
 <a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
+<a href="#445" id="445">445</a>
+<a href="#446" id="446">446</a>
+<a href="#447" id="447">447</a>
+<a href="#448" id="448">448</a>
+<a href="#449" id="449">449</a>
+<a href="#450" id="450">450</a>
+<a href="#451" id="451">451</a>
+<a href="#452" id="452">452</a>
+<a href="#453" id="453">453</a>
+<a href="#454" id="454">454</a>
+<a href="#455" id="455">455</a>
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
+<a href="#460" id="460">460</a>
+<a href="#461" id="461">461</a>
+<a href="#462" id="462">462</a>
+<a href="#463" id="463">463</a>
+<a href="#464" id="464">464</a>
+<a href="#465" id="465">465</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>from;
 
 <span class="kw">use </span>std::collections::BTreeMap;
@@ -623,22 +647,46 @@
         <span class="kw">let </span><span class="kw-2">mut </span>null_count = <span class="number">0</span>;
         <span class="kw">let </span>chunks_lens = <span class="self">self</span>.fields()[<span class="number">0</span>].chunks().len();
 
-        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..chunks_lens {
-            <span class="comment">// If all fields are null we count it as null
-            // so we bitand every chunk
-            </span><span class="kw">let </span><span class="kw-2">mut </span>validity_agg = <span class="prelude-val">None</span>;
+        <span class="comment">// fast path
+        // we early return if a column doesn&#39;t have nulls
+        </span><span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..chunks_lens {
+            <span class="kw">for </span>s <span class="kw">in </span><span class="self">self</span>.fields() {
+                <span class="kw">let </span>arr = <span class="kw-2">&amp;</span>s.chunks()[i];
+                <span class="kw">let </span>has_nulls = arr.null_count() &gt; <span class="number">0 </span>|| <span class="macro">matches!</span>(s.dtype(), DataType::Null);
+                <span class="kw">if </span>!has_nulls {
+                    <span class="self">self</span>.null_count = <span class="number">0</span>;
+                    <span class="kw">return</span>;
+                }
+            }
+        }
 
+        <span class="comment">// slow path
+        // we bitand every null validity bitmask to determine
+        // in which rows all values are null
+        </span><span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..chunks_lens {
+            <span class="kw">let </span><span class="kw-2">mut </span>validity_agg = <span class="prelude-val">None</span>;
+
+            <span class="kw">let </span><span class="kw-2">mut </span>all_null_array = <span class="bool-val">true</span>;
             <span class="kw">for </span>s <span class="kw">in </span><span class="self">self</span>.fields() {
                 <span class="kw">let </span>arr = <span class="kw-2">&amp;</span>s.chunks()[i];
 
-                <span class="kw">match </span>(<span class="kw-2">&amp;</span>validity_agg, arr.validity()) {
-                    (<span class="prelude-val">Some</span>(agg), <span class="prelude-val">Some</span>(validity)) =&gt; validity_agg = <span class="prelude-val">Some</span>(validity.bitand(agg)),
-                    (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(validity)) =&gt; validity_agg = <span class="prelude-val">Some</span>(validity.clone()),
-                    <span class="kw">_ </span>=&gt; {}
+                <span class="kw">if </span>!<span class="macro">matches!</span>(s.dtype(), DataType::Null) {
+                    all_null_array = <span class="bool-val">false</span>;
+                    <span class="kw">match </span>(<span class="kw-2">&amp;</span>validity_agg, arr.validity()) {
+                        (<span class="prelude-val">Some</span>(agg), <span class="prelude-val">Some</span>(validity)) =&gt; validity_agg = <span class="prelude-val">Some</span>(validity.bitand(agg)),
+                        (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(validity)) =&gt; validity_agg = <span class="prelude-val">Some</span>(validity.clone()),
+                        <span class="kw">_ </span>=&gt; {}
+                    }
                 }
             }
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(validity) = <span class="kw-2">&amp;</span>validity_agg {
+            <span class="comment">// we add the null count
+            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(validity) = <span class="kw-2">&amp;</span>validity_agg {
                 null_count += validity.unset_bits()
+            }
+            <span class="comment">// all arrays are null arrays
+            // we add the length of the chunk to the null_count
+            </span><span class="kw">else if </span>all_null_array {
+                null_count += <span class="self">self</span>.fields()[<span class="number">0</span>].chunks()[i].len()
             }
         }
         <span class="self">self</span>.null_count = null_count
