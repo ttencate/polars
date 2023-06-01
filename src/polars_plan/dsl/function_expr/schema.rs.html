@@ -325,6 +325,13 @@
 <a href="#325" id="325">325</a>
 <a href="#326" id="326">326</a>
 <a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">impl </span>FunctionExpr {
@@ -433,6 +440,13 @@
                 <span class="kw">match </span>af {
                     Min | Max =&gt; mapper.with_same_dtype(),
                     Sum =&gt; mapper.nested_sum_type(),
+                    Unique(<span class="kw">_</span>) =&gt; mapper.try_map_dtype(|dt| {
+                        <span class="kw">if let </span>DataType::Array(inner, <span class="kw">_</span>) = dt {
+                            <span class="prelude-val">Ok</span>(DataType::List(inner.clone()))
+                        } <span class="kw">else </span>{
+                            <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;expected array dtype&quot;</span>)
+                        }
+                    }),
                 }
             }
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
@@ -554,7 +568,7 @@
     }
 
     <span class="doccomment">/// Map a single dtype with a potentially failing mapper function.
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+    </span><span class="attr">#[cfg(any(feature = <span class="string">&quot;timezones&quot;</span>, feature = <span class="string">&quot;dtype-array&quot;</span>))]
     </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>try_map_dtype(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         func: <span class="kw">impl </span>Fn(<span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;DataType&gt;,
