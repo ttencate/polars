@@ -749,6 +749,7 @@
 <a href="#749" id="749">749</a>
 <a href="#750" id="750">750</a>
 <a href="#751" id="751">751</a>
+<a href="#752" id="752">752</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
 <span class="kw">use </span>std::ops::Mul;
 
@@ -922,13 +923,14 @@
                     <span class="string">&quot;mo&quot; </span>=&gt; {
                         months += n
                     }
+                    <span class="string">&quot;q&quot; </span>=&gt; months += n * <span class="number">3</span>,
                     <span class="string">&quot;y&quot; </span>=&gt; months += n * <span class="number">12</span>,
                     <span class="comment">// we will read indexes as nanoseconds
                     </span><span class="string">&quot;i&quot; </span>=&gt; {
                         nsecs += n;
                         parsed_int = <span class="bool-val">true</span>;
                     }
-                    unit =&gt; <span class="macro">panic!</span>(<span class="string">&quot;unit: &#39;{unit}&#39; not supported. Available units are: &#39;ns&#39;, &#39;us&#39;, &#39;ms&#39;, &#39;s&#39;, &#39;m&#39;, &#39;h&#39;, &#39;d&#39;, &#39;w&#39;, &#39;mo&#39;, &#39;y&#39;, &#39;i&#39;&quot;</span>),
+                    unit =&gt; <span class="macro">panic!</span>(<span class="string">&quot;unit: &#39;{unit}&#39; not supported. Available units are: &#39;ns&#39;, &#39;us&#39;, &#39;ms&#39;, &#39;s&#39;, &#39;m&#39;, &#39;h&#39;, &#39;d&#39;, &#39;w&#39;, &#39;q&#39;, &#39;mo&#39;, &#39;y&#39;, &#39;i&#39;&quot;</span>),
                 }
                 unit.clear();
             }
