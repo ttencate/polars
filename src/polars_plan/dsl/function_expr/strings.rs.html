@@ -1088,7 +1088,7 @@
         )<span class="question-mark">?
         </span>.into_series()
     } <span class="kw">else </span>{
-        ca.as_datetime_not_exact(options.format.as_deref(), <span class="kw-2">*</span>time_unit, time_zone)<span class="question-mark">?
+        ca.as_datetime_not_exact(options.format.as_deref(), <span class="kw-2">*</span>time_unit, tz_aware, time_zone)<span class="question-mark">?
             </span>.into_series()
     };
 

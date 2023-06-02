@@ -527,7 +527,15 @@
 <a href="#527" id="527">527</a>
 <a href="#528" id="528">528</a>
 <a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
 </pre></div><pre class="rust"><code><span class="kw">pub mod </span>infer;
+<span class="kw">use </span>chrono::DateTime;
 <span class="kw">mod </span>patterns;
 <span class="kw">mod </span>strptime;
 
@@ -779,6 +787,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         fmt: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;,
         tu: TimeUnit,
+        tz_aware: bool,
         tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
     ) -&gt; PolarsResult&lt;DatetimeChunked&gt; {
         <span class="kw">let </span>utf8_ca = <span class="self">self</span>.as_utf8();
@@ -804,8 +813,12 @@
                         <span class="kw">if </span>s.is_empty() {
                             <span class="kw">return </span><span class="prelude-val">None</span>;
                         }
-                        <span class="kw">match </span>NaiveDateTime::parse_from_str(s, fmt).map(func) {
-                            <span class="prelude-val">Ok</span>(nd) =&gt; <span class="kw">return </span><span class="prelude-val">Some</span>(nd),
+                        <span class="kw">let </span>timestamp = <span class="kw">match </span>tz_aware {
+                            <span class="bool-val">true </span>=&gt; DateTime::parse_from_str(s, fmt).map(|dt| func(dt.naive_utc())),
+                            <span class="bool-val">false </span>=&gt; NaiveDateTime::parse_from_str(s, fmt).map(func),
+                        };
+                        <span class="kw">match </span>timestamp {
+                            <span class="prelude-val">Ok</span>(ts) =&gt; <span class="kw">return </span><span class="prelude-val">Some</span>(ts),
                             <span class="prelude-val">Err</span>(e) =&gt; {
                                 <span class="kw">let </span>e: ParseErrorByteCopy = e.into();
                                 <span class="kw">match </span>e.<span class="number">0 </span>{
@@ -824,9 +837,11 @@
             })
             .collect_trusted();
         ca.rename(utf8_ca.name());
-        <span class="kw">match </span>tz {
+        <span class="kw">match </span>(tz_aware, tz) {
             <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
-            </span><span class="prelude-val">Some</span>(tz) =&gt; ca.into_datetime(tu, <span class="prelude-val">None</span>).replace_time_zone(<span class="prelude-val">Some</span>(tz), <span class="prelude-val">None</span>),
+            </span>(<span class="bool-val">false</span>, <span class="prelude-val">Some</span>(tz)) =&gt; ca.into_datetime(tu, <span class="prelude-val">None</span>).replace_time_zone(<span class="prelude-val">Some</span>(tz), <span class="prelude-val">None</span>),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
+            </span>(<span class="bool-val">true</span>, <span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(ca.into_datetime(tu, <span class="prelude-val">Some</span>(<span class="string">&quot;UTC&quot;</span>.to_string()))),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(ca.into_datetime(tu, <span class="prelude-val">None</span>)),
         }
     }
@@ -934,7 +949,6 @@
         <span class="kw">if </span>tz_aware {
             <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
             </span>{
-                <span class="kw">use </span>chrono::DateTime;
                 <span class="kw">use </span>polars_arrow::export::hashbrown::hash_map::Entry;
                 <span class="kw">let </span><span class="kw-2">mut </span>cache_map = PlHashMap::new();
 
