@@ -337,7 +337,7 @@
                 <span class="kw">return </span>s.rolling_apply(f, options);
             }
 
-            <span class="kw">if </span>options.window_size &gt;= <span class="self">self</span>.len() {
+            <span class="kw">if </span>options.window_size &gt; <span class="self">self</span>.len() {
                 <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="self">Self</span>::full_null(<span class="self">self</span>.name(), <span class="self">self</span>.len()).into_series());
             }
 
