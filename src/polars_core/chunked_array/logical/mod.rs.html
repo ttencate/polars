@@ -162,7 +162,7 @@
 }
 
 <span class="kw">impl</span>&lt;K: PolarsDataType, T: PolarsDataType&gt; Logical&lt;K, T&gt; {
-    <span class="kw">pub fn </span>new_logical&lt;J: PolarsDataType&gt;(ca: ChunkedArray&lt;T&gt;) -&gt; Logical&lt;J, T&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_logical&lt;J: PolarsDataType&gt;(ca: ChunkedArray&lt;T&gt;) -&gt; Logical&lt;J, T&gt; {
         Logical(ca, PhantomData, <span class="prelude-val">None</span>)
     }
 }
