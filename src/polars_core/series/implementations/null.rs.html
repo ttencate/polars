@@ -186,6 +186,10 @@
 <a href="#186" id="186">186</a>
 <a href="#187" id="187">187</a>
 <a href="#188" id="188">188</a>
+<a href="#189" id="189">189</a>
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -306,7 +310,7 @@
     </span>}
 
     <span class="kw">fn </span>rechunk(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Series {
-        <span class="self">self</span>.clone().into_series()
+        NullChunked::new(<span class="self">self</span>.name.clone(), <span class="self">self</span>.len()).into_series()
     }
 
     <span class="kw">fn </span>cast(<span class="kw-2">&amp;</span><span class="self">self</span>, data_type: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;Series&gt; {
@@ -353,12 +357,16 @@
     }
 
     <span class="kw">fn </span>append(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;()&gt; {
-        <span class="kw-2">*</span><span class="self">self </span>= NullChunked::new(<span class="self">self</span>.name.clone(), <span class="self">self</span>.len() + other.len());
+        <span class="macro">polars_ensure!</span>(other.dtype() == <span class="kw-2">&amp;</span>DataType::Null, ComputeError: <span class="string">&quot;expected null dtype&quot;</span>);
+        <span class="comment">// we don&#39;t create a new null array to keep probability of aligned chunks higher
+        </span><span class="self">self</span>.chunks.extend(other.chunks().iter().cloned());
+        <span class="self">self</span>.length += other.len() <span class="kw">as </span>IdxSize;
         <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">fn </span>extend(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;()&gt; {
-        <span class="self">self</span>.append(other)
+        <span class="kw-2">*</span><span class="self">self </span>= NullChunked::new(<span class="self">self</span>.name.clone(), <span class="self">self</span>.len() + other.len());
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">fn </span>clone_inner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Arc&lt;<span class="kw">dyn </span>SeriesTrait&gt; {
