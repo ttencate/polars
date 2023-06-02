@@ -814,6 +814,10 @@
 <a href="#814" id="814">814</a>
 <a href="#815" id="815">815</a>
 <a href="#816" id="816">816</a>
+<a href="#817" id="817">817</a>
+<a href="#818" id="818">818</a>
+<a href="#819" id="819">819</a>
+<a href="#820" id="820">820</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::array::Utf8Array;
 <span class="kw">use </span>arrow::bitmap::MutableBitmap;
 <span class="kw">use </span>polars_arrow::prelude::FromDataUtf8;
@@ -1350,10 +1354,10 @@
                     ignore_errors,
                 )),
                 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
-                </span>DataType::Datetime(tu, offset) =&gt; Buffer::Datetime {
+                </span>DataType::Datetime(time_unit, time_zone) =&gt; Buffer::Datetime {
                     buf: DatetimeField::new(name, capacity),
-                    tu: <span class="kw-2">*</span>tu,
-                    offset: offset.clone(),
+                    time_unit: <span class="kw-2">*</span>time_unit,
+                    time_zone: time_zone.clone(),
                 },
                 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
                 </span><span class="kw-2">&amp;</span>DataType::Date =&gt; Buffer::Date(DatetimeField::new(name, capacity)),
@@ -1384,8 +1388,8 @@
     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
     </span>Datetime {
         buf: DatetimeField&lt;Int64Type&gt;,
-        tu: TimeUnit,
-        offset: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        time_unit: TimeUnit,
+        time_zone: <span class="prelude-ty">Option</span>&lt;TimeZone&gt;,
     },
     <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
     </span>Date(DatetimeField&lt;Int32Type&gt;),
@@ -1404,11 +1408,15 @@
             Buffer::Float32(v) =&gt; v.finish().into_series(),
             Buffer::Float64(v) =&gt; v.finish().into_series(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
-            </span>Buffer::Datetime { buf, tu, offset } =&gt; buf
+            </span>Buffer::Datetime {
+                buf,
+                time_unit,
+                time_zone,
+            } =&gt; buf
                 .builder
                 .finish()
                 .into_series()
-                .cast(<span class="kw-2">&amp;</span>DataType::Datetime(tu, offset))
+                .cast(<span class="kw-2">&amp;</span>DataType::Datetime(time_unit, time_zone))
                 .unwrap(),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
             </span>Buffer::Date(v) =&gt; v
@@ -1516,7 +1524,7 @@
             Buffer::Float64(<span class="kw">_</span>) =&gt; DataType::Float64,
             Buffer::Utf8(<span class="kw">_</span>) =&gt; DataType::Utf8,
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-datetime&quot;</span>)]
-            </span>Buffer::Datetime { tu, .. } =&gt; DataType::Datetime(<span class="kw-2">*</span>tu, <span class="prelude-val">None</span>),
+            </span>Buffer::Datetime { time_unit, .. } =&gt; DataType::Datetime(<span class="kw-2">*</span>time_unit, <span class="prelude-val">None</span>),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-date&quot;</span>)]
             </span>Buffer::Date(<span class="kw">_</span>) =&gt; DataType::Date,
             Buffer::Categorical(<span class="kw">_</span>) =&gt; {

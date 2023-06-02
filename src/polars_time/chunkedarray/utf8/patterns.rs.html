@@ -149,20 +149,10 @@
 <a href="#149" id="149">149</a>
 <a href="#150" id="150">150</a>
 <a href="#151" id="151">151</a>
-<a href="#152" id="152">152</a>
-<a href="#153" id="153">153</a>
-<a href="#154" id="154">154</a>
-<a href="#155" id="155">155</a>
-<a href="#156" id="156">156</a>
-<a href="#157" id="157">157</a>
-<a href="#158" id="158">158</a>
-<a href="#159" id="159">159</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Patterns are grouped together by order of month, day, year. This is to prevent
 //! parsing different orders of dates in a single column.
 
-</span><span class="kw">use </span>chrono::FixedOffset;
-
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">static </span>DATE_D_M_Y: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str] = <span class="kw-2">&amp;</span>[
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">static </span>DATE_D_M_Y: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str] = <span class="kw-2">&amp;</span>[
     <span class="string">&quot;%d-%m-%Y&quot;</span>, <span class="comment">// 31-12-2021
     </span><span class="string">&quot;%d/%m/%Y&quot;</span>, <span class="comment">// 31/12/2021
 </span>];
@@ -309,11 +299,5 @@
     DatetimeYMD,
     DatetimeDMY,
     DatetimeYMDZ,
-}
-
-<span class="attr">#[derive(Clone)]
-</span><span class="kw">pub struct </span>PatternWithOffset {
-    <span class="kw">pub </span>pattern: Pattern,
-    <span class="kw">pub </span>offset: <span class="prelude-ty">Option</span>&lt;FixedOffset&gt;,
 }
 </code></pre></div></section></main></body></html>
