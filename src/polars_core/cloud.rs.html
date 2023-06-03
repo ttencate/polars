@@ -220,6 +220,21 @@
 <a href="#220" id="220">220</a>
 <a href="#221" id="221">221</a>
 <a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a>
+<a href="#225" id="225">225</a>
+<a href="#226" id="226">226</a>
+<a href="#227" id="227">227</a>
+<a href="#228" id="228">228</a>
+<a href="#229" id="229">229</a>
+<a href="#230" id="230">230</a>
+<a href="#231" id="231">231</a>
+<a href="#232" id="232">232</a>
+<a href="#233" id="233">233</a>
+<a href="#234" id="234">234</a>
+<a href="#235" id="235">235</a>
+<a href="#236" id="236">236</a>
+<a href="#237" id="237">237</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::str::FromStr;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;aws&quot;</span>)]
@@ -336,9 +351,14 @@
             </span>.aws
             .as_ref()
             .ok_or_else(|| <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;`aws` configuration missing&quot;</span>))<span class="question-mark">?</span>;
-        AmazonS3Builder::new()
-            .try_with_options(options.clone().into_iter())
-            .and_then(|b| b.with_bucket_name(bucket_name).build())
+
+        <span class="kw">let </span><span class="kw-2">mut </span>builder = AmazonS3Builder::new();
+        <span class="kw">for </span>(key, value) <span class="kw">in </span>options.iter() {
+            builder = builder.with_config(<span class="kw-2">*</span>key, value);
+        }
+        builder
+            .with_bucket_name(bucket_name)
+            .build()
             .map_err(polars_error::to_compute_err)
     }
 
@@ -364,9 +384,14 @@
             </span>.azure
             .as_ref()
             .ok_or_else(|| <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;`azure` configuration missing&quot;</span>))<span class="question-mark">?</span>;
-        MicrosoftAzureBuilder::new()
-            .try_with_options(options.clone().into_iter())
-            .and_then(|b| b.with_container_name(container_name).build())
+
+        <span class="kw">let </span><span class="kw-2">mut </span>builder = MicrosoftAzureBuilder::new();
+        <span class="kw">for </span>(key, value) <span class="kw">in </span>options.iter() {
+            builder = builder.with_config(<span class="kw-2">*</span>key, value);
+        }
+        builder
+            .with_container_name(container_name)
+            .build()
             .map_err(polars_error::to_compute_err)
     }
 
@@ -392,9 +417,14 @@
             </span>.gcp
             .as_ref()
             .ok_or_else(|| <span class="macro">polars_err!</span>(ComputeError: <span class="string">&quot;`gcp` configuration missing&quot;</span>))<span class="question-mark">?</span>;
-        GoogleCloudStorageBuilder::new()
-            .try_with_options(options.clone().into_iter())
-            .and_then(|b| b.with_bucket_name(bucket_name).build())
+
+        <span class="kw">let </span><span class="kw-2">mut </span>builder = GoogleCloudStorageBuilder::new();
+        <span class="kw">for </span>(key, value) <span class="kw">in </span>options.iter() {
+            builder = builder.with_config(<span class="kw-2">*</span>key, value);
+        }
+        builder
+            .with_bucket_name(bucket_name)
+            .build()
             .map_err(polars_error::to_compute_err)
     }
 
