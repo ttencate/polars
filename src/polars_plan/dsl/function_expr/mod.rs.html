@@ -619,6 +619,10 @@
 <a href="#619" id="619">619</a>
 <a href="#620" id="620">620</a>
 <a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
+<a href="#623" id="623">623</a>
+<a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
 </span><span class="kw">mod </span>abs;
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
@@ -632,6 +636,7 @@
 </span><span class="kw">mod </span>cat;
 <span class="attr">#[cfg(feature = <span class="string">&quot;round_series&quot;</span>)]
 </span><span class="kw">mod </span>clip;
+<span class="kw">mod </span>concat;
 <span class="kw">mod </span>cum;
 <span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
 </span><span class="kw">mod </span>datetime;
@@ -799,6 +804,7 @@
     LowerBound,
     <span class="attr">#[cfg(feature = <span class="string">&quot;fused&quot;</span>)]
     </span>Fused(fused::FusedOperator),
+    ConcatExpr(bool),
 }
 
 <span class="kw">impl </span>Display <span class="kw">for </span>FunctionExpr {
@@ -889,6 +895,7 @@
             </span>Fused(fused) =&gt; <span class="kw">return </span>Display::fmt(fused, f),
             <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
             </span>ArrayExpr(af) =&gt; <span class="kw">return </span>Display::fmt(af, f),
+            ConcatExpr(<span class="kw">_</span>) =&gt; <span class="string">&quot;concat_expr&quot;</span>,
         };
         <span class="macro">write!</span>(f, <span class="string">&quot;{s}&quot;</span>)
     }
@@ -1105,6 +1112,7 @@
             LowerBound =&gt; <span class="macro">map!</span>(bounds::lower_bound),
             <span class="attr">#[cfg(feature = <span class="string">&quot;fused&quot;</span>)]
             </span>Fused(op) =&gt; <span class="macro">map_as_slice!</span>(fused::fused, op),
+            ConcatExpr(rechunk) =&gt; <span class="macro">map_as_slice!</span>(concat::concat_expr, rechunk),
         }
     }
 }
