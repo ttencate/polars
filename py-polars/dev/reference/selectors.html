@@ -1568,7 +1568,8 @@ document.write(`
 <p>Selectors allow for more intuitive selection of columns from <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>
 or <code class="xref py py-class docutils literal notranslate"><span class="pre">LazyFrame</span></code> objects based on their name, dtype or other properties.
 They unify and build on the related functionality that is available through
-the <a class="reference internal" href="expressions/api/polars.col.html#polars.col" title="polars.col"><code class="xref py py-meth docutils literal notranslate"><span class="pre">col()</span></code></a> expression.</p>
+the <a class="reference internal" href="expressions/api/polars.col.html#polars.col" title="polars.col"><code class="xref py py-meth docutils literal notranslate"><span class="pre">col()</span></code></a> expression and can also broadcast expressions over the selected
+columns.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Note that selectors can be negated using the binary “not” operator <code class="docutils literal notranslate"><span class="pre">~</span></code>, eg:</p>
@@ -1584,8 +1585,9 @@ the <a class="reference internal" href="expressions/api/polars.col.html#polars.c
 </div>
 <section id="importing">
 <h2>Importing<a class="headerlink" href="#importing" title="Permalink to this heading">#</a></h2>
-<p>Selectors are available as functions imported from <code class="docutils literal notranslate"><span class="pre">polars.selectors</span></code>; the
-recommended/usual way to use them is to import the module as <code class="docutils literal notranslate"><span class="pre">s</span></code>, like so:</p>
+<ul>
+<li><p>Selectors are available as functions imported from <code class="docutils literal notranslate"><span class="pre">polars.selectors</span></code></p></li>
+<li><p>It is recommended to import the module as <code class="docutils literal notranslate"><span class="pre">s</span></code> and use from there.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">polars.selectors</span> <span class="k">as</span> <span class="nn">s</span>
 <span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
 
@@ -1600,65 +1602,70 @@ recommended/usual way to use them is to import the module as <code class="docuti
 <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">string</span><span class="p">())</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">numeric</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 </pre></div>
 </div>
+</li>
+</ul>
 </section>
-<section id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h2>
+<section id="module-polars.selectors">
+<span id="functions"></span><h2>Functions<a class="headerlink" href="#module-polars.selectors" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#polars.selectors.all" title="polars.selectors.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a>()</p></td>
 <td><p>Select all columns.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_dtype</span></code>(*dtypes)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#polars.selectors.by_dtype" title="polars.selectors.by_dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_dtype</span></code></a>(*dtypes)</p></td>
 <td><p>Select all columns matching the given dtypes.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code>(*names)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#polars.selectors.by_name" title="polars.selectors.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(*names)</p></td>
 <td><p>Select all columns matching the given names.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains</span></code>(substring)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#polars.selectors.contains" title="polars.selectors.contains"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains</span></code></a>(substring)</p></td>
 <td><p>Select columns that contain the given literal substring(s).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ends_with</span></code>(*suffix)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#polars.selectors.datetime" title="polars.selectors.datetime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">datetime</span></code></a>([time_unit])</p></td>
+<td><p>Select all datetime columns.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#polars.selectors.ends_with" title="polars.selectors.ends_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ends_with</span></code></a>(*suffix)</p></td>
 <td><p>Select columns that end with the given substring(s).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">first</span></code>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#polars.selectors.first" title="polars.selectors.first"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first</span></code></a>()</p></td>
 <td><p>Select the first column in the current scope.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#polars.selectors.float" title="polars.selectors.float"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>()</p></td>
 <td><p>Select all float columns.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer</span></code>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#polars.selectors.integer" title="polars.selectors.integer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer</span></code></a>()</p></td>
 <td><p>Select all integer columns.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">last</span></code>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#polars.selectors.last" title="polars.selectors.last"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last</span></code></a>()</p></td>
 <td><p>Select the last column in the current scope.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">matches</span></code>(pattern)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#polars.selectors.matches" title="polars.selectors.matches"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matches</span></code></a>(pattern)</p></td>
 <td><p>Select all columns that match the given regex pattern.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric</span></code>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#polars.selectors.numeric" title="polars.selectors.numeric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric</span></code></a>()</p></td>
 <td><p>Select all numeric columns.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">starts_with</span></code>(*prefix)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#polars.selectors.starts_with" title="polars.selectors.starts_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">starts_with</span></code></a>(*prefix)</p></td>
 <td><p>Select columns that start with the given substring(s).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code>([include_categorical])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#polars.selectors.string" title="polars.selectors.string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a>([include_categorical])</p></td>
 <td><p>Select all Utf8 (and, optionally, Categorical) string columns.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">temporal</span></code>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#polars.selectors.temporal" title="polars.selectors.temporal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">temporal</span></code></a>()</p></td>
 <td><p>Select all temporal columns.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L117-L165"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="polars.selectors.all">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L123-L171"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.all" title="Permalink to this definition">#</a></dt>
 <dd><p>Select all columns.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">first</span></code></dt><dd><p>Select the first column in the current scope.</p>
+<dt><a class="reference internal" href="#polars.selectors.first" title="polars.selectors.first"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first</span></code></a></dt><dd><p>Select the first column in the current scope.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">last</span></code></dt><dd><p>Select the last column in the current scope.</p>
+<dt><a class="reference internal" href="#polars.selectors.last" title="polars.selectors.last"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last</span></code></a></dt><dd><p>Select the last column in the current scope.</p>
 </dd>
 </dl>
 </div>
@@ -1703,19 +1710,19 @@ recommended/usual way to use them is to import the module as <code class="docuti
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">by_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">dtypes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PolarsDataType</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Collection</span><span class="p"><span class="pre">[</span></span><span class="pre">PolarsDataType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L168-L249"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="polars.selectors.by_dtype">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">by_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">dtypes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PolarsDataType</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Collection</span><span class="p"><span class="pre">[</span></span><span class="pre">PolarsDataType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L174-L255"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.by_dtype" title="Permalink to this definition">#</a></dt>
 <dd><p>Select all columns matching the given dtypes.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer</span></code></dt><dd><p>Select all integer columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.integer" title="polars.selectors.integer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer</span></code></a></dt><dd><p>Select all integer columns.</p>
 </dd>
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>Select all float columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.float" title="polars.selectors.float"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>Select all float columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric</span></code></dt><dd><p>Select all numeric columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.numeric" title="polars.selectors.numeric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric</span></code></a></dt><dd><p>Select all numeric columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">temporal</span></code></dt><dd><p>Select all temporal columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.temporal" title="polars.selectors.temporal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">temporal</span></code></a></dt><dd><p>Select all temporal columns.</p>
 </dd>
 </dl>
 </div>
@@ -1775,8 +1782,8 @@ recommended/usual way to use them is to import the module as <code class="docuti
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Collection" title="(in Python v3.11)"><span class="pre">Collection</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L252-L318"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="polars.selectors.by_name">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Collection" title="(in Python v3.11)"><span class="pre">Collection</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L258-L324"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.by_name" title="Permalink to this definition">#</a></dt>
 <dd><p>Select all columns matching the given names.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1789,7 +1796,7 @@ recommended/usual way to use them is to import the module as <code class="docuti
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_dtype</span></code></dt><dd><p>Select all columns matching the given dtypes.</p>
+<dt><a class="reference internal" href="#polars.selectors.by_dtype" title="polars.selectors.by_dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_dtype</span></code></a></dt><dd><p>Select all columns matching the given dtypes.</p>
 </dd>
 </dl>
 </div>
@@ -1834,8 +1841,8 @@ recommended/usual way to use them is to import the module as <code class="docuti
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">contains</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">substring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Collection" title="(in Python v3.11)"><span class="pre">Collection</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L321-L396"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="polars.selectors.contains">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">contains</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">substring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Collection" title="(in Python v3.11)"><span class="pre">Collection</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L327-L402"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.contains" title="Permalink to this definition">#</a></dt>
 <dd><p>Select columns that contain the given literal substring(s).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1848,11 +1855,11 @@ recommended/usual way to use them is to import the module as <code class="docuti
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">matches</span></code></dt><dd><p>Select all columns that match the given regex pattern.</p>
+<dt><a class="reference internal" href="#polars.selectors.matches" title="polars.selectors.matches"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matches</span></code></a></dt><dd><p>Select all columns that match the given regex pattern.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">ends_with</span></code></dt><dd><p>Select columns that end with the given substring(s).</p>
+<dt><a class="reference internal" href="#polars.selectors.ends_with" title="polars.selectors.ends_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ends_with</span></code></a></dt><dd><p>Select columns that end with the given substring(s).</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">starts_with</span></code></dt><dd><p>Select columns that start with the given substring(s).</p>
+<dt><a class="reference internal" href="#polars.selectors.starts_with" title="polars.selectors.starts_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">starts_with</span></code></a></dt><dd><p>Select columns that start with the given substring(s).</p>
 </dd>
 </dl>
 </div>
@@ -1910,8 +1917,72 @@ recommended/usual way to use them is to import the module as <code class="docuti
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">ends_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L399-L474"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="polars.selectors.datetime">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TimeUnit</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L405-L474"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.datetime" title="Permalink to this definition">#</a></dt>
+<dd><p>Select all datetime columns.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">date</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">polars.selectors</span> <span class="k">as</span> <span class="nn">s</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;tstamp&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">... </span>            <span class="n">datetime</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">600000</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">123000</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="p">],</span>
+<span class="gp">... </span>        <span class="s2">&quot;dtime&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">... </span>            <span class="n">datetime</span><span class="p">(</span><span class="mi">2010</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">987000</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">400500</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="p">],</span>
+<span class="gp">... </span>        <span class="s2">&quot;dt&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">date</span><span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">),</span> <span class="n">date</span><span class="p">(</span><span class="mi">2010</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">)],</span>
+<span class="gp">... </span>    <span class="p">},</span>
+<span class="gp">... </span>    <span class="n">schema_overrides</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;tstamp&quot;</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Datetime</span><span class="p">(</span><span class="s2">&quot;ns&quot;</span><span class="p">),</span> <span class="s2">&quot;dtime&quot;</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">Datetime</span><span class="p">(</span><span class="s2">&quot;ms&quot;</span><span class="p">)},</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Select all datetime columns:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">datetime</span><span class="p">())</span>
+<span class="go">shape: (2, 2)</span>
+<span class="go">┌─────────────────────────┬─────────────────────────┐</span>
+<span class="go">│ tstamp                  ┆ dtime                   │</span>
+<span class="go">│ ---                     ┆ ---                     │</span>
+<span class="go">│ datetime[ns]            ┆ datetime[ms]            │</span>
+<span class="go">╞═════════════════════════╪═════════════════════════╡</span>
+<span class="go">│ 2000-11-20 18:12:16.600 ┆ 2010-10-10 10:25:30.987 │</span>
+<span class="go">│ 2020-10-30 10:20:25.123 ┆ 2024-12-31 20:30:45.400 │</span>
+<span class="go">└─────────────────────────┴─────────────────────────┘</span>
+</pre></div>
+</div>
+<p>Select all datetime columns that have ‘ns’ precision:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="s2">&quot;ns&quot;</span><span class="p">))</span>
+<span class="go">shape: (2, 1)</span>
+<span class="go">┌─────────────────────────┐</span>
+<span class="go">│ tstamp                  │</span>
+<span class="go">│ ---                     │</span>
+<span class="go">│ datetime[ns]            │</span>
+<span class="go">╞═════════════════════════╡</span>
+<span class="go">│ 2000-11-20 18:12:16.600 │</span>
+<span class="go">│ 2020-10-30 10:20:25.123 │</span>
+<span class="go">└─────────────────────────┘</span>
+</pre></div>
+</div>
+<p>Select all columns <em>except</em> for datetime columns:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">~</span><span class="n">s</span><span class="o">.</span><span class="n">datetime</span><span class="p">())</span>
+<span class="go">shape: (2, 1)</span>
+<span class="go">┌────────────┐</span>
+<span class="go">│ dt         │</span>
+<span class="go">│ ---        │</span>
+<span class="go">│ date       │</span>
+<span class="go">╞════════════╡</span>
+<span class="go">│ 1999-12-31 │</span>
+<span class="go">│ 2010-07-05 │</span>
+<span class="go">└────────────┘</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="polars.selectors.ends_with">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">ends_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L477-L552"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.ends_with" title="Permalink to this definition">#</a></dt>
 <dd><p>Select columns that end with the given substring(s).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1924,11 +1995,11 @@ recommended/usual way to use them is to import the module as <code class="docuti
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains</span></code></dt><dd><p>Select columns that contain the given literal substring(s).</p>
+<dt><a class="reference internal" href="#polars.selectors.contains" title="polars.selectors.contains"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains</span></code></a></dt><dd><p>Select columns that contain the given literal substring(s).</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">matches</span></code></dt><dd><p>Select all columns that match the given regex pattern.</p>
+<dt><a class="reference internal" href="#polars.selectors.matches" title="polars.selectors.matches"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matches</span></code></a></dt><dd><p>Select all columns that match the given regex pattern.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">starts_with</span></code></dt><dd><p>Select columns that start with the given substring(s).</p>
+<dt><a class="reference internal" href="#polars.selectors.starts_with" title="polars.selectors.starts_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">starts_with</span></code></a></dt><dd><p>Select columns that start with the given substring(s).</p>
 </dd>
 </dl>
 </div>
@@ -1986,15 +2057,15 @@ recommended/usual way to use them is to import the module as <code class="docuti
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">first</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L477-L512"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="polars.selectors.first">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">first</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L555-L590"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.first" title="Permalink to this definition">#</a></dt>
 <dd><p>Select the first column in the current scope.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#all" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a></dt><dd><p>Select all columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.all" title="polars.selectors.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a></dt><dd><p>Select all columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">last</span></code></dt><dd><p>Select the last column in the current scope.</p>
+<dt><a class="reference internal" href="#polars.selectors.last" title="polars.selectors.last"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last</span></code></a></dt><dd><p>Select the last column in the current scope.</p>
 </dd>
 </dl>
 </div>
@@ -2026,19 +2097,19 @@ recommended/usual way to use them is to import the module as <code class="docuti
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">float</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L515-L568"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="polars.selectors.float">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">float</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L593-L646"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.float" title="Permalink to this definition">#</a></dt>
 <dd><p>Select all float columns.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer</span></code></dt><dd><p>Select all integer columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.integer" title="polars.selectors.integer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer</span></code></a></dt><dd><p>Select all integer columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric</span></code></dt><dd><p>Select all numeric columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.numeric" title="polars.selectors.numeric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric</span></code></a></dt><dd><p>Select all numeric columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">temporal</span></code></dt><dd><p>Select all temporal columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.temporal" title="polars.selectors.temporal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">temporal</span></code></a></dt><dd><p>Select all temporal columns.</p>
 </dd>
-<dt><a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a></dt><dd><p>Select all string columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.string" title="polars.selectors.string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a></dt><dd><p>Select all string columns.</p>
 </dd>
 </dl>
 </div>
@@ -2084,21 +2155,21 @@ recommended/usual way to use them is to import the module as <code class="docuti
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">integer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L571-L624"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="polars.selectors.integer">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">integer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L649-L702"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.integer" title="Permalink to this definition">#</a></dt>
 <dd><p>Select all integer columns.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_dtype</span></code></dt><dd><p>Select columns by dtype.</p>
+<dt><a class="reference internal" href="#polars.selectors.by_dtype" title="polars.selectors.by_dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_dtype</span></code></a></dt><dd><p>Select columns by dtype.</p>
 </dd>
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>Select all float columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.float" title="polars.selectors.float"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>Select all float columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric</span></code></dt><dd><p>Select all numeric columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.numeric" title="polars.selectors.numeric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric</span></code></a></dt><dd><p>Select all numeric columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">temporal</span></code></dt><dd><p>Select all temporal columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.temporal" title="polars.selectors.temporal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">temporal</span></code></a></dt><dd><p>Select all temporal columns.</p>
 </dd>
-<dt><a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a></dt><dd><p>Select all string columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.string" title="polars.selectors.string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a></dt><dd><p>Select all string columns.</p>
 </dd>
 </dl>
 </div>
@@ -2143,15 +2214,15 @@ recommended/usual way to use them is to import the module as <code class="docuti
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">last</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L627-L662"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="polars.selectors.last">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">last</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L705-L740"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.last" title="Permalink to this definition">#</a></dt>
 <dd><p>Select the last column in the current scope.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#all" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a></dt><dd><p>Select all columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.all" title="polars.selectors.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a></dt><dd><p>Select all columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">first</span></code></dt><dd><p>Select the first column in the current scope.</p>
+<dt><a class="reference internal" href="#polars.selectors.first" title="polars.selectors.first"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first</span></code></a></dt><dd><p>Select the first column in the current scope.</p>
 </dd>
 </dl>
 </div>
@@ -2183,8 +2254,8 @@ recommended/usual way to use them is to import the module as <code class="docuti
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L665-L737"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="polars.selectors.matches">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L743-L815"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.matches" title="Permalink to this definition">#</a></dt>
 <dd><p>Select all columns that match the given regex pattern.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2197,11 +2268,11 @@ recommended/usual way to use them is to import the module as <code class="docuti
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains</span></code></dt><dd><p>Select all columns that contain the given substring.</p>
+<dt><a class="reference internal" href="#polars.selectors.contains" title="polars.selectors.contains"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains</span></code></a></dt><dd><p>Select all columns that contain the given substring.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">ends_with</span></code></dt><dd><p>Select all columns that end with the given substring(s).</p>
+<dt><a class="reference internal" href="#polars.selectors.ends_with" title="polars.selectors.ends_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ends_with</span></code></a></dt><dd><p>Select all columns that end with the given substring(s).</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">starts_with</span></code></dt><dd><p>Select all columns that start with the given substring(s).</p>
+<dt><a class="reference internal" href="#polars.selectors.starts_with" title="polars.selectors.starts_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">starts_with</span></code></a></dt><dd><p>Select all columns that start with the given substring(s).</p>
 </dd>
 </dl>
 </div>
@@ -2246,21 +2317,21 @@ recommended/usual way to use them is to import the module as <code class="docuti
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">numeric</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L740-L794"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="polars.selectors.numeric">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">numeric</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L818-L872"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.numeric" title="Permalink to this definition">#</a></dt>
 <dd><p>Select all numeric columns.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_dtype</span></code></dt><dd><p>Select columns by dtype.</p>
+<dt><a class="reference internal" href="#polars.selectors.by_dtype" title="polars.selectors.by_dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_dtype</span></code></a></dt><dd><p>Select columns by dtype.</p>
 </dd>
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>Select all float columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.float" title="polars.selectors.float"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>Select all float columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer</span></code></dt><dd><p>Select all integer columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.integer" title="polars.selectors.integer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer</span></code></a></dt><dd><p>Select all integer columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">temporal</span></code></dt><dd><p>Select all temporal columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.temporal" title="polars.selectors.temporal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">temporal</span></code></a></dt><dd><p>Select all temporal columns.</p>
 </dd>
-<dt><a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a></dt><dd><p>Select all string columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.string" title="polars.selectors.string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a></dt><dd><p>Select all string columns.</p>
 </dd>
 </dl>
 </div>
@@ -2306,8 +2377,8 @@ recommended/usual way to use them is to import the module as <code class="docuti
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">starts_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L797-L872"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="polars.selectors.starts_with">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">starts_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L875-L950"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.starts_with" title="Permalink to this definition">#</a></dt>
 <dd><p>Select columns that start with the given substring(s).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2320,11 +2391,11 @@ recommended/usual way to use them is to import the module as <code class="docuti
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains</span></code></dt><dd><p>Select all columns that contain the given substring.</p>
+<dt><a class="reference internal" href="#polars.selectors.contains" title="polars.selectors.contains"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains</span></code></a></dt><dd><p>Select all columns that contain the given substring.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">ends_with</span></code></dt><dd><p>Select all columns that end with the given substring(s).</p>
+<dt><a class="reference internal" href="#polars.selectors.ends_with" title="polars.selectors.ends_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ends_with</span></code></a></dt><dd><p>Select all columns that end with the given substring(s).</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">matches</span></code></dt><dd><p>Select all columns that match the given regex pattern.</p>
+<dt><a class="reference internal" href="#polars.selectors.matches" title="polars.selectors.matches"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matches</span></code></a></dt><dd><p>Select all columns that match the given regex pattern.</p>
 </dd>
 </dl>
 </div>
@@ -2382,27 +2453,26 @@ recommended/usual way to use them is to import the module as <code class="docuti
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_categorical</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L875-L936"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="polars.selectors.string">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_categorical</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L953-L1013"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.string" title="Permalink to this definition">#</a></dt>
 <dd><p>Select all Utf8 (and, optionally, Categorical) string columns.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_dtype</span></code></dt><dd><p>Select all columns of a given dtype.</p>
+<dt><a class="reference internal" href="#polars.selectors.by_dtype" title="polars.selectors.by_dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_dtype</span></code></a></dt><dd><p>Select all columns of a given dtype.</p>
 </dd>
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>Select all float columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.float" title="polars.selectors.float"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>Select all float columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer</span></code></dt><dd><p>Select all integer columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.integer" title="polars.selectors.integer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer</span></code></a></dt><dd><p>Select all integer columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric</span></code></dt><dd><p>Select all numeric columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.numeric" title="polars.selectors.numeric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric</span></code></a></dt><dd><p>Select all numeric columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">temporal</span></code></dt><dd><p>Select all temporal columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.temporal" title="polars.selectors.temporal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">temporal</span></code></a></dt><dd><p>Select all temporal columns.</p>
 </dd>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">polars.selectors</span> <span class="k">as</span> <span class="nn">s</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">polars.selectors</span> <span class="k">as</span> <span class="nn">s</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="p">{</span>
 <span class="gp">... </span>        <span class="s2">&quot;w&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;xx&quot;</span><span class="p">,</span> <span class="s2">&quot;yy&quot;</span><span class="p">,</span> <span class="s2">&quot;xx&quot;</span><span class="p">,</span> <span class="s2">&quot;yy&quot;</span><span class="p">,</span> <span class="s2">&quot;xx&quot;</span><span class="p">],</span>
@@ -2445,21 +2515,21 @@ recommended/usual way to use them is to import the module as <code class="docuti
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">temporal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L939-L1005"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="polars.selectors.temporal">
+<span class="sig-prename descclassname"><span class="pre">polars.selectors.</span></span><span class="sig-name descname"><span class="pre">temporal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Expr</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/selectors.py#L1016-L1082"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.selectors.temporal" title="Permalink to this definition">#</a></dt>
 <dd><p>Select all temporal columns.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_dtype</span></code></dt><dd><p>Select all columns of a given dtype.</p>
+<dt><a class="reference internal" href="#polars.selectors.by_dtype" title="polars.selectors.by_dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_dtype</span></code></a></dt><dd><p>Select all columns of a given dtype.</p>
 </dd>
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>Select all float columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.float" title="polars.selectors.float"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></dt><dd><p>Select all float columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer</span></code></dt><dd><p>Select all integer columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.integer" title="polars.selectors.integer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer</span></code></a></dt><dd><p>Select all integer columns.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric</span></code></dt><dd><p>Select all numeric columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.numeric" title="polars.selectors.numeric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric</span></code></a></dt><dd><p>Select all numeric columns.</p>
 </dd>
-<dt><a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a></dt><dd><p>Select all string columns.</p>
+<dt><a class="reference internal" href="#polars.selectors.string" title="polars.selectors.string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a></dt><dd><p>Select all string columns.</p>
 </dd>
 </dl>
 </div>
@@ -2567,7 +2637,24 @@ recommended/usual way to use them is to import the module as <code class="docuti
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing">Importing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-polars.selectors">Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.all"><code class="docutils literal notranslate"><span class="pre">all()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.by_dtype"><code class="docutils literal notranslate"><span class="pre">by_dtype()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.by_name"><code class="docutils literal notranslate"><span class="pre">by_name()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.contains"><code class="docutils literal notranslate"><span class="pre">contains()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.datetime"><code class="docutils literal notranslate"><span class="pre">datetime()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.ends_with"><code class="docutils literal notranslate"><span class="pre">ends_with()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.first"><code class="docutils literal notranslate"><span class="pre">first()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.float"><code class="docutils literal notranslate"><span class="pre">float()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.integer"><code class="docutils literal notranslate"><span class="pre">integer()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.last"><code class="docutils literal notranslate"><span class="pre">last()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.matches"><code class="docutils literal notranslate"><span class="pre">matches()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.numeric"><code class="docutils literal notranslate"><span class="pre">numeric()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.starts_with"><code class="docutils literal notranslate"><span class="pre">starts_with()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.string"><code class="docutils literal notranslate"><span class="pre">string()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.temporal"><code class="docutils literal notranslate"><span class="pre">temporal()</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
