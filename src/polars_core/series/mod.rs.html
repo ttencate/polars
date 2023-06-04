@@ -1142,6 +1142,10 @@
 <a href="#1142" id="1142">1142</a>
 <a href="#1143" id="1143">1143</a>
 <a href="#1144" id="1144">1144</a>
+<a href="#1145" id="1145">1145</a>
+<a href="#1146" id="1146">1146</a>
+<a href="#1147" id="1147">1147</a>
+<a href="#1148" id="1148">1148</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Type agnostic columnar data structure.
 </span><span class="kw">pub use </span><span class="kw">crate</span>::prelude::ChunkCompare;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -1503,6 +1507,7 @@
         <span class="kw">match </span><span class="self">self</span>.dtype() {
             DataType::Float32 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f32().unwrap().is_nan()),
             DataType::Float64 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f64().unwrap().is_nan()),
+            dt <span class="kw">if </span>dt.is_numeric() =&gt; <span class="prelude-val">Ok</span>(BooleanChunked::full(<span class="self">self</span>.name(), <span class="bool-val">false</span>, <span class="self">self</span>.len())),
             <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(opq = is_nan, <span class="self">self</span>.dtype()),
         }
     }
@@ -1512,15 +1517,17 @@
         <span class="kw">match </span><span class="self">self</span>.dtype() {
             DataType::Float32 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f32().unwrap().is_not_nan()),
             DataType::Float64 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f64().unwrap().is_not_nan()),
+            dt <span class="kw">if </span>dt.is_numeric() =&gt; <span class="prelude-val">Ok</span>(BooleanChunked::full(<span class="self">self</span>.name(), <span class="bool-val">true</span>, <span class="self">self</span>.len())),
             <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(opq = is_not_nan, <span class="self">self</span>.dtype()),
         }
     }
 
-    <span class="doccomment">/// Check if float value is finite
+    <span class="doccomment">/// Check if numeric value is finite
     </span><span class="kw">pub fn </span>is_finite(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;BooleanChunked&gt; {
         <span class="kw">match </span><span class="self">self</span>.dtype() {
             DataType::Float32 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f32().unwrap().is_finite()),
             DataType::Float64 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f64().unwrap().is_finite()),
+            dt <span class="kw">if </span>dt.is_numeric() =&gt; <span class="prelude-val">Ok</span>(BooleanChunked::full(<span class="self">self</span>.name(), <span class="bool-val">true</span>, <span class="self">self</span>.len())),
             <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(opq = is_finite, <span class="self">self</span>.dtype()),
         }
     }
@@ -1530,6 +1537,7 @@
         <span class="kw">match </span><span class="self">self</span>.dtype() {
             DataType::Float32 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f32().unwrap().is_infinite()),
             DataType::Float64 =&gt; <span class="prelude-val">Ok</span>(<span class="self">self</span>.f64().unwrap().is_infinite()),
+            dt <span class="kw">if </span>dt.is_numeric() =&gt; <span class="prelude-val">Ok</span>(BooleanChunked::full(<span class="self">self</span>.name(), <span class="bool-val">false</span>, <span class="self">self</span>.len())),
             <span class="kw">_ </span>=&gt; <span class="macro">polars_bail!</span>(opq = is_infinite, <span class="self">self</span>.dtype()),
         }
     }
