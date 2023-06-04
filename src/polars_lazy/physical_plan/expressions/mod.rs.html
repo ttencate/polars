@@ -649,6 +649,18 @@
 <a href="#649" id="649">649</a>
 <a href="#650" id="650">650</a>
 <a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
+<a href="#653" id="653">653</a>
+<a href="#654" id="654">654</a>
+<a href="#655" id="655">655</a>
+<a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
+<a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
+<a href="#663" id="663">663</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>aggregation;
 <span class="kw">mod </span>alias;
 <span class="kw">mod </span>apply;
@@ -977,6 +989,18 @@
         aggregated: bool,
         expr: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Expr&gt;,
     ) -&gt; PolarsResult&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt; {
+        <span class="self">self</span>.with_series_and_args(series, aggregated, expr, <span class="bool-val">false</span>)
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>with_series_and_args(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        series: Series,
+        aggregated: bool,
+        expr: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Expr&gt;,
+        <span class="comment">// if the applied function was a `map` instead of an `apply`
+        // this will keep functions applied over literals as literals: F(lit) = lit
+        </span>mapped: bool,
+    ) -&gt; PolarsResult&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt; {
         <span class="self">self</span>.state = <span class="kw">match </span>(aggregated, series.dtype()) {
             (<span class="bool-val">true</span>, <span class="kw-2">&amp;</span>DataType::List(<span class="kw">_</span>)) =&gt; {
                 <span class="kw">if </span>series.len() != <span class="self">self</span>.groups.len() {
@@ -1001,7 +1025,7 @@
                     // retrieve the length before grouping, so it stays  in this state.
                     </span>AggState::AggregatedFlat(<span class="kw">_</span>) =&gt; AggState::AggregatedFlat(series),
                     <span class="comment">// applying a function on a literal, keeps the literal state
-                    </span>AggState::Literal(<span class="kw">_</span>) <span class="kw">if </span>series.len() == <span class="number">1 </span>&amp;&amp; <span class="self">self</span>.groups.len() &gt; <span class="number">1 </span>=&gt; {
+                    </span>AggState::Literal(<span class="kw">_</span>) <span class="kw">if </span>series.len() == <span class="number">1 </span>&amp;&amp; mapped =&gt; {
                         AggState::Literal(series)
                     }
                     <span class="kw">_ </span>=&gt; AggState::NotAggregated(series),

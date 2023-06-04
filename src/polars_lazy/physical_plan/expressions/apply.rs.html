@@ -710,7 +710,7 @@
             }
         };
 
-        ac.with_series(s, aggregated, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.expr))<span class="question-mark">?</span>;
+        ac.with_series_and_args(s, aggregated, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.expr), <span class="bool-val">true</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(ac)
     }
     <span class="kw">fn </span>apply_multiple_group_aware&lt;<span class="lifetime">&#39;a</span>&gt;(
@@ -939,7 +939,7 @@
 
             <span class="comment">// take the first aggregation context that as that is the input series
             </span><span class="kw">let </span><span class="kw-2">mut </span>ac = acs.swap_remove(<span class="number">0</span>);
-            ac.with_series(s, <span class="bool-val">false</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+            ac.with_series_and_args(s, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(ac)
         }
     }
