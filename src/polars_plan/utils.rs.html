@@ -587,7 +587,7 @@
     <span class="kw">match </span>roots.pop() {
         <span class="prelude-val">Some</span>(Expr::Column(name)) =&gt; <span class="prelude-val">Ok</span>(name),
         <span class="prelude-val">Some</span>(Expr::Wildcard) =&gt; <span class="macro">polars_bail!</span>(
-            ComputeError: <span class="string">&quot;wildcard has not root column name&quot;</span>,
+            ComputeError: <span class="string">&quot;wildcard has no root column name&quot;</span>,
         ),
         <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(),
         <span class="prelude-val">None </span>=&gt; <span class="macro">polars_bail!</span>(
