@@ -1593,15 +1593,15 @@ column names.</p>
 </dd>
 <dt><strong>mapping_strategy: {‘group_to_rows’, ‘join’, ‘explode’}</strong></dt><dd><ul class="simple">
 <li><dl class="simple">
-<dt>group_to_rows</dt><dd><p>If the aggregation results in multiple values, assign them back to there
+<dt>group_to_rows</dt><dd><p>If the aggregation results in multiple values, assign them back to their
 position in the DataFrame. This can only be done if the group yields
-the same elements before aggregation as after</p>
+the same elements before aggregation as after.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
 <dt>join</dt><dd><p>Join the groups as ‘List&lt;group_dtype&gt;’ to the row positions.
-warning: this can be memory intensive</p>
+warning: this can be memory intensive.</p>
 </dd>
 </dl>
 </li>
