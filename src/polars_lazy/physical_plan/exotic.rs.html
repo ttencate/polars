@@ -41,12 +41,14 @@
 <a href="#41" id="41">41</a>
 <a href="#42" id="42">42</a>
 <a href="#43" id="43">43</a>
+<a href="#44" id="44">44</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::physical_plan::planner::create_physical_expr;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>prepare_eval_expr(<span class="kw-2">mut </span>expr: Expr) -&gt; Expr {
+<span class="attr">#[cfg(feature = <span class="string">&quot;pivot&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>prepare_eval_expr(<span class="kw-2">mut </span>expr: Expr) -&gt; Expr {
     expr.mutate().apply(|e| <span class="kw">match </span>e {
         Expr::Column(name) =&gt; {
             <span class="kw-2">*</span>name = Arc::from(<span class="string">&quot;&quot;</span>);

@@ -88,11 +88,11 @@ as opposed to 32 bytes for brevity:</p>
 <p>This approach is loosely inspired by <a href="https://en.wikipedia.org/wiki/Consistent_Overhead_Byte_Stuffing">COBS</a> encoding, and chosen over more traditional
 <a href="https://en.wikipedia.org/wiki/High-Level_Data_Link_Control#Asynchronous_framing">byte stuffing</a> as it is more amenable to vectorisation, in particular AVX-256.</p>
 <h3 id="dictionary-encoding"><a href="#dictionary-encoding">Dictionary Encoding</a></h3>
-<p>[<code>RowConverter</code>] needs to support converting dictionary encoded arrays with unsorted, and
+<p><a href="struct.RowsEncoded.html" title="struct polars_row::RowsEncoded"><code>RowsEncoded</code></a> needs to support converting dictionary encoded arrays with unsorted, and
 potentially distinct dictionaries. One simple mechanism to avoid this would be to reverse
 the dictionary encoding, and encode the array values directly, however, this would lose
 the benefits of dictionary encoding to reduce memory and CPU consumption.</p>
-<p>As such the [<code>RowConverter</code>] creates an order-preserving mapping
+<p>As such the <a href="struct.RowsEncoded.html" title="struct polars_row::RowsEncoded"><code>RowsEncoded</code></a> creates an order-preserving mapping
 for each dictionary encoded column, which allows new dictionary
 values to be added whilst preserving the sort order.</p>
 <p>A null dictionary value is encoded as <code>0_u8</code>.</p>

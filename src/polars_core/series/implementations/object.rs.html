@@ -267,6 +267,7 @@
 <a href="#267" id="267">267</a>
 <a href="#268" id="268">268</a>
 <a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::any::Any;
 <span class="kw">use </span>std::borrow::Cow;
 
@@ -278,7 +279,8 @@
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::series::implementations::SeriesWrap;
 <span class="kw">use </span><span class="kw">crate</span>::series::private::{PrivateSeries, PrivateSeriesNumeric};
-<span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
+<span class="attr">#[cfg(feature = <span class="string">&quot;chunked_ids&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::series::IsSorted;
 
 <span class="kw">impl</span>&lt;T: PolarsObject&gt; PrivateSeriesNumeric <span class="kw">for </span>SeriesWrap&lt;ObjectChunked&lt;T&gt;&gt; {}
 

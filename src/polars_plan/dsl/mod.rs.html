@@ -3670,7 +3670,7 @@
         list::ListNameSpace(<span class="self">self</span>)
     }
 
-    <span class="doccomment">/// Get the [`ArrayNameSpace`]
+    <span class="doccomment">/// Get the [`array::ArrayNameSpace`]
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
     </span><span class="kw">pub fn </span>arr(<span class="self">self</span>) -&gt; array::ArrayNameSpace {
         array::ArrayNameSpace(<span class="self">self</span>)
@@ -3682,13 +3682,13 @@
         cat::CategoricalNameSpace(<span class="self">self</span>)
     }
 
-    <span class="doccomment">/// Get the [`StructNameSpace`]
+    <span class="doccomment">/// Get the [`struct_::StructNameSpace`]
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
     </span><span class="kw">pub fn </span>struct_(<span class="self">self</span>) -&gt; struct_::StructNameSpace {
         struct_::StructNameSpace(<span class="self">self</span>)
     }
 
-    <span class="doccomment">/// Get the [`MetaNameSpace`]
+    <span class="doccomment">/// Get the [`meta::MetaNameSpace`]
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;meta&quot;</span>)]
     </span><span class="kw">pub fn </span>meta(<span class="self">self</span>) -&gt; meta::MetaNameSpace {
         meta::MetaNameSpace(<span class="self">self</span>)

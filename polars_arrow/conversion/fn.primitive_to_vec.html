@@ -2,7 +2,7 @@
 <p>This operation returns <a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.Some" title="variant core::option::Option::Some"><code>Some</code></a> iff this <a href="../../arrow2/array/primitive/struct.PrimitiveArray.html" title="struct arrow2::array::primitive::PrimitiveArray"><code>PrimitiveArray</code></a>:</p>
 <ul>
 <li>has not been sliced with an offset</li>
-<li>has not been cloned (i.e. [<code>Arc</code>]<code>::get_mut</code> yields <a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.Some" title="variant core::option::Option::Some"><code>Some</code></a>)</li>
+<li>has not been cloned (i.e. <a href="https://doc.rust-lang.org/nightly/alloc/sync/struct.Arc.html#method.get_mut" title="associated function alloc::sync::Arc::get_mut"><code>std::sync::Arc::get_mut</code></a> yields <a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#variant.Some" title="variant core::option::Option::Some"><code>Some</code></a>)</li>
 <li>has not been imported from the c data interface (FFI)</li>
 </ul>
 </div></details></section></div></main></body></html>
