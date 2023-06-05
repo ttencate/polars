@@ -910,6 +910,7 @@
 <a href="#910" id="910">910</a>
 <a href="#911" id="911">911</a>
 <a href="#912" id="912">912</a>
+<a href="#913" id="913">913</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -1069,6 +1070,7 @@
         Expr::RenameAlias { .. } =&gt; <span class="macro">panic!</span>(<span class="string">&quot;no `rename_alias` expected at this point&quot;</span>),
         Expr::Columns { .. } =&gt; <span class="macro">panic!</span>(<span class="string">&quot;no `columns` expected at this point&quot;</span>),
         Expr::DtypeColumn { .. } =&gt; <span class="macro">panic!</span>(<span class="string">&quot;no `dtype-columns` expected at this point&quot;</span>),
+        Expr::Selector(<span class="kw">_</span>) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;no `selector` expected at this point&quot;</span>),
     };
     arena.add(v)
 }

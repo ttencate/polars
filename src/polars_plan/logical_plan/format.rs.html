@@ -449,6 +449,7 @@
 <a href="#449" id="449">449</a>
 <a href="#450" id="450">450</a>
 <a href="#451" id="451">451</a>
+<a href="#452" id="452">452</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::fmt::{Debug, Display, Formatter, Write};
@@ -868,6 +869,7 @@
             Columns(names) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;COLUMNS({names:?})&quot;</span>),
             DtypeColumn(dt) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;COLUMN OF DTYPE: {dt:?}&quot;</span>),
             Cache { input, .. } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;CACHE {input:?}&quot;</span>),
+            Selector(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;SET({:?}) - SET({:?})&quot;</span>, s.add, s.subtract),
         }
     }
 }

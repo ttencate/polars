@@ -320,7 +320,27 @@
 <a href="#320" id="320">320</a>
 <a href="#321" id="321">321</a>
 <a href="#322" id="322">322</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>polars_arrow::error::PolarsResult;
+
+<span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 <span class="macro">macro_rules! </span>push_expr {
     (<span class="macro-nonterminal">$current_expr</span>:expr, <span class="macro-nonterminal">$push</span>:ident, <span class="macro-nonterminal">$iter</span>:ident) =&gt; {{
         <span class="kw">use </span>Expr::<span class="kw-2">*</span>;
@@ -413,6 +433,14 @@
             KeepName(e) =&gt; <span class="macro-nonterminal">$push</span>(e),
             Cache { input, .. } =&gt; <span class="macro-nonterminal">$push</span>(input),
             RenameAlias { expr, .. } =&gt; <span class="macro-nonterminal">$push</span>(expr),
+            Selector(s) =&gt; {
+                <span class="kw">for </span>e <span class="kw">in </span>s.add.<span class="macro-nonterminal">$iter</span>() {
+                    <span class="macro-nonterminal">$push</span>(e);
+                }
+                <span class="kw">for </span>e <span class="kw">in </span>s.subtract.<span class="macro-nonterminal">$iter</span>() {
+                    <span class="macro-nonterminal">$push</span>(e)
+                }
+            }
         }
     }};
 }
@@ -439,16 +467,24 @@
     <span class="kw">where
         </span>F: FnMut(<span class="kw-2">&amp;mut </span>Expr) -&gt; bool,
     {
+        <span class="kw">let _ </span>= <span class="self">self</span>.try_apply(|e| <span class="prelude-val">Ok</span>(f(e)));
+    }
+
+    <span class="kw">pub fn </span>try_apply&lt;F&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw-2">mut </span>f: F) -&gt; PolarsResult&lt;()&gt;
+    <span class="kw">where
+        </span>F: FnMut(<span class="kw-2">&amp;mut </span>Expr) -&gt; PolarsResult&lt;bool&gt;,
+    {
         <span class="kw">while let </span><span class="prelude-val">Some</span>(current_expr) = <span class="self">self</span>.stack.pop() {
             <span class="comment">// the order is important, we first modify the Expr
             // before we push its children on the stack.
             // The modification can make the children invalid.
-            </span><span class="kw">if </span>!f(current_expr) {
+            </span><span class="kw">if </span>!f(current_expr)<span class="question-mark">? </span>{
                 <span class="kw">break</span>;
             }
             <span class="kw">let </span><span class="kw-2">mut </span>push = |e: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Expr| <span class="self">self</span>.stack.push(e);
             <span class="macro">push_expr!</span>(current_expr, push, iter_mut);
         }
+        <span class="prelude-val">Ok</span>(())
     }
 }
 

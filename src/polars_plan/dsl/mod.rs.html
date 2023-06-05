@@ -1912,6 +1912,8 @@
 <a href="#1912" id="1912">1912</a>
 <a href="#1913" id="1913">1913</a>
 <a href="#1914" id="1914">1914</a>
+<a href="#1915" id="1915">1915</a>
+<a href="#1916" id="1916">1916</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -1926,6 +1928,7 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;temporal&quot;</span>)]
 </span><span class="kw">pub mod </span>dt;
 <span class="kw">mod </span>expr;
+<span class="kw">mod </span>expr_dyn_fn;
 <span class="kw">mod </span>from;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>function_expr;
 <span class="attr">#[cfg(feature = <span class="string">&quot;compile&quot;</span>)]
@@ -1935,6 +1938,7 @@
 </span><span class="kw">mod </span>meta;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>names;
 <span class="kw">mod </span>options;
+<span class="kw">mod </span>selector;
 <span class="attr">#[cfg(feature = <span class="string">&quot;strings&quot;</span>)]
 </span><span class="kw">pub mod </span>string;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
