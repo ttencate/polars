@@ -288,6 +288,27 @@
 <a href="#288" id="288">288</a>
 <a href="#289" id="289">289</a>
 <a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>floats;
 <span class="kw">mod </span>ints;
 <span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
@@ -328,6 +349,8 @@
     </span><span class="kw">pub </span>by: <span class="prelude-ty">Option</span>&lt;String&gt;,
     <span class="doccomment">/// The closed window of that time window if given
     </span><span class="kw">pub </span>closed_window: <span class="prelude-ty">Option</span>&lt;ClosedWindow&gt;,
+    <span class="doccomment">/// Optional parameters for the rolling function
+    </span><span class="kw">pub </span>fn_params: DynArgs,
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
@@ -340,6 +363,7 @@
             center: <span class="bool-val">false</span>,
             by: <span class="prelude-val">None</span>,
             closed_window: <span class="prelude-val">None</span>,
+            fn_params: <span class="prelude-val">None</span>,
         }
     }
 }
@@ -360,6 +384,7 @@
     <span class="kw">pub </span>tu: <span class="prelude-ty">Option</span>&lt;TimeUnit&gt;,
     <span class="kw">pub </span>tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>TimeZone&gt;,
     <span class="kw">pub </span>closed_window: <span class="prelude-ty">Option</span>&lt;ClosedWindow&gt;,
+    <span class="kw">pub </span>fn_params: DynArgs,
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
@@ -380,6 +405,7 @@
             tu: <span class="prelude-val">None</span>,
             tz: <span class="prelude-val">None</span>,
             closed_window: <span class="prelude-val">None</span>,
+            fn_params: options.fn_params,
         }
     }
 }
@@ -398,6 +424,7 @@
             min_periods: options.min_periods,
             weights: options.weights,
             center: options.center,
+            fn_params: options.fn_params,
         }
     }
 }
@@ -414,6 +441,7 @@
             tu: <span class="prelude-val">None</span>,
             tz: <span class="prelude-val">None</span>,
             closed_window: <span class="prelude-val">None</span>,
+            fn_params: <span class="prelude-val">None</span>,
         }
     }
 }
@@ -432,6 +460,7 @@
             min_periods: options.min_periods,
             weights: options.weights,
             center: options.center,
+            fn_params: options.fn_params,
         }
     }
 }
@@ -509,13 +538,14 @@
 </span><span class="kw">fn </span>rolling_agg&lt;T&gt;(
     ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;,
     options: RollingOptionsImpl,
-    rolling_agg_fn: <span class="kw-2">&amp;</span><span class="kw">dyn </span>Fn(<span class="kw-2">&amp;</span>[T::Native], usize, usize, bool, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;) -&gt; ArrayRef,
+    rolling_agg_fn: <span class="kw-2">&amp;</span><span class="kw">dyn </span>Fn(<span class="kw-2">&amp;</span>[T::Native], usize, usize, bool, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;, DynArgs) -&gt; ArrayRef,
     rolling_agg_fn_nulls: <span class="kw-2">&amp;</span><span class="kw">dyn </span>Fn(
         <span class="kw-2">&amp;</span>PrimitiveArray&lt;T::Native&gt;,
         usize,
         usize,
         bool,
         <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;,
+        DynArgs,
     ) -&gt; ArrayRef,
     rolling_agg_fn_dynamic: <span class="prelude-ty">Option</span>&lt;
         <span class="kw-2">&amp;</span><span class="kw">dyn </span>Fn(
@@ -526,6 +556,7 @@
             ClosedWindow,
             TimeUnit,
             <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
+            DynArgs,
         ) -&gt; PolarsResult&lt;ArrayRef&gt;,
     &gt;,
 ) -&gt; PolarsResult&lt;Series&gt;
@@ -550,6 +581,7 @@
                 options.min_periods,
                 options.center,
                 options.weights.as_deref(),
+                options.fn_params,
             ),
             <span class="kw">_ </span>=&gt; rolling_agg_fn_nulls(
                 arr,
@@ -557,6 +589,7 @@
                 options.min_periods,
                 options.center,
                 options.weights.as_deref(),
+                options.fn_params,
             ),
         })
     } <span class="kw">else </span>{
@@ -574,7 +607,16 @@
             <span class="string">&quot;&#39;rolling by&#39; not yet supported for this expression, consider using &#39;groupby_rolling&#39;&quot;</span>,
         );
 
-        func(values, duration, offset, by, closed_window, tu, options.tz)
+        func(
+            values,
+            duration,
+            offset,
+            by,
+            closed_window,
+            tu,
+            options.tz,
+            options.fn_params,
+        )
     }<span class="question-mark">?</span>;
     Series::try_from((ca.name(), arr))
 }

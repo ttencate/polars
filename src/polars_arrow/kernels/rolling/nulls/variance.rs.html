@@ -277,6 +277,33 @@
 <a href="#277" id="277">277</a>
 <a href="#278" id="278">278</a>
 <a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>mean::MeanWindow;
 <span class="kw">use </span>nulls;
 <span class="kw">use </span>nulls::{rolling_apply_agg_window, RollingAggWindowNulls};
@@ -321,7 +348,13 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: NativeType + IsFloat + Add&lt;Output = T&gt; + Sub&lt;Output = T&gt; + Mul&lt;Output = T&gt;&gt;
     RollingAggWindowNulls&lt;<span class="lifetime">&#39;a</span>, T&gt; <span class="kw">for </span>SumSquaredWindow&lt;<span class="lifetime">&#39;a</span>, T&gt;
 {
-    <span class="kw">unsafe fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], validity: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Bitmap, start: usize, end: usize) -&gt; <span class="self">Self </span>{
+    <span class="kw">unsafe fn </span>new(
+        slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T],
+        validity: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Bitmap,
+        start: usize,
+        end: usize,
+        _params: DynArgs,
+    ) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="self">Self </span>{
             slice,
             validity,
@@ -406,44 +439,62 @@
 </span><span class="kw">pub struct </span>VarWindow&lt;<span class="lifetime">&#39;a</span>, T&gt; {
     mean: MeanWindow&lt;<span class="lifetime">&#39;a</span>, T&gt;,
     sum_of_squares: SumSquaredWindow&lt;<span class="lifetime">&#39;a</span>, T&gt;,
+    ddof: u8,
 }
 
 <span class="kw">impl</span>&lt;
         <span class="lifetime">&#39;a</span>,
         T: NativeType
             + IsFloat
+            + Float
             + std::iter::Sum
             + AddAssign
             + SubAssign
             + Div&lt;Output = T&gt;
             + NumCast
             + One
+            + Zero
+            + PartialOrd
             + Add&lt;Output = T&gt;
             + Sub&lt;Output = T&gt;,
     &gt; RollingAggWindowNulls&lt;<span class="lifetime">&#39;a</span>, T&gt; <span class="kw">for </span>VarWindow&lt;<span class="lifetime">&#39;a</span>, T&gt;
 {
-    <span class="kw">unsafe fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], validity: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Bitmap, start: usize, end: usize) -&gt; <span class="self">Self </span>{
+    <span class="kw">unsafe fn </span>new(
+        slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T],
+        validity: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Bitmap,
+        start: usize,
+        end: usize,
+        params: DynArgs,
+    ) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            mean: MeanWindow::new(slice, validity, start, end),
-            sum_of_squares: SumSquaredWindow::new(slice, validity, start, end),
+            mean: MeanWindow::new(slice, validity, start, end, <span class="prelude-val">None</span>),
+            sum_of_squares: SumSquaredWindow::new(slice, validity, start, end, <span class="prelude-val">None</span>),
+            ddof: <span class="kw">match </span>params {
+                <span class="prelude-val">None </span>=&gt; <span class="number">1</span>,
+                <span class="prelude-val">Some</span>(pars) =&gt; pars.downcast_ref::&lt;RollingVarParams&gt;().unwrap().ddof,
+            },
         }
     }
 
     <span class="kw">unsafe fn </span>update(<span class="kw-2">&amp;mut </span><span class="self">self</span>, start: usize, end: usize) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt; {
         <span class="kw">let </span>sum_of_squares = <span class="self">self</span>.sum_of_squares.update(start, end)<span class="question-mark">?</span>;
         <span class="kw">let </span>null_count = <span class="self">self</span>.sum_of_squares.null_count;
-        <span class="kw">let </span>count = NumCast::from(end - start - null_count).unwrap();
+        <span class="kw">let </span>count: T = NumCast::from(end - start - null_count).unwrap();
 
-        <span class="kw">let </span>mean_of_squares = sum_of_squares / count;
         <span class="kw">let </span>mean = <span class="self">self</span>.mean.update(start, end)<span class="question-mark">?</span>;
+        <span class="kw">let </span>ddof = NumCast::from(<span class="self">self</span>.ddof).unwrap();
 
-        <span class="kw">if </span>count == T::one() {
+        <span class="kw">let </span>denom = count - ddof;
+
+        <span class="kw">if </span>count == T::zero() {
+            <span class="prelude-val">None
+        </span>} <span class="kw">else if </span>count == T::one() {
             NumCast::from(<span class="number">0</span>)
+        } <span class="kw">else if </span>denom &lt;= T::zero() {
+            <span class="prelude-val">Some</span>(T::infinity())
         } <span class="kw">else </span>{
-            <span class="kw">let </span>var = mean_of_squares - mean * mean;
-
-            <span class="comment">// apply Bessel&#39;s correction
-            </span><span class="prelude-val">Some</span>(var / (count - T::one()) * count)
+            <span class="kw">let </span>var = (sum_of_squares - count * mean * mean) / denom;
+            <span class="prelude-val">Some</span>(<span class="kw">if </span>var &lt; T::zero() { T::zero() } <span class="kw">else </span>{ var })
         }
     }
     <span class="kw">fn </span>is_valid(<span class="kw-2">&amp;</span><span class="self">self</span>, min_periods: usize) -&gt; bool {
@@ -457,6 +508,7 @@
     min_periods: usize,
     center: bool,
     weights: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;,
+    params: DynArgs,
 ) -&gt; ArrayRef
 <span class="kw">where
     </span>T: NativeType + std::iter::Sum&lt;T&gt; + Zero + AddAssign + SubAssign + IsFloat + Float,
@@ -464,23 +516,19 @@
     <span class="kw">if </span>weights.is_some() {
         <span class="macro">panic!</span>(<span class="string">&quot;weights not yet supported on array with null values&quot;</span>)
     }
-    <span class="kw">if </span>center {
-        rolling_apply_agg_window::&lt;VarWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
-            arr.values().as_slice(),
-            arr.validity().as_ref().unwrap(),
-            window_size,
-            min_periods,
-            det_offsets_center,
-        )
+    <span class="kw">let </span>offsets_fn = <span class="kw">if </span>center {
+        det_offsets_center
     } <span class="kw">else </span>{
-        rolling_apply_agg_window::&lt;VarWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
-            arr.values().as_slice(),
-            arr.validity().as_ref().unwrap(),
-            window_size,
-            min_periods,
-            det_offsets,
-        )
-    }
+        det_offsets
+    };
+    rolling_apply_agg_window::&lt;VarWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
+        arr.values().as_slice(),
+        arr.validity().as_ref().unwrap(),
+        window_size,
+        min_periods,
+        offsets_fn,
+        params,
+    )
 }
 
 <span class="kw">pub struct </span>StdWindow&lt;<span class="lifetime">&#39;a</span>, T&gt; {
@@ -491,20 +539,29 @@
         <span class="lifetime">&#39;a</span>,
         T: NativeType
             + IsFloat
+            + Float
             + std::iter::Sum
             + AddAssign
             + SubAssign
             + Div&lt;Output = T&gt;
             + NumCast
             + One
+            + Zero
+            + PartialOrd
             + Add&lt;Output = T&gt;
             + Sub&lt;Output = T&gt;
             + Pow&lt;T, Output = T&gt;,
     &gt; RollingAggWindowNulls&lt;<span class="lifetime">&#39;a</span>, T&gt; <span class="kw">for </span>StdWindow&lt;<span class="lifetime">&#39;a</span>, T&gt;
 {
-    <span class="kw">unsafe fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], validity: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Bitmap, start: usize, end: usize) -&gt; <span class="self">Self </span>{
+    <span class="kw">unsafe fn </span>new(
+        slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T],
+        validity: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Bitmap,
+        start: usize,
+        end: usize,
+        params: DynArgs,
+    ) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            var: VarWindow::new(slice, validity, start, end),
+            var: VarWindow::new(slice, validity, start, end, params),
         }
     }
 
@@ -524,6 +581,7 @@
     min_periods: usize,
     center: bool,
     weights: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;,
+    params: DynArgs,
 ) -&gt; ArrayRef
 <span class="kw">where
     </span>T: NativeType
@@ -538,22 +596,18 @@
     <span class="kw">if </span>weights.is_some() {
         <span class="macro">panic!</span>(<span class="string">&quot;weights not yet supported on array with null values&quot;</span>)
     }
-    <span class="kw">if </span>center {
-        rolling_apply_agg_window::&lt;StdWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
-            arr.values().as_slice(),
-            arr.validity().as_ref().unwrap(),
-            window_size,
-            min_periods,
-            det_offsets_center,
-        )
+    <span class="kw">let </span>offsets_fn = <span class="kw">if </span>center {
+        det_offsets_center
     } <span class="kw">else </span>{
-        rolling_apply_agg_window::&lt;StdWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
-            arr.values().as_slice(),
-            arr.validity().as_ref().unwrap(),
-            window_size,
-            min_periods,
-            det_offsets,
-        )
-    }
+        det_offsets
+    };
+    rolling_apply_agg_window::&lt;StdWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
+        arr.values().as_slice(),
+        arr.validity().as_ref().unwrap(),
+        window_size,
+        min_periods,
+        offsets_fn,
+        params,
+    )
 }
 </code></pre></div></section></main></body></html>

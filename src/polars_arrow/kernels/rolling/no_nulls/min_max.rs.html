@@ -561,6 +561,16 @@
 <a href="#561" id="561">561</a>
 <a href="#562" id="562">562</a>
 <a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>no_nulls;
 <span class="kw">use </span>no_nulls::{rolling_apply_agg_window, RollingAggWindowNoNulls};
 
@@ -571,7 +581,7 @@
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: NativeType&gt; RollingAggWindowNoNulls&lt;<span class="lifetime">&#39;a</span>, T&gt; <span class="kw">for </span>SortedMinMax&lt;<span class="lifetime">&#39;a</span>, T&gt; {
-    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], _start: usize, _end: usize) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], _start: usize, _end: usize, _params: DynArgs) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ slice }
     }
 
@@ -589,7 +599,7 @@
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: NativeType + IsFloat + PartialOrd&gt; RollingAggWindowNoNulls&lt;<span class="lifetime">&#39;a</span>, T&gt; <span class="kw">for </span>MinWindow&lt;<span class="lifetime">&#39;a</span>, T&gt; {
-    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], start: usize, end: usize) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], start: usize, end: usize, _params: DynArgs) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>min = <span class="kw-2">*</span>slice[start..end]
             .iter()
             .min_by(|a, b| compare_fn_nan_min(<span class="kw-2">*</span>a, <span class="kw-2">*</span>b))
@@ -713,7 +723,7 @@
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: NativeType + IsFloat + PartialOrd&gt; RollingAggWindowNoNulls&lt;<span class="lifetime">&#39;a</span>, T&gt; <span class="kw">for </span>MaxWindow&lt;<span class="lifetime">&#39;a</span>, T&gt; {
-    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], start: usize, end: usize) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], start: usize, end: usize, _params: DynArgs) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>max = <span class="kw-2">*</span>slice[start..end]
             .iter()
             .max_by(|a, b| compare_fn_nan_max(<span class="kw-2">*</span>a, <span class="kw-2">*</span>b))
@@ -876,6 +886,7 @@
     min_periods: usize,
     center: bool,
     weights: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;,
+    _params: DynArgs,
 ) -&gt; ArrayRef
 <span class="kw">where
     </span>T: NativeType + PartialOrd + IsFloat + Bounded + NumCast + Mul&lt;Output = T&gt;,
@@ -889,6 +900,7 @@
                     window_size,
                     min_periods,
                     det_offsets_center,
+                    <span class="prelude-val">None</span>,
                 )
             } <span class="kw">else </span>{
                 rolling_apply_agg_window::&lt;MaxWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
@@ -896,6 +908,7 @@
                     window_size,
                     min_periods,
                     det_offsets_center,
+                    <span class="prelude-val">None</span>,
                 )
             }
         }
@@ -906,6 +919,7 @@
                     window_size,
                     min_periods,
                     det_offsets,
+                    <span class="prelude-val">None</span>,
                 )
             } <span class="kw">else </span>{
                 rolling_apply_agg_window::&lt;MaxWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
@@ -913,6 +927,7 @@
                     window_size,
                     min_periods,
                     det_offsets,
+                    <span class="prelude-val">None</span>,
                 )
             }
         }
@@ -971,6 +986,7 @@
     min_periods: usize,
     center: bool,
     weights: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;,
+    _params: DynArgs,
 ) -&gt; ArrayRef
 <span class="kw">where
     </span>T: NativeType + PartialOrd + NumCast + Mul&lt;Output = T&gt; + Bounded + IsFloat,
@@ -984,6 +1000,7 @@
                     window_size,
                     min_periods,
                     det_offsets_center,
+                    <span class="prelude-val">None</span>,
                 )
             } <span class="kw">else </span>{
                 rolling_apply_agg_window::&lt;MinWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
@@ -991,6 +1008,7 @@
                     window_size,
                     min_periods,
                     det_offsets_center,
+                    <span class="prelude-val">None</span>,
                 )
             }
         }
@@ -1002,6 +1020,7 @@
                     window_size,
                     min_periods,
                     det_offsets,
+                    <span class="prelude-val">None</span>,
                 )
             } <span class="kw">else </span>{
                 rolling_apply_agg_window::&lt;MinWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
@@ -1009,6 +1028,7 @@
                     window_size,
                     min_periods,
                     det_offsets,
+                    <span class="prelude-val">None</span>,
                 )
             }
         }
@@ -1059,32 +1079,32 @@
     </span><span class="kw">fn </span>test_rolling_min_max() {
         <span class="kw">let </span>values = <span class="kw-2">&amp;</span>[<span class="number">1.0f64</span>, <span class="number">5.0</span>, <span class="number">3.0</span>, <span class="number">4.0</span>];
 
-        <span class="kw">let </span>out = rolling_min(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_min(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">Some</span>(<span class="number">3.0</span>), <span class="prelude-val">Some</span>(<span class="number">3.0</span>)]);
-        <span class="kw">let </span>out = rolling_max(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_max(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">5.0</span>), <span class="prelude-val">Some</span>(<span class="number">5.0</span>), <span class="prelude-val">Some</span>(<span class="number">4.0</span>)]);
 
-        <span class="kw">let </span>out = rolling_min(values, <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_min(values, <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">Some</span>(<span class="number">3.0</span>), <span class="prelude-val">Some</span>(<span class="number">3.0</span>)]);
-        <span class="kw">let </span>out = rolling_max(values, <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_max(values, <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">Some</span>(<span class="number">5.0</span>), <span class="prelude-val">Some</span>(<span class="number">5.0</span>), <span class="prelude-val">Some</span>(<span class="number">4.0</span>)]);
 
-        <span class="kw">let </span>out = rolling_max(values, <span class="number">3</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_max(values, <span class="number">3</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">Some</span>(<span class="number">5.0</span>), <span class="prelude-val">Some</span>(<span class="number">5.0</span>), <span class="prelude-val">Some</span>(<span class="number">5.0</span>)]);
 
         <span class="comment">// test nan handling.
         </span><span class="kw">let </span>values = <span class="kw-2">&amp;</span>[<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>, f64::nan(), <span class="number">5.0</span>, <span class="number">6.0</span>, <span class="number">7.0</span>];
-        <span class="kw">let </span>out = rolling_min(values, <span class="number">3</span>, <span class="number">3</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_min(values, <span class="number">3</span>, <span class="number">3</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="comment">// we cannot compare nans, so we compare the string values
@@ -1104,7 +1124,7 @@
             )
         );
 
-        <span class="kw">let </span>out = rolling_max(values, <span class="number">3</span>, <span class="number">3</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_max(values, <span class="number">3</span>, <span class="number">3</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(

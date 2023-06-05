@@ -263,6 +263,8 @@
 <a href="#263" id="263">263</a>
 <a href="#264" id="264">264</a>
 <a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
 
 <span class="kw">use </span>polars_arrow::export::arrow::array::Array;
@@ -401,12 +403,13 @@
                     <span class="prelude-val">None </span>=&gt; _rolling_apply_agg_window_no_nulls::&lt;MaxWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
                         values,
                         offset_iter,
+                        <span class="prelude-val">None</span>,
                     ),
                     <span class="prelude-val">Some</span>(validity) =&gt; _rolling_apply_agg_window_nulls::&lt;
                         rolling::nulls::MaxWindow&lt;<span class="kw">_</span>&gt;,
                         <span class="kw">_</span>,
                         <span class="kw">_</span>,
-                    &gt;(values, validity, offset_iter),
+                    &gt;(values, validity, offset_iter, <span class="prelude-val">None</span>),
                 };
                 ChunkedArray::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[arr]).into_series()
             } <span class="kw">else </span>{
@@ -472,12 +475,13 @@
                     <span class="prelude-val">None </span>=&gt; _rolling_apply_agg_window_no_nulls::&lt;MinWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
                         values,
                         offset_iter,
+                        <span class="prelude-val">None</span>,
                     ),
                     <span class="prelude-val">Some</span>(validity) =&gt; _rolling_apply_agg_window_nulls::&lt;
                         rolling::nulls::MinWindow&lt;<span class="kw">_</span>&gt;,
                         <span class="kw">_</span>,
                         <span class="kw">_</span>,
-                    &gt;(values, validity, offset_iter),
+                    &gt;(values, validity, offset_iter, <span class="prelude-val">None</span>),
                 };
                 ChunkedArray::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[arr]).into_series()
             } <span class="kw">else </span>{

@@ -995,6 +995,38 @@
 <a href="#995" id="995">995</a>
 <a href="#996" id="996">996</a>
 <a href="#997" id="997">997</a>
+<a href="#998" id="998">998</a>
+<a href="#999" id="999">999</a>
+<a href="#1000" id="1000">1000</a>
+<a href="#1001" id="1001">1001</a>
+<a href="#1002" id="1002">1002</a>
+<a href="#1003" id="1003">1003</a>
+<a href="#1004" id="1004">1004</a>
+<a href="#1005" id="1005">1005</a>
+<a href="#1006" id="1006">1006</a>
+<a href="#1007" id="1007">1007</a>
+<a href="#1008" id="1008">1008</a>
+<a href="#1009" id="1009">1009</a>
+<a href="#1010" id="1010">1010</a>
+<a href="#1011" id="1011">1011</a>
+<a href="#1012" id="1012">1012</a>
+<a href="#1013" id="1013">1013</a>
+<a href="#1014" id="1014">1014</a>
+<a href="#1015" id="1015">1015</a>
+<a href="#1016" id="1016">1016</a>
+<a href="#1017" id="1017">1017</a>
+<a href="#1018" id="1018">1018</a>
+<a href="#1019" id="1019">1019</a>
+<a href="#1020" id="1020">1020</a>
+<a href="#1021" id="1021">1021</a>
+<a href="#1022" id="1022">1022</a>
+<a href="#1023" id="1023">1023</a>
+<a href="#1024" id="1024">1024</a>
+<a href="#1025" id="1025">1025</a>
+<a href="#1026" id="1026">1026</a>
+<a href="#1027" id="1027">1027</a>
+<a href="#1028" id="1028">1028</a>
+<a href="#1029" id="1029">1029</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>agg_list;
 <span class="kw">mod </span>boolean;
 <span class="kw">mod </span>dispatch;
@@ -1012,6 +1044,7 @@
     MaxWindow, MeanWindow, MinWindow, RollingAggWindowNoNulls, StdWindow, SumWindow, VarWindow,
 };
 <span class="kw">use </span>polars_arrow::kernels::rolling::nulls::RollingAggWindowNulls;
+<span class="kw">use </span>polars_arrow::kernels::rolling::{DynArgs, RollingVarParams};
 <span class="kw">use </span>polars_arrow::kernels::take_agg::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_arrow::prelude::QuantileInterpolOptions;
 <span class="kw">use </span>polars_arrow::trusted_len::PushUnchecked;
@@ -1054,6 +1087,7 @@
     values: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T],
     validity: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Bitmap,
     offsets: O,
+    params: DynArgs,
 ) -&gt; ArrayRef
 <span class="kw">where
     </span>O: Iterator&lt;Item = (IdxSize, IdxSize)&gt; + TrustedLen,
@@ -1071,7 +1105,7 @@
     <span class="comment">// start with a dummy index, will be overwritten on first iteration.
     // Safety:
     // we are in bounds
-    </span><span class="kw">let </span><span class="kw-2">mut </span>agg_window = <span class="kw">unsafe </span>{ Agg::new(values, validity, <span class="number">0</span>, <span class="number">0</span>) };
+    </span><span class="kw">let </span><span class="kw-2">mut </span>agg_window = <span class="kw">unsafe </span>{ Agg::new(values, validity, <span class="number">0</span>, <span class="number">0</span>, params) };
 
     <span class="kw">let </span><span class="kw-2">mut </span>validity = MutableBitmap::with_capacity(output_len);
     validity.extend_constant(output_len, <span class="bool-val">true</span>);
@@ -1109,7 +1143,11 @@
 }
 
 <span class="comment">// Use an aggregation window that maintains the state
-</span><span class="kw">pub fn </span>_rolling_apply_agg_window_no_nulls&lt;<span class="lifetime">&#39;a</span>, Agg, T, O&gt;(values: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], offsets: O) -&gt; ArrayRef
+</span><span class="kw">pub fn </span>_rolling_apply_agg_window_no_nulls&lt;<span class="lifetime">&#39;a</span>, Agg, T, O&gt;(
+    values: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T],
+    offsets: O,
+    params: DynArgs,
+) -&gt; ArrayRef
 <span class="kw">where
     </span><span class="comment">// items (offset, len) -&gt; so offsets are offset, offset + len
     </span>Agg: RollingAggWindowNoNulls&lt;<span class="lifetime">&#39;a</span>, T&gt;,
@@ -1121,7 +1159,7 @@
         <span class="kw">return </span>Box::new(PrimitiveArray::new(T::PRIMITIVE.into(), out.into(), <span class="prelude-val">None</span>));
     }
     <span class="comment">// start with a dummy index, will be overwritten on first iteration.
-    </span><span class="kw">let </span><span class="kw-2">mut </span>agg_window = Agg::new(values, <span class="number">0</span>, <span class="number">0</span>);
+    </span><span class="kw">let </span><span class="kw-2">mut </span>agg_window = Agg::new(values, <span class="number">0</span>, <span class="number">0</span>, params);
 
     <span class="kw">let </span>out = offsets
         .map(|(start, len)| {
@@ -1414,12 +1452,15 @@
                         <span class="prelude-val">None </span>=&gt; _rolling_apply_agg_window_no_nulls::&lt;MinWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
                             values,
                             offset_iter,
+                            <span class="prelude-val">None</span>,
                         ),
                         <span class="prelude-val">Some</span>(validity) =&gt; _rolling_apply_agg_window_nulls::&lt;
                             rolling::nulls::MinWindow&lt;<span class="kw">_</span>&gt;,
                             <span class="kw">_</span>,
                             <span class="kw">_</span>,
-                        &gt;(values, validity, offset_iter),
+                        &gt;(
+                            values, validity, offset_iter, <span class="prelude-val">None
+                        </span>),
                     };
                     <span class="self">Self</span>::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[arr]).into_series()
                 } <span class="kw">else </span>{
@@ -1494,12 +1535,15 @@
                         <span class="prelude-val">None </span>=&gt; _rolling_apply_agg_window_no_nulls::&lt;MaxWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
                             values,
                             offset_iter,
+                            <span class="prelude-val">None</span>,
                         ),
                         <span class="prelude-val">Some</span>(validity) =&gt; _rolling_apply_agg_window_nulls::&lt;
                             rolling::nulls::MaxWindow&lt;<span class="kw">_</span>&gt;,
                             <span class="kw">_</span>,
                             <span class="kw">_</span>,
-                        &gt;(values, validity, offset_iter),
+                        &gt;(
+                            values, validity, offset_iter, <span class="prelude-val">None
+                        </span>),
                     };
                     <span class="self">Self</span>::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[arr]).into_series()
                 } <span class="kw">else </span>{
@@ -1558,12 +1602,15 @@
                         <span class="prelude-val">None </span>=&gt; _rolling_apply_agg_window_no_nulls::&lt;SumWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
                             values,
                             offset_iter,
+                            <span class="prelude-val">None</span>,
                         ),
                         <span class="prelude-val">Some</span>(validity) =&gt; _rolling_apply_agg_window_nulls::&lt;
                             rolling::nulls::SumWindow&lt;<span class="kw">_</span>&gt;,
                             <span class="kw">_</span>,
                             <span class="kw">_</span>,
-                        &gt;(values, validity, offset_iter),
+                        &gt;(
+                            values, validity, offset_iter, <span class="prelude-val">None
+                        </span>),
                     };
                     <span class="self">Self</span>::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[arr]).into_series()
                 } <span class="kw">else </span>{
@@ -1649,12 +1696,15 @@
                         <span class="prelude-val">None </span>=&gt; _rolling_apply_agg_window_no_nulls::&lt;MeanWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
                             values,
                             offset_iter,
+                            <span class="prelude-val">None</span>,
                         ),
                         <span class="prelude-val">Some</span>(validity) =&gt; _rolling_apply_agg_window_nulls::&lt;
                             rolling::nulls::MeanWindow&lt;<span class="kw">_</span>&gt;,
                             <span class="kw">_</span>,
                             <span class="kw">_</span>,
-                        &gt;(values, validity, offset_iter),
+                        &gt;(
+                            values, validity, offset_iter, <span class="prelude-val">None
+                        </span>),
                     };
                     ChunkedArray::&lt;T&gt;::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[arr]).into_series()
                 } <span class="kw">else </span>{
@@ -1674,7 +1724,10 @@
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>agg_var(<span class="kw-2">&amp;</span><span class="self">self</span>, groups: <span class="kw-2">&amp;</span>GroupsProxy, ddof: u8) -&gt; Series {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>agg_var(<span class="kw-2">&amp;</span><span class="self">self</span>, groups: <span class="kw-2">&amp;</span>GroupsProxy, ddof: u8) -&gt; Series
+    <span class="kw">where
+        </span>&lt;T <span class="kw">as </span>datatypes::PolarsNumericType&gt;::Native: num_traits::Float,
+    {
         <span class="kw">let </span>ca = <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.rechunk();
         <span class="kw">match </span>groups {
             GroupsProxy::Idx(groups) =&gt; {
@@ -1703,12 +1756,16 @@
                         <span class="prelude-val">None </span>=&gt; _rolling_apply_agg_window_no_nulls::&lt;VarWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
                             values,
                             offset_iter,
+                            <span class="prelude-val">Some</span>(Arc::new(RollingVarParams { ddof })),
                         ),
-                        <span class="prelude-val">Some</span>(validity) =&gt; _rolling_apply_agg_window_nulls::&lt;
-                            rolling::nulls::VarWindow&lt;<span class="kw">_</span>&gt;,
-                            <span class="kw">_</span>,
-                            <span class="kw">_</span>,
-                        &gt;(values, validity, offset_iter),
+                        <span class="prelude-val">Some</span>(validity) =&gt; {
+                            _rolling_apply_agg_window_nulls::&lt;rolling::nulls::VarWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
+                                values,
+                                validity,
+                                offset_iter,
+                                <span class="prelude-val">Some</span>(Arc::new(RollingVarParams { ddof })),
+                            )
+                        }
                     };
                     ChunkedArray::&lt;T&gt;::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[arr]).into_series()
                 } <span class="kw">else </span>{
@@ -1727,7 +1784,10 @@
             }
         }
     }
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>agg_std(<span class="kw-2">&amp;</span><span class="self">self</span>, groups: <span class="kw-2">&amp;</span>GroupsProxy, ddof: u8) -&gt; Series {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>agg_std(<span class="kw-2">&amp;</span><span class="self">self</span>, groups: <span class="kw-2">&amp;</span>GroupsProxy, ddof: u8) -&gt; Series
+    <span class="kw">where
+        </span>&lt;T <span class="kw">as </span>datatypes::PolarsNumericType&gt;::Native: num_traits::Float,
+    {
         <span class="kw">let </span>ca = <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.rechunk();
         <span class="kw">match </span>groups {
             GroupsProxy::Idx(groups) =&gt; {
@@ -1755,12 +1815,16 @@
                         <span class="prelude-val">None </span>=&gt; _rolling_apply_agg_window_no_nulls::&lt;StdWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
                             values,
                             offset_iter,
+                            <span class="prelude-val">Some</span>(Arc::new(RollingVarParams { ddof })),
                         ),
-                        <span class="prelude-val">Some</span>(validity) =&gt; _rolling_apply_agg_window_nulls::&lt;
-                            rolling::nulls::StdWindow&lt;<span class="kw">_</span>&gt;,
-                            <span class="kw">_</span>,
-                            <span class="kw">_</span>,
-                        &gt;(values, validity, offset_iter),
+                        <span class="prelude-val">Some</span>(validity) =&gt; {
+                            _rolling_apply_agg_window_nulls::&lt;rolling::nulls::StdWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
+                                values,
+                                validity,
+                                offset_iter,
+                                <span class="prelude-val">Some</span>(Arc::new(RollingVarParams { ddof })),
+                            )
+                        }
                     };
                     ChunkedArray::&lt;T&gt;::from_chunks(<span class="string">&quot;&quot;</span>, <span class="macro">vec!</span>[arr]).into_series()
                 } <span class="kw">else </span>{

@@ -148,6 +148,7 @@
 <a href="#148" id="148">148</a>
 <a href="#149" id="149">149</a>
 <a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>mean;
 <span class="kw">mod </span>min_max;
 <span class="kw">mod </span>quantile;
@@ -172,7 +173,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::utils::CustomIterTools;
 
 <span class="kw">pub trait </span>RollingAggWindowNoNulls&lt;<span class="lifetime">&#39;a</span>, T: NativeType&gt; {
-    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], start: usize, end: usize) -&gt; <span class="self">Self</span>;
+    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], start: usize, end: usize, params: DynArgs) -&gt; <span class="self">Self</span>;
 
     <span class="doccomment">/// Update and recompute the window
     /// # Safety
@@ -186,6 +187,7 @@
     window_size: usize,
     min_periods: usize,
     det_offsets_fn: Fo,
+    params: DynArgs,
 ) -&gt; ArrayRef
 <span class="kw">where
     </span>Fo: Fn(Idx, WindowSize, Len) -&gt; (Start, End),
@@ -194,7 +196,7 @@
 {
     <span class="kw">let </span>len = values.len();
     <span class="kw">let </span>(start, end) = det_offsets_fn(<span class="number">0</span>, window_size, len);
-    <span class="kw">let </span><span class="kw-2">mut </span>agg_window = Agg::new(values, start, end);
+    <span class="kw">let </span><span class="kw-2">mut </span>agg_window = Agg::new(values, start, end, params);
 
     <span class="kw">let </span>out = (<span class="number">0</span>..len)
         .map(|idx| {

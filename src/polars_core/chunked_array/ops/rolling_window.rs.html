@@ -251,7 +251,13 @@
 <a href="#251" id="251">251</a>
 <a href="#252" id="252">252</a>
 <a href="#253" id="253">253</a>
-</pre></div><pre class="rust"><code><span class="attr">#[derive(Clone)]
+<a href="#254" id="254">254</a>
+<a href="#255" id="255">255</a>
+<a href="#256" id="256">256</a>
+<a href="#257" id="257">257</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>polars_arrow::prelude::DynArgs;
+
+<span class="attr">#[derive(Clone)]
 </span><span class="kw">pub struct </span>RollingOptionsFixedWindow {
     <span class="doccomment">/// The length of the window.
     </span><span class="kw">pub </span>window_size: usize,
@@ -262,6 +268,7 @@
     </span><span class="kw">pub </span>weights: <span class="prelude-ty">Option</span>&lt;Vec&lt;f64&gt;&gt;,
     <span class="doccomment">/// Set the labels at the center of the window.
     </span><span class="kw">pub </span>center: bool,
+    <span class="kw">pub </span>fn_params: DynArgs,
 }
 
 <span class="kw">impl </span>Default <span class="kw">for </span>RollingOptionsFixedWindow {
@@ -271,6 +278,7 @@
             min_periods: <span class="number">1</span>,
             weights: <span class="prelude-val">None</span>,
             center: <span class="bool-val">false</span>,
+            fn_params: <span class="prelude-val">None</span>,
         }
     }
 }

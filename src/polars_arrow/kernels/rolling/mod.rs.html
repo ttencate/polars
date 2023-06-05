@@ -133,12 +133,23 @@
 <a href="#133" id="133">133</a>
 <a href="#134" id="134">134</a>
 <a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
+<a href="#139" id="139">139</a>
+<a href="#140" id="140">140</a>
+<a href="#141" id="141">141</a>
+<a href="#142" id="142">142</a>
+<a href="#143" id="143">143</a>
+<a href="#144" id="144">144</a>
 </pre></div><pre class="rust"><code><span class="kw">pub mod </span>no_nulls;
 <span class="kw">pub mod </span>nulls;
 <span class="kw">mod </span>window;
 
+<span class="kw">use </span>std::any::Any;
 <span class="kw">use </span>std::cmp::Ordering;
 <span class="kw">use </span>std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
+<span class="kw">use </span>std::sync::Arc;
 
 <span class="kw">use </span>arrow::array::PrimitiveArray;
 <span class="kw">use </span>arrow::bitmap::{Bitmap, MutableBitmap};
@@ -155,6 +166,7 @@
 <span class="kw">type </span>Idx = usize;
 <span class="kw">type </span>WindowSize = usize;
 <span class="kw">type </span>Len = usize;
+<span class="kw">pub type </span>DynArgs = <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>Any + Sync + Send&gt;&gt;;
 
 <span class="attr">#[inline]
 </span><span class="doccomment">/// NaN will be smaller than every valid value
@@ -267,5 +279,11 @@
         // all integers are Ord
         </span><span class="kw">unsafe </span>{ buf.sort_by(|a, b| a.partial_cmp(b).unwrap_unchecked()) };
     }
+}
+
+<span class="comment">//Parameters allowed for rolling operations.
+</span><span class="attr">#[derive(Clone, Copy, Debug)]
+</span><span class="kw">pub struct </span>RollingVarParams {
+    <span class="kw">pub </span>ddof: u8,
 }
 </code></pre></div></section></main></body></html>

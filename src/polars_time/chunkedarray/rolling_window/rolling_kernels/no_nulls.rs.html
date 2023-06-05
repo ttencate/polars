@@ -217,6 +217,19 @@
 <a href="#217" id="217">217</a>
 <a href="#218" id="218">218</a>
 <a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a>
+<a href="#225" id="225">225</a>
+<a href="#226" id="226">226</a>
+<a href="#227" id="227">227</a>
+<a href="#228" id="228">228</a>
+<a href="#229" id="229">229</a>
+<a href="#230" id="230">230</a>
+<a href="#231" id="231">231</a>
+<a href="#232" id="232">232</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono_tz::Tz;
 <span class="kw">use </span>polars_arrow::kernels::rolling::no_nulls::{<span class="self">self</span>, RollingAggWindowNoNulls};
@@ -228,6 +241,7 @@
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_apply_agg_window&lt;<span class="lifetime">&#39;a</span>, Agg, T, O&gt;(
     values: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T],
     offsets: O,
+    params: DynArgs,
 ) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span><span class="comment">// items (offset, len) -&gt; so offsets are offset, offset + len
@@ -244,7 +258,7 @@
         )));
     }
     <span class="comment">// start with a dummy index, will be overwritten on first iteration.
-    </span><span class="kw">let </span><span class="kw-2">mut </span>agg_window = Agg::new(values, <span class="number">0</span>, <span class="number">0</span>);
+    </span><span class="kw">let </span><span class="kw-2">mut </span>agg_window = Agg::new(values, <span class="number">0</span>, <span class="number">0</span>, params);
 
     <span class="kw">let </span>out = offsets
         .map(|result| {
@@ -265,7 +279,8 @@
     <span class="prelude-val">Ok</span>(Box::new(out))
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_min&lt;T&gt;(
+<span class="attr">#[allow(clippy::too_many_arguments)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_min&lt;T&gt;(
     values: <span class="kw-2">&amp;</span>[T],
     period: Duration,
     offset: Duration,
@@ -273,6 +288,7 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
+    _params: DynArgs,
 ) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType + PartialOrd + IsFloat + Bounded + NumCast + Mul&lt;Output = T&gt;,
@@ -289,10 +305,11 @@
         ),
         <span class="kw">_ </span>=&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">None</span>),
     };
-    rolling_apply_agg_window::&lt;no_nulls::MinWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(values, offset_iter)
+    rolling_apply_agg_window::&lt;no_nulls::MinWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(values, offset_iter, <span class="prelude-val">None</span>)
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_max&lt;T&gt;(
+<span class="attr">#[allow(clippy::too_many_arguments)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_max&lt;T&gt;(
     values: <span class="kw-2">&amp;</span>[T],
     period: Duration,
     offset: Duration,
@@ -300,6 +317,7 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
+    _params: DynArgs,
 ) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType + PartialOrd + IsFloat + Bounded + NumCast + Mul&lt;Output = T&gt;,
@@ -316,10 +334,11 @@
         ),
         <span class="kw">_ </span>=&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">None</span>),
     };
-    rolling_apply_agg_window::&lt;no_nulls::MaxWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(values, offset_iter)
+    rolling_apply_agg_window::&lt;no_nulls::MaxWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(values, offset_iter, <span class="prelude-val">None</span>)
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_sum&lt;T&gt;(
+<span class="attr">#[allow(clippy::too_many_arguments)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_sum&lt;T&gt;(
     values: <span class="kw-2">&amp;</span>[T],
     period: Duration,
     offset: Duration,
@@ -327,6 +346,7 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
+    _params: DynArgs,
 ) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType + std::iter::Sum + NumCast + Mul&lt;Output = T&gt; + AddAssign + SubAssign + IsFloat,
@@ -343,10 +363,11 @@
         ),
         <span class="kw">_ </span>=&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">None</span>),
     };
-    rolling_apply_agg_window::&lt;no_nulls::SumWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(values, offset_iter)
+    rolling_apply_agg_window::&lt;no_nulls::SumWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(values, offset_iter, <span class="prelude-val">None</span>)
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_mean&lt;T&gt;(
+<span class="attr">#[allow(clippy::too_many_arguments)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_mean&lt;T&gt;(
     values: <span class="kw-2">&amp;</span>[T],
     period: Duration,
     offset: Duration,
@@ -354,6 +375,7 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
+    _params: DynArgs,
 ) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType + Float + std::iter::Sum&lt;T&gt; + SubAssign + AddAssign + IsFloat,
@@ -370,10 +392,11 @@
         ),
         <span class="kw">_ </span>=&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">None</span>),
     };
-    rolling_apply_agg_window::&lt;no_nulls::MeanWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(values, offset_iter)
+    rolling_apply_agg_window::&lt;no_nulls::MeanWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(values, offset_iter, <span class="prelude-val">None</span>)
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_var&lt;T&gt;(
+<span class="attr">#[allow(clippy::too_many_arguments)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_var&lt;T&gt;(
     values: <span class="kw-2">&amp;</span>[T],
     period: Duration,
     offset: Duration,
@@ -381,6 +404,7 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
+    params: DynArgs,
 ) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType + Float + std::iter::Sum&lt;T&gt; + SubAssign + AddAssign + IsFloat,
@@ -397,10 +421,11 @@
         ),
         <span class="kw">_ </span>=&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">None</span>),
     };
-    rolling_apply_agg_window::&lt;no_nulls::VarWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(values, offset_iter)
+    rolling_apply_agg_window::&lt;no_nulls::VarWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(values, offset_iter, params)
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_std&lt;T&gt;(
+<span class="attr">#[allow(clippy::too_many_arguments)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rolling_std&lt;T&gt;(
     values: <span class="kw-2">&amp;</span>[T],
     period: Duration,
     offset: Duration,
@@ -408,6 +433,7 @@
     closed_window: ClosedWindow,
     tu: TimeUnit,
     tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TimeZone&gt;,
+    params: DynArgs,
 ) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType
@@ -434,6 +460,6 @@
         ),
         <span class="kw">_ </span>=&gt; groupby_values_iter(period, offset, time, closed_window, tu, <span class="prelude-val">None</span>),
     };
-    rolling_apply_agg_window::&lt;no_nulls::StdWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(values, offset_iter)
+    rolling_apply_agg_window::&lt;no_nulls::StdWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(values, offset_iter, params)
 }
 </code></pre></div></section></main></body></html>

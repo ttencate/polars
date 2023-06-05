@@ -1898,6 +1898,7 @@
 <a href="#1898" id="1898">1898</a>
 <a href="#1899" id="1899">1899</a>
 <a href="#1900" id="1900">1900</a>
+<a href="#1901" id="1901">1901</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -3142,6 +3143,7 @@
                         tu: <span class="prelude-val">Some</span>(tu),
                         tz: tz.as_ref(),
                         closed_window: options.closed_window,
+                        fn_params: options.fn_params.clone(),
                     };
 
                     rolling_fn(s, options).map(<span class="prelude-val">Some</span>)

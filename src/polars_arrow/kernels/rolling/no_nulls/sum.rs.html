@@ -170,6 +170,9 @@
 <a href="#170" id="170">170</a>
 <a href="#171" id="171">171</a>
 <a href="#172" id="172">172</a>
+<a href="#173" id="173">173</a>
+<a href="#174" id="174">174</a>
+<a href="#175" id="175">175</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>no_nulls;
 <span class="kw">use </span>no_nulls::{rolling_apply_agg_window, RollingAggWindowNoNulls};
 
@@ -185,7 +188,7 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: NativeType + IsFloat + std::iter::Sum + AddAssign + SubAssign&gt;
     RollingAggWindowNoNulls&lt;<span class="lifetime">&#39;a</span>, T&gt; <span class="kw">for </span>SumWindow&lt;<span class="lifetime">&#39;a</span>, T&gt;
 {
-    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], start: usize, end: usize) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], start: usize, end: usize, _params: DynArgs) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>sum = slice[start..end].iter().copied().sum::&lt;T&gt;();
         <span class="self">Self </span>{
             slice,
@@ -245,6 +248,7 @@
     min_periods: usize,
     center: bool,
     weights: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;,
+    _params: DynArgs,
 ) -&gt; ArrayRef
 <span class="kw">where
     </span>T: NativeType + std::iter::Sum + NumCast + Mul&lt;Output = T&gt; + AddAssign + SubAssign + IsFloat,
@@ -255,12 +259,14 @@
             window_size,
             min_periods,
             det_offsets_center,
+            <span class="prelude-val">None</span>,
         ),
         (<span class="bool-val">false</span>, <span class="prelude-val">None</span>) =&gt; rolling_apply_agg_window::&lt;SumWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
             values,
             window_size,
             min_periods,
             det_offsets,
+            <span class="prelude-val">None</span>,
         ),
         (<span class="bool-val">true</span>, <span class="prelude-val">Some</span>(weights)) =&gt; {
             <span class="kw">let </span>weights = no_nulls::coerce_weights(weights);
@@ -294,34 +300,34 @@
     </span><span class="kw">fn </span>test_rolling_sum() {
         <span class="kw">let </span>values = <span class="kw-2">&amp;</span>[<span class="number">1.0f64</span>, <span class="number">2.0</span>, <span class="number">3.0</span>, <span class="number">4.0</span>];
 
-        <span class="kw">let </span>out = rolling_sum(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_sum(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">3.0</span>), <span class="prelude-val">Some</span>(<span class="number">5.0</span>), <span class="prelude-val">Some</span>(<span class="number">7.0</span>)]);
 
-        <span class="kw">let </span>out = rolling_sum(values, <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_sum(values, <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">Some</span>(<span class="number">3.0</span>), <span class="prelude-val">Some</span>(<span class="number">5.0</span>), <span class="prelude-val">Some</span>(<span class="number">7.0</span>)]);
 
-        <span class="kw">let </span>out = rolling_sum(values, <span class="number">4</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_sum(values, <span class="number">4</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">Some</span>(<span class="number">3.0</span>), <span class="prelude-val">Some</span>(<span class="number">6.0</span>), <span class="prelude-val">Some</span>(<span class="number">10.0</span>)]);
 
-        <span class="kw">let </span>out = rolling_sum(values, <span class="number">4</span>, <span class="number">1</span>, <span class="bool-val">true</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_sum(values, <span class="number">4</span>, <span class="number">1</span>, <span class="bool-val">true</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">3.0</span>), <span class="prelude-val">Some</span>(<span class="number">6.0</span>), <span class="prelude-val">Some</span>(<span class="number">10.0</span>), <span class="prelude-val">Some</span>(<span class="number">9.0</span>)]);
 
-        <span class="kw">let </span>out = rolling_sum(values, <span class="number">4</span>, <span class="number">4</span>, <span class="bool-val">true</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_sum(values, <span class="number">4</span>, <span class="number">4</span>, <span class="bool-val">true</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">10.0</span>), <span class="prelude-val">None</span>]);
 
         <span class="comment">// test nan handling.
         </span><span class="kw">let </span>values = <span class="kw-2">&amp;</span>[<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>, f64::nan(), <span class="number">5.0</span>, <span class="number">6.0</span>, <span class="number">7.0</span>];
-        <span class="kw">let </span>out = rolling_sum(values, <span class="number">3</span>, <span class="number">3</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_sum(values, <span class="number">3</span>, <span class="number">3</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 

@@ -307,6 +307,26 @@
 <a href="#307" id="307">307</a>
 <a href="#308" id="308">308</a>
 <a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>no_nulls::{rolling_apply_agg_window, RollingAggWindowNoNulls};
 <span class="kw">use </span>num_traits::pow::Pow;
 
@@ -326,7 +346,7 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: NativeType + IsFloat + std::iter::Sum + AddAssign + SubAssign + Mul&lt;Output = T&gt;&gt;
     RollingAggWindowNoNulls&lt;<span class="lifetime">&#39;a</span>, T&gt; <span class="kw">for </span>SumSquaredWindow&lt;<span class="lifetime">&#39;a</span>, T&gt;
 {
-    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], start: usize, end: usize) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], start: usize, end: usize, _params: DynArgs) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>sum = slice[start..end].iter().map(|v| <span class="kw-2">*</span>v * <span class="kw-2">*</span>v).sum::&lt;T&gt;();
         <span class="self">Self </span>{
             slice,
@@ -389,12 +409,14 @@
 </span><span class="kw">pub struct </span>VarWindow&lt;<span class="lifetime">&#39;a</span>, T&gt; {
     mean: MeanWindow&lt;<span class="lifetime">&#39;a</span>, T&gt;,
     sum_of_squares: SumSquaredWindow&lt;<span class="lifetime">&#39;a</span>, T&gt;,
+    ddof: u8,
 }
 
 <span class="kw">impl</span>&lt;
         <span class="lifetime">&#39;a</span>,
         T: NativeType
             + IsFloat
+            + Float
             + std::iter::Sum
             + AddAssign
             + SubAssign
@@ -406,25 +428,30 @@
             + Sub&lt;Output = T&gt;,
     &gt; RollingAggWindowNoNulls&lt;<span class="lifetime">&#39;a</span>, T&gt; <span class="kw">for </span>VarWindow&lt;<span class="lifetime">&#39;a</span>, T&gt;
 {
-    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], start: usize, end: usize) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], start: usize, end: usize, params: DynArgs) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            mean: MeanWindow::new(slice, start, end),
-            sum_of_squares: SumSquaredWindow::new(slice, start, end),
+            mean: MeanWindow::new(slice, start, end, <span class="prelude-val">None</span>),
+            sum_of_squares: SumSquaredWindow::new(slice, start, end, <span class="prelude-val">None</span>),
+            ddof: <span class="kw">match </span>params {
+                <span class="prelude-val">None </span>=&gt; <span class="number">1</span>,
+                <span class="prelude-val">Some</span>(pars) =&gt; pars.downcast_ref::&lt;RollingVarParams&gt;().unwrap().ddof,
+            },
         }
     }
 
     <span class="kw">unsafe fn </span>update(<span class="kw-2">&amp;mut </span><span class="self">self</span>, start: usize, end: usize) -&gt; T {
-        <span class="kw">let </span>count = NumCast::from(end - start).unwrap();
+        <span class="kw">let </span>count: T = NumCast::from(end - start).unwrap();
         <span class="kw">let </span>sum_of_squares = <span class="self">self</span>.sum_of_squares.update(start, end);
-        <span class="kw">let </span>mean_of_squares = sum_of_squares / count;
         <span class="kw">let </span>mean = <span class="self">self</span>.mean.update(start, end);
-        <span class="kw">let </span>var = mean_of_squares - mean * mean;
 
+        <span class="kw">let </span>denom = count - NumCast::from(<span class="self">self</span>.ddof).unwrap();
         <span class="kw">if </span>end - start == <span class="number">1 </span>{
             T::zero()
+        } <span class="kw">else if </span>denom &lt;= T::zero() {
+            <span class="comment">//ddof would be greater than # of observations
+            </span>T::infinity()
         } <span class="kw">else </span>{
-            <span class="comment">// apply Bessel&#39;s correction
-            </span><span class="kw">let </span>out = var / (count - T::one()) * count;
+            <span class="kw">let </span>out = (sum_of_squares - count * mean * mean) / denom;
             <span class="comment">// variance cannot be negative.
             // if it is negative it is due to numeric instability
             </span><span class="kw">if </span>out &lt; T::zero() {
@@ -442,6 +469,7 @@
     min_periods: usize,
     center: bool,
     weights: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;,
+    params: DynArgs,
 ) -&gt; ArrayRef
 <span class="kw">where
     </span>T: NativeType
@@ -462,12 +490,14 @@
             window_size,
             min_periods,
             det_offsets_center,
+            params,
         ),
         (<span class="bool-val">false</span>, <span class="prelude-val">None</span>) =&gt; rolling_apply_agg_window::&lt;VarWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
             values,
             window_size,
             min_periods,
             det_offsets,
+            params,
         ),
         (<span class="bool-val">true</span>, <span class="prelude-val">Some</span>(weights)) =&gt; {
             <span class="kw">let </span>weights = coerce_weights(weights);
@@ -505,6 +535,7 @@
         <span class="lifetime">&#39;a</span>,
         T: NativeType
             + IsFloat
+            + Float
             + std::iter::Sum
             + AddAssign
             + SubAssign
@@ -517,9 +548,9 @@
             + Pow&lt;T, Output = T&gt;,
     &gt; RollingAggWindowNoNulls&lt;<span class="lifetime">&#39;a</span>, T&gt; <span class="kw">for </span>StdWindow&lt;<span class="lifetime">&#39;a</span>, T&gt;
 {
-    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], start: usize, end: usize) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>new(slice: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T], start: usize, end: usize, params: DynArgs) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            var: VarWindow::new(slice, start, end),
+            var: VarWindow::new(slice, start, end, params),
         }
     }
 
@@ -535,6 +566,7 @@
     min_periods: usize,
     center: bool,
     weights: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;,
+    params: DynArgs,
 ) -&gt; ArrayRef
 <span class="kw">where
     </span>T: NativeType
@@ -556,12 +588,14 @@
             window_size,
             min_periods,
             det_offsets_center,
+            params,
         ),
         (<span class="bool-val">false</span>, <span class="prelude-val">None</span>) =&gt; rolling_apply_agg_window::&lt;StdWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
             values,
             window_size,
             min_periods,
             det_offsets,
+            params,
         ),
         (<span class="kw">_</span>, <span class="prelude-val">Some</span>(<span class="kw">_</span>)) =&gt; {
             <span class="macro">panic!</span>(<span class="string">&quot;weights not yet supported for rolling_std&quot;</span>)
@@ -577,12 +611,18 @@
     </span><span class="kw">fn </span>test_rolling_var() {
         <span class="kw">let </span>values = <span class="kw-2">&amp;</span>[<span class="number">1.0f64</span>, <span class="number">5.0</span>, <span class="number">3.0</span>, <span class="number">4.0</span>];
 
-        <span class="kw">let </span>out = rolling_var(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_var(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">8.0</span>), <span class="prelude-val">Some</span>(<span class="number">2.0</span>), <span class="prelude-val">Some</span>(<span class="number">0.5</span>)]);
 
-        <span class="kw">let </span>out = rolling_var(values, <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>testpars = <span class="prelude-val">Some</span>(Arc::new(RollingVarParams { ddof: <span class="number">0 </span>}) <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>Any + Send + Sync&gt;);
+        <span class="kw">let </span>out = rolling_var(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, testpars);
+        <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
+        <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">4.0</span>), <span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">Some</span>(<span class="number">0.25</span>)]);
+
+        <span class="kw">let </span>out = rolling_var(values, <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out
             .into_iter()
@@ -595,7 +635,7 @@
         );
         <span class="comment">// test nan handling.
         </span><span class="kw">let </span>values = <span class="kw-2">&amp;</span>[-<span class="number">10.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>, f64::nan(), <span class="number">5.0</span>, <span class="number">6.0</span>, <span class="number">7.0</span>];
-        <span class="kw">let </span>out = rolling_var(values, <span class="number">3</span>, <span class="number">3</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_var(values, <span class="number">3</span>, <span class="number">3</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="comment">// we cannot compare nans, so we compare the string values
@@ -606,11 +646,11 @@
                 <span class="kw-2">&amp;</span>[
                     <span class="prelude-val">None</span>,
                     <span class="prelude-val">None</span>,
-                    <span class="prelude-val">Some</span>(<span class="number">52.33333333333333</span>),
+                    <span class="prelude-val">Some</span>(<span class="number">52.333333333333336</span>),
                     <span class="prelude-val">Some</span>(f64::nan()),
                     <span class="prelude-val">Some</span>(f64::nan()),
                     <span class="prelude-val">Some</span>(f64::nan()),
-                    <span class="prelude-val">Some</span>(<span class="number">0.9999999999999964</span>)
+                    <span class="prelude-val">Some</span>(<span class="number">1.0</span>)
                 ]
             )
         );
