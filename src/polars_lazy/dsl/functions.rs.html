@@ -252,7 +252,7 @@
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;diagonal_concat&quot;</span>)]
 </span><span class="doccomment">/// Concat [LazyFrame]s diagonally.
-/// Calls [concat] internally.
+/// Calls [`concat`][concat()] internally.
 </span><span class="kw">pub fn </span>diag_concat_lf&lt;L: AsRef&lt;[LazyFrame]&gt;&gt;(
     lfs: L,
     rechunk: bool,

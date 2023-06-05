@@ -2207,7 +2207,7 @@
     ///
     /// Also works for index values of type Int32 or Int64.
     ///
-    /// Different from a [`groupby_dynamic`] the windows are now determined by the
+    /// Different from a [`groupby_dynamic`][`Self::groupby_dynamic`], the windows are now determined by the
     /// individual values and are not of constant intervals. For constant intervals use
     /// *groupby_dynamic*
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;dynamic_groupby&quot;</span>)]
@@ -2277,7 +2277,7 @@
         }
     }
 
-    <span class="doccomment">/// Similar to [`groupby`], but order of the DataFrame is maintained.
+    <span class="doccomment">/// Similar to [`groupby`][`Self::groupby`], but order of the DataFrame is maintained.
     </span><span class="kw">pub fn </span>groupby_stable&lt;E: AsRef&lt;[IE]&gt;, IE: Into&lt;Expr&gt; + Clone&gt;(<span class="self">self</span>, by: E) -&gt; LazyGroupBy {
         <span class="kw">let </span>keys = by
             .as_ref()

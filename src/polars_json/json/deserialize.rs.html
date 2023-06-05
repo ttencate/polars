@@ -474,6 +474,8 @@
 <a href="#474" id="474">474</a>
 <a href="#475" id="475">475</a>
 <a href="#476" id="476">476</a>
+<a href="#477" id="477">477</a>
+<a href="#478" id="478">478</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Borrow;
 <span class="kw">use </span>std::fmt::Write;
 
@@ -854,12 +856,14 @@
     }
 }
 
-<span class="doccomment">/// Deserializes a `json` [`simd_json::value::Value`] into an [`Array`] of [`DataType`]
+<span class="doccomment">/// Deserializes a `json` [`Value`][Value] into an [`Array`] of [`DataType`]
 /// This is CPU-bounded.
 /// # Error
 /// This function errors iff either:
-/// * `json` is not a [`Value::Array`]
+/// * `json` is not an [`Array`]
 /// * `data_type` is neither [`DataType::List`] nor [`DataType::LargeList`]
+///
+/// [Value]: simd_json::value::Value
 </span><span class="kw">pub fn </span>deserialize(json: <span class="kw-2">&amp;</span>BorrowedValue, data_type: DataType) -&gt; <span class="prelude-ty">Result</span>&lt;Box&lt;<span class="kw">dyn </span>Array&gt;, Error&gt; {
     <span class="kw">match </span>json {
         BorrowedValue::Array(rows) =&gt; <span class="kw">match </span>data_type {
@@ -907,7 +911,7 @@
 ///
 /// This function errors iff either:
 ///
-/// * `json` is not a [`Value::Array`]
+/// * `json` is not an [`Array`]
 /// * `data_type` contains any incompatible types:
 ///   * [`DataType::Struct`]
 ///   * [`DataType::Dictionary`]

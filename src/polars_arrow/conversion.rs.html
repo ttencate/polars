@@ -26,6 +26,8 @@
 <a href="#26" id="26">26</a>
 <a href="#27" id="27">27</a>
 <a href="#28" id="28">28</a>
+<a href="#29" id="29">29</a>
+<a href="#30" id="30">30</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::array::{PrimitiveArray, StructArray};
 <span class="kw">use </span>arrow::chunk::Chunk;
 <span class="kw">use </span>arrow::datatypes::{DataType, Field};
@@ -42,8 +44,10 @@
 ///
 /// This operation returns [`Some`] iff this [`PrimitiveArray`]:
 /// * has not been sliced with an offset
-/// * has not been cloned (i.e. [`std::sync::Arc::get_mut`] yields [`Some`])
+/// * has not been cloned (i.e. [`Arc::get_mut`][Arc::get_mut] yields [`Some`])
 /// * has not been imported from the c data interface (FFI)
+///
+/// [Arc::get_mut]: std::sync::Arc::get_mut
 </span><span class="kw">pub fn </span>primitive_to_vec&lt;T: NativeType&gt;(arr: ArrayRef) -&gt; <span class="prelude-ty">Option</span>&lt;Vec&lt;T&gt;&gt; {
     <span class="kw">let </span>arr_ref = arr.as_any().downcast_ref::&lt;PrimitiveArray&lt;T&gt;&gt;().unwrap();
     <span class="kw">let </span><span class="kw-2">mut </span>buffer = arr_ref.values().clone();

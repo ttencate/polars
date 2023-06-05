@@ -100,7 +100,7 @@ use <a href="struct.Schema.html#method.with_column" title="method polars::chunke
 <p>If the index is out of bounds, the schema is not modified and <code>None</code> is returned. Otherwise returns
 <code>Some(old_dtype)</code>.</p>
 <p>This method only ever modifies an existing index and never adds a new field to the schema. To add a new field,
-use [<code>with_column</code>] or <a href="struct.Schema.html#method.insert_at_index" title="method polars::chunked_array::object::Schema::insert_at_index"><code>insert_at_index</code></a>.</p>
+use <a href="struct.Schema.html#method.with_column" title="method polars::chunked_array::object::Schema::with_column"><code>with_column</code></a> or <a href="struct.Schema.html#method.insert_at_index" title="method polars::chunked_array::object::Schema::insert_at_index"><code>insert_at_index</code></a>.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.with_column" class="method"><a class="srclink rightside" href="../../../src/polars_core/schema.rs.html#319">source</a><h4 class="code-header">pub fn <a href="#method.with_column" class="fn">with_column</a>(
     &amp;mut self,
     name: <a class="struct" href="../../../smartstring/struct.SmartString.html" title="struct smartstring::SmartString">SmartString</a>&lt;<a class="struct" href="../../../smartstring/config/struct.LazyCompact.html" title="struct smartstring::config::LazyCompact">LazyCompact</a>&gt;,

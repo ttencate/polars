@@ -55,11 +55,11 @@ You can select a single column or a slice of columns.</p>
 skip it all columns (except for the keys) will be selected for aggregation.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.get_groups" class="method"><a class="srclink rightside" href="../../src/polars_core/frame/groupby/mod.rs.html#226">source</a><h4 class="code-header">pub fn <a href="#method.get_groups" class="fn">get_groups</a>(&amp;self) -&gt; &amp;<a class="enum" href="../frame/groupby/enum.GroupsProxy.html" title="enum polars::frame::groupby::GroupsProxy">GroupsProxy</a></h4></section></summary><div class="docblock"><p>Get the internal representation of the GroupBy operation.
 The Vec returned contains:
-(first_idx, Vec<indexes>)
+(first_idx, <a href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec"><code>Vec&lt;indexes&gt;</code></a>)
 Where second value in the tuple is a vector with all matching indexes.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.get_groups_mut" class="method"><a class="srclink rightside" href="../../src/polars_core/frame/groupby/mod.rs.html#238">source</a><h4 class="code-header">pub unsafe fn <a href="#method.get_groups_mut" class="fn">get_groups_mut</a>(&amp;mut self) -&gt; &amp;mut <a class="enum" href="../frame/groupby/enum.GroupsProxy.html" title="enum polars::frame::groupby::GroupsProxy">GroupsProxy</a></h4></section></summary><div class="docblock"><p>Get the internal representation of the GroupBy operation.
 The Vec returned contains:
-(first_idx, Vec<indexes>)
+(first_idx, <a href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec"><code>Vec&lt;indexes&gt;</code></a>)
 Where second value in the tuple is a vector with all matching indexes.</p>
 <h5 id="safety"><a href="#safety">Safety</a></h5>
 <p>Groups should always be in bounds of the <code>DataFrame</code> hold by this <code>[GroupBy]</code>.

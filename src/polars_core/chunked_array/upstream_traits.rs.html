@@ -758,7 +758,7 @@
 <a href="#758" id="758">758</a>
 <a href="#759" id="759">759</a>
 <a href="#760" id="760">760</a>
-</pre></div><pre class="rust"><code><span class="doccomment">//! Implementations of upstream traits for ChunkedArray&lt;T&gt;
+</pre></div><pre class="rust"><code><span class="doccomment">//! Implementations of upstream traits for [`ChunkedArray&lt;T&gt;`]
 </span><span class="kw">use </span>std::borrow::{Borrow, Cow};
 <span class="kw">use </span>std::collections::LinkedList;
 <span class="kw">use </span>std::iter::FromIterator;
@@ -877,7 +877,7 @@
     }
 }
 
-<span class="doccomment">/// Local AsRef&lt;T&gt; trait to circumvent the orphan rule.
+<span class="doccomment">/// Local [`AsRef&lt;T&gt;`] trait to circumvent the orphan rule.
 </span><span class="kw">pub trait </span>PolarsAsRef&lt;T: <span class="question-mark">?</span>Sized&gt;: AsRef&lt;T&gt; {}
 
 <span class="kw">impl </span>PolarsAsRef&lt;str&gt; <span class="kw">for </span>String {}

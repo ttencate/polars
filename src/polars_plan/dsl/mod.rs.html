@@ -1899,6 +1899,19 @@
 <a href="#1899" id="1899">1899</a>
 <a href="#1900" id="1900">1900</a>
 <a href="#1901" id="1901">1901</a>
+<a href="#1902" id="1902">1902</a>
+<a href="#1903" id="1903">1903</a>
+<a href="#1904" id="1904">1904</a>
+<a href="#1905" id="1905">1905</a>
+<a href="#1906" id="1906">1906</a>
+<a href="#1907" id="1907">1907</a>
+<a href="#1908" id="1908">1908</a>
+<a href="#1909" id="1909">1909</a>
+<a href="#1910" id="1910">1910</a>
+<a href="#1911" id="1911">1911</a>
+<a href="#1912" id="1912">1912</a>
+<a href="#1913" id="1913">1913</a>
+<a href="#1914" id="1914">1914</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -1931,10 +1944,14 @@
 <span class="kw">use </span>std::sync::Arc;
 
 <span class="kw">pub use </span>arity::<span class="kw-2">*</span>;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
+</span><span class="kw">pub use </span>array::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>expr::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>function_expr::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>functions::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>list::<span class="kw-2">*</span>;
+<span class="attr">#[cfg(feature = <span class="string">&quot;meta&quot;</span>)]
+</span><span class="kw">pub use </span>meta::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>options::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_arrow::prelude::QuantileInterpolOptions;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
@@ -1944,6 +1961,8 @@
 <span class="kw">use </span>polars_core::utils::{try_get_supertype, NoNull};
 <span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
 </span><span class="kw">use </span>polars_time::series::SeriesOpsTime;
+<span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
+</span><span class="kw">pub use </span>struct_::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::constants::MAP_LIST_NAME;
 <span class="kw">pub use </span><span class="kw">crate</span>::logical_plan::lit;
@@ -2908,9 +2927,10 @@
         binary_expr(<span class="self">self</span>, Operator::Or, expr.into())
     }
 
-    <span class="doccomment">/// Filter a single column
-    /// Should be used in aggregation context. If you want to filter on a DataFrame level, use
-    /// [LazyFrame::filter](LazyFrame::filter)
+    <span class="doccomment">/// Filter a single column.
+    ///
+    /// Should be used in aggregation context. If you want to filter on a
+    /// DataFrame level, use `LazyFrame::filter`.
     </span><span class="kw">pub fn </span>filter&lt;E: Into&lt;Expr&gt;&gt;(<span class="self">self</span>, predicate: E) -&gt; <span class="self">Self </span>{
         <span class="kw">if </span>has_expr(<span class="kw-2">&amp;</span><span class="self">self</span>, |e| <span class="macro">matches!</span>(e, Expr::Wildcard)) {
             <span class="macro">panic!</span>(<span class="string">&quot;filter &#39;*&#39; not allowed, use LazyFrame::filter&quot;</span>)
@@ -3165,8 +3185,9 @@
         }
     }
 
-    <span class="doccomment">/// Apply a rolling min See:
-    /// [ChunkedArray::rolling_min]
+    <span class="doccomment">/// Apply a rolling minimum.
+    ///
+    /// See: [`RollingAgg::rolling_min`]
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
     </span><span class="kw">pub fn </span>rolling_min(<span class="self">self</span>, options: RollingOptions) -&gt; Expr {
         <span class="self">self</span>.finish_rolling(
@@ -3178,8 +3199,9 @@
         )
     }
 
-    <span class="doccomment">/// Apply a rolling max See:
-    /// [ChunkedArray::rolling_max]
+    <span class="doccomment">/// Apply a rolling maximum.
+    ///
+    /// See: [`RollingAgg::rolling_max`]
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
     </span><span class="kw">pub fn </span>rolling_max(<span class="self">self</span>, options: RollingOptions) -&gt; Expr {
         <span class="self">self</span>.finish_rolling(
@@ -3191,8 +3213,9 @@
         )
     }
 
-    <span class="doccomment">/// Apply a rolling mean See:
-    /// [ChunkedArray::rolling_mean]
+    <span class="doccomment">/// Apply a rolling mean.
+    ///
+    /// See: [`RollingAgg::rolling_mean`]
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
     </span><span class="kw">pub fn </span>rolling_mean(<span class="self">self</span>, options: RollingOptions) -&gt; Expr {
         <span class="self">self</span>.finish_rolling(
@@ -3204,8 +3227,9 @@
         )
     }
 
-    <span class="doccomment">/// Apply a rolling sum See:
-    /// [ChunkedArray::rolling_sum]
+    <span class="doccomment">/// Apply a rolling sum.
+    ///
+    /// See: [`RollingAgg::rolling_sum`]
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
     </span><span class="kw">pub fn </span>rolling_sum(<span class="self">self</span>, options: RollingOptions) -&gt; Expr {
         <span class="self">self</span>.finish_rolling(
@@ -3217,8 +3241,9 @@
         )
     }
 
-    <span class="doccomment">/// Apply a rolling median See:
-    /// [`ChunkedArray::rolling_median`]
+    <span class="doccomment">/// Apply a rolling median.
+    ///
+    /// See: [`RollingAgg::rolling_median`]
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
     </span><span class="kw">pub fn </span>rolling_median(<span class="self">self</span>, options: RollingOptions) -&gt; Expr {
         <span class="self">self</span>.finish_rolling(
@@ -3230,8 +3255,9 @@
         )
     }
 
-    <span class="doccomment">/// Apply a rolling quantile See:
-    /// [`ChunkedArray::rolling_quantile`]
+    <span class="doccomment">/// Apply a rolling quantile.
+    ///
+    /// See: [`RollingAgg::rolling_quantile`]
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
     </span><span class="kw">pub fn </span>rolling_quantile(
         <span class="self">self</span>,

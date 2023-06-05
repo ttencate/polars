@@ -35,11 +35,17 @@
 <a href="#35" id="35">35</a>
 <a href="#36" id="36">36</a>
 <a href="#37" id="37">37</a>
+<a href="#38" id="38">38</a>
+<a href="#39" id="39">39</a>
+<a href="#40" id="40">40</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>simd_json::BorrowedValue;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-<span class="doccomment">/// Deserializes an iterator of rows into an [`Array`] of [`DataType`].
+<span class="doccomment">/// Deserializes an iterator of rows into an [`Array`][Array] of [`DataType`].
+///
+/// [Array]: arrow::array::Array
+///
 /// # Implementation
 /// This function is CPU-bounded.
 /// This function is guaranteed to return an array of length equal to the length

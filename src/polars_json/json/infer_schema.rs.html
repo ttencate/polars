@@ -192,6 +192,10 @@
 <a href="#192" id="192">192</a>
 <a href="#193" id="193">193</a>
 <a href="#194" id="194">194</a>
+<a href="#195" id="195">195</a>
+<a href="#196" id="196">196</a>
+<a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Borrow;
 
 <span class="kw">use </span>arrow::datatypes::{DataType, Field, Schema};
@@ -204,7 +208,9 @@
 
 <span class="kw">const </span>ITEM_NAME: <span class="kw-2">&amp;</span>str = <span class="string">&quot;item&quot;</span>;
 
-<span class="doccomment">/// Infers [`DataType`] from [`Value`].
+<span class="doccomment">/// Infers [`DataType`] from [`Value`][Value].
+///
+/// [Value]: simd_json::value::Value
 </span><span class="kw">pub fn </span>infer(json: <span class="kw-2">&amp;</span>BorrowedValue) -&gt; PolarsResult&lt;DataType&gt; {
     <span class="prelude-val">Ok</span>(<span class="kw">match </span>json {
         BorrowedValue::Static(StaticNode::Bool(<span class="kw">_</span>)) =&gt; DataType::Boolean,
@@ -217,7 +223,9 @@
     })
 }
 
-<span class="doccomment">/// Infers [`Schema`] from JSON [`Value`] in (pandas-compatible) records format.
+<span class="doccomment">/// Infers [`Schema`] from JSON [`Value`][Value] in (pandas-compatible) records format.
+///
+/// [Value]: simd_json::value::Value
 </span><span class="kw">pub fn </span>infer_records_schema(json: <span class="kw-2">&amp;</span>BorrowedValue) -&gt; PolarsResult&lt;Schema&gt; {
     <span class="kw">let </span>outer_array = <span class="kw">match </span>json {
         BorrowedValue::Array(array) =&gt; <span class="prelude-val">Ok</span>(array),

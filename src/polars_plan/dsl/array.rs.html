@@ -35,10 +35,16 @@
 <a href="#35" id="35">35</a>
 <a href="#36" id="36">36</a>
 <a href="#37" id="37">37</a>
+<a href="#38" id="38">38</a>
+<a href="#39" id="39">39</a>
+<a href="#40" id="40">40</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::dsl::function_expr::{ArrayFunction, FunctionExpr};
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
-<span class="doccomment">/// Specialized expressions for [`Series`] of [`DataType::List`].
+<span class="doccomment">/// Specialized expressions for [`Series`][Series] of [`DataType::List`][DataType::List].
+///
+/// [Series]: polars_core::prelude::Series
+/// [DataType::List]: polars_core::prelude::DataType::List
 </span><span class="kw">pub struct </span>ArrayNameSpace(<span class="kw">pub </span>Expr);
 
 <span class="kw">impl </span>ArrayNameSpace {

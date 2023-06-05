@@ -1025,7 +1025,7 @@
         }
     }
 
-    <span class="doccomment">/// Series to ChunkedArray&lt;T&gt;
+    <span class="doccomment">/// Series to [`ChunkedArray&lt;T&gt;`]
     </span><span class="kw">pub fn </span>unpack_series_matching_type(<span class="kw-2">&amp;</span><span class="self">self</span>, series: <span class="kw-2">&amp;</span>Series) -&gt; PolarsResult&lt;<span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;&gt; {
         <span class="macro">polars_ensure!</span>(
             <span class="self">self</span>.dtype() == series.dtype(),

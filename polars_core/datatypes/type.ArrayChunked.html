@@ -7,7 +7,7 @@
     &amp;self
 ) -&gt; AmortizedListIter&lt;'_, impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html" title="trait core::iter::traits::iterator::Iterator">Iterator</a>&lt;Item = <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../series/unstable/type.ArrayBox.html" title="type polars_core::series::unstable::ArrayBox">ArrayBox</a>&gt;&gt; + '_&gt;</h4></section></summary><div class="docblock"><p>This is an iterator over a ListChunked that save allocations.
 A Series is:
-1. Arc<ChunkedArray>
+1. <a href="../prelude/struct.Arc.html" title="struct polars_core::prelude::Arc"><code>Arc&lt;ChunkedArray&gt;</code></a>
 ChunkedArray is:
 2. Vec&lt; 3. ArrayRef&gt;</p>
 <p>The ArrayRef we indicated with 3. will be updated during iteration.

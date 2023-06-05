@@ -844,7 +844,7 @@
     }
 }
 
-<span class="doccomment">/// Transmute ChunkedArray to bit representation.
+<span class="doccomment">/// Transmute [`ChunkedArray`] to bit representation.
 /// This is useful in hashing context and reduces no.
 /// of compiled code paths.
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait </span>ToBitRepr {
@@ -1055,10 +1055,10 @@
     </span><span class="kw">unsafe fn </span>cast_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, data_type: <span class="kw-2">&amp;</span>DataType) -&gt; PolarsResult&lt;Series&gt;;
 }
 
-<span class="doccomment">/// Fastest way to do elementwise operations on a ChunkedArray&lt;T&gt; when the operation is cheaper than
+<span class="doccomment">/// Fastest way to do elementwise operations on a [`ChunkedArray&lt;T&gt;`] when the operation is cheaper than
 /// branching due to null checking
 </span><span class="kw">pub trait </span>ChunkApply&lt;<span class="lifetime">&#39;a</span>, A, B&gt; {
-    <span class="doccomment">/// Apply a closure elementwise and cast to a Numeric ChunkedArray. This is fastest when the null check branching is more expensive
+    <span class="doccomment">/// Apply a closure elementwise and cast to a Numeric [`ChunkedArray`]. This is fastest when the null check branching is more expensive
     /// than the closure application.
     ///
     /// Null values remain null.
@@ -1330,7 +1330,7 @@
         </span><span class="self">Self</span>: Sized;
 }
 
-<span class="doccomment">/// Reverse a ChunkedArray&lt;T&gt;
+<span class="doccomment">/// Reverse a [`ChunkedArray&lt;T&gt;`]
 </span><span class="kw">pub trait </span>ChunkReverse {
     <span class="doccomment">/// Return a reversed version of this array.
     </span><span class="kw">fn </span>reverse(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span>;
@@ -1448,7 +1448,7 @@
     }
 }
 
-<span class="doccomment">/// Shift the values of a ChunkedArray by a number of periods.
+<span class="doccomment">/// Shift the values of a [`ChunkedArray`] by a number of periods.
 </span><span class="kw">pub trait </span>ChunkShiftFill&lt;T: PolarsDataType, V&gt; {
     <span class="doccomment">/// Shift the values by a given period and fill the parts that will be empty due to this operation
     /// with `fill_value`.
@@ -1459,7 +1459,7 @@
     <span class="kw">fn </span>shift(<span class="kw-2">&amp;</span><span class="self">self</span>, periods: i64) -&gt; ChunkedArray&lt;T&gt;;
 }
 
-<span class="doccomment">/// Combine 2 ChunkedArrays based on some predicate.
+<span class="doccomment">/// Combine two [`ChunkedArray`] based on some predicate.
 </span><span class="kw">pub trait </span>ChunkZip&lt;T: PolarsDataType&gt; {
     <span class="doccomment">/// Create a new ChunkedArray with values from self where the mask evaluates `true` and values
     /// from `other` where the mask evaluates `false`

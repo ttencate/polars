@@ -116,6 +116,7 @@
 <a href="#116" id="116">116</a>
 <a href="#117" id="117">117</a>
 <a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
@@ -133,8 +134,9 @@
 <span class="kw">pub trait </span>SeriesOpsTime {
     <span class="kw">fn </span>ops_time_dtype(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>DataType;
 
-    <span class="doccomment">/// Apply a rolling mean to a Series. See:
-    /// [ChunkedArray::rolling_mean](crate::prelude::ChunkWindow::rolling_mean).
+    <span class="doccomment">/// Apply a rolling mean to a Series.
+    ///
+    /// See: [`RollingAgg::rolling_mean`]
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
     </span><span class="kw">fn </span>rolling_mean(<span class="kw-2">&amp;</span><span class="self">self</span>, _options: RollingOptionsImpl) -&gt; PolarsResult&lt;Series&gt; {
         <span class="macro">invalid_operation!</span>(<span class="self">self</span>)
