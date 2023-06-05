@@ -1914,6 +1914,7 @@
 <a href="#1914" id="1914">1914</a>
 <a href="#1915" id="1915">1915</a>
 <a href="#1916" id="1916">1916</a>
+<a href="#1917" id="1917">1917</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -1965,6 +1966,7 @@
 <span class="kw">use </span>polars_core::utils::{try_get_supertype, NoNull};
 <span class="attr">#[cfg(feature = <span class="string">&quot;rolling_window&quot;</span>)]
 </span><span class="kw">use </span>polars_time::series::SeriesOpsTime;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>selector::Selector;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">pub use </span>struct_::<span class="kw-2">*</span>;
 

@@ -524,6 +524,38 @@
 <a href="#524" id="524">524</a>
 <a href="#525" id="525">525</a>
 <a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! this contains code used for rewriting projections, expanding wildcards, regex selection etc.
 </span><span class="kw">use </span>polars_arrow::index::IndexToUsize;
 <span class="kw">use </span>polars_core::utils::get_supertype;
@@ -1005,6 +1037,54 @@
     <span class="prelude-val">Ok</span>(())
 }
 
+<span class="kw">fn </span>replace_selector_inner(
+    s: Selector,
+    members: <span class="kw-2">&amp;mut </span>PlIndexSet&lt;Expr&gt;,
+    scratch: <span class="kw-2">&amp;mut </span>Vec&lt;Expr&gt;,
+    schema: <span class="kw-2">&amp;</span>Schema,
+    keys: <span class="kw-2">&amp;</span>[Expr],
+) -&gt; PolarsResult&lt;()&gt; {
+    <span class="kw">match </span>s {
+        Selector::Root(expr) =&gt; {
+            <span class="kw">let </span>local_flags = find_flags(<span class="kw-2">&amp;</span>expr);
+            replace_and_add_to_results(<span class="kw-2">*</span>expr, local_flags, scratch, schema, keys)<span class="question-mark">?</span>;
+            members.extend(scratch.drain(..))
+        }
+        Selector::Add(lhs, rhs) =&gt; {
+            replace_selector_inner(<span class="kw-2">*</span>lhs, members, scratch, schema, keys)<span class="question-mark">?</span>;
+            replace_selector_inner(<span class="kw-2">*</span>rhs, members, scratch, schema, keys)<span class="question-mark">?</span>;
+        }
+        Selector::Sub(lhs, rhs) =&gt; {
+            <span class="comment">// fill lhs
+            </span>replace_selector_inner(<span class="kw-2">*</span>lhs, members, scratch, schema, keys)<span class="question-mark">?</span>;
+
+            <span class="comment">// subtract rhs
+            </span><span class="kw">let </span><span class="kw-2">mut </span>rhs_members = Default::default();
+            replace_selector_inner(<span class="kw-2">*</span>rhs, <span class="kw-2">&amp;mut </span>rhs_members, scratch, schema, keys)<span class="question-mark">?</span>;
+
+            <span class="kw">let </span><span class="kw-2">mut </span>new_members = PlIndexSet::with_capacity(members.len());
+            <span class="kw">for </span>e <span class="kw">in </span>members.drain(..) {
+                <span class="kw">if </span>!rhs_members.contains(<span class="kw-2">&amp;</span>e) {
+                    new_members.insert(e);
+                }
+            }
+
+            <span class="kw-2">*</span>members = new_members;
+        }
+        Selector::InterSect(lhs, rhs) =&gt; {
+            <span class="comment">// fill lhs
+            </span>replace_selector_inner(<span class="kw-2">*</span>lhs, members, scratch, schema, keys)<span class="question-mark">?</span>;
+
+            <span class="comment">// fill rhs
+            </span><span class="kw">let </span><span class="kw-2">mut </span>rhs_members = Default::default();
+            replace_selector_inner(<span class="kw-2">*</span>rhs, <span class="kw-2">&amp;mut </span>rhs_members, scratch, schema, keys)<span class="question-mark">?</span>;
+
+            <span class="kw-2">*</span>members = members.intersection(<span class="kw-2">&amp;</span>rhs_members).cloned().collect()
+        }
+    }
+    <span class="prelude-val">Ok</span>(())
+}
+
 <span class="kw">fn </span>replace_selector(expr: <span class="kw-2">&amp;mut </span>Expr, schema: <span class="kw-2">&amp;</span>Schema, keys: <span class="kw-2">&amp;</span>[Expr]) -&gt; PolarsResult&lt;()&gt; {
     <span class="comment">// first pass we replace the selectors
     // with Expr::Columns
@@ -1012,37 +1092,21 @@
     // and then subtract the `to_subtract` columns
     </span>expr.mutate().try_apply(|e| <span class="kw">match </span>e {
         Expr::Selector(s) =&gt; {
-            <span class="kw">let </span><span class="kw-2">mut </span>to_add = Vec::with_capacity(s.add.len() * <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>swapped = Selector::Root(Box::new(Expr::Wildcard));
+            std::mem::swap(s, <span class="kw-2">&amp;mut </span>swapped);
 
-            <span class="kw">for </span>add_e <span class="kw">in </span>std::mem::take(<span class="kw-2">&amp;mut </span>s.add) {
-                <span class="kw">let </span>local_flags = find_flags(<span class="kw-2">&amp;</span>add_e);
-                replace_and_add_to_results(add_e, local_flags, <span class="kw-2">&amp;mut </span>to_add, schema, keys)<span class="question-mark">?</span>;
-            }
+            <span class="kw">let </span><span class="kw-2">mut </span>members = PlIndexSet::new();
+            replace_selector_inner(swapped, <span class="kw-2">&amp;mut </span>members, <span class="kw-2">&amp;mut </span><span class="macro">vec!</span>[], schema, keys)<span class="question-mark">?</span>;
 
-            <span class="kw">let </span><span class="kw-2">mut </span>to_subtract = Vec::with_capacity(s.subtract.len() * <span class="number">3</span>);
-            <span class="kw">for </span>sub_e <span class="kw">in </span>std::mem::take(<span class="kw-2">&amp;mut </span>s.subtract) {
-                <span class="kw">let </span>local_flags = find_flags(<span class="kw-2">&amp;</span>sub_e);
-                replace_and_add_to_results(sub_e, local_flags, <span class="kw-2">&amp;mut </span>to_subtract, schema, keys)<span class="question-mark">?</span>;
-            }
-
-            <span class="kw">let </span>to_subtract = to_subtract
-                .iter()
-                .map(|e| {
-                    <span class="kw">let </span>Expr::Column(name) = e <span class="kw">else </span>{<span class="macro">unreachable!</span>()};
-                    name.as_ref()
-                })
-                .collect::&lt;PlHashSet&lt;<span class="kw">_</span>&gt;&gt;();
-
-            <span class="kw">let </span><span class="kw-2">mut </span>final_names = Vec::with_capacity(to_add.len());
-            <span class="comment">// keep a set to ensure we don&#39;t create duplicates
-            </span><span class="kw">let </span><span class="kw-2">mut </span>added = PlHashSet::with_capacity(to_add.len());
-            <span class="kw">for </span>e <span class="kw">in </span>to_add {
-                <span class="kw">let </span>Expr::Column(name) = e <span class="kw">else </span>{<span class="macro">unreachable!</span>()};
-                <span class="kw">if </span>!to_subtract.contains(name.as_ref()) &amp;&amp; added.insert(name.clone()) {
-                    final_names.push(name.to_string())
-                }
-            }
-            <span class="kw-2">*</span>e = Expr::Columns(final_names);
+            <span class="kw-2">*</span>e = Expr::Columns(
+                members
+                    .into_iter()
+                    .map(|e| {
+                        <span class="kw">let </span>Expr::Column(name) = e <span class="kw">else </span>{<span class="macro">unreachable!</span>()};
+                        name.to_string()
+                    })
+                    .collect(),
+            );
 
             <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
         }

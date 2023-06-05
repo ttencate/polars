@@ -489,7 +489,7 @@
     </span><span class="kw">pub </span>slice: <span class="prelude-ty">Option</span>&lt;(i64, usize)&gt;,
 }
 
-<span class="attr">#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+<span class="attr">#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 </span><span class="kw">pub enum </span>ApplyOptions {
     <span class="doccomment">/// Collect groups to a list and apply the function over the groups.
@@ -505,7 +505,7 @@
 }
 
 <span class="comment">// a boolean that can only be set to `false` safely
-</span><span class="attr">#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+</span><span class="attr">#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 </span><span class="kw">pub struct </span>UnsafeBool(bool);
 <span class="kw">impl </span>Default <span class="kw">for </span>UnsafeBool {
@@ -514,7 +514,7 @@
     }
 }
 
-<span class="attr">#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+<span class="attr">#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 </span><span class="kw">pub struct </span>FunctionOptions {
     <span class="doccomment">/// Collect groups to a list and apply the function over the groups.

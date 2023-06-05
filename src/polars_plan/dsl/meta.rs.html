@@ -100,7 +100,24 @@
 <a href="#100" id="100">100</a>
 <a href="#101" id="101">101</a>
 <a href="#102" id="102">102</a>
-</pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::ops::BitAnd;
+
+<span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::dsl::selector::Selector;
 <span class="kw">use </span><span class="kw">crate</span>::logical_plan::projection::is_regex_projection;
 
@@ -174,9 +191,9 @@
     <span class="kw">pub fn </span>_selector_add(<span class="self">self</span>, other: Expr) -&gt; PolarsResult&lt;Expr&gt; {
         <span class="kw">if let </span>Expr::Selector(<span class="kw-2">mut </span>s) = <span class="self">self</span>.<span class="number">0 </span>{
             <span class="kw">if let </span>Expr::Selector(s_other) = other {
-                s = <span class="kw-2">&amp;</span>s + <span class="kw-2">&amp;</span>s_other;
+                s = s + s_other;
             } <span class="kw">else </span>{
-                s.add.push(other);
+                s = s + Selector::Root(Box::new(other))
             }
             <span class="prelude-val">Ok</span>(Expr::Selector(s))
         } <span class="kw">else </span>{
@@ -187,9 +204,22 @@
     <span class="kw">pub fn </span>_selector_sub(<span class="self">self</span>, other: Expr) -&gt; PolarsResult&lt;Expr&gt; {
         <span class="kw">if let </span>Expr::Selector(<span class="kw-2">mut </span>s) = <span class="self">self</span>.<span class="number">0 </span>{
             <span class="kw">if let </span>Expr::Selector(s_other) = other {
-                s = <span class="kw-2">&amp;</span>s - <span class="kw-2">&amp;</span>s_other;
+                s = s - s_other;
             } <span class="kw">else </span>{
-                s.subtract.push(other);
+                s = s - Selector::Root(Box::new(other))
+            }
+            <span class="prelude-val">Ok</span>(Expr::Selector(s))
+        } <span class="kw">else </span>{
+            <span class="macro">polars_bail!</span>(ComputeError: <span class="string">&quot;expected selector, got {}&quot;</span>, <span class="self">self</span>.<span class="number">0</span>)
+        }
+    }
+
+    <span class="kw">pub fn </span>_selector_and(<span class="self">self</span>, other: Expr) -&gt; PolarsResult&lt;Expr&gt; {
+        <span class="kw">if let </span>Expr::Selector(<span class="kw-2">mut </span>s) = <span class="self">self</span>.<span class="number">0 </span>{
+            <span class="kw">if let </span>Expr::Selector(s_other) = other {
+                s = s.bitand(s_other);
+            } <span class="kw">else </span>{
+                s = s.bitand(Selector::Root(Box::new(other)))
             }
             <span class="prelude-val">Ok</span>(Expr::Selector(s))
         } <span class="kw">else </span>{
