@@ -49,7 +49,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="polars.Expr.cache" href="api/polars.Expr.cache.html" />
-    <link rel="prev" title="polars.Expr.meta.undo_aliases" href="api/polars.Expr.meta.undo_aliases.html" />
+    <link rel="prev" title="polars.Expr.meta.write_json" href="api/polars.Expr.meta.write_json.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -1259,10 +1259,12 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.pop.html">polars.Expr.meta.pop</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.root_names.html">polars.Expr.meta.root_names</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.undo_aliases.html">polars.Expr.meta.undo_aliases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.meta.write_json.html">polars.Expr.meta.write_json</a></li>
 </ul>
 </li>
 <li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Miscellaneous</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-46" name="toctree-checkbox-46" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-46"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.cache.html">polars.Expr.cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.from_json.html">polars.Expr.from_json</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/polars.Expr.set_sorted.html">polars.Expr.set_sorted</a></li>
 </ul>
 </li>
@@ -1569,7 +1571,10 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.cache.html#polars.Expr.cache" title="polars.Expr.cache"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.cache</span></code></a>()</p></td>
 <td><p>Cache this expression so that it only is executed once per context.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.set_sorted.html#polars.Expr.set_sorted" title="polars.Expr.set_sorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.set_sorted</span></code></a>(*[, descending])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Expr.from_json.html#polars.Expr.from_json" title="polars.Expr.from_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.from_json</span></code></a>(value)</p></td>
+<td><p>Read an expression from a JSON encoded string to construct an Expression.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Expr.set_sorted.html#polars.Expr.set_sorted" title="polars.Expr.set_sorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Expr.set_sorted</span></code></a>(*[, descending])</p></td>
 <td><p>Flags the expression as 'sorted'.</p></td>
 </tr>
 </tbody>
@@ -1588,12 +1593,12 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="api/polars.Expr.meta.undo_aliases.html"
+       href="api/polars.Expr.meta.write_json.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.Expr.meta.undo_aliases</p>
+        <p class="prev-next-title">polars.Expr.meta.write_json</p>
       </div>
     </a>
     <a class="right-next"
