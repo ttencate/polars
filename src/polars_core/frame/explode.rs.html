@@ -785,7 +785,7 @@
             len * values_len + <span class="number">1</span>,
         );
         <span class="comment">// prepare ids
-        </span><span class="kw">let </span>ids_ = <span class="self">self</span>.select(id_vars)<span class="question-mark">?</span>;
+        </span><span class="kw">let </span>ids_ = <span class="self">self</span>.select_with_schema_unchecked(id_vars, <span class="kw-2">&amp;</span>schema)<span class="question-mark">?</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>ids = ids_.clone();
         <span class="kw">if </span>ids.width() &gt; <span class="number">0 </span>{
             <span class="kw">for _ in </span><span class="number">0</span>..value_vars.len() - <span class="number">1 </span>{
