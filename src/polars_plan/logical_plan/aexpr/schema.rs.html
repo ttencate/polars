@@ -289,6 +289,8 @@
 <a href="#289" id="289">289</a>
 <a href="#290" id="290">290</a>
 <a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">fn </span>float_type(field: <span class="kw-2">&amp;mut </span>Field) {
@@ -355,6 +357,8 @@
                     | Operator::And
                     | Operator::LtEq
                     | Operator::GtEq
+                    | Operator::NotEqValidity
+                    | Operator::EqValidity
                     | Operator::Or =&gt; {
                         <span class="kw">let </span>out_field;
                         <span class="kw">let </span>out_name = {
