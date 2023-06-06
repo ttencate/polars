@@ -387,6 +387,8 @@
 <a href="#387" id="387">387</a>
 <a href="#388" id="388">388</a>
 <a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::utils::{accumulate_dataframes_vertical, split_df};
 <span class="kw">use </span>polars_core::POOL;
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
@@ -618,6 +620,11 @@
         state: <span class="kw-2">&amp;mut </span>ExecutionState,
         original_df: DataFrame,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;PolarsResult&lt;DataFrame&gt;&gt; {
+        <span class="attr">#[allow(clippy::needless_update)]
+        </span><span class="kw">let </span>groupby_options = GroupbyOptions {
+            slice: <span class="self">self</span>.slice,
+            ..Default::default()
+        };
         <span class="kw">let </span>lp = LogicalPlan::Aggregate {
             input: Box::new(original_df.lazy().logical_plan),
             keys: Arc::new(std::mem::take(<span class="kw-2">&amp;mut </span><span class="self">self</span>.keys)),
@@ -625,10 +632,7 @@
             schema: <span class="self">self</span>.output_schema.clone(),
             apply: <span class="prelude-val">None</span>,
             maintain_order: <span class="bool-val">false</span>,
-            options: GroupbyOptions {
-                slice: <span class="self">self</span>.slice,
-                ..Default::default()
-            },
+            options: groupby_options,
         };
         <span class="kw">let </span><span class="kw-2">mut </span>expr_arena = Default::default();
         <span class="kw">let </span><span class="kw-2">mut </span>lp_arena = Default::default();
