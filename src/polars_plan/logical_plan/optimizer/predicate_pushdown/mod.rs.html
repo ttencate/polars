@@ -1294,7 +1294,7 @@
                         <span class="kw">let </span>lp_top = stack_opt.optimize_loop(<span class="kw-2">&amp;mut </span>[Box::new(SimplifyExprRule{})], expr_arena, lp_arena, lp_top).unwrap();
                         <span class="kw">let </span>PythonScan {options: <span class="kw">_</span>, predicate: <span class="prelude-val">Some</span>(predicate)} = lp_arena.take(lp_top) <span class="kw">else </span>{<span class="macro">unreachable!</span>()};
 
-                        <span class="kw">match </span><span class="kw">super</span>::<span class="kw">super</span>::pyarrow::predicate_to_pa(predicate, expr_arena) {
+                        <span class="kw">match </span><span class="kw">super</span>::<span class="kw">super</span>::pyarrow::predicate_to_pa(predicate, expr_arena, Default::default()) {
                             <span class="comment">// we we able to create a pyarrow string, mutate the options
                             </span><span class="prelude-val">Some</span>(eval_str) =&gt; {
                                 options.predicate = <span class="prelude-val">Some</span>(eval_str)
