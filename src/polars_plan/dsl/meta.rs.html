@@ -115,6 +115,9 @@
 <a href="#115" id="115">115</a>
 <a href="#116" id="116">116</a>
 <a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::ops::BitAnd;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -227,9 +230,12 @@
         }
     }
 
-    <span class="kw">pub fn </span>_into_selector(<span class="self">self</span>) -&gt; PolarsResult&lt;Expr&gt; {
-        <span class="macro">polars_ensure!</span>(!<span class="macro">matches!</span>(<span class="self">self</span>.<span class="number">0</span>, Expr::Selector(<span class="kw">_</span>)), ComputeError: <span class="string">&quot;nested selectors not allowed&quot;</span>);
-        <span class="prelude-val">Ok</span>(Expr::Selector(Selector::new(<span class="self">self</span>.<span class="number">0</span>)))
+    <span class="kw">pub fn </span>_into_selector(<span class="self">self</span>) -&gt; Expr {
+        <span class="kw">if let </span>Expr::Selector(<span class="kw">_</span>) = <span class="self">self</span>.<span class="number">0 </span>{
+            <span class="self">self</span>.<span class="number">0
+        </span>} <span class="kw">else </span>{
+            Expr::Selector(Selector::new(<span class="self">self</span>.<span class="number">0</span>))
+        }
     }
 }
 </code></pre></div></section></main></body></html>
