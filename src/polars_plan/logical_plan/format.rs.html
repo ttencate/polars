@@ -689,7 +689,7 @@
                 options,
                 ..
             } =&gt; {
-                <span class="kw">let </span>how = <span class="kw-2">&amp;</span>options.how;
+                <span class="kw">let </span>how = <span class="kw-2">&amp;</span>options.args.how;
                 <span class="macro">write!</span>(f, <span class="string">&quot;{:indent$}{how} JOIN:&quot;</span>, <span class="string">&quot;&quot;</span>)<span class="question-mark">?</span>;
                 <span class="macro">write!</span>(f, <span class="string">&quot;\n{:indent$}LEFT PLAN ON: {left_on:?}&quot;</span>, <span class="string">&quot;&quot;</span>)<span class="question-mark">?</span>;
                 input_left._format(f, sub_indent)<span class="question-mark">?</span>;

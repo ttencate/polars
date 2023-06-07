@@ -822,6 +822,9 @@
 <a href="#822" id="822">822</a>
 <a href="#823" id="823">823</a>
 <a href="#824" id="824">824</a>
+<a href="#825" id="825">825</a>
+<a href="#826" id="826">826</a>
+<a href="#827" id="827">827</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::Write;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -829,7 +832,7 @@
 <span class="kw">use </span>polars_core::export::arrow::bitmap::Bitmap;
 <span class="kw">use </span>polars_core::frame::groupby::{GroupBy, GroupsProxy};
 <span class="kw">use </span>polars_core::frame::hash_join::{
-    default_join_ids, private_left_join_multiple_keys, JoinOptIds,
+    default_join_ids, private_left_join_multiple_keys, ChunkJoinOptIds, JoinValidation,
 };
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_core::series::IsSorted;
@@ -1379,7 +1382,10 @@
                             <span class="kw">if </span>groupby_columns.len() == <span class="number">1 </span>{
                                 <span class="comment">// group key from right column
                                 </span><span class="kw">let </span>right = <span class="kw-2">&amp;</span>keys[<span class="number">0</span>];
-                                groupby_columns[<span class="number">0</span>].hash_join_left(right).<span class="number">1
+                                groupby_columns[<span class="number">0</span>]
+                                    .hash_join_left(right, JoinValidation::ManyToMany)
+                                    .unwrap()
+                                    .<span class="number">1
                             </span>} <span class="kw">else </span>{
                                 <span class="kw">let </span>df_right = DataFrame::new_no_checks(keys);
                                 <span class="kw">let </span>df_left = DataFrame::new_no_checks(groupby_columns);
@@ -1443,7 +1449,7 @@
     </span>}
 }
 
-<span class="kw">fn </span>materialize_column(join_opt_ids: <span class="kw-2">&amp;</span>JoinOptIds, out_column: <span class="kw-2">&amp;</span>Series) -&gt; Series {
+<span class="kw">fn </span>materialize_column(join_opt_ids: <span class="kw-2">&amp;</span>ChunkJoinOptIds, out_column: <span class="kw-2">&amp;</span>Series) -&gt; Series {
     <span class="attr">#[cfg(feature = <span class="string">&quot;chunked_ids&quot;</span>)]
     </span>{
         <span class="kw">use </span>polars_arrow::export::arrow::Either;

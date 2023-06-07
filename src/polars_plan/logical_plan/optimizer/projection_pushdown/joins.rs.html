@@ -459,7 +459,6 @@
 <a href="#459" id="459">459</a>
 <a href="#460" id="460">460</a>
 <a href="#461" id="461">461</a>
-<a href="#462" id="462">462</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(clippy::too_many_arguments)]
 </span><span class="kw">use </span>std::collections::BTreeSet;
 
@@ -513,7 +512,7 @@
     <span class="kw">let </span><span class="kw-2">mut </span>names_right = PlHashSet::with_capacity(n);
     <span class="kw">let </span><span class="kw-2">mut </span>local_projection = Vec::with_capacity(n);
 
-    <span class="kw">let </span>JoinType::AsOf(asof_options) = <span class="kw-2">&amp;</span>options.how <span class="kw">else </span>{<span class="macro">unreachable!</span>()};
+    <span class="kw">let </span>JoinType::AsOf(asof_options) = <span class="kw-2">&amp;</span>options.args.how <span class="kw">else </span>{<span class="macro">unreachable!</span>()};
 
     <span class="comment">// if there are no projections we don&#39;t have to do anything (all columns are projected)
     // otherwise we build local projections to sort out proper column names due to the
@@ -666,7 +665,7 @@
     expr_arena: <span class="kw-2">&amp;mut </span>Arena&lt;AExpr&gt;,
 ) -&gt; PolarsResult&lt;ALogicalPlan&gt; {
     <span class="attr">#[cfg(feature = <span class="string">&quot;asof_join&quot;</span>)]
-    </span><span class="kw">if </span><span class="macro">matches!</span>(options.how, JoinType::AsOf(<span class="kw">_</span>)) {
+    </span><span class="kw">if </span><span class="macro">matches!</span>(options.args.how, JoinType::AsOf(<span class="kw">_</span>)) {
         <span class="kw">return </span>process_asof_join(
             proj_pd,
             input_left,
@@ -825,7 +824,7 @@
         <span class="comment">// Column name of the projection without any alias.
         </span><span class="kw">let </span>leaf_column_name = aexpr_to_leaf_names(proj, expr_arena).pop().unwrap();
 
-        <span class="kw">let </span>suffix = options.suffix.as_ref();
+        <span class="kw">let </span>suffix = options.args.suffix();
         <span class="comment">// If _right suffix exists we need to push a projection down without this
         // suffix.
         </span><span class="kw">if </span>leaf_column_name.ends_with(suffix) {
@@ -901,16 +900,15 @@
     expr_arena: <span class="kw-2">&amp;mut </span>Arena&lt;AExpr&gt;,
     local_projection: <span class="kw-2">&amp;mut </span>[Node],
 ) -&gt; ALogicalPlan {
-    <span class="kw">let </span>suffix = options.suffix.clone();
-
+    <span class="kw">let </span>suffix = options.args.suffix();
     <span class="kw">let </span>alp = ALogicalPlanBuilder::new(input_left, expr_arena, lp_arena)
-        .join(input_right, left_on, right_on, options)
+        .join(input_right, left_on, right_on, options.clone())
         .build();
     <span class="kw">let </span>schema_after_join = alp.schema(lp_arena);
 
     <span class="kw">for </span>proj <span class="kw">in </span>local_projection {
         <span class="kw">for </span>name <span class="kw">in </span>aexpr_to_leaf_names(<span class="kw-2">*</span>proj, expr_arena) {
-            <span class="kw">if </span>name.contains(suffix.as_ref()) &amp;&amp; schema_after_join.get(<span class="kw-2">&amp;</span>name).is_none() {
+            <span class="kw">if </span>name.contains(suffix) &amp;&amp; schema_after_join.get(<span class="kw-2">&amp;</span>name).is_none() {
                 <span class="kw">let </span>new_name = <span class="kw-2">&amp;</span>name.as_ref()[..name.len() - suffix.len()];
 
                 <span class="kw">let </span>renamed = aexpr_assign_renamed_leaf(<span class="kw-2">*</span>proj, expr_arena, <span class="kw-2">&amp;</span>name, new_name);

@@ -1439,7 +1439,7 @@
                 right_on,
                 options,
                 ..
-            } =&gt; <span class="kw">match </span>options.how {
+            } =&gt; <span class="kw">match </span>options.args.how {
                 <span class="attr">#[cfg(feature = <span class="string">&quot;semi_anti_join&quot;</span>)]
                 </span>JoinType::Semi | JoinType::Anti =&gt; process_semi_anti_join(
                     <span class="self">self</span>,

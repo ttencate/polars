@@ -1473,6 +1473,29 @@
 <a href="#1473" id="1473">1473</a>
 <a href="#1474" id="1474">1474</a>
 <a href="#1475" id="1475">1475</a>
+<a href="#1476" id="1476">1476</a>
+<a href="#1477" id="1477">1477</a>
+<a href="#1478" id="1478">1478</a>
+<a href="#1479" id="1479">1479</a>
+<a href="#1480" id="1480">1480</a>
+<a href="#1481" id="1481">1481</a>
+<a href="#1482" id="1482">1482</a>
+<a href="#1483" id="1483">1483</a>
+<a href="#1484" id="1484">1484</a>
+<a href="#1485" id="1485">1485</a>
+<a href="#1486" id="1486">1486</a>
+<a href="#1487" id="1487">1487</a>
+<a href="#1488" id="1488">1488</a>
+<a href="#1489" id="1489">1489</a>
+<a href="#1490" id="1490">1490</a>
+<a href="#1491" id="1491">1491</a>
+<a href="#1492" id="1492">1492</a>
+<a href="#1493" id="1493">1493</a>
+<a href="#1494" id="1494">1494</a>
+<a href="#1495" id="1495">1495</a>
+<a href="#1496" id="1496">1496</a>
+<a href="#1497" id="1497">1497</a>
+<a href="#1498" id="1498">1498</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Lazy variant of a [DataFrame](polars_core::frame::DataFrame).
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 </span><span class="kw">mod </span>csv;
@@ -1507,7 +1530,7 @@
 </span><span class="kw">pub use </span>parquet::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_arrow::prelude::QuantileInterpolOptions;
 <span class="kw">use </span>polars_core::frame::explode::MeltArgs;
-<span class="kw">use </span>polars_core::frame::hash_join::JoinType;
+<span class="kw">use </span>polars_core::frame::hash_join::{JoinType, JoinValidation};
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_io::RowCount;
 <span class="kw">pub use </span>polars_plan::frame::{AllowedOptimizations, OptState};
@@ -2322,7 +2345,12 @@
     /// }
     /// ```
     </span><span class="kw">pub fn </span>left_join&lt;E: Into&lt;Expr&gt;&gt;(<span class="self">self</span>, other: LazyFrame, left_on: E, right_on: E) -&gt; LazyFrame {
-        <span class="self">self</span>.join(other, [left_on.into()], [right_on.into()], JoinType::Left)
+        <span class="self">self</span>.join(
+            other,
+            [left_on.into()],
+            [right_on.into()],
+            JoinArgs::new(JoinType::Left),
+        )
     }
 
     <span class="doccomment">/// Join query with other lazy query.
@@ -2338,7 +2366,12 @@
     /// }
     /// ```
     </span><span class="kw">pub fn </span>outer_join&lt;E: Into&lt;Expr&gt;&gt;(<span class="self">self</span>, other: LazyFrame, left_on: E, right_on: E) -&gt; LazyFrame {
-        <span class="self">self</span>.join(other, [left_on.into()], [right_on.into()], JoinType::Outer)
+        <span class="self">self</span>.join(
+            other,
+            [left_on.into()],
+            [right_on.into()],
+            JoinArgs::new(JoinType::Outer),
+        )
     }
 
     <span class="doccomment">/// Join query with other lazy query.
@@ -2354,13 +2387,18 @@
     /// }
     /// ```
     </span><span class="kw">pub fn </span>inner_join&lt;E: Into&lt;Expr&gt;&gt;(<span class="self">self</span>, other: LazyFrame, left_on: E, right_on: E) -&gt; LazyFrame {
-        <span class="self">self</span>.join(other, [left_on.into()], [right_on.into()], JoinType::Inner)
+        <span class="self">self</span>.join(
+            other,
+            [left_on.into()],
+            [right_on.into()],
+            JoinArgs::new(JoinType::Inner),
+        )
     }
 
     <span class="doccomment">/// Creates the cartesian product from both frames, preserves the order of the left keys.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;cross_join&quot;</span>)]
     </span><span class="kw">pub fn </span>cross_join(<span class="self">self</span>, other: LazyFrame) -&gt; LazyFrame {
-        <span class="self">self</span>.join(other, <span class="macro">vec!</span>[], <span class="macro">vec!</span>[], JoinType::Cross)
+        <span class="self">self</span>.join(other, <span class="macro">vec!</span>[], <span class="macro">vec!</span>[], JoinArgs::new(JoinType::Cross))
     }
 
     <span class="doccomment">/// Generic join function that can join on multiple columns.
@@ -2373,7 +2411,7 @@
     ///
     /// fn example(ldf: LazyFrame, other: LazyFrame) -&gt; LazyFrame {
     ///         ldf
-    ///         .join(other, [col(&quot;foo&quot;), col(&quot;bar&quot;)], [col(&quot;foo&quot;), col(&quot;bar&quot;)], JoinType::Inner)
+    ///         .join(other, [col(&quot;foo&quot;), col(&quot;bar&quot;)], [col(&quot;foo&quot;), col(&quot;bar&quot;)], JoinArgs::new(JoinType::Inner))
     /// }
     /// ```
     </span><span class="kw">pub fn </span>join&lt;E: AsRef&lt;[Expr]&gt;&gt;(
@@ -2381,7 +2419,7 @@
         other: LazyFrame,
         left_on: E,
         right_on: E,
-        how: JoinType,
+        args: JoinArgs,
     ) -&gt; LazyFrame {
         <span class="comment">// if any of the nodes reads from files we must activate this this plan as well.
         </span><span class="self">self</span>.opt_state.file_caching |= other.opt_state.file_caching;
@@ -2392,7 +2430,7 @@
             .with(other)
             .left_on(left_on)
             .right_on(right_on)
-            .how(how)
+            .how(args.how)
             .finish()
     }
 
@@ -2851,6 +2889,7 @@
     allow_parallel: bool,
     force_parallel: bool,
     suffix: <span class="prelude-ty">Option</span>&lt;String&gt;,
+    validation: JoinValidation,
 }
 <span class="kw">impl </span>JoinBuilder {
     <span class="kw">pub fn </span>new(lf: LazyFrame) -&gt; <span class="self">Self </span>{
@@ -2863,6 +2902,7 @@
             allow_parallel: <span class="bool-val">true</span>,
             force_parallel: <span class="bool-val">false</span>,
             suffix: <span class="prelude-val">None</span>,
+            validation: Default::default(),
         }
     }
 
@@ -2875,6 +2915,11 @@
     <span class="doccomment">/// Select the join type.
     </span><span class="kw">pub fn </span>how(<span class="kw-2">mut </span><span class="self">self</span>, how: JoinType) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.how = how;
+        <span class="self">self
+    </span>}
+
+    <span class="kw">pub fn </span>validate(<span class="kw-2">mut </span><span class="self">self</span>, validation: JoinValidation) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.validation = validation;
         <span class="self">self
     </span>}
 
@@ -2924,9 +2969,11 @@
         <span class="comment">// if any of the nodes reads from files we must activate this this plan as well.
         </span>opt_state.file_caching |= other.opt_state.file_caching;
 
-        <span class="kw">let </span>suffix = <span class="kw">match </span><span class="self">self</span>.suffix {
-            <span class="prelude-val">None </span>=&gt; Cow::Borrowed(<span class="string">&quot;_right&quot;</span>),
-            <span class="prelude-val">Some</span>(suffix) =&gt; Cow::Owned(suffix),
+        <span class="kw">let </span>args = JoinArgs {
+            how: <span class="self">self</span>.how,
+            validation: <span class="self">self</span>.validation,
+            suffix: <span class="self">self</span>.suffix,
+            slice: <span class="prelude-val">None</span>,
         };
 
         <span class="kw">let </span>lp = <span class="self">self
@@ -2939,8 +2986,7 @@
                 JoinOptions {
                     allow_parallel: <span class="self">self</span>.allow_parallel,
                     force_parallel: <span class="self">self</span>.force_parallel,
-                    how: <span class="self">self</span>.how,
-                    suffix,
+                    args,
                     ..Default::default()
                 },
             )

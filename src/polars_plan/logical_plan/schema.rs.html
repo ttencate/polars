@@ -312,7 +312,6 @@
 <a href="#312" id="312">312</a>
 <a href="#313" id="313">313</a>
 <a href="#314" id="314">314</a>
-<a href="#315" id="315">315</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
@@ -458,7 +457,7 @@
                     set_estimated_row_counts(input_right, lp_arena, expr_arena, <span class="number">0</span>);
                 options.rows_right = estimate_sizes(known_size, estimated_size, filter_count_right);
 
-                <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="kw">match </span>options.how {
+                <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="kw">match </span>options.args.how {
                     JoinType::Left =&gt; {
                         <span class="kw">let </span>(known_size, estimated_size) = options.rows_left;
                         (known_size, estimated_size, filter_count_left)
@@ -483,7 +482,7 @@
                         }
                     }
                 };
-                apply_slice(<span class="kw-2">&amp;mut </span>out, options.slice);
+                apply_slice(<span class="kw-2">&amp;mut </span>out, options.args.slice);
                 lp_arena.replace(
                     root,
                     Join {
@@ -542,7 +541,7 @@
     right_on: <span class="kw-2">&amp;</span>[Expr],
     options: <span class="kw-2">&amp;</span>JoinOptions,
 ) -&gt; PolarsResult&lt;SchemaRef&gt; {
-    <span class="kw">match </span>options.how {
+    <span class="kw">match </span>options.args.how {
         <span class="comment">// semi and anti joins are just filtering operations
         // the schema will never change.
         </span><span class="attr">#[cfg(feature = <span class="string">&quot;semi_anti_join&quot;</span>)]
@@ -572,7 +571,7 @@
             // so the columns that are joined on, may have different
             // values so if the right has a different name, it is added to the schema
             </span><span class="attr">#[cfg(feature = <span class="string">&quot;asof_join&quot;</span>)]
-            </span><span class="kw">if let </span>JoinType::AsOf(<span class="kw">_</span>) = <span class="kw-2">&amp;</span>options.how {
+            </span><span class="kw">if let </span>JoinType::AsOf(<span class="kw">_</span>) = <span class="kw-2">&amp;</span>options.args.how {
                 <span class="kw">for </span>(left_on, right_on) <span class="kw">in </span>left_on.iter().zip(right_on) {
                     <span class="kw">let </span>field_left =
                         left_on.to_field_amortized(schema_left, Context::Default, <span class="kw-2">&amp;mut </span>arena)<span class="question-mark">?</span>;
@@ -582,8 +581,7 @@
                         <span class="kw">if </span>schema_left.contains(<span class="kw-2">&amp;</span>field_right.name) {
                             <span class="kw">use </span>polars_core::frame::hash_join::_join_suffix_name;
                             new_schema.with_column(
-                                _join_suffix_name(<span class="kw-2">&amp;</span>field_right.name, options.suffix.as_ref())
-                                    .into(),
+                                _join_suffix_name(<span class="kw-2">&amp;</span>field_right.name, options.args.suffix()).into(),
                                 field_right.dtype,
                             );
                         } <span class="kw">else </span>{
@@ -603,7 +601,7 @@
                 <span class="kw">if </span>!right_names.contains(name.as_str()) {
                     <span class="kw">if </span>names.contains(name.as_str()) {
                         <span class="attr">#[cfg(feature = <span class="string">&quot;asof_join&quot;</span>)]
-                        </span><span class="kw">if let </span>JoinType::AsOf(asof_options) = <span class="kw-2">&amp;</span>options.how {
+                        </span><span class="kw">if let </span>JoinType::AsOf(asof_options) = <span class="kw-2">&amp;</span>options.args.how {
                             <span class="kw">if let </span>(<span class="prelude-val">Some</span>(left_by), <span class="prelude-val">Some</span>(right_by)) =
                                 (<span class="kw-2">&amp;</span>asof_options.left_by, <span class="kw-2">&amp;</span>asof_options.right_by)
                             {
@@ -616,7 +614,7 @@
                             }
                         }
 
-                        <span class="kw">let </span>new_name = <span class="macro">format_smartstring!</span>(<span class="string">&quot;{}{}&quot;</span>, name, options.suffix.as_ref());
+                        <span class="kw">let </span>new_name = <span class="macro">format_smartstring!</span>(<span class="string">&quot;{}{}&quot;</span>, name, options.args.suffix());
                         new_schema.with_column(new_name, dtype.clone());
                     } <span class="kw">else </span>{
                         new_schema.with_column(name.clone(), dtype.clone());

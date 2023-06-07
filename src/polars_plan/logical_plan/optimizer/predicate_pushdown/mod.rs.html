@@ -1106,7 +1106,7 @@
                         <span class="comment">// join might create null values.
                         </span>|| has_aexpr(predicate, expr_arena, checks_nulls)
                         <span class="comment">// only these join types produce null values
-                        </span>&amp;&amp; join_produces_null(<span class="kw-2">&amp;</span>options.how) {
+                        </span>&amp;&amp; join_produces_null(<span class="kw-2">&amp;</span>options.args.how) {
                         local_predicates.push(predicate);
                         <span class="kw">continue</span>;
                     }
@@ -1139,7 +1139,7 @@
                             filter_right = <span class="bool-val">true</span>;
                         }
                     }
-                    <span class="kw">match </span>(filter_left, filter_right, <span class="kw-2">&amp;</span>options.how) {
+                    <span class="kw">match </span>(filter_left, filter_right, <span class="kw-2">&amp;</span>options.args.how) {
                         <span class="comment">// if not pushed down on one of the tables we have to do it locally.
                         </span>(<span class="bool-val">false</span>, <span class="bool-val">false</span>, <span class="kw">_</span>) |
                         <span class="comment">// if left join and predicate only available in right table,

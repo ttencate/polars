@@ -119,6 +119,12 @@
 <a href="#119" id="119">119</a>
 <a href="#120" id="120">120</a>
 <a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Probe the build table and add tuples to the results (inner join)
@@ -182,10 +188,11 @@
 
 <span class="doccomment">/// Hash join outer. Both left and right can have no match so Options
 </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>hash_join_tuples_outer&lt;T, I, J&gt;(
-    a: Vec&lt;I&gt;,
-    b: Vec&lt;J&gt;,
+    probe: Vec&lt;I&gt;,
+    build: Vec&lt;J&gt;,
     swap: bool,
-) -&gt; Vec&lt;(<span class="prelude-ty">Option</span>&lt;IdxSize&gt;, <span class="prelude-ty">Option</span>&lt;IdxSize&gt;)&gt;
+    validate: JoinValidation,
+) -&gt; PolarsResult&lt;Vec&lt;(<span class="prelude-ty">Option</span>&lt;IdxSize&gt;, <span class="prelude-ty">Option</span>&lt;IdxSize&gt;)&gt;&gt;
 <span class="kw">where
     </span>I: Iterator&lt;Item = T&gt; + Send + TrustedLen,
     J: Iterator&lt;Item = T&gt; + Send + TrustedLen,
@@ -199,16 +206,21 @@
     // during the probe phase values are removed from the tables, that&#39;s done single threaded to
     // keep it lock free.
 
-    </span><span class="kw">let </span>size = a.iter().map(|a| a.size_hint().<span class="number">0</span>).sum::&lt;usize&gt;()
-        + b.iter().map(|b| b.size_hint().<span class="number">0</span>).sum::&lt;usize&gt;();
+    </span><span class="kw">let </span>size = probe.iter().map(|a| a.size_hint().<span class="number">0</span>).sum::&lt;usize&gt;()
+        + build.iter().map(|b| b.size_hint().<span class="number">0</span>).sum::&lt;usize&gt;();
     <span class="kw">let </span><span class="kw-2">mut </span>results = Vec::with_capacity(size);
 
     <span class="comment">// prepare hash table
-    </span><span class="kw">let </span><span class="kw-2">mut </span>hash_tbls = prepare_hashed_relation_threaded(b);
+    </span><span class="kw">let </span><span class="kw-2">mut </span>hash_tbls = prepare_hashed_relation_threaded(build);
+    <span class="kw">if </span>validate.needs_checks() {
+        <span class="kw">let </span>build_size = hash_tbls.iter().map(|m| m.len()).sum();
+        <span class="kw">let </span>expected_size = probe.iter().map(|i| i.size_hint().<span class="number">0</span>).sum();
+        validate.validate_build(build_size, expected_size, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+    }
     <span class="kw">let </span>random_state = hash_tbls[<span class="number">0</span>].hasher().clone();
 
     <span class="comment">// we pre hash the probing values
-    </span><span class="kw">let </span>(probe_hashes, <span class="kw">_</span>) = create_hash_and_keys_threaded_vectorized(a, <span class="prelude-val">Some</span>(random_state));
+    </span><span class="kw">let </span>(probe_hashes, <span class="kw">_</span>) = create_hash_and_keys_threaded_vectorized(probe, <span class="prelude-val">Some</span>(random_state));
 
     <span class="kw">let </span>n_tables = hash_tbls.len() <span class="kw">as </span>u64;
 
@@ -238,6 +250,6 @@
             |idx_b| (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(idx_b)),
         )
     }
-    results
+    <span class="prelude-val">Ok</span>(results)
 }
 </code></pre></div></section></main></body></html>

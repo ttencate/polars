@@ -168,6 +168,14 @@
 <a href="#168" id="168">168</a>
 <a href="#169" id="169">169</a>
 <a href="#170" id="170">170</a>
+<a href="#171" id="171">171</a>
+<a href="#172" id="172">172</a>
+<a href="#173" id="173">173</a>
+<a href="#174" id="174">174</a>
+<a href="#175" id="175">175</a>
+<a href="#176" id="176">176</a>
+<a href="#177" id="177">177</a>
+<a href="#178" id="178">178</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::single_keys::create_probe_table;
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::frame::hash_join::single_keys::probe_to_offsets;
@@ -198,13 +206,15 @@
     chunk_mapping_right: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[ChunkId]&gt;,
 ) -&gt; LeftJoinIds {
     <span class="kw">let </span>left = <span class="kw">match </span>chunk_mapping_left {
-        <span class="prelude-val">None </span>=&gt; JoinIds::Left(result_idx_left),
-        <span class="prelude-val">Some</span>(mapping) =&gt; JoinIds::Right(<span class="kw">unsafe </span>{ apply_mapping(result_idx_left, mapping) }),
+        <span class="prelude-val">None </span>=&gt; ChunkJoinIds::Left(result_idx_left),
+        <span class="prelude-val">Some</span>(mapping) =&gt; ChunkJoinIds::Right(<span class="kw">unsafe </span>{ apply_mapping(result_idx_left, mapping) }),
     };
 
     <span class="kw">let </span>right = <span class="kw">match </span>chunk_mapping_right {
-        <span class="prelude-val">None </span>=&gt; JoinOptIds::Left(result_idx_right),
-        <span class="prelude-val">Some</span>(mapping) =&gt; JoinOptIds::Right(<span class="kw">unsafe </span>{ apply_opt_mapping(result_idx_right, mapping) }),
+        <span class="prelude-val">None </span>=&gt; ChunkJoinOptIds::Left(result_idx_right),
+        <span class="prelude-val">Some</span>(mapping) =&gt; {
+            ChunkJoinOptIds::Right(<span class="kw">unsafe </span>{ apply_opt_mapping(result_idx_right, mapping) })
+        }
     };
     (left, right)
 }
@@ -228,14 +238,14 @@
                 .map(|join_id| join_id.<span class="number">0</span>.as_ref().left().unwrap())
                 .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
             <span class="kw">let </span>lefts = flatten_par(<span class="kw-2">&amp;</span>lefts);
-            JoinIds::Left(lefts)
+            ChunkJoinIds::Left(lefts)
         } <span class="kw">else </span>{
             <span class="kw">let </span>lefts = result
                 .iter()
                 .map(|join_id| join_id.<span class="number">0</span>.as_ref().right().unwrap())
                 .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
             <span class="kw">let </span>lefts = flatten_par(<span class="kw-2">&amp;</span>lefts);
-            JoinIds::Right(lefts)
+            ChunkJoinIds::Right(lefts)
         };
 
         <span class="kw">let </span>right = <span class="kw">if </span>result[<span class="number">0</span>].<span class="number">1</span>.is_left() {
@@ -244,14 +254,14 @@
                 .map(|join_id| join_id.<span class="number">1</span>.as_ref().left().unwrap())
                 .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
             <span class="kw">let </span>rights = flatten_par(<span class="kw-2">&amp;</span>rights);
-            JoinOptIds::Left(rights)
+            ChunkJoinOptIds::Left(rights)
         } <span class="kw">else </span>{
             <span class="kw">let </span>rights = result
                 .iter()
                 .map(|join_id| join_id.<span class="number">1</span>.as_ref().right().unwrap())
                 .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
             <span class="kw">let </span>rights = flatten_par(<span class="kw-2">&amp;</span>rights);
-            JoinOptIds::Right(rights)
+            ChunkJoinOptIds::Right(rights)
         };
 
         (left, right)
@@ -273,13 +283,19 @@
     // only needed if we have non contiguous memory
     </span>chunk_mapping_left: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[ChunkId]&gt;,
     chunk_mapping_right: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[ChunkId]&gt;,
-) -&gt; LeftJoinIds
+    validate: JoinValidation,
+) -&gt; PolarsResult&lt;LeftJoinIds&gt;
 <span class="kw">where
     </span>IntoSlice: AsRef&lt;[T]&gt; + Send + Sync,
     T: Send + Hash + Eq + Sync + Copy + AsU64,
 {
     <span class="comment">// first we hash one relation
     </span><span class="kw">let </span>hash_tbls = create_probe_table(build);
+    <span class="kw">if </span>validate.needs_checks() {
+        <span class="kw">let </span>build_size = hash_tbls.iter().map(|m| m.len()).sum();
+        <span class="kw">let </span>expected_size = probe.iter().map(|v| v.as_ref().len()).sum();
+        validate.validate_build(build_size, expected_size, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
+    }
 
     <span class="comment">// we determine the offset so that we later know which index to store in the join tuples
     </span><span class="kw">let </span>offsets = probe_to_offsets(<span class="kw-2">&amp;</span>probe);
@@ -336,6 +352,6 @@
             .collect()
     });
 
-    flatten_left_join_ids(result)
+    <span class="prelude-val">Ok</span>(flatten_left_join_ids(result))
 }
 </code></pre></div></section></main></body></html>

@@ -81,15 +81,7 @@
 <a href="#81" id="81">81</a>
 <a href="#82" id="82">82</a>
 <a href="#83" id="83">83</a>
-<a href="#84" id="84">84</a>
-<a href="#85" id="85">85</a>
-<a href="#86" id="86">86</a>
-<a href="#87" id="87">87</a>
-<a href="#88" id="88">88</a>
-<a href="#89" id="89">89</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
-
-<span class="kw">use </span>polars_core::prelude::JoinType;
+</pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::{JoinArgs, JoinType};
 <span class="kw">use </span>polars_utils::IdxSize;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
 </span><span class="kw">use </span>serde::{Deserialize, Serialize};
@@ -132,9 +124,7 @@
 </span><span class="kw">pub struct </span>JoinOptions {
     <span class="kw">pub </span>allow_parallel: bool,
     <span class="kw">pub </span>force_parallel: bool,
-    <span class="kw">pub </span>how: JoinType,
-    <span class="kw">pub </span>suffix: Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;,
-    <span class="kw">pub </span>slice: <span class="prelude-ty">Option</span>&lt;(i64, usize)&gt;,
+    <span class="kw">pub </span>args: JoinArgs,
     <span class="doccomment">/// Proxy of the number of rows in both sides of the joins
     /// Holds `(Option&lt;known_size&gt;, estimated_size)`
     </span><span class="kw">pub </span>rows_left: (<span class="prelude-ty">Option</span>&lt;usize&gt;, usize),
@@ -146,9 +136,7 @@
         JoinOptions {
             allow_parallel: <span class="bool-val">true</span>,
             force_parallel: <span class="bool-val">false</span>,
-            how: JoinType::Left,
-            suffix: <span class="string">&quot;_right&quot;</span>.into(),
-            slice: <span class="prelude-val">None</span>,
+            args: JoinArgs::new(JoinType::Left),
             rows_left: (<span class="prelude-val">None</span>, usize::MAX),
             rows_right: (<span class="prelude-val">None</span>, usize::MAX),
         }
