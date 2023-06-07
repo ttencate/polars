@@ -310,6 +310,14 @@
 <a href="#310" id="310">310</a>
 <a href="#311" id="311">311</a>
 <a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::sync::atomic::{AtomicBool, Ordering};
 <span class="kw">use </span>std::sync::Arc;
 
@@ -509,8 +517,12 @@
                                     map_sorted_indices_to_group_slice(<span class="kw-2">&amp;</span>sorted_idx, first)
                                 }
                             };
+                            <span class="kw">let </span>first = new_idx.first().unwrap_or_else(|| {
+                                invalid.store(<span class="bool-val">true</span>, Ordering::Relaxed);
+                                <span class="kw-2">&amp;</span><span class="number">0
+                            </span>});
 
-                            (new_idx[<span class="number">0</span>], new_idx)
+                            (<span class="kw-2">*</span>first, new_idx)
                         })
                         .collect()
                 });
@@ -588,8 +600,12 @@
                                     map_sorted_indices_to_group_slice(<span class="kw-2">&amp;</span>sorted_idx, first)
                                 }
                             };
+                            <span class="kw">let </span>first = new_idx.first().unwrap_or_else(|| {
+                                invalid.store(<span class="bool-val">true</span>, Ordering::Relaxed);
+                                <span class="kw-2">&amp;</span><span class="number">0
+                            </span>});
 
-                            (new_idx[<span class="number">0</span>], new_idx)
+                            (<span class="kw-2">*</span>first, new_idx)
                         })
                         .collect()
                 });
