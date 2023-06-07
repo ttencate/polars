@@ -377,6 +377,14 @@
 <a href="#377" id="377">377</a>
 <a href="#378" id="378">378</a>
 <a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;rank&quot;</span>)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>rank;
 
@@ -440,13 +448,6 @@
     <span class="kw">fn </span>arg_unique(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;IdxCa&gt; {
         <span class="macro">polars_bail!</span>(opq = arg_unique, <span class="self">self</span>.dtype());
     }
-}
-
-<span class="kw">fn </span>fill_set&lt;A&gt;(a: <span class="kw">impl </span>Iterator&lt;Item = A&gt;) -&gt; PlHashSet&lt;A&gt;
-<span class="kw">where
-    </span>A: Hash + Eq,
-{
-    a.collect()
 }
 
 <span class="kw">fn </span>arg_unique&lt;T&gt;(a: <span class="kw">impl </span>Iterator&lt;Item = T&gt;, capacity: usize) -&gt; Vec&lt;IdxSize&gt;
@@ -565,10 +566,18 @@
     }
 
     <span class="kw">fn </span>n_unique(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;usize&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>set: PlHashSet&lt;T::Native&gt; = PlHashSet::new();
         <span class="kw">if </span><span class="self">self</span>.null_count() &gt; <span class="number">0 </span>{
-            <span class="prelude-val">Ok</span>(fill_set(<span class="self">self</span>.into_iter().flatten()).len() + <span class="number">1</span>)
+            <span class="kw">for </span>arr <span class="kw">in </span><span class="self">self</span>.downcast_iter() {
+                set.extend(arr.into_iter().flatten())
+            }
+            <span class="prelude-val">Ok</span>(set.len() + <span class="number">1</span>)
         } <span class="kw">else </span>{
-            <span class="prelude-val">Ok</span>(fill_set(<span class="self">self</span>.into_no_null_iter()).len())
+            <span class="kw">for </span>arr <span class="kw">in </span><span class="self">self</span>.downcast_iter() {
+                <span class="kw">let </span>slice = arr.values().as_slice();
+                set.extend(slice.iter().copied())
+            }
+            <span class="prelude-val">Ok</span>(set.len())
         }
     }
 
@@ -632,10 +641,17 @@
     }
 
     <span class="kw">fn </span>n_unique(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;usize&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>set: PlHashSet&lt;<span class="kw-2">&amp;</span>[u8]&gt; = PlHashSet::new();
         <span class="kw">if </span><span class="self">self</span>.null_count() &gt; <span class="number">0 </span>{
-            <span class="prelude-val">Ok</span>(fill_set(<span class="self">self</span>.into_iter().flatten()).len() + <span class="number">1</span>)
+            <span class="kw">for </span>arr <span class="kw">in </span><span class="self">self</span>.downcast_iter() {
+                set.extend(arr.into_iter().flatten())
+            }
+            <span class="prelude-val">Ok</span>(set.len() + <span class="number">1</span>)
         } <span class="kw">else </span>{
-            <span class="prelude-val">Ok</span>(fill_set(<span class="self">self</span>.into_no_null_iter()).len())
+            <span class="kw">for </span>arr <span class="kw">in </span><span class="self">self</span>.downcast_iter() {
+                set.extend(arr.values_iter())
+            }
+            <span class="prelude-val">Ok</span>(set.len())
         }
     }
 
