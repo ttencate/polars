@@ -413,6 +413,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.arr.max.html">polars.Series.arr.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.arr.min.html">polars.Series.arr.min</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.arr.sum.html">polars.Series.arr.sum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../series/api/polars.Series.arr.unique.html">polars.Series.arr.unique</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../series/attributes.html">Attributes</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -997,6 +998,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.max.html">polars.Expr.arr.max</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.min.html">polars.Expr.arr.min</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.sum.html">polars.Expr.arr.sum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.arr.unique.html">polars.Expr.arr.unique</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/binary.html">Binary</a><input class="toctree-checkbox" id="toctree-checkbox-37" name="toctree-checkbox-37" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-37"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1141,6 +1143,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.std.html">polars.std</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.struct.html">polars.struct</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.sum.html">polars.sum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.sql_expr.html">polars.sql_expr</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.tail.html">polars.tail</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.time.html">polars.time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.var.html">polars.var</a></li>
@@ -1257,10 +1260,12 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.pop.html">polars.Expr.meta.pop</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.root_names.html">polars.Expr.meta.root_names</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.undo_aliases.html">polars.Expr.meta.undo_aliases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.meta.write_json.html">polars.Expr.meta.write_json</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../expressions/miscellaneous.html">Miscellaneous</a><input class="toctree-checkbox" id="toctree-checkbox-46" name="toctree-checkbox-46" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-46"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.cache.html">polars.Expr.cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.from_json.html">polars.Expr.from_json</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/api/polars.Expr.set_sorted.html">polars.Expr.set_sorted</a></li>
 </ul>
 </li>
@@ -1373,6 +1378,7 @@ document.write(`
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../selectors.html">Selectors</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">Extending the API</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-52"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.api.register_expr_namespace.html">polars.api.register_expr_namespace</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/polars.api.register_dataframe_namespace.html">polars.api.register_dataframe_namespace</a></li>
@@ -1567,7 +1573,7 @@ document.write(`
 <td><p>Return the <cite>k</cite> smallest elements.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.clear.html#polars.DataFrame.clear" title="polars.DataFrame.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.clear</span></code></a>([n])</p></td>
-<td><p>Create an empty copy of the current DataFrame, with zero to 'n' rows.</p></td>
+<td><p>Create an empty (n=0) or <cite>n</cite>-row null-filled (n&gt;0) copy of the DataFrame.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.clone.html#polars.DataFrame.clone" title="polars.DataFrame.clone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.clone</span></code></a>()</p></td>
 <td><p>Cheap deepcopy/clone.</p></td>
@@ -1612,7 +1618,7 @@ document.write(`
 <td><p>Group based on a time value (or index value of type Int32, Int64).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.groupby_rolling.html#polars.DataFrame.groupby_rolling" title="polars.DataFrame.groupby_rolling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.groupby_rolling</span></code></a>(index_column, *, ...)</p></td>
-<td><p>Create rolling groups based on a time column.</p></td>
+<td><p>Create rolling groups based on a time, Int32, or Int64 column.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.head.html#polars.DataFrame.head" title="polars.DataFrame.head"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.head</span></code></a>([n])</p></td>
 <td><p>Get the first <cite>n</cite> rows.</p></td>
@@ -1683,7 +1689,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.sample.html#polars.DataFrame.sample" title="polars.DataFrame.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.sample</span></code></a>([n, fraction, ...])</p></td>
 <td><p>Sample from this DataFrame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.select.html#polars.DataFrame.select" title="polars.DataFrame.select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.select</span></code></a>([exprs])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.select.html#polars.DataFrame.select" title="polars.DataFrame.select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.select</span></code></a>(*exprs, **named_exprs)</p></td>
 <td><p>Select columns from this DataFrame.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.set_sorted.html#polars.DataFrame.set_sorted" title="polars.DataFrame.set_sorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.set_sorted</span></code></a>(column, *more_columns)</p></td>
@@ -1740,7 +1746,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.vstack.html#polars.DataFrame.vstack" title="polars.DataFrame.vstack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.vstack</span></code></a>(df, *[, in_place])</p></td>
 <td><p>Grow this DataFrame vertically by stacking a DataFrame to it.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.with_columns.html#polars.DataFrame.with_columns" title="polars.DataFrame.with_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.with_columns</span></code></a>([exprs])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.DataFrame.with_columns.html#polars.DataFrame.with_columns" title="polars.DataFrame.with_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.with_columns</span></code></a>(*exprs, **named_exprs)</p></td>
 <td><p>Add columns to this DataFrame.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.DataFrame.with_row_count.html#polars.DataFrame.with_row_count" title="polars.DataFrame.with_row_count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataFrame.with_row_count</span></code></a>([name, offset])</p></td>
