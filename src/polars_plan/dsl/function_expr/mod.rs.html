@@ -631,6 +631,9 @@
 <a href="#631" id="631">631</a>
 <a href="#632" id="632">632</a>
 <a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a>
+<a href="#636" id="636">636</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
 </span><span class="kw">mod </span>abs;
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
@@ -819,6 +822,7 @@
         method: correlation::CorrelationMethod,
         ddof: u8,
     },
+    ToPhysical,
 }
 
 <span class="kw">impl </span>Display <span class="kw">for </span>FunctionExpr {
@@ -911,6 +915,7 @@
             </span>ArrayExpr(af) =&gt; <span class="kw">return </span>Display::fmt(af, f),
             ConcatExpr(<span class="kw">_</span>) =&gt; <span class="string">&quot;concat_expr&quot;</span>,
             Correlation { method, .. } =&gt; <span class="kw">return </span>Display::fmt(method, f),
+            ToPhysical =&gt; <span class="string">&quot;to_physical&quot;</span>,
         };
         <span class="macro">write!</span>(f, <span class="string">&quot;{s}&quot;</span>)
     }
@@ -1129,6 +1134,7 @@
             </span>Fused(op) =&gt; <span class="macro">map_as_slice!</span>(fused::fused, op),
             ConcatExpr(rechunk) =&gt; <span class="macro">map_as_slice!</span>(concat::concat_expr, rechunk),
             Correlation { method, ddof } =&gt; <span class="macro">map_as_slice!</span>(correlation::corr, ddof, method),
+            ToPhysical =&gt; <span class="macro">map!</span>(dispatch::to_physical),
         }
     }
 }

@@ -1915,6 +1915,10 @@
 <a href="#1915" id="1915">1915</a>
 <a href="#1916" id="1916">1916</a>
 <a href="#1917" id="1917">1917</a>
+<a href="#1918" id="1918">1918</a>
+<a href="#1919" id="1919">1919</a>
+<a href="#1920" id="1920">1920</a>
+<a href="#1921" id="1921">1921</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -3682,6 +3686,10 @@
     </span><span class="doccomment">/// Compute the hash of every element
     </span><span class="kw">pub fn </span>hash(<span class="self">self</span>, k0: u64, k1: u64, k2: u64, k3: u64) -&gt; Expr {
         <span class="self">self</span>.map_private(FunctionExpr::Hash(k0, k1, k2, k3))
+    }
+
+    <span class="kw">pub fn </span>to_physical(<span class="self">self</span>) -&gt; Expr {
+        <span class="self">self</span>.map_private(FunctionExpr::ToPhysical)
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;strings&quot;</span>)]
