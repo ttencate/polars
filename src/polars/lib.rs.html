@@ -392,6 +392,8 @@
 <a href="#392" id="392">392</a>
 <a href="#393" id="393">393</a>
 <a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! # Polars: *&lt;small&gt;DataFrames in Rust&lt;/small&gt;*
 //!
 //! Polars is a DataFrame library for Rust. It is based on [Apache Arrow](https://arrow.apache.org/)&#39;s memory model.
@@ -403,7 +405,7 @@
 //! expression into powerful aggregations and column selections. All expressions are evaluated
 //! in parallel and your queries are optimized just in time.
 //!
-//! ```rust no_run
+//! ```no_run
 //! use polars::prelude::*;
 //! # fn example() -&gt; PolarsResult&lt;()&gt; {
 //!
@@ -699,6 +701,7 @@
 //! #[global_allocator]
 //! static GLOBAL: MiMalloc = MiMalloc;
 //! ```
+//!
 //! ```ignore
 //! use jemallocator::Jemalloc;
 //!
@@ -711,10 +714,11 @@
 //! outperforms Mimalloc on all tasks and is therefor the default Linux allocator used for the Python bindings.
 //!
 //! #### Cargo.toml
-//! ```ignore
+//! ```toml
 //! [dependencies]
 //! mimalloc = { version = &quot;*&quot;, default-features = false }
 //! ```
+//!
 //! ## Config with ENV vars
 //!
 //! * `POLARS_FMT_TABLE_FORMATTING` -&gt; define styling of tables using any of the following options (default = UTF8_FULL_CONDENSED):
