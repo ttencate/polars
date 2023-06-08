@@ -1577,7 +1577,7 @@ columns.</p>
 <h2>Importing<a class="headerlink" href="#importing" title="Permalink to this heading">#</a></h2>
 <ul>
 <li><p>Selectors are available as functions imported from <code class="docutils literal notranslate"><span class="pre">polars.selectors</span></code></p></li>
-<li><p>Typical usage is to import the module as <code class="docutils literal notranslate"><span class="pre">cs</span></code> and employ selectors from there.</p>
+<li><p>Typical/recommended usage is to import the module as <code class="docutils literal notranslate"><span class="pre">cs</span></code> and employ selectors from there.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">polars.selectors</span> <span class="k">as</span> <span class="nn">cs</span>
 <span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
 
@@ -1606,8 +1606,7 @@ columns.</p>
 </ul>
 <section id="examples">
 <h3>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">#</a></h3>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">polars.selectors</span> <span class="k">as</span> <span class="nn">cs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">polars.selectors</span> <span class="k">as</span> <span class="nn">cs</span>
 <span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
 
 <span class="c1"># set up an empty dataframe with plenty of columns of various dtypes</span>
@@ -1663,17 +1662,18 @@ columns.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-</div></blockquote>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you don’t want to use the set operations on the <code class="docutils literal notranslate"><span class="pre">selector``s,</span> <span class="pre">you</span> <span class="pre">can</span> <span class="pre">materialize</span> <span class="pre">them</span> <span class="pre">as</span> <span class="pre">``expressions</span></code>
-by calling <code class="docutils literal notranslate"><span class="pre">as_expr</span></code>. This ensures the operations <code class="docutils literal notranslate"><span class="pre">OR,</span> <span class="pre">AND,</span> <span class="pre">etc</span></code> are dispatched to the expressions.</p>
+<p>If you don’t want to use the set operations on the selectors, you can materialize them as <code class="docutils literal notranslate"><span class="pre">expressions</span></code>
+by calling <code class="docutils literal notranslate"><span class="pre">as_expr</span></code>. This ensures the operations <code class="docutils literal notranslate"><span class="pre">OR,</span> <span class="pre">AND,</span> <span class="pre">etc</span></code> are dispatched to the underlying
+expressions instead.</p>
 </div>
 </section>
 </section>
-<section id="module-polars.selectors">
-<span id="functions"></span><h2>Functions<a class="headerlink" href="#module-polars.selectors" title="Permalink to this heading">#</a></h2>
-<table class="autosummary longtable table autosummary">
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h2>
+<p>Available selector functions:</p>
+<span class="target" id="module-polars.selectors"></span><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#polars.selectors.all" title="polars.selectors.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a>()</p></td>
 <td><p>Select all columns.</p></td>
@@ -2707,7 +2707,7 @@ by calling <code class="docutils literal notranslate"><span class="pre">as_expr<
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-polars.selectors">Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.all"><code class="docutils literal notranslate"><span class="pre">all()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.by_dtype"><code class="docutils literal notranslate"><span class="pre">by_dtype()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polars.selectors.by_name"><code class="docutils literal notranslate"><span class="pre">by_name()</span></code></a></li>
