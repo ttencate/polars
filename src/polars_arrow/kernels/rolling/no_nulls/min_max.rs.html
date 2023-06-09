@@ -715,7 +715,7 @@
     center: bool,
     weights: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;,
     _params: DynArgs,
-) -&gt; ArrayRef
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType + PartialOrd + IsFloat + Bounded + NumCast + Mul&lt;Output = T&gt;,
 {
@@ -815,7 +815,7 @@
     center: bool,
     weights: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;,
     _params: DynArgs,
-) -&gt; ArrayRef
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType + PartialOrd + NumCast + Mul&lt;Output = T&gt; + Bounded + IsFloat,
 {
@@ -907,32 +907,32 @@
     </span><span class="kw">fn </span>test_rolling_min_max() {
         <span class="kw">let </span>values = <span class="kw-2">&amp;</span>[<span class="number">1.0f64</span>, <span class="number">5.0</span>, <span class="number">3.0</span>, <span class="number">4.0</span>];
 
-        <span class="kw">let </span>out = rolling_min(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_min(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">Some</span>(<span class="number">3.0</span>), <span class="prelude-val">Some</span>(<span class="number">3.0</span>)]);
-        <span class="kw">let </span>out = rolling_max(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_max(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">5.0</span>), <span class="prelude-val">Some</span>(<span class="number">5.0</span>), <span class="prelude-val">Some</span>(<span class="number">4.0</span>)]);
 
-        <span class="kw">let </span>out = rolling_min(values, <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_min(values, <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">Some</span>(<span class="number">3.0</span>), <span class="prelude-val">Some</span>(<span class="number">3.0</span>)]);
-        <span class="kw">let </span>out = rolling_max(values, <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_max(values, <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">Some</span>(<span class="number">5.0</span>), <span class="prelude-val">Some</span>(<span class="number">5.0</span>), <span class="prelude-val">Some</span>(<span class="number">4.0</span>)]);
 
-        <span class="kw">let </span>out = rolling_max(values, <span class="number">3</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_max(values, <span class="number">3</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">Some</span>(<span class="number">5.0</span>), <span class="prelude-val">Some</span>(<span class="number">5.0</span>), <span class="prelude-val">Some</span>(<span class="number">5.0</span>)]);
 
         <span class="comment">// test nan handling.
         </span><span class="kw">let </span>values = <span class="kw-2">&amp;</span>[<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>, f64::nan(), <span class="number">5.0</span>, <span class="number">6.0</span>, <span class="number">7.0</span>];
-        <span class="kw">let </span>out = rolling_min(values, <span class="number">3</span>, <span class="number">3</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_min(values, <span class="number">3</span>, <span class="number">3</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="comment">// we cannot compare nans, so we compare the string values
@@ -952,7 +952,7 @@
             )
         );
 
-        <span class="kw">let </span>out = rolling_max(values, <span class="number">3</span>, <span class="number">3</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_max(values, <span class="number">3</span>, <span class="number">3</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(

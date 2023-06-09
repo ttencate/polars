@@ -524,7 +524,7 @@
     center: bool,
     weights: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;,
     _params: DynArgs,
-) -&gt; ArrayRef
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType
         + std::iter::Sum&lt;T&gt;
@@ -538,7 +538,7 @@
         + Zero
         + IsFloat,
 {
-    rolling_quantile(
+    <span class="prelude-val">Ok</span>(rolling_quantile(
         values,
         <span class="number">0.5</span>,
         QuantileInterpolOptions::Linear,
@@ -546,7 +546,7 @@
         min_periods,
         center,
         weights,
-    )
+    ))
 }
 
 <span class="kw">pub fn </span>rolling_quantile&lt;T&gt;(
@@ -778,7 +778,7 @@
         ];
 
         <span class="kw">for </span>interpol <span class="kw">in </span>interpol_options {
-            <span class="kw">let </span>out1 = rolling_min(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+            <span class="kw">let </span>out1 = rolling_min(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
             <span class="kw">let </span>out1 = out1.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
             <span class="kw">let </span>out1 = out1.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
             <span class="kw">let </span>out2 = rolling_quantile(values, <span class="number">0.0</span>, interpol, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);
@@ -786,7 +786,7 @@
             <span class="kw">let </span>out2 = out2.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
             <span class="macro">assert_eq!</span>(out1, out2);
 
-            <span class="kw">let </span>out1 = rolling_max(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+            <span class="kw">let </span>out1 = rolling_max(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
             <span class="kw">let </span>out1 = out1.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
             <span class="kw">let </span>out1 = out1.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
             <span class="kw">let </span>out2 = rolling_quantile(values, <span class="number">1.0</span>, interpol, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>);

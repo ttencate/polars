@@ -68,13 +68,8 @@
 <a href="#68" id="68">68</a>
 <a href="#69" id="69">69</a>
 <a href="#70" id="70">70</a>
-<a href="#71" id="71">71</a>
-<a href="#72" id="72">72</a>
-<a href="#73" id="73">73</a>
-<a href="#74" id="74">74</a>
-<a href="#75" id="75">75</a>
-<a href="#76" id="76">76</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>no_nulls::{rolling_apply_agg_window, RollingAggWindowNoNulls};
+<span class="kw">use </span>polars_error::polars_ensure;
 
 <span class="kw">use </span><span class="kw">super</span>::sum::SumWindow;
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -107,45 +102,38 @@
     center: bool,
     weights: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;,
     _params: DynArgs,
-) -&gt; ArrayRef
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType + Float + std::iter::Sum&lt;T&gt; + SubAssign + AddAssign + IsFloat,
 {
-    <span class="kw">match </span>(center, weights) {
-        (<span class="bool-val">true</span>, <span class="prelude-val">None</span>) =&gt; rolling_apply_agg_window::&lt;MeanWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
+    <span class="kw">let </span>offset_fn = <span class="kw">match </span>center {
+        <span class="bool-val">true </span>=&gt; det_offsets_center,
+        <span class="bool-val">false </span>=&gt; det_offsets,
+    };
+    <span class="kw">match </span>weights {
+        <span class="prelude-val">None </span>=&gt; rolling_apply_agg_window::&lt;MeanWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
             values,
             window_size,
             min_periods,
-            det_offsets_center,
+            offset_fn,
             <span class="prelude-val">None</span>,
         ),
-        (<span class="bool-val">false</span>, <span class="prelude-val">None</span>) =&gt; rolling_apply_agg_window::&lt;MeanWindow&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
-            values,
-            window_size,
-            min_periods,
-            det_offsets,
-            <span class="prelude-val">None</span>,
-        ),
-        (<span class="bool-val">true</span>, <span class="prelude-val">Some</span>(weights)) =&gt; {
-            <span class="kw">let </span>weights = no_nulls::coerce_weights(weights);
+        <span class="prelude-val">Some</span>(weights) =&gt; {
+            <span class="comment">// A weighted mean is a weighted sum with normalized weights
+            </span><span class="kw">let </span><span class="kw-2">mut </span>wts = no_nulls::coerce_weights(weights);
+            <span class="kw">let </span>wsum = wts.iter().fold(T::zero(), |acc, x| acc + <span class="kw-2">*</span>x);
+            <span class="macro">polars_ensure!</span>(
+                wsum != T::zero(),
+                ComputeError: <span class="string">&quot;Weighted mean is undefined if weights sum to 0&quot;
+            </span>);
+            wts.iter_mut().for_each(|w| <span class="kw-2">*</span>w = <span class="kw-2">*</span>w / wsum);
             no_nulls::rolling_apply_weights(
                 values,
                 window_size,
                 min_periods,
-                det_offsets_center,
-                no_nulls::compute_mean_weights,
-                <span class="kw-2">&amp;</span>weights,
-            )
-        }
-        (<span class="bool-val">false</span>, <span class="prelude-val">Some</span>(weights)) =&gt; {
-            <span class="kw">let </span>weights = no_nulls::coerce_weights(weights);
-            no_nulls::rolling_apply_weights(
-                values,
-                window_size,
-                min_periods,
-                det_offsets,
-                no_nulls::compute_mean_weights,
-                <span class="kw-2">&amp;</span>weights,
+                offset_fn,
+                no_nulls::compute_sum_weights,
+                <span class="kw-2">&amp;</span>wts,
             )
         }
     }

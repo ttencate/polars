@@ -273,6 +273,7 @@
 <a href="#273" id="273">273</a>
 <a href="#274" id="274">274</a>
 <a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>mean;
 <span class="kw">mod </span>min_max;
 <span class="kw">mod </span>quantile;
@@ -515,7 +516,8 @@
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">4.0</span>), <span class="prelude-val">Some</span>(<span class="number">4.0</span>), <span class="prelude-val">Some</span>(<span class="number">3.0</span>), <span class="prelude-val">Some</span>(<span class="number">2.0</span>)]);
 
-        <span class="kw">let </span>out = <span class="kw">super</span>::no_nulls::rolling_max(arr.values().as_slice(), <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out =
+            <span class="kw">super</span>::no_nulls::rolling_max(arr.values().as_slice(), <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">Some</span>(<span class="number">4.0</span>), <span class="prelude-val">Some</span>(<span class="number">4.0</span>), <span class="prelude-val">Some</span>(<span class="number">3.0</span>), <span class="prelude-val">Some</span>(<span class="number">2.0</span>)]);

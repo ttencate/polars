@@ -143,12 +143,6 @@
 <a href="#143" id="143">143</a>
 <a href="#144" id="144">144</a>
 <a href="#145" id="145">145</a>
-<a href="#146" id="146">146</a>
-<a href="#147" id="147">147</a>
-<a href="#148" id="148">148</a>
-<a href="#149" id="149">149</a>
-<a href="#150" id="150">150</a>
-<a href="#151" id="151">151</a>
 </pre></div><pre class="rust"><code><span class="kw">mod </span>mean;
 <span class="kw">mod </span>min_max;
 <span class="kw">mod </span>quantile;
@@ -170,6 +164,7 @@
 <span class="kw">pub use </span>variance::<span class="kw-2">*</span>;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::error::{polars_bail, PolarsResult};
 <span class="kw">use </span><span class="kw">crate</span>::utils::CustomIterTools;
 
 <span class="kw">pub trait </span>RollingAggWindowNoNulls&lt;<span class="lifetime">&#39;a</span>, T: NativeType&gt; {
@@ -188,7 +183,7 @@
     min_periods: usize,
     det_offsets_fn: Fo,
     params: DynArgs,
-) -&gt; ArrayRef
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>Fo: Fn(Idx, WindowSize, Len) -&gt; (Start, End),
     Agg: RollingAggWindowNoNulls&lt;<span class="lifetime">&#39;a</span>, T&gt;,
@@ -208,11 +203,11 @@
         .collect_trusted::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
     <span class="kw">let </span>validity = create_validity(min_periods, len, window_size, det_offsets_fn);
-    Box::new(PrimitiveArray::new(
+    <span class="prelude-val">Ok</span>(Box::new(PrimitiveArray::new(
         T::PRIMITIVE.into(),
         out.into(),
         validity.map(|b| b.into()),
-    ))
+    )))
 }
 
 <span class="attr">#[derive(Clone, Copy, PartialEq, Eq, Debug, Default)]
@@ -233,7 +228,7 @@
     det_offsets_fn: Fo,
     aggregator: Fa,
     weights: <span class="kw-2">&amp;</span>[T],
-) -&gt; ArrayRef
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType,
     Fo: Fn(Idx, WindowSize, Len) -&gt; (Start, End),
@@ -251,11 +246,11 @@
         .collect_trusted::&lt;Vec&lt;T&gt;&gt;();
 
     <span class="kw">let </span>validity = create_validity(min_periods, len, window_size, det_offsets_fn);
-    Box::new(PrimitiveArray::new(
+    <span class="prelude-val">Ok</span>(Box::new(PrimitiveArray::new(
         DataType::from(T::PRIMITIVE),
         out.into(),
         validity.map(|b| b.into()),
-    ))
+    )))
 }
 
 <span class="kw">fn </span>compute_var_weights&lt;T&gt;(vals: <span class="kw-2">&amp;</span>[T], weights: <span class="kw-2">&amp;</span>[T]) -&gt; T
@@ -276,13 +271,6 @@
     <span class="kw">let </span>mean = sum / count;
     <span class="comment">// apply Bessel&#39;s correction
     </span>((sum_of_squares / count) - mean * mean) / (count - T::one()) * count
-}
-
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>compute_mean_weights&lt;T&gt;(values: <span class="kw-2">&amp;</span>[T], weights: <span class="kw-2">&amp;</span>[T]) -&gt; T
-<span class="kw">where
-    </span>T: Float + std::iter::Sum&lt;T&gt;,
-{
-    values.iter().zip(weights).map(|(v, w)| <span class="kw-2">*</span>v * <span class="kw-2">*</span>w).sum::&lt;T&gt;() / T::from(values.len()).unwrap()
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>compute_sum_weights&lt;T&gt;(values: <span class="kw-2">&amp;</span>[T], weights: <span class="kw-2">&amp;</span>[T]) -&gt; T

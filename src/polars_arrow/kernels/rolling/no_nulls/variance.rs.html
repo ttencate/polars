@@ -470,7 +470,7 @@
     center: bool,
     weights: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;,
     params: DynArgs,
-) -&gt; ArrayRef
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType
         + Float
@@ -567,7 +567,7 @@
     center: bool,
     weights: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[f64]&gt;,
     params: DynArgs,
-) -&gt; ArrayRef
+) -&gt; PolarsResult&lt;ArrayRef&gt;
 <span class="kw">where
     </span>T: NativeType
         + Float
@@ -611,18 +611,18 @@
     </span><span class="kw">fn </span>test_rolling_var() {
         <span class="kw">let </span>values = <span class="kw-2">&amp;</span>[<span class="number">1.0f64</span>, <span class="number">5.0</span>, <span class="number">3.0</span>, <span class="number">4.0</span>];
 
-        <span class="kw">let </span>out = rolling_var(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_var(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">8.0</span>), <span class="prelude-val">Some</span>(<span class="number">2.0</span>), <span class="prelude-val">Some</span>(<span class="number">0.5</span>)]);
 
         <span class="kw">let </span>testpars = <span class="prelude-val">Some</span>(Arc::new(RollingVarParams { ddof: <span class="number">0 </span>}) <span class="kw">as </span>Arc&lt;<span class="kw">dyn </span>Any + Send + Sync&gt;);
-        <span class="kw">let </span>out = rolling_var(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, testpars);
+        <span class="kw">let </span>out = rolling_var(values, <span class="number">2</span>, <span class="number">2</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, testpars).unwrap();
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(out, <span class="kw-2">&amp;</span>[<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="number">4.0</span>), <span class="prelude-val">Some</span>(<span class="number">1.0</span>), <span class="prelude-val">Some</span>(<span class="number">0.25</span>)]);
 
-        <span class="kw">let </span>out = rolling_var(values, <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_var(values, <span class="number">2</span>, <span class="number">1</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out
             .into_iter()
@@ -635,7 +635,7 @@
         );
         <span class="comment">// test nan handling.
         </span><span class="kw">let </span>values = <span class="kw-2">&amp;</span>[-<span class="number">10.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>, f64::nan(), <span class="number">5.0</span>, <span class="number">6.0</span>, <span class="number">7.0</span>];
-        <span class="kw">let </span>out = rolling_var(values, <span class="number">3</span>, <span class="number">3</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        <span class="kw">let </span>out = rolling_var(values, <span class="number">3</span>, <span class="number">3</span>, <span class="bool-val">false</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
         <span class="kw">let </span>out = out.as_any().downcast_ref::&lt;PrimitiveArray&lt;f64&gt;&gt;().unwrap();
         <span class="kw">let </span>out = out.into_iter().map(|v| v.copied()).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="comment">// we cannot compare nans, so we compare the string values
