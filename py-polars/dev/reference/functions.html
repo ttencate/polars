@@ -1407,8 +1407,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="api/polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/polars.enable_string_cache.html">polars.enable_string_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/polars.StringCache.html">polars.StringCache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.enable_string_cache.html">polars.enable_string_cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/polars.using_string_cache.html">polars.using_string_cache</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="datatypes.html">Data types</a><input class="toctree-checkbox" id="toctree-checkbox-54" name="toctree-checkbox-54" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-54"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1646,13 +1647,18 @@ document.write(`
 </section>
 <section id="stringcache">
 <h2>StringCache<a class="headerlink" href="#stringcache" title="Permalink to this heading">#</a></h2>
+<p>Note that the <cite>StringCache</cite> can be used as both a context manager
+and a decorator, in order to explicitly scope cache lifetime.</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.enable_string_cache.html#polars.enable_string_cache" title="polars.enable_string_cache"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enable_string_cache</span></code></a>(enable)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.StringCache.html#polars.StringCache" title="polars.StringCache"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StringCache</span></code></a>()</p></td>
+<td><p>Context manager that allows data sources to share the same categorical features.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.enable_string_cache.html#polars.enable_string_cache" title="polars.enable_string_cache"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enable_string_cache</span></code></a>(enable)</p></td>
 <td><p>Enable (or disable) the global string cache.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.StringCache.html#polars.StringCache" title="polars.StringCache"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StringCache</span></code></a>()</p></td>
-<td><p>Context manager that allows data sources to share the same categorical features.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/polars.using_string_cache.html#polars.using_string_cache" title="polars.using_string_cache"><code class="xref py py-obj docutils literal notranslate"><span class="pre">using_string_cache</span></code></a>()</p></td>
+<td><p>Return the current state of the global string cache (enabled/disabled).</p></td>
 </tr>
 </tbody>
 </table>

@@ -1407,8 +1407,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.zeros.html">polars.zeros</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.align_frames.html">polars.align_frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.collect_all.html">polars.collect_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/polars.enable_string_cache.html">polars.enable_string_cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/polars.StringCache.html">polars.StringCache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.enable_string_cache.html">polars.enable_string_cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/polars.using_string_cache.html">polars.using_string_cache</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../datatypes.html">Data types</a><input class="toctree-checkbox" id="toctree-checkbox-54" name="toctree-checkbox-54" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-54"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -1578,7 +1579,7 @@ document.write(`
 <h1>polars.Series.str.rstrip<a class="headerlink" href="#polars-series-str-rstrip" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Series.str.rstrip">
-<span class="sig-prename descclassname"><span class="pre">Series.str.</span></span><span class="sig-name descname"><span class="pre">rstrip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">characters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/string.py#L1088-L1121"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.str.rstrip" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Series.str.</span></span><span class="sig-name descname"><span class="pre">rstrip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">characters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/series/string.py#L1089-L1122"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Series.str.rstrip" title="Permalink to this definition">#</a></dt>
 <dd><p>Remove trailing characters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1603,12 +1604,12 @@ removed instead.</p>
 </div>
 <p>Characters can be stripped by passing a string as argument. Note that whitespace
 will not be stripped automatically when doing so.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;wod</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;orld</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="go">shape: (2,)</span>
 <span class="go">Series: &#39;&#39; [str]</span>
 <span class="go">[</span>
-<span class="go">        &quot; hello &quot;</span>
-<span class="go">        &quot;worl&quot;</span>
+<span class="go">    &quot; hello &quot;</span>
+<span class="go">    &quot;w&quot;</span>
 <span class="go">]</span>
 </pre></div>
 </div>
