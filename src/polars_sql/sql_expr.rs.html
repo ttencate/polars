@@ -500,6 +500,7 @@
 <a href="#500" id="500">500</a>
 <a href="#501" id="501">501</a>
 <a href="#502" id="502">502</a>
+<a href="#503" id="503">503</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_arrow::error::to_compute_err;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_lazy::dsl::Expr;
@@ -660,6 +661,7 @@
         <span class="prelude-val">Ok</span>(<span class="kw">match </span>op {
             SQLBinaryOperator::And =&gt; left.and(right),
             SQLBinaryOperator::Divide =&gt; left / right,
+            SQLBinaryOperator::DuckIntegerDivide =&gt; left.floor_div(right).cast(DataType::Int64),
             SQLBinaryOperator::Eq =&gt; left.eq(right),
             SQLBinaryOperator::Gt =&gt; left.gt(right),
             SQLBinaryOperator::GtEq =&gt; left.gt_eq(right),
