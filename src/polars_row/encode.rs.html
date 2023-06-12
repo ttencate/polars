@@ -250,7 +250,7 @@
 <span class="kw">use </span>arrow::datatypes::{DataType <span class="kw">as </span>ArrowDataType, DataType};
 <span class="kw">use </span>arrow::types::NativeType;
 
-<span class="kw">use </span><span class="kw">crate</span>::encodings::fixed::FixedLengthEncoding;
+<span class="kw">use </span><span class="kw">crate</span>::fixed::FixedLengthEncoding;
 <span class="kw">use </span><span class="kw">crate</span>::row::{RowsEncoded, SortField};
 <span class="kw">use crate</span>::{with_match_arrow_primitive_type, ArrayRef};
 
@@ -272,9 +272,9 @@
     out: <span class="kw-2">&amp;mut </span>RowsEncoded,
 ) {
     <span class="kw">if </span>arr.null_count() == <span class="number">0 </span>{
-        <span class="kw">crate</span>::encodings::fixed::encode_slice(arr.values().as_slice(), out, field);
+        <span class="kw">crate</span>::fixed::encode_slice(arr.values().as_slice(), out, field);
     } <span class="kw">else </span>{
-        <span class="kw">crate</span>::encodings::fixed::encode_iter(arr.into_iter().map(|v| v.copied()), out, field);
+        <span class="kw">crate</span>::fixed::encode_iter(arr.into_iter().map(|v| v.copied()), out, field);
     }
 }
 
@@ -286,11 +286,11 @@
     <span class="kw">match </span>array.data_type() {
         DataType::Boolean =&gt; {
             <span class="kw">let </span>array = array.as_any().downcast_ref::&lt;BooleanArray&gt;().unwrap();
-            <span class="kw">crate</span>::encodings::fixed::encode_iter(array.into_iter(), out, field);
+            <span class="kw">crate</span>::fixed::encode_iter(array.into_iter(), out, field);
         }
         DataType::LargeBinary =&gt; {
             <span class="kw">let </span>array = array.as_any().downcast_ref::&lt;BinaryArray&lt;i64&gt;&gt;().unwrap();
-            <span class="kw">crate</span>::encodings::variable::encode_iter(array.into_iter(), out, field)
+            <span class="kw">crate</span>::variable::encode_iter(array.into_iter(), out, field)
         }
         DataType::LargeUtf8 =&gt; {
             <span class="macro">panic!</span>(<span class="string">&quot;should be cast to binary&quot;</span>)
@@ -304,7 +304,7 @@
                 .iter_typed::&lt;Utf8Array&lt;i64&gt;&gt;()
                 .unwrap()
                 .map(|opt_s| opt_s.map(|s| s.as_bytes()));
-            <span class="kw">crate</span>::encodings::variable::encode_iter(iter, out, field)
+            <span class="kw">crate</span>::variable::encode_iter(iter, out, field)
         }
         dt =&gt; {
             <span class="macro">with_match_arrow_primitive_type!</span>(dt, |<span class="macro-nonterminal">$T</span>| {
@@ -366,7 +366,7 @@
                 ArrowDataType::LargeBinary =&gt; {
                     <span class="kw">let </span>array = array.as_any().downcast_ref::&lt;BinaryArray&lt;i64&gt;&gt;().unwrap();
                     <span class="kw">for </span>(opt_val, row_length) <span class="kw">in </span>array.into_iter().zip(lengths.iter_mut()) {
-                        <span class="kw-2">*</span>row_length += <span class="kw">crate</span>::encodings::variable::encoded_len(opt_val)
+                        <span class="kw-2">*</span>row_length += <span class="kw">crate</span>::variable::encoded_len(opt_val)
                     }
                 }
                 ArrowDataType::Dictionary(<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>) =&gt; {
@@ -379,7 +379,7 @@
                         .unwrap()
                         .map(|opt_s| opt_s.map(|s| s.as_bytes()));
                     <span class="kw">for </span>(opt_val, row_length) <span class="kw">in </span>iter.zip(lengths.iter_mut()) {
-                        <span class="kw-2">*</span>row_length += <span class="kw">crate</span>::encodings::variable::encoded_len(opt_val)
+                        <span class="kw-2">*</span>row_length += <span class="kw">crate</span>::variable::encoded_len(opt_val)
                     }
                 }
                 <span class="kw">_ </span>=&gt; {
@@ -444,7 +444,7 @@
     <span class="kw">use </span>arrow::array::Utf8Array;
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use </span><span class="kw">crate</span>::encodings::variable::{BLOCK_SIZE, EMPTY_SENTINEL, NON_EMPTY_SENTINEL};
+    <span class="kw">use </span><span class="kw">crate</span>::variable::{BLOCK_SIZE, EMPTY_SENTINEL, NON_EMPTY_SENTINEL};
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_str_encode() {
