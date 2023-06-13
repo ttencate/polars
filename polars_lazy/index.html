@@ -5,7 +5,7 @@ domain specific language. These queries translate to a logical plan, which repre
 Before execution this logical plan is optimized and may change the order of operations if this will increase performance.
 Or implicit type casts may be added such that execution of the query won’t lead to a type error (if it can be resolved).</p>
 <h2 id="lazy-dsl"><a href="#lazy-dsl">Lazy DSL</a></h2>
-<p>The lazy API of polars can be used as long we operation on one or multiple DataFrame(s) and
+<p>The lazy API of polars can be used as long we operate on one or multiple DataFrame(s) and
 Series of the same length as the DataFrame. To get started we call the <a href="frame/trait.IntoLazy.html#tymethod.lazy" title="method polars_lazy::frame::IntoLazy::lazy">lazy</a>
 method. This returns a <a href="frame/struct.LazyFrame.html" title="struct polars_lazy::frame::LazyFrame">LazyFrame</a> exposing the lazy API.</p>
 <p>Lazy operations don’t execute until we call <a href="frame/struct.LazyFrame.html#method.collect" title="method polars_lazy::frame::LazyFrame::collect">collect</a>.
