@@ -391,6 +391,24 @@
 <a href="#391" id="391">391</a>
 <a href="#392" id="392">392</a>
 <a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::Formatter;
 <span class="kw">use </span>std::iter::FlatMap;
 <span class="kw">use </span>std::sync::Arc;
@@ -488,6 +506,24 @@
     arena
         .iter(current_node)
         .all(|(_node, e)| <span class="macro">matches!</span>(e, AExpr::Column(<span class="kw">_</span>) | AExpr::Alias(<span class="kw">_</span>, <span class="kw">_</span>)))
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>aexpr_is_elementwise(current_node: Node, arena: <span class="kw-2">&amp;</span>Arena&lt;AExpr&gt;) -&gt; bool {
+    arena.iter(current_node).all(|(_node, e)| {
+        <span class="kw">use </span>AExpr::<span class="kw-2">*</span>;
+        <span class="kw">match </span>e {
+            AnonymousFunction { options, .. } | Function { options, .. } =&gt; {
+                !<span class="macro">matches!</span>(options.collect_groups, ApplyOptions::ApplyGroups)
+            }
+            Column(<span class="kw">_</span>)
+            | Alias(<span class="kw">_</span>, <span class="kw">_</span>)
+            | Literal(<span class="kw">_</span>)
+            | BinaryExpr { .. }
+            | Ternary { .. }
+            | Cast { .. } =&gt; <span class="bool-val">true</span>,
+            <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
+        }
+    })
 }
 
 <span class="kw">pub fn </span>has_aexpr&lt;F&gt;(current_node: Node, arena: <span class="kw-2">&amp;</span>Arena&lt;AExpr&gt;, matches: F) -&gt; bool

@@ -380,22 +380,9 @@
 <a href="#380" id="380">380</a>
 <a href="#381" id="381">381</a>
 <a href="#382" id="382">382</a>
-<a href="#383" id="383">383</a>
-<a href="#384" id="384">384</a>
-<a href="#385" id="385">385</a>
-<a href="#386" id="386">386</a>
-<a href="#387" id="387">387</a>
-<a href="#388" id="388">388</a>
-<a href="#389" id="389">389</a>
-<a href="#390" id="390">390</a>
-<a href="#391" id="391">391</a>
-<a href="#392" id="392">392</a>
-<a href="#393" id="393">393</a>
-<a href="#394" id="394">394</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::utils::aexpr_is_simple_projection;
 
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>SlicePushDown {
     streaming: bool,
@@ -745,29 +732,18 @@
                 <span class="self">self</span>.pushdown_and_continue(lp, state, lp_arena, expr_arena)
             }
             <span class="comment">// there is state, inspect the projection to determine how to deal with it
-            </span>(Projection {input, <span class="kw-2">mut </span>expr, schema}, <span class="prelude-val">Some</span>(State{offset, len})) =&gt; {
+            </span>(Projection {input, expr, schema}, <span class="prelude-val">Some</span>(<span class="kw">_</span>)) =&gt; {
                 <span class="comment">// The slice operation may only pass on simple projections. col(&quot;foo&quot;).alias(&quot;bar&quot;)
                 </span><span class="kw">if </span>expr.iter().all(|root|  {
-                    aexpr_is_simple_projection(<span class="kw-2">*</span>root, expr_arena)
+                    aexpr_is_elementwise(<span class="kw-2">*</span>root, expr_arena)
                 }) {
                     <span class="kw">let </span>lp = Projection {input, expr, schema};
                     <span class="self">self</span>.pushdown_and_continue(lp, state, lp_arena, expr_arena)
                 }
-                <span class="comment">// we add a slice node to the projections
+                <span class="comment">// don&#39;t push down slice, but restart optimization
                 </span><span class="kw">else </span>{
-                    <span class="kw">let </span>offset_node = to_aexpr(lit(offset), expr_arena);
-                    <span class="kw">let </span>length_node = to_aexpr(lit(len), expr_arena);
-                    expr.iter_mut().for_each(|node| {
-                        <span class="kw">let </span>aexpr = AExpr::Slice {
-                            input: <span class="kw-2">*</span>node,
-                            offset: offset_node,
-                            length: length_node
-                        };
-                        <span class="kw-2">*</span>node = expr_arena.add(aexpr)
-                    });
                     <span class="kw">let </span>lp = Projection {input, expr, schema};
-
-                    <span class="self">self</span>.pushdown_and_continue(lp, <span class="prelude-val">None</span>, lp_arena, expr_arena)
+                    <span class="self">self</span>.no_pushdown_restart_opt(lp, state, lp_arena, expr_arena)
                 }
             }
             (catch_all, state) =&gt; {
