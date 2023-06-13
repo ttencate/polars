@@ -167,7 +167,6 @@
 <a href="#167" id="167">167</a>
 <a href="#168" id="168">168</a>
 <a href="#169" id="169">169</a>
-<a href="#170" id="170">170</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! kernels that combine take and aggregations.
 </span><span class="kw">mod </span>boolean;
 <span class="kw">mod </span>var;
@@ -178,7 +177,6 @@
 <span class="kw">use </span>num_traits::{NumCast, ToPrimitive};
 <span class="kw">pub use </span>var::<span class="kw-2">*</span>;
 
-<span class="kw">use </span><span class="kw">crate</span>::array::PolarsArray;
 <span class="kw">use </span><span class="kw">crate</span>::index::IdxSize;
 
 <span class="doccomment">/// Take kernel for single chunk without nulls and an iterator as index.
@@ -196,7 +194,7 @@
     f: F,
     init: TOut,
 ) -&gt; TOut {
-    <span class="macro">debug_assert!</span>(!arr.has_validity());
+    <span class="macro">debug_assert!</span>(arr.null_count() == <span class="number">0</span>);
     <span class="kw">let </span>array_values = arr.values().as_slice();
 
     indices.into_iter().fold(init, |acc, idx| {
