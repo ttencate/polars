@@ -78,11 +78,40 @@
 <a href="#78" id="78">78</a>
 <a href="#79" id="79">79</a>
 <a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
+<a href="#83" id="83">83</a>
+<a href="#84" id="84">84</a>
+<a href="#85" id="85">85</a>
+<a href="#86" id="86">86</a>
+<a href="#87" id="87">87</a>
+<a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
+<a href="#90" id="90">90</a>
+<a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::array::BinaryArray;
 <span class="kw">use </span>arrow::datatypes::DataType;
-<span class="kw">use </span>arrow::offset::Offsets;
+<span class="kw">use </span>arrow::ffi::mmap;
+<span class="kw">use </span>arrow::offset::{Offsets, OffsetsBuffer};
 
-<span class="attr">#[derive(Clone)]
+<span class="attr">#[derive(Clone, Default)]
 </span><span class="kw">pub struct </span>SortField {
     <span class="doccomment">/// Whether to sort in descending order
     </span><span class="kw">pub </span>descending: bool,
@@ -90,14 +119,39 @@
     </span><span class="kw">pub </span>nulls_last: bool,
 }
 
-<span class="kw">pub struct </span>RowsEncoded {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) buf: Vec&lt;u8&gt;,
+<span class="attr">#[derive(Default)]
+</span><span class="kw">pub struct </span>RowsEncoded {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) values: Vec&lt;u8&gt;,
     <span class="kw">pub</span>(<span class="kw">crate</span>) offsets: Vec&lt;usize&gt;,
 }
 
+<span class="kw">fn </span>checks(offsets: <span class="kw-2">&amp;</span>[usize]) {
+    <span class="macro">assert_eq!</span>(
+        std::mem::size_of::&lt;usize&gt;(),
+        std::mem::size_of::&lt;i64&gt;(),
+        <span class="string">&quot;only supported on 64bit arch&quot;
+    </span>);
+    <span class="macro">assert!</span>(
+        (<span class="kw-2">*</span>offsets.last().unwrap() <span class="kw">as </span>u64) &lt; i64::MAX <span class="kw">as </span>u64,
+        <span class="string">&quot;overflow&quot;
+    </span>);
+}
+
+<span class="kw">unsafe fn </span>rows_to_array(buf: Vec&lt;u8&gt;, offsets: Vec&lt;usize&gt;) -&gt; BinaryArray&lt;i64&gt; {
+    checks(<span class="kw-2">&amp;</span>offsets);
+
+    <span class="comment">// Safety: we checked overflow
+    </span><span class="kw">let </span>offsets = std::mem::transmute::&lt;Vec&lt;usize&gt;, Vec&lt;i64&gt;&gt;(offsets);
+
+    <span class="comment">// Safety: monotonically increasing
+    </span><span class="kw">let </span>offsets = Offsets::new_unchecked(offsets);
+
+    BinaryArray::new(DataType::LargeBinary, offsets.into(), buf.into(), <span class="prelude-val">None</span>)
+}
+
 <span class="kw">impl </span>RowsEncoded {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(buf: Vec&lt;u8&gt;, offsets: Vec&lt;usize&gt;) -&gt; <span class="self">Self </span>{
-        RowsEncoded { buf, offsets }
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(values: Vec&lt;u8&gt;, offsets: Vec&lt;usize&gt;) -&gt; <span class="self">Self </span>{
+        RowsEncoded { values, offsets }
     }
 
     <span class="kw">pub fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; RowsEncodedIter {
@@ -106,42 +160,44 @@
         RowsEncodedIter {
             offset,
             end: iter,
-            buf: <span class="kw-2">&amp;</span><span class="self">self</span>.buf,
+            values: <span class="kw-2">&amp;</span><span class="self">self</span>.values,
+        }
+    }
+
+    <span class="doccomment">/// Borrows the buffers and returns a [`BinaryArray`].
+    ///
+    /// # Safety
+    /// The lifetime of that `BinaryArray` is tight to the lifetime of
+    /// `Self`. The caller must ensure that both stay alive for the same time.
+    </span><span class="kw">pub unsafe fn </span>borrow_array(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BinaryArray&lt;i64&gt; {
+        checks(<span class="kw-2">&amp;</span><span class="self">self</span>.offsets);
+
+        <span class="kw">unsafe </span>{
+            <span class="kw">let </span>(<span class="kw">_</span>, values, <span class="kw">_</span>) = mmap::slice(<span class="kw-2">&amp;</span><span class="self">self</span>.values).into_inner();
+            <span class="kw">let </span>offsets = std::mem::transmute::&lt;<span class="kw-2">&amp;</span>[usize], <span class="kw-2">&amp;</span>[i64]&gt;(<span class="self">self</span>.offsets.as_slice());
+            <span class="kw">let </span>(<span class="kw">_</span>, offsets, <span class="kw">_</span>) = mmap::slice(offsets).into_inner();
+            <span class="kw">let </span>offsets = OffsetsBuffer::new_unchecked(offsets);
+
+            BinaryArray::new(DataType::LargeBinary, offsets, values, <span class="prelude-val">None</span>)
         }
     }
 
     <span class="kw">pub fn </span>into_array(<span class="self">self</span>) -&gt; BinaryArray&lt;i64&gt; {
-        <span class="macro">assert_eq!</span>(
-            std::mem::size_of::&lt;usize&gt;(),
-            std::mem::size_of::&lt;i64&gt;(),
-            <span class="string">&quot;only supported on 64bit arch&quot;
-        </span>);
-        <span class="macro">assert!</span>(
-            (<span class="kw-2">*</span><span class="self">self</span>.offsets.last().unwrap() <span class="kw">as </span>u64) &lt; i64::MAX <span class="kw">as </span>u64,
-            <span class="string">&quot;overflow&quot;
-        </span>);
-
-        <span class="comment">// Safety: we checked overflow
-        </span><span class="kw">let </span>offsets = <span class="kw">unsafe </span>{ std::mem::transmute::&lt;Vec&lt;usize&gt;, Vec&lt;i64&gt;&gt;(<span class="self">self</span>.offsets) };
-
-        <span class="comment">// Safety: monotonically increasing
-        </span><span class="kw">let </span>offsets = <span class="kw">unsafe </span>{ Offsets::new_unchecked(offsets) };
-
-        BinaryArray::new(DataType::LargeBinary, offsets.into(), <span class="self">self</span>.buf.into(), <span class="prelude-val">None</span>)
+        <span class="kw">unsafe </span>{ rows_to_array(<span class="self">self</span>.values, <span class="self">self</span>.offsets) }
     }
 
     <span class="attr">#[cfg(test)]
     </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span>[u8] {
         <span class="kw">let </span>start = <span class="self">self</span>.offsets[i];
         <span class="kw">let </span>end = <span class="self">self</span>.offsets[i + <span class="number">1</span>];
-        <span class="kw-2">&amp;</span><span class="self">self</span>.buf[start..end]
+        <span class="kw-2">&amp;</span><span class="self">self</span>.values[start..end]
     }
 }
 
 <span class="kw">pub struct </span>RowsEncodedIter&lt;<span class="lifetime">&#39;a</span>&gt; {
     offset: usize,
     end: std::slice::Iter&lt;<span class="lifetime">&#39;a</span>, usize&gt;,
-    buf: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
+    values: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Iterator <span class="kw">for </span>RowsEncodedIter&lt;<span class="lifetime">&#39;a</span>&gt; {
@@ -149,7 +205,7 @@
 
     <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
         <span class="kw">let </span>new_offset = <span class="kw-2">*</span><span class="self">self</span>.end.next()<span class="question-mark">?</span>;
-        <span class="kw">let </span>payload = <span class="kw">unsafe </span>{ <span class="self">self</span>.buf.get_unchecked(<span class="self">self</span>.offset..new_offset) };
+        <span class="kw">let </span>payload = <span class="kw">unsafe </span>{ <span class="self">self</span>.values.get_unchecked(<span class="self">self</span>.offset..new_offset) };
         <span class="self">self</span>.offset = new_offset;
         <span class="prelude-val">Some</span>(payload)
     }

@@ -278,6 +278,8 @@
 <a href="#278" id="278">278</a>
 <a href="#279" id="279">279</a>
 <a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Row format as defined in `arrow-rs`.
 //! This currently partially implements that format only for needed types.
 //! For completeness sake the format as defined by `arrow-rs` is as followed:
@@ -546,7 +548,9 @@
 //! [COBS]: https://en.wikipedia.org/wiki/Consistent_Overhead_Byte_Stuffing
 //! [byte stuffing]: https://en.wikipedia.org/wiki/High-Level_Data_Link_Control#Asynchronous_framing
 
-</span><span class="kw">pub mod </span>decode;
+</span><span class="kw">extern crate </span>core;
+
+<span class="kw">pub mod </span>decode;
 <span class="kw">pub mod </span>encode;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>fixed;
 <span class="kw">mod </span>row;
@@ -556,6 +560,6 @@
 <span class="kw">use </span>arrow::array::<span class="kw-2">*</span>;
 <span class="kw">pub type </span>ArrayRef = Box&lt;<span class="kw">dyn </span>Array&gt;;
 
-<span class="kw">pub use </span>encode::convert_columns;
+<span class="kw">pub use </span>encode::{convert_columns, convert_columns_amortized};
 <span class="kw">pub use </span>row::{RowsEncoded, SortField};
 </code></pre></div></section></main></body></html>

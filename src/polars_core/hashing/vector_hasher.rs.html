@@ -488,6 +488,9 @@
 <a href="#488" id="488">488</a>
 <a href="#489" id="489">489</a>
 <a href="#490" id="490">490</a>
+<a href="#491" id="491">491</a>
+<a href="#492" id="492">492</a>
+<a href="#493" id="493">493</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::bitmap::utils::get_bit_unchecked;
 <span class="kw">use </span>hashbrown::hash_map::RawEntryMut;
 <span class="kw">use </span>hashbrown::HashMap;
@@ -653,23 +656,26 @@
     }
 }
 
+<span class="comment">// used in polars-pipe
+</span><span class="kw">pub fn </span>_hash_binary_array(arr: <span class="kw-2">&amp;</span>BinaryArray&lt;i64&gt;, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;) {
+    <span class="kw">let </span>null_h = get_null_hash_value(random_state);
+    <span class="kw">if </span>arr.null_count() == <span class="number">0 </span>{
+        <span class="comment">// use the null_hash as seed to get a hash determined by `random_state` that is passed
+        </span>buf.extend(arr.values_iter().map(|v| xxh3_64_with_seed(v, null_h)))
+    } <span class="kw">else </span>{
+        buf.extend(arr.into_iter().map(|opt_v| <span class="kw">match </span>opt_v {
+            <span class="prelude-val">Some</span>(v) =&gt; xxh3_64_with_seed(v, null_h),
+            <span class="prelude-val">None </span>=&gt; null_h,
+        }))
+    }
+}
+
 <span class="kw">impl </span>VecHash <span class="kw">for </span>BinaryChunked {
     <span class="kw">fn </span>vec_hash(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u64&gt;) {
         buf.clear();
         buf.reserve(<span class="self">self</span>.len());
-        <span class="kw">let </span>null_h = get_null_hash_value(random_state);
-
-        <span class="self">self</span>.downcast_iter().for_each(|arr| {
-            <span class="kw">if </span>arr.null_count() == <span class="number">0 </span>{
-                <span class="comment">// simply use the null_hash as seed to get a hash determined by `random_state` that is passed
-                </span>buf.extend(arr.values_iter().map(|v| xxh3_64_with_seed(v, null_h)))
-            } <span class="kw">else </span>{
-                buf.extend(arr.into_iter().map(|opt_v| <span class="kw">match </span>opt_v {
-                    <span class="prelude-val">Some</span>(v) =&gt; xxh3_64_with_seed(v, null_h),
-                    <span class="prelude-val">None </span>=&gt; null_h,
-                }))
-            }
-        });
+        <span class="self">self</span>.downcast_iter()
+            .for_each(|arr| _hash_binary_array(arr, random_state.clone(), buf));
     }
 
     <span class="kw">fn </span>vec_hash_combine(<span class="kw-2">&amp;</span><span class="self">self</span>, random_state: RandomState, hashes: <span class="kw-2">&amp;mut </span>[u64]) {

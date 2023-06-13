@@ -269,6 +269,8 @@
 <a href="#269" id="269">269</a>
 <a href="#270" id="270">270</a>
 <a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::array::{BooleanArray, PrimitiveArray};
 <span class="kw">use </span>arrow::bitmap::Bitmap;
 <span class="kw">use </span>arrow::datatypes::DataType;
@@ -435,7 +437,7 @@
     field: <span class="kw-2">&amp;</span>SortField,
 ) {
     <span class="kw">for </span>(offset, value) <span class="kw">in </span>out.offsets.iter_mut().skip(<span class="number">1</span>).zip(input) {
-        encode_value(value, offset, field.descending, <span class="kw-2">&amp;mut </span>out.buf);
+        encode_value(value, offset, field.descending, <span class="kw-2">&amp;mut </span>out.values);
     }
 }
 
@@ -455,9 +457,9 @@
 ) {
     <span class="kw">for </span>(offset, opt_value) <span class="kw">in </span>out.offsets.iter_mut().skip(<span class="number">1</span>).zip(input) {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(value) = opt_value {
-            encode_value(<span class="kw-2">&amp;</span>value, offset, field.descending, <span class="kw-2">&amp;mut </span>out.buf);
+            encode_value(<span class="kw-2">&amp;</span>value, offset, field.descending, <span class="kw-2">&amp;mut </span>out.values);
         } <span class="kw">else </span>{
-            <span class="kw">unsafe </span>{ <span class="kw-2">*</span>out.buf.get_unchecked_release_mut(<span class="kw-2">*</span>offset) = get_null_sentinel(field) };
+            <span class="kw">unsafe </span>{ <span class="kw-2">*</span>out.values.get_unchecked_release_mut(<span class="kw-2">*</span>offset) = get_null_sentinel(field) };
             <span class="kw">let </span>end_offset = <span class="kw-2">*</span>offset + T::ENCODED_LEN;
             <span class="kw-2">*</span>offset = end_offset;
         }
@@ -479,8 +481,9 @@
         .iter()
         .map(|row| {
             has_nulls |= <span class="kw-2">*</span>row.get_unchecked(<span class="number">0</span>) == null_sentinel;
-            <span class="kw">let </span>start = <span class="number">1</span>;
-            <span class="kw">let </span>end = start + T::ENCODED_LEN;
+            <span class="comment">// skip null sentinel
+            </span><span class="kw">let </span>start = <span class="number">1</span>;
+            <span class="kw">let </span>end = start + T::ENCODED_LEN - <span class="number">1</span>;
             <span class="kw">let </span>slice = row.get_unchecked(start..end);
             <span class="kw">let </span>bytes = T::Encoded::from_slice(slice);
             T::decode(bytes)
@@ -495,7 +498,7 @@
     </span>};
 
     <span class="comment">// validity byte and data length
-    </span><span class="kw">let </span>increment_len = <span class="number">1 </span>+ T::ENCODED_LEN;
+    </span><span class="kw">let </span>increment_len = T::ENCODED_LEN;
 
     increment_row_counter(rows, increment_len);
     PrimitiveArray::new(data_type, values.into(), validity)
@@ -509,8 +512,9 @@
         .iter()
         .map(|row| {
             has_nulls |= <span class="kw-2">*</span>row.get_unchecked(<span class="number">0</span>) == null_sentinel;
-            <span class="kw">let </span>start = <span class="number">1</span>;
-            <span class="kw">let </span>end = start + bool::ENCODED_LEN;
+            <span class="comment">// skip null sentinel
+            </span><span class="kw">let </span>start = <span class="number">1</span>;
+            <span class="kw">let </span>end = start + bool::ENCODED_LEN - <span class="number">1</span>;
             <span class="kw">let </span>slice = row.get_unchecked(start..end);
             <span class="kw">let </span>bytes = &lt;bool <span class="kw">as </span>FixedLengthEncoding&gt;::Encoded::from_slice(slice);
             bool::decode(bytes)
@@ -524,7 +528,7 @@
     </span>};
 
     <span class="comment">// validity byte and data length
-    </span><span class="kw">let </span>increment_len = <span class="number">1 </span>+ bool::ENCODED_LEN;
+    </span><span class="kw">let </span>increment_len = bool::ENCODED_LEN;
 
     increment_row_counter(rows, increment_len);
     BooleanArray::new(DataType::Boolean, values, validity)
