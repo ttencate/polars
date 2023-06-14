@@ -270,37 +270,6 @@
 <a href="#270" id="270">270</a>
 <a href="#271" id="271">271</a>
 <a href="#272" id="272">272</a>
-<a href="#273" id="273">273</a>
-<a href="#274" id="274">274</a>
-<a href="#275" id="275">275</a>
-<a href="#276" id="276">276</a>
-<a href="#277" id="277">277</a>
-<a href="#278" id="278">278</a>
-<a href="#279" id="279">279</a>
-<a href="#280" id="280">280</a>
-<a href="#281" id="281">281</a>
-<a href="#282" id="282">282</a>
-<a href="#283" id="283">283</a>
-<a href="#284" id="284">284</a>
-<a href="#285" id="285">285</a>
-<a href="#286" id="286">286</a>
-<a href="#287" id="287">287</a>
-<a href="#288" id="288">288</a>
-<a href="#289" id="289">289</a>
-<a href="#290" id="290">290</a>
-<a href="#291" id="291">291</a>
-<a href="#292" id="292">292</a>
-<a href="#293" id="293">293</a>
-<a href="#294" id="294">294</a>
-<a href="#295" id="295">295</a>
-<a href="#296" id="296">296</a>
-<a href="#297" id="297">297</a>
-<a href="#298" id="298">298</a>
-<a href="#299" id="299">299</a>
-<a href="#300" id="300">300</a>
-<a href="#301" id="301">301</a>
-<a href="#302" id="302">302</a>
-<a href="#303" id="303">303</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>chrono::NaiveDateTime;
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
 </span><span class="kw">use </span>chrono::TimeZone;
@@ -308,7 +277,7 @@
 <span class="kw">use </span>polars_arrow::export::arrow::temporal_conversions::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_arrow::time_zone::Tz;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span>polars_core::utils::arrow::temporal_conversions::{timeunit_scale, SECONDS_IN_DAY};
+<span class="kw">use </span>polars_core::utils::arrow::temporal_conversions::timeunit_scale;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
@@ -386,52 +355,21 @@
     <span class="doccomment">/// returns the bounds for the earliest window bounds
     /// that contains the given time t.  For underlapping windows that
     /// do not contain time t, the window directly after time t will be returned.
-    ///
-    /// For `every` larger than `1day` we just take the given timestamp `t` as start as truncation
-    /// does not seems intuitive.
-    /// Below 1 day, it make sense to truncate to:
-    /// - days
-    /// - hours
-    /// - 15 minutes
-    /// - etc.
-    ///
-    /// But for 2w3d, it does not make sense to start it on a different lower bound, so we start at `t`
     </span><span class="kw">pub fn </span>get_earliest_bounds_ns(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Tz&gt;) -&gt; PolarsResult&lt;Bounds&gt; {
-        <span class="kw">let </span>start = <span class="kw">if </span>!<span class="self">self</span>.every.months_only()
-            &amp;&amp; <span class="self">self</span>.every.duration_ns() &gt; NANOSECONDS * SECONDS_IN_DAY
-        {
-            <span class="self">self</span>.offset.add_ns(t, tz)<span class="question-mark">?
-        </span>} <span class="kw">else </span>{
-            <span class="comment">// offset is translated in the truncate
-            </span><span class="self">self</span>.truncate_ns(t, tz)<span class="question-mark">?
-        </span>};
-
+        <span class="kw">let </span>start = <span class="self">self</span>.truncate_ns(t, tz)<span class="question-mark">?</span>;
         <span class="kw">let </span>stop = <span class="self">self</span>.period.add_ns(start, tz)<span class="question-mark">?</span>;
 
         <span class="prelude-val">Ok</span>(Bounds::new_checked(start, stop))
     }
 
     <span class="kw">pub fn </span>get_earliest_bounds_us(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Tz&gt;) -&gt; PolarsResult&lt;Bounds&gt; {
-        <span class="kw">let </span>start = <span class="kw">if </span>!<span class="self">self</span>.every.months_only()
-            &amp;&amp; <span class="self">self</span>.every.duration_us() &gt; MICROSECONDS * SECONDS_IN_DAY
-        {
-            <span class="self">self</span>.offset.add_us(t, tz)<span class="question-mark">?
-        </span>} <span class="kw">else </span>{
-            <span class="self">self</span>.truncate_us(t, tz)<span class="question-mark">?
-        </span>};
+        <span class="kw">let </span>start = <span class="self">self</span>.truncate_us(t, tz)<span class="question-mark">?</span>;
         <span class="kw">let </span>stop = <span class="self">self</span>.period.add_us(start, tz)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(Bounds::new_checked(start, stop))
     }
 
     <span class="kw">pub fn </span>get_earliest_bounds_ms(<span class="kw-2">&amp;</span><span class="self">self</span>, t: i64, tz: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Tz&gt;) -&gt; PolarsResult&lt;Bounds&gt; {
-        <span class="kw">let </span>start = <span class="kw">if </span>!<span class="self">self</span>.every.months_only()
-            &amp;&amp; <span class="self">self</span>.every.duration_ms() &gt; MILLISECONDS * SECONDS_IN_DAY
-        {
-            <span class="self">self</span>.offset.add_ms(t, tz)<span class="question-mark">?
-        </span>} <span class="kw">else </span>{
-            <span class="self">self</span>.truncate_ms(t, tz)<span class="question-mark">?
-        </span>};
-
+        <span class="kw">let </span>start = <span class="self">self</span>.truncate_ms(t, tz)<span class="question-mark">?</span>;
         <span class="kw">let </span>stop = <span class="self">self</span>.period.add_ms(start, tz)<span class="question-mark">?</span>;
 
         <span class="prelude-val">Ok</span>(Bounds::new_checked(start, stop))
