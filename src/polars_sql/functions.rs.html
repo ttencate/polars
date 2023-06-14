@@ -641,6 +641,7 @@
 <a href="#641" id="641">641</a>
 <a href="#642" id="642">642</a>
 <a href="#643" id="643">643</a>
+<a href="#644" id="644">644</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_core::prelude::{polars_bail, polars_err, PolarsError, PolarsResult};
 <span class="kw">use </span>polars_lazy::dsl::Expr;
 <span class="kw">use </span>polars_plan::dsl::count;
@@ -876,6 +877,7 @@
     /// ```
     </span>ArrayContains,
 }
+
 <span class="kw">impl </span>PolarsSqlFunctions {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>keywords() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str] {
         <span class="kw-2">&amp;</span>[

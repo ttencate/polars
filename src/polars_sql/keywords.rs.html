@@ -72,6 +72,7 @@
 <a href="#72" id="72">72</a>
 <a href="#73" id="73">73</a>
 <a href="#74" id="74">74</a>
+<a href="#75" id="75">75</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Keywords that are supported by Polars SQL
 //!
 //! This is useful for syntax highlighting
@@ -96,12 +97,15 @@
         keywords::ASC,
         keywords::BOOLEAN,
         keywords::BY,
+        keywords::CASE,
         keywords::CREATE,
         keywords::DATE,
         keywords::DATETIME,
         keywords::DESC,
         keywords::DISTINCT,
         keywords::DOUBLE,
+        keywords::DROP,
+        keywords::EXCLUDE,
         keywords::FLOAT,
         keywords::FROM,
         keywords::FULL,
@@ -125,15 +129,13 @@
         keywords::SHOW,
         keywords::TABLE,
         keywords::TABLES,
+        keywords::THEN,
         keywords::TIME,
         keywords::USING,
         keywords::VARCHAR,
+        keywords::WHEN,
         keywords::WHERE,
         keywords::WITH,
-        keywords::CASE,
-        keywords::WHEN,
-        keywords::THEN,
-        keywords::EXCLUDE,
     ];
     keywords.extend_from_slice(sql_keywords);
     keywords
