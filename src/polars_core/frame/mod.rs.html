@@ -4639,7 +4639,7 @@
             .zip(other.columns.iter())
             .try_for_each::&lt;<span class="kw">_</span>, PolarsResult&lt;<span class="kw">_</span>&gt;&gt;(|(left, right)| {
                 ensure_can_extend(left, right)<span class="question-mark">?</span>;
-                left.append(right).expect(<span class="string">&quot;should not fail&quot;</span>);
+                left.append(right)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(())
             })<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
