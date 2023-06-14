@@ -1176,6 +1176,7 @@
 <a href="#1176" id="1176">1176</a>
 <a href="#1177" id="1177">1177</a>
 <a href="#1178" id="1178">1178</a>
+<a href="#1179" id="1179">1179</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt::{Debug, Display, Formatter};
 <span class="kw">use </span>std::hash::Hash;
 
@@ -1952,6 +1953,7 @@
     }
 
     <span class="kw">fn </span>prepare_apply(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PolarsResult&lt;DataFrame&gt; {
+        <span class="macro">polars_ensure!</span>(<span class="self">self</span>.df.height() &gt; <span class="number">0</span>, ComputeError: <span class="string">&quot;cannot groupby + apply on empty &#39;DataFrame&#39;&quot;</span>);
         <span class="kw">if let </span><span class="prelude-val">Some</span>(agg) = <span class="kw-2">&amp;</span><span class="self">self</span>.selected_agg {
             <span class="kw">if </span>agg.is_empty() {
                 <span class="prelude-val">Ok</span>(<span class="self">self</span>.df.clone())
