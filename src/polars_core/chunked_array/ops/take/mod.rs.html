@@ -658,7 +658,7 @@
 {
     <span class="kw">fn </span>finish_from_array(<span class="kw-2">&amp;</span><span class="self">self</span>, array: Box&lt;<span class="kw">dyn </span>Array&gt;) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>keep_fast_explode = array.null_count() == <span class="number">0</span>;
-        <span class="self">self</span>.copy_with_chunks(<span class="macro">vec!</span>[array], <span class="bool-val">false</span>, keep_fast_explode)
+        <span class="kw">unsafe </span>{ <span class="self">self</span>.copy_with_chunks(<span class="macro">vec!</span>[array], <span class="bool-val">false</span>, keep_fast_explode) }
     }
 }
 

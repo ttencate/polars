@@ -305,7 +305,7 @@
                     <span class="self">self</span>.clone()
                 } <span class="kw">else </span>{
                     <span class="kw">let </span>chunks = inner_rechunk(<span class="kw-2">&amp;</span><span class="self">self</span>.chunks);
-                    <span class="self">self</span>.copy_with_chunks(chunks, <span class="bool-val">true</span>, <span class="bool-val">true</span>)
+                    <span class="kw">unsafe </span>{ <span class="self">self</span>.copy_with_chunks(chunks, <span class="bool-val">true</span>, <span class="bool-val">true</span>) }
                 }
             }
         }
@@ -319,7 +319,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>slice(<span class="kw-2">&amp;</span><span class="self">self</span>, offset: i64, length: usize) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>(chunks, len) = slice(<span class="kw-2">&amp;</span><span class="self">self</span>.chunks, offset, length, <span class="self">self</span>.len());
-        <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="self">self</span>.copy_with_chunks(chunks, <span class="bool-val">true</span>, <span class="bool-val">true</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="kw">unsafe </span>{ <span class="self">self</span>.copy_with_chunks(chunks, <span class="bool-val">true</span>, <span class="bool-val">true</span>) };
         out.length = len <span class="kw">as </span>IdxSize;
         out
     }

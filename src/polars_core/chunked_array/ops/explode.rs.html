@@ -567,7 +567,6 @@
 <a href="#567" id="567">567</a>
 <a href="#568" id="568">568</a>
 <a href="#569" id="569">569</a>
-<a href="#570" id="570">570</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::convert::TryFrom;
 
 <span class="kw">use </span>arrow::array::<span class="kw-2">*</span>;
@@ -836,8 +835,7 @@
         }
         process_range(start, last, <span class="kw-2">&amp;mut </span>builder);
         <span class="kw">let </span>arr = builder.finish(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>inner_type.to_arrow())).unwrap();
-        <span class="self">self</span>.copy_with_chunks(<span class="macro">vec!</span>[Box::new(arr)], <span class="bool-val">true</span>, <span class="bool-val">true</span>)
-            .into_series()
+        <span class="kw">unsafe </span>{ <span class="self">self</span>.copy_with_chunks(<span class="macro">vec!</span>[Box::new(arr)], <span class="bool-val">true</span>, <span class="bool-val">true</span>) }.into_series()
     }
 }
 

@@ -207,7 +207,7 @@
                     .zip(rhs.downcast_iter())
                     .map(|(lhs, rhs)| kernel(lhs, rhs).map(|a| Box::new(a) <span class="kw">as </span>ArrayRef))
                     .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
-                lhs.copy_with_chunks(chunks, <span class="bool-val">false</span>, <span class="bool-val">false</span>)
+                <span class="kw">unsafe </span>{ lhs.copy_with_chunks(chunks, <span class="bool-val">false</span>, <span class="bool-val">false</span>) }
             }
             <span class="comment">// broadcast right path
             </span>(<span class="kw">_</span>, <span class="number">1</span>) =&gt; {
@@ -219,7 +219,7 @@
                             .downcast_iter()
                             .map(|lhs| operation_lhs(lhs, rhs_val).map(|a| Box::new(a) <span class="kw">as </span>ArrayRef))
                             .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
-                        lhs.copy_with_chunks(chunks, <span class="bool-val">false</span>, <span class="bool-val">false</span>)
+                        <span class="kw">unsafe </span>{ lhs.copy_with_chunks(chunks, <span class="bool-val">false</span>, <span class="bool-val">false</span>) }
                     }
                 }
             }
@@ -232,7 +232,7 @@
                             .downcast_iter()
                             .map(|rhs| operation_rhs(lhs_val, rhs).map(|a| Box::new(a) <span class="kw">as </span>ArrayRef))
                             .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
-                        lhs.copy_with_chunks(chunks, <span class="bool-val">false</span>, <span class="bool-val">false</span>)
+                        <span class="kw">unsafe </span>{ lhs.copy_with_chunks(chunks, <span class="bool-val">false</span>, <span class="bool-val">false</span>) }
                     }
                 }
             }
