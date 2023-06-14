@@ -301,6 +301,9 @@
 <a href="#301" id="301">301</a>
 <a href="#302" id="302">302</a>
 <a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::array::{
     Array, BinaryArray, BooleanArray, DictionaryArray, PrimitiveArray, StructArray, Utf8Array,
 };
@@ -461,7 +464,12 @@
             })
             .sum();
 
-        <span class="kw">let </span><span class="kw-2">mut </span>lengths = <span class="macro">vec!</span>[row_size_fixed; num_rows];
+        offsets.clear();
+        offsets.reserve(num_rows + <span class="number">1</span>);
+        offsets.resize(num_rows, row_size_fixed);
+
+        <span class="comment">// first write lengths to this buffer
+        </span><span class="kw">let </span>lengths = offsets;
 
         <span class="comment">// for the variable length columns we must iterate to determine the length per row location
         </span><span class="kw">for </span>array <span class="kw">in </span>columns.iter() {
@@ -490,23 +498,21 @@
                 </span>}
             }
         }
-        offsets.clear();
-        offsets.reserve(num_rows + <span class="number">1</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>current_offset = <span class="number">0_usize</span>;
-        offsets.push(current_offset);
+        <span class="comment">// now we use the lengths and the same buffer to determine the offsets
+        </span><span class="kw">let </span>offsets = lengths;
+        <span class="comment">// we write lagged because the offsets will be written by the encoding column
+        </span><span class="kw">let </span><span class="kw-2">mut </span>current_offset = <span class="number">0_usize</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>lagged_offset = <span class="number">0_usize</span>;
 
-        <span class="kw">for </span>length <span class="kw">in </span>lengths {
-            offsets.push(current_offset);
-            <span class="attr">#[cfg(target_pointer_width = <span class="string">&quot;64&quot;</span>)]
-            </span>{
-                <span class="comment">// don&#39;t do overflow check, counting exabytes here.
-                </span>current_offset += length;
-            }
-            <span class="attr">#[cfg(not(target_pointer_width = <span class="string">&quot;64&quot;</span>))]
-            </span>{
-                current_offset = current_offset.checked_add(length).expect(<span class="string">&quot;overflow&quot;</span>);
-            }
+        <span class="kw">for </span>length <span class="kw">in </span>offsets.iter_mut() {
+            <span class="kw">let </span>to_write = lagged_offset;
+            lagged_offset = current_offset;
+            current_offset += <span class="kw-2">*</span>length;
+
+            <span class="kw-2">*</span>length = to_write;
         }
+        <span class="comment">// ensure we have len + 1 offsets
+        </span>offsets.push(lagged_offset);
 
         values.clear();
         <span class="comment">// todo! allocate uninit
