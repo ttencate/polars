@@ -280,6 +280,9 @@
 <a href="#280" id="280">280</a>
 <a href="#281" id="281">281</a>
 <a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Row format as defined in `arrow-rs`.
 //! This currently partially implements that format only for needed types.
 //! For completeness sake the format as defined by `arrow-rs` is as followed:
@@ -560,6 +563,9 @@
 <span class="kw">use </span>arrow::array::<span class="kw-2">*</span>;
 <span class="kw">pub type </span>ArrayRef = Box&lt;<span class="kw">dyn </span>Array&gt;;
 
-<span class="kw">pub use </span>encode::{convert_columns, convert_columns_amortized};
+<span class="kw">pub use </span>encode::{
+    convert_columns, convert_columns_amortized, convert_columns_amortized_no_order,
+    convert_columns_no_order,
+};
 <span class="kw">pub use </span>row::{RowsEncoded, SortField};
 </code></pre></div></section></main></body></html>

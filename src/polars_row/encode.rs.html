@@ -304,6 +304,21 @@
 <a href="#304" id="304">304</a>
 <a href="#305" id="305">305</a>
 <a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::array::{
     Array, BinaryArray, BooleanArray, DictionaryArray, PrimitiveArray, StructArray, Utf8Array,
 };
@@ -321,15 +336,30 @@
     rows
 }
 
-<span class="kw">pub fn </span>convert_columns_amortized(
-    columns: <span class="kw-2">&amp;</span>[ArrayRef],
-    fields: <span class="kw-2">&amp;</span>[SortField],
+<span class="kw">pub fn </span>convert_columns_no_order(columns: <span class="kw-2">&amp;</span>[ArrayRef]) -&gt; RowsEncoded {
+    <span class="kw">let </span><span class="kw-2">mut </span>rows = RowsEncoded::new(<span class="macro">vec!</span>[], <span class="macro">vec!</span>[]);
+    convert_columns_amortized_no_order(columns, <span class="kw-2">&amp;mut </span>rows);
+    rows
+}
+
+<span class="kw">pub fn </span>convert_columns_amortized_no_order(columns: <span class="kw-2">&amp;</span>[ArrayRef], rows: <span class="kw-2">&amp;mut </span>RowsEncoded) {
+    convert_columns_amortized(
+        columns,
+        std::iter::repeat(<span class="kw-2">&amp;</span>SortField::default()).take(columns.len()),
+        rows,
+    );
+}
+
+<span class="kw">pub fn </span>convert_columns_amortized&lt;<span class="lifetime">&#39;a</span>, I: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>SortField&gt;&gt;(
+    columns: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[ArrayRef],
+    fields: I,
     rows: <span class="kw-2">&amp;mut </span>RowsEncoded,
 ) {
-    <span class="macro">assert_eq!</span>(fields.len(), columns.len());
+    <span class="kw">let </span>fields = fields.into_iter();
+    <span class="macro">assert_eq!</span>(fields.size_hint().<span class="number">0</span>, columns.len());
     <span class="kw">if </span>columns
         .iter()
-        .any(|arr| <span class="macro">matches!</span>(arr.data_type(), DataType::Struct(<span class="kw">_</span>)))
+        .any(|arr| <span class="macro">matches!</span>(arr.data_type(), DataType::Struct(<span class="kw">_</span>) | DataType::LargeUtf8))
     {
         <span class="kw">let </span><span class="kw-2">mut </span>flattened_columns = Vec::with_capacity(columns.len() * <span class="number">5</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>flattened_fields = Vec::with_capacity(columns.len() * <span class="number">5</span>);
@@ -363,7 +393,7 @@
         }
     } <span class="kw">else </span>{
         allocate_rows_buf(columns, <span class="kw-2">&amp;mut </span>rows.values, <span class="kw-2">&amp;mut </span>rows.offsets);
-        <span class="kw">for </span>(arr, field) <span class="kw">in </span>columns.iter().zip(fields.iter()) {
+        <span class="kw">for </span>(arr, field) <span class="kw">in </span>columns.iter().zip(fields) {
             <span class="comment">// Safety:
             // we allocated rows with enough bytes.
             </span><span class="kw">unsafe </span>{ encode_array(<span class="kw-2">&amp;**</span>arr, field, rows) }

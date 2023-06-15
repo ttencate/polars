@@ -119,7 +119,7 @@
     </span><span class="kw">pub </span>nulls_last: bool,
 }
 
-<span class="attr">#[derive(Default)]
+<span class="attr">#[derive(Default, Clone)]
 </span><span class="kw">pub struct </span>RowsEncoded {
     <span class="kw">pub</span>(<span class="kw">crate</span>) values: Vec&lt;u8&gt;,
     <span class="kw">pub</span>(<span class="kw">crate</span>) offsets: Vec&lt;usize&gt;,
