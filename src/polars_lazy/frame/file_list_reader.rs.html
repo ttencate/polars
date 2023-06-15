@@ -201,7 +201,7 @@
     /// This method should not take into consideration [LazyFileListReader::n_rows]
     /// nor [LazyFileListReader::row_count].
     </span><span class="kw">fn </span>concat_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, lfs: Vec&lt;LazyFrame&gt;) -&gt; PolarsResult&lt;LazyFrame&gt; {
-        concat_impl(<span class="kw-2">&amp;</span>lfs, <span class="self">self</span>.rechunk(), <span class="bool-val">true</span>, <span class="bool-val">true</span>)
+        concat_impl(<span class="kw-2">&amp;</span>lfs, <span class="self">self</span>.rechunk(), <span class="bool-val">true</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>)
     }
 
     <span class="doccomment">/// Get the final [LazyFrame].

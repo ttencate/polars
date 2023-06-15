@@ -1496,6 +1496,13 @@
 <a href="#1496" id="1496">1496</a>
 <a href="#1497" id="1497">1497</a>
 <a href="#1498" id="1498">1498</a>
+<a href="#1499" id="1499">1499</a>
+<a href="#1500" id="1500">1500</a>
+<a href="#1501" id="1501">1501</a>
+<a href="#1502" id="1502">1502</a>
+<a href="#1503" id="1503">1503</a>
+<a href="#1504" id="1504">1504</a>
+<a href="#1505" id="1505">1505</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Lazy variant of a [DataFrame](polars_core::frame::DataFrame).
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;csv&quot;</span>)]
 </span><span class="kw">mod </span>csv;
@@ -2763,7 +2770,14 @@
         // this trick allows us to reuse the `Union` architecture to get map over
         // two DataFrames
         </span><span class="kw">let </span>left = <span class="self">self</span>.map_private(FunctionNode::Rechunk);
-        <span class="kw">let </span>q = concat(<span class="kw-2">&amp;</span>[left, other], <span class="bool-val">false</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+        <span class="kw">let </span>q = concat(
+            <span class="kw-2">&amp;</span>[left, other],
+            UnionArgs {
+                rechunk: <span class="bool-val">false</span>,
+                parallel: <span class="bool-val">true</span>,
+                ..Default::default()
+            },
+        )<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(q.map_private(FunctionNode::MergeSorted {
             column: Arc::from(key),
         }))

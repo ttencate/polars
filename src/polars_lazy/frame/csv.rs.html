@@ -621,7 +621,7 @@
 
     <span class="kw">fn </span>concat_impl(<span class="kw-2">&amp;</span><span class="self">self</span>, lfs: Vec&lt;LazyFrame&gt;) -&gt; PolarsResult&lt;LazyFrame&gt; {
         <span class="comment">// set to false, as the csv parser has full thread utilization
-        </span>concat_impl(<span class="kw-2">&amp;</span>lfs, <span class="self">self</span>.rechunk(), <span class="bool-val">false</span>, <span class="bool-val">true</span>)
+        </span>concat_impl(<span class="kw-2">&amp;</span>lfs, <span class="self">self</span>.rechunk(), <span class="bool-val">false</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>)
     }
 }
 </code></pre></div></section></main></body></html>
