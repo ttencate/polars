@@ -1277,11 +1277,13 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.Expr.and_.html">polars.Expr.and_</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.Expr.or_.html">polars.Expr.or_</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.Expr.eq.html">polars.Expr.eq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.Expr.eq_missing.html">polars.Expr.eq_missing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.Expr.ge.html">polars.Expr.ge</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.Expr.gt.html">polars.Expr.gt</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.Expr.le.html">polars.Expr.le</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.Expr.lt.html">polars.Expr.lt</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.Expr.ne.html">polars.Expr.ne</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.Expr.ne_missing.html">polars.Expr.ne_missing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.Expr.add.html">polars.Expr.add</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.Expr.floordiv.html">polars.Expr.floordiv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="expressions/api/polars.Expr.mod.html">polars.Expr.mod</a></li>
@@ -1632,10 +1634,10 @@ document.write(`
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.load.html#polars.Config.load" title="polars.Config.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.load</span></code></a>(cfg)</p></td>
-<td><p>Load and set previously saved (or shared) Config options.</p></td>
+<td><p>Load and set previously saved (or shared) Config options from json/file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.save.html#polars.Config.save" title="polars.Config.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.save</span></code></a>()</p></td>
-<td><p>Save the current set of Config options as a json string.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/polars.Config.save.html#polars.Config.save" title="polars.Config.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.save</span></code></a>([file])</p></td>
+<td><p>Save the current set of Config options as a json string or file.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/polars.Config.state.html#polars.Config.state" title="polars.Config.state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config.state</span></code></a>([if_set, env_only])</p></td>
 <td><p>Show the current state of all Config variables as a dict.</p></td>

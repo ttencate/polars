@@ -49,7 +49,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="polars.Expr.floordiv" href="polars.Expr.floordiv.html" />
-    <link rel="prev" title="polars.Expr.ne" href="polars.Expr.ne.html" />
+    <link rel="prev" title="polars.Expr.ne_missing" href="polars.Expr.ne_missing.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -1277,11 +1277,13 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.and_.html">polars.Expr.and_</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.or_.html">polars.Expr.or_</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.eq.html">polars.Expr.eq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.eq_missing.html">polars.Expr.eq_missing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.ge.html">polars.Expr.ge</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.gt.html">polars.Expr.gt</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.le.html">polars.Expr.le</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.lt.html">polars.Expr.lt</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.ne.html">polars.Expr.ne</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polars.Expr.ne_missing.html">polars.Expr.ne_missing</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">polars.Expr.add</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.floordiv.html">polars.Expr.floordiv</a></li>
 <li class="toctree-l3"><a class="reference internal" href="polars.Expr.mod.html">polars.Expr.mod</a></li>
@@ -1579,7 +1581,7 @@ document.write(`
 <h1>polars.Expr.add<a class="headerlink" href="#polars-expr-add" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.add">
-<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L3990-L4035"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.add" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L4000-L4045"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.add" title="Permalink to this definition">#</a></dt>
 <dd><p>Method equivalent of addition operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">+</span> <span class="pre">other</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1641,12 +1643,12 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="polars.Expr.ne.html"
+       href="polars.Expr.ne_missing.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">polars.Expr.ne</p>
+        <p class="prev-next-title">polars.Expr.ne_missing</p>
       </div>
     </a>
     <a class="right-next"
