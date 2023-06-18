@@ -208,6 +208,7 @@
 <a href="#208" id="208">208</a>
 <a href="#209" id="209">209</a>
 <a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::hash::{Hash, Hasher};
 
 <span class="kw">use </span>arrow::types::NativeType;
@@ -215,7 +216,7 @@
 <span class="kw">use </span>polars_core::frame::row::AnyValueBuffer;
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;dtype-datetime&quot;</span>, feature = <span class="string">&quot;dtype-date&quot;</span>))]
-</span><span class="kw">use </span>polars_time::prelude::utf8::infer::{infer_pattern_single, DatetimeInfer};
+</span><span class="kw">use </span>polars_time::prelude::utf8::infer::{infer_pattern_single, DatetimeInfer, TryFromWithUnit};
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;dtype-datetime&quot;</span>, feature = <span class="string">&quot;dtype-date&quot;</span>))]
 </span><span class="kw">use </span>polars_time::prelude::utf8::Pattern;
 <span class="kw">use </span>simd_json::{BorrowedValue <span class="kw">as </span>Value, KnownKey, StaticNode};
@@ -358,14 +359,15 @@
 </span><span class="kw">fn </span>deserialize_datetime&lt;T&gt;(value: <span class="kw-2">&amp;</span>Value) -&gt; <span class="prelude-ty">Option</span>&lt;T::Native&gt;
 <span class="kw">where
     </span>T: PolarsNumericType,
-    DatetimeInfer&lt;T::Native&gt;: TryFrom&lt;Pattern&gt;,
+    DatetimeInfer&lt;T::Native&gt;: TryFromWithUnit&lt;Pattern&gt;,
 {
     <span class="kw">let </span>val = <span class="kw">match </span>value {
         Value::String(s) =&gt; s,
         <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
     };
     infer_pattern_single(val).and_then(|pattern| {
-        <span class="kw">match </span>DatetimeInfer::&lt;T::Native&gt;::try_from(pattern) {
+        <span class="kw">match </span>DatetimeInfer::&lt;T::Native&gt;::try_from_with_unit(pattern, <span class="prelude-val">Some</span>(TimeUnit::Microseconds))
+        {
             <span class="prelude-val">Ok</span>(<span class="kw-2">mut </span>infer) =&gt; infer.parse(val),
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
         }
