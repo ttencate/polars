@@ -485,6 +485,21 @@
 <a href="#485" id="485">485</a>
 <a href="#486" id="486">486</a>
 <a href="#487" id="487">487</a>
+<a href="#488" id="488">488</a>
+<a href="#489" id="489">489</a>
+<a href="#490" id="490">490</a>
+<a href="#491" id="491">491</a>
+<a href="#492" id="492">492</a>
+<a href="#493" id="493">493</a>
+<a href="#494" id="494">494</a>
+<a href="#495" id="495">495</a>
+<a href="#496" id="496">496</a>
+<a href="#497" id="497">497</a>
+<a href="#498" id="498">498</a>
+<a href="#499" id="499">499</a>
+<a href="#500" id="500">500</a>
+<a href="#501" id="501">501</a>
+<a href="#502" id="502">502</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::sync::Arc;
 
 <span class="kw">use </span>polars_core::frame::groupby::GroupsProxy;
@@ -642,12 +657,27 @@
         <span class="comment">// window functions may set a global state that determine their output
         // state, so we don&#39;t let them run in parallel as they race
         // they also saturate the thread pool by themselves, so that&#39;s fine
-        </span><span class="kw">let </span>(lhs, rhs) = <span class="kw">if </span>state.has_window() {
+        </span><span class="kw">let </span>has_window = state.has_window();
+        <span class="comment">// streaming takes care of parallelism, don&#39;t parallelize here, as it
+        // increases contention
+
+        </span><span class="attr">#[cfg(feature = <span class="string">&quot;streaming&quot;</span>)]
+        </span><span class="kw">let </span>in_streaming = state.in_streaming_engine();
+
+        <span class="attr">#[cfg(not(feature = <span class="string">&quot;streaming&quot;</span>))]
+        </span><span class="kw">let </span>in_streaming = <span class="bool-val">false</span>;
+
+        <span class="kw">let </span>(lhs, rhs) = <span class="kw">if </span>has_window {
             <span class="kw">let </span><span class="kw-2">mut </span>state = state.split();
             state.remove_cache_window_flag();
             (
                 <span class="self">self</span>.left.evaluate(df, <span class="kw-2">&amp;</span>state),
                 <span class="self">self</span>.right.evaluate(df, <span class="kw-2">&amp;</span>state),
+            )
+        } <span class="kw">else if </span>in_streaming {
+            (
+                <span class="self">self</span>.left.evaluate(df, state),
+                <span class="self">self</span>.right.evaluate(df, state),
             )
         } <span class="kw">else </span>{
             POOL.install(|| {
