@@ -661,6 +661,8 @@
 <a href="#661" id="661">661</a>
 <a href="#662" id="662">662</a>
 <a href="#663" id="663">663</a>
+<a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;timezones&quot;</span>)]
@@ -1069,12 +1071,14 @@
         </span><span class="prelude-val">Some</span>(format) =&gt; TZ_AWARE_RE.is_match(format),
         <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
     };
-    <span class="kw">if let </span>(<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="bool-val">true</span>) = (time_zone, tz_aware) {
-        <span class="macro">polars_bail!</span>(
-            ComputeError:
-            <span class="string">&quot;cannot use strptime with both a tz-aware format and a tz-aware dtype, \
-            please drop time zone from the dtype&quot;
-        </span>)
+    <span class="kw">if let </span>(<span class="prelude-val">Some</span>(tz), <span class="bool-val">true</span>) = (time_zone, tz_aware) {
+        <span class="kw">if </span>tz != <span class="string">&quot;UTC&quot; </span>{
+            <span class="macro">polars_bail!</span>(
+                ComputeError:
+                <span class="string">&quot;if using strftime/to_datetime with a time-zone-aware format, the output will be in UTC. Please either drop the time zone from the function call, or set it to UTC. \
+                If you are trying to convert the output to a different time zone, please use `convert_time_zone`.&quot;
+            </span>)
+        }
     };
 
     <span class="kw">let </span>ca = s.utf8()<span class="question-mark">?</span>;
