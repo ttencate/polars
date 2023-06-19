@@ -312,19 +312,13 @@
 <a href="#312" id="312">312</a>
 <a href="#313" id="313">313</a>
 <a href="#314" id="314">314</a>
-<a href="#315" id="315">315</a>
-<a href="#316" id="316">316</a>
-<a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
-<a href="#320" id="320">320</a>
-<a href="#321" id="321">321</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>arrow::array::{
     Array, BinaryArray, BooleanArray, DictionaryArray, PrimitiveArray, StructArray, Utf8Array,
 };
 <span class="kw">use </span>arrow::compute::cast::cast;
 <span class="kw">use </span>arrow::datatypes::{DataType <span class="kw">as </span>ArrowDataType, DataType};
 <span class="kw">use </span>arrow::types::NativeType;
+<span class="kw">use </span>polars_utils::vec::ResizeFaster;
 
 <span class="kw">use </span><span class="kw">crate</span>::fixed::FixedLengthEncoding;
 <span class="kw">use </span><span class="kw">crate</span>::row::{RowsEncoded, SortField};
@@ -494,9 +488,8 @@
             })
             .sum();
 
-        offsets.clear();
-        offsets.reserve(num_rows + <span class="number">1</span>);
-        offsets.resize(num_rows, row_size_fixed);
+        offsets.fill_or_alloc(num_rows + <span class="number">1</span>, row_size_fixed);
+        <span class="kw">unsafe </span>{ offsets.set_len(num_rows) };
 
         <span class="comment">// first write lengths to this buffer
         </span><span class="kw">let </span>lengths = offsets;
@@ -544,9 +537,8 @@
         <span class="comment">// ensure we have len + 1 offsets
         </span>offsets.push(lagged_offset);
 
-        values.clear();
         <span class="comment">// todo! allocate uninit
-        </span>values.resize(current_offset, <span class="number">0u8</span>);
+        </span>values.fill_or_alloc(current_offset, <span class="number">0u8</span>);
     } <span class="kw">else </span>{
         <span class="kw">let </span>row_size: usize = columns
             .iter()
@@ -554,13 +546,7 @@
             .sum();
         <span class="kw">let </span>n_bytes = num_rows * row_size;
         <span class="comment">// todo! allocate uninit
-        </span><span class="kw">if </span>values.capacity() == <span class="number">0 </span>{
-            <span class="comment">// it is faster to allocate zeroed
-            // so if the capacity is 0, we alloc
-            </span><span class="kw-2">*</span>values = <span class="macro">vec!</span>[<span class="number">0u8</span>; n_bytes]
-        } <span class="kw">else </span>{
-            values.resize(n_bytes, <span class="number">0u8</span>);
-        }
+        </span>values.fill_or_alloc(n_bytes, <span class="number">0u8</span>);
 
         <span class="comment">// note that offsets are shifted to the left
         // assume 2 fields with a len of 1

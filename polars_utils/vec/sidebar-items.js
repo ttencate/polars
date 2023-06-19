@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"trait":["IntoRawParts"]};
+window.SIDEBAR_ITEMS = {"trait":["IntoRawParts","ResizeFaster"]};
