@@ -434,10 +434,10 @@
             </span>.map_private(FunctionExpr::TemporalExpr(TemporalFunction::Week))
     }
 
-    <span class="doccomment">/// Extract the week day from the underlying Date representation.
+    <span class="doccomment">/// Extract the ISO week day from the underlying Date representation.
     /// Can be performed on Date and Datetime.
 
-    /// Returns the weekday number where monday = 0 and sunday = 6
+    /// Returns the weekday number where monday = 1 and sunday = 7
     </span><span class="kw">pub fn </span>weekday(<span class="self">self</span>) -&gt; Expr {
         <span class="self">self</span>.<span class="number">0
             </span>.map_private(FunctionExpr::TemporalExpr(TemporalFunction::WeekDay))

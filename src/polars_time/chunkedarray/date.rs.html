@@ -158,8 +158,8 @@
         ca.apply_kernel_cast::&lt;UInt32Type&gt;(<span class="kw-2">&amp;</span>date_to_month)
     }
 
-    <span class="doccomment">/// Extract weekday from underlying NaiveDate representation.
-    /// Returns the weekday number where monday = 0 and sunday = 6
+    <span class="doccomment">/// Extract ISO weekday from underlying NaiveDate representation.
+    /// Returns the weekday number where monday = 1 and sunday = 7
     </span><span class="kw">fn </span>weekday(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; UInt32Chunked {
         <span class="kw">let </span>ca = <span class="self">self</span>.as_date();
         ca.apply_kernel_cast::&lt;UInt32Type&gt;(<span class="kw-2">&amp;</span>date_to_iso_weekday)
