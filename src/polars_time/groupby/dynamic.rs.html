@@ -942,6 +942,11 @@
 <a href="#942" id="942">942</a>
 <a href="#943" id="943">943</a>
 <a href="#944" id="944">944</a>
+<a href="#945" id="945">945</a>
+<a href="#946" id="946">946</a>
+<a href="#947" id="947">947</a>
+<a href="#948" id="948">948</a>
+<a href="#949" id="949">949</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_arrow::time_zone::Tz;
 <span class="kw">use </span>polars_arrow::utils::CustomIterTools;
 <span class="kw">use </span>polars_core::export::rayon::prelude::<span class="kw-2">*</span>;
@@ -1073,6 +1078,11 @@
         by: Vec&lt;Series&gt;,
         options: <span class="kw-2">&amp;</span>RollingGroupOptions,
     ) -&gt; PolarsResult&lt;(Series, Vec&lt;Series&gt;, GroupsProxy)&gt; {
+        <span class="macro">polars_ensure!</span>(
+                        !options.period.negative,
+                        ComputeError:
+                        <span class="string">&quot;rolling window period should be positive&quot;</span>,
+        );
         <span class="kw">let </span>time = <span class="self">self</span>.<span class="number">0</span>.column(<span class="kw-2">&amp;</span>options.index_column)<span class="question-mark">?</span>.clone();
         <span class="kw">if </span>by.is_empty() {
             <span class="comment">// if by is given, the column must be sorted in the &#39;by&#39; arg, which we can not check now
