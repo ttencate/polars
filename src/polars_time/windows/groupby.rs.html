@@ -624,12 +624,6 @@
 <a href="#624" id="624">624</a>
 <a href="#625" id="625">625</a>
 <a href="#626" id="626">626</a>
-<a href="#627" id="627">627</a>
-<a href="#628" id="628">628</a>
-<a href="#629" id="629">629</a>
-<a href="#630" id="630">630</a>
-<a href="#631" id="631">631</a>
-<a href="#632" id="632">632</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_arrow::time_zone::Tz;
 <span class="kw">use </span>polars_arrow::trusted_len::TrustedLen;
 <span class="kw">use </span>polars_core::export::rayon::prelude::<span class="kw-2">*</span>;
@@ -855,8 +849,8 @@
     (groups, lower_bound, upper_bound)
 }
 
-<span class="comment">// this assumes that the starting point is alwa
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter_full_lookbehind(
+<span class="comment">// this assumes that the given time point is the right endpoint of the window
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>groupby_values_iter_lookbehind(
     period: Duration,
     offset: Duration,
     time: <span class="kw-2">&amp;</span>[i64],
@@ -865,7 +859,7 @@
     tz: <span class="prelude-ty">Option</span>&lt;Tz&gt;,
     start_offset: usize,
 ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PolarsResult&lt;(IdxSize, IdxSize)&gt;&gt; + TrustedLen + <span class="lifetime">&#39;_ </span>{
-    <span class="macro">debug_assert!</span>(offset.duration_ns() &gt;= period.duration_ns());
+    <span class="macro">debug_assert!</span>(offset.duration_ns() == period.duration_ns());
     <span class="macro">debug_assert!</span>(offset.negative);
     <span class="kw">let </span>add = <span class="kw">match </span>tu {
         TimeUnit::Nanoseconds =&gt; Duration::add_ns,
@@ -1097,8 +1091,7 @@
     offset.negative = !period.negative;
     <span class="kw">if </span>offset.duration_ns() &gt; <span class="number">0 </span>{
         <span class="comment">// t is at the right endpoint of the window
-        </span><span class="kw">let </span>iter =
-            groupby_values_iter_full_lookbehind(period, offset, time, closed_window, tu, tz, <span class="number">0</span>);
+        </span><span class="kw">let </span>iter = groupby_values_iter_lookbehind(period, offset, time, closed_window, tu, tz, <span class="number">0</span>);
         Box::new(iter)
     } <span class="kw">else if </span>closed_window == ClosedWindow::Right || closed_window == ClosedWindow::None {
         <span class="comment">// only lookahead
@@ -1146,49 +1139,44 @@
 
     <span class="comment">// we have a (partial) lookbehind window
     </span><span class="kw">if </span>offset.negative {
-        <span class="kw">if </span>offset.duration_ns() &gt;= period.duration_ns() {
-            <span class="comment">// lookbehind
-            // window is within 2 periods length of t
+        <span class="comment">// lookbehind
+        </span><span class="kw">if </span>offset.duration_ns() == period.duration_ns() {
+            <span class="comment">// t is right at the end of the window
             // ------t---
             // [------]
-            </span><span class="kw">if </span>offset.duration_ns() &lt; period.duration_ns() * <span class="number">2 </span>{
-                POOL.install(|| {
-                    <span class="kw">let </span>vals = thread_offsets
-                        .par_iter()
-                        .copied()
-                        .map(|(base_offset, len)| {
-                            <span class="kw">let </span>upper_bound = base_offset + len;
-                            <span class="kw">let </span>iter = groupby_values_iter_full_lookbehind(
-                                period,
-                                offset,
-                                <span class="kw-2">&amp;</span>time[..upper_bound],
-                                closed_window,
-                                tu,
-                                tz,
-                                base_offset,
-                            );
-                            iter.map(|result| result.map(|(offset, len)| [offset, len]))
-                                .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
-                        })
-                        .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
-                    <span class="prelude-val">Ok</span>(flatten_par(<span class="kw-2">&amp;</span>vals))
-                })
-            }
+            </span>POOL.install(|| {
+                <span class="kw">let </span>vals = thread_offsets
+                    .par_iter()
+                    .copied()
+                    .map(|(base_offset, len)| {
+                        <span class="kw">let </span>upper_bound = base_offset + len;
+                        <span class="kw">let </span>iter = groupby_values_iter_lookbehind(
+                            period,
+                            offset,
+                            <span class="kw-2">&amp;</span>time[..upper_bound],
+                            closed_window,
+                            tu,
+                            tz,
+                            base_offset,
+                        );
+                        iter.map(|result| result.map(|(offset, len)| [offset, len]))
+                            .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()
+                    })
+                    .collect::&lt;PolarsResult&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;()<span class="question-mark">?</span>;
+                <span class="prelude-val">Ok</span>(flatten_par(<span class="kw-2">&amp;</span>vals))
+            })
+        } <span class="kw">else if </span>((offset.duration_ns() &gt;= period.duration_ns())
+            &amp;&amp; <span class="macro">matches!</span>(closed_window, ClosedWindow::Left | ClosedWindow::None))
+            || ((offset.duration_ns() &gt; period.duration_ns())
+                &amp;&amp; <span class="macro">matches!</span>(closed_window, ClosedWindow::Right | ClosedWindow::Both))
+        {
             <span class="comment">// window is completely behind t and t itself is not a member
             // ---------------t---
             //  [---]
-            </span><span class="kw">else </span>{
-                <span class="kw">let </span>iter = groupby_values_iter_window_behind_t(
-                    period,
-                    offset,
-                    time,
-                    closed_window,
-                    tu,
-                    tz,
-                );
-                iter.map(|result| result.map(|(offset, len)| [offset, len]))
-                    .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()
-            }
+            </span><span class="kw">let </span>iter =
+                groupby_values_iter_window_behind_t(period, offset, time, closed_window, tu, tz);
+            iter.map(|result| result.map(|(offset, len)| [offset, len]))
+                .collect::&lt;PolarsResult&lt;<span class="kw">_</span>&gt;&gt;()
         }
         <span class="comment">// partial lookbehind
         // this one is still single threaded
