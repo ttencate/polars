@@ -1583,7 +1583,7 @@ document.write(`
 <h1>polars.Expr.rolling_min<a class="headerlink" href="#polars-expr-rolling-min" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.rolling_min">
-<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">rolling_min</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">timedelta</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_periods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">closed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClosedInterval</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'left'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L4670-L4783"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.rolling_min" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">rolling_min</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">timedelta</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_periods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">closed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClosedInterval</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'left'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L4779-L4974"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.rolling_min" title="Permalink to this definition">#</a></dt>
 <dd><p>Apply a rolling min (moving min) over the values in this array.</p>
 <p>A window of length <cite>window_size</cite> will traverse the array. The values that fill
 this window will (optionally) be multiplied with the weights given by the
@@ -1656,26 +1656,105 @@ window, consider using <cite>groupby_rolling</cite> this method can cache the wi
 computation.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="p">[</span>
-<span class="gp">... </span>        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rolling_min</span><span class="p">(</span><span class="n">window_size</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
-<span class="gp">... </span>    <span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">rolling_min</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rolling_min</span><span class="p">(</span><span class="n">window_size</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
 <span class="gp">... </span><span class="p">)</span>
-<span class="go">shape: (6, 1)</span>
-<span class="go">┌──────┐</span>
-<span class="go">│ A    │</span>
-<span class="go">│ ---  │</span>
-<span class="go">│ f64  │</span>
-<span class="go">╞══════╡</span>
-<span class="go">│ null │</span>
-<span class="go">│ 1.0  │</span>
-<span class="go">│ 2.0  │</span>
-<span class="go">│ 3.0  │</span>
-<span class="go">│ 4.0  │</span>
-<span class="go">│ 5.0  │</span>
-<span class="go">└──────┘</span>
+<span class="go">shape: (6, 2)</span>
+<span class="go">┌─────┬─────────────┐</span>
+<span class="go">│ A   ┆ rolling_min │</span>
+<span class="go">│ --- ┆ ---         │</span>
+<span class="go">│ f64 ┆ f64         │</span>
+<span class="go">╞═════╪═════════════╡</span>
+<span class="go">│ 1.0 ┆ null        │</span>
+<span class="go">│ 2.0 ┆ 1.0         │</span>
+<span class="go">│ 3.0 ┆ 2.0         │</span>
+<span class="go">│ 4.0 ┆ 3.0         │</span>
+<span class="go">│ 5.0 ┆ 4.0         │</span>
+<span class="go">│ 6.0 ┆ 5.0         │</span>
+<span class="go">└─────┴─────────────┘</span>
 </pre></div>
 </div>
+<p>Specify weights to multiply the values in the window with:
+&gt;&gt;&gt; df.with_columns(
+…     rolling_min=pl.col(“A”).rolling_min(
+…         window_size=2, weights=[0.25, 0.75]
+…     ),
+… )
+shape: (6, 2)
+┌─────┬─────────────┐
+│ A   ┆ rolling_min │
+│ — ┆ —         │
+│ f64 ┆ f64         │
+╞═════╪═════════════╡
+│ 1.0 ┆ null        │
+│ 2.0 ┆ 0.25        │
+│ 3.0 ┆ 0.5         │
+│ 4.0 ┆ 0.75        │
+│ 5.0 ┆ 1.0         │
+│ 6.0 ┆ 1.25        │
+└─────┴─────────────┘</p>
+<p>Center the values in the window
+&gt;&gt;&gt; df.with_columns(
+…     rolling_min=pl.col(“A”).rolling_min(window_size=3, center=True),
+… )
+shape: (6, 2)
+┌─────┬─────────────┐
+│ A   ┆ rolling_min │
+│ — ┆ —         │
+│ f64 ┆ f64         │
+╞═════╪═════════════╡
+│ 1.0 ┆ null        │
+│ 2.0 ┆ 1.0         │
+│ 3.0 ┆ 2.0         │
+│ 4.0 ┆ 3.0         │
+│ 5.0 ┆ 4.0         │
+│ 6.0 ┆ null        │
+└─────┴─────────────┘</p>
+<p>Create a DataFrame with a datetime column and a row number column
+&gt;&gt;&gt; from datetime import timedelta, datetime
+&gt;&gt;&gt; start = datetime(2001, 1, 1)
+&gt;&gt;&gt; stop = datetime(2001, 1, 2)
+&gt;&gt;&gt; df_temporal = pl.DataFrame(
+…     {“date”: pl.date_range(start, stop, “1h”, eager=True)}
+… ).with_row_count()
+&gt;&gt;&gt; df_temporal
+shape: (25, 2)
+┌────────┬─────────────────────┐
+│ row_nr ┆ date                │
+│ —    ┆ —                 │
+│ u32    ┆ datetime[μs]        │
+╞════════╪═════════════════════╡
+│ 0      ┆ 2001-01-01 00:00:00 │
+│ 1      ┆ 2001-01-01 01:00:00 │
+│ 2      ┆ 2001-01-01 02:00:00 │
+│ 3      ┆ 2001-01-01 03:00:00 │
+│ …      ┆ …                   │
+│ 21     ┆ 2001-01-01 21:00:00 │
+│ 22     ┆ 2001-01-01 22:00:00 │
+│ 23     ┆ 2001-01-01 23:00:00 │
+│ 24     ┆ 2001-01-02 00:00:00 │
+└────────┴─────────────────────┘
+&gt;&gt;&gt; df_temporal.with_columns(
+…     rolling_row_min=pl.col(“row_nr”).rolling_min(
+…         window_size=”2h”, by=”date”
+…     )
+… )
+shape: (25, 3)
+┌────────┬─────────────────────┬─────────────────┐
+│ row_nr ┆ date                ┆ rolling_row_min │
+│ —    ┆ —                 ┆ —             │
+│ u32    ┆ datetime[μs]        ┆ u32             │
+╞════════╪═════════════════════╪═════════════════╡
+│ 0      ┆ 2001-01-01 00:00:00 ┆ null            │
+│ 1      ┆ 2001-01-01 01:00:00 ┆ 0               │
+│ 2      ┆ 2001-01-01 02:00:00 ┆ 0               │
+│ 3      ┆ 2001-01-01 03:00:00 ┆ 1               │
+│ …      ┆ …                   ┆ …               │
+│ 21     ┆ 2001-01-01 21:00:00 ┆ 19              │
+│ 22     ┆ 2001-01-01 22:00:00 ┆ 20              │
+│ 23     ┆ 2001-01-01 23:00:00 ┆ 21              │
+│ 24     ┆ 2001-01-02 00:00:00 ┆ 22              │
+└────────┴─────────────────────┴─────────────────┘</p>
 </dd></dl>
 
 </section>

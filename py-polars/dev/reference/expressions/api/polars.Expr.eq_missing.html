@@ -1583,7 +1583,7 @@ document.write(`
 <h1>polars.Expr.eq_missing<a class="headerlink" href="#polars-expr-eq-missing" title="Permalink to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="polars.Expr.eq_missing">
-<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">eq_missing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L3797-L3809"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.eq_missing" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Expr.</span></span><span class="sig-name descname"><span class="pre">eq_missing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/expr/expr.py#L3856-L3893"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.Expr.eq_missing" title="Permalink to this definition">#</a></dt>
 <dd><p>Method equivalent of equality operator <code class="docutils literal notranslate"><span class="pre">expr</span> <span class="pre">==</span> <span class="pre">other</span></code> where <cite>None</cite> == None`.</p>
 <p>This differs from default <code class="docutils literal notranslate"><span class="pre">eq</span></code> where null values are propagated.</p>
 <dl class="field-list simple">
@@ -1594,6 +1594,31 @@ document.write(`
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">),</span> <span class="mf">4.0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">),</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">eq_missing</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;x == y&quot;</span><span class="p">),</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">shape: (6, 3)</span>
+<span class="go">┌──────┬──────┬────────┐</span>
+<span class="go">│ x    ┆ y    ┆ x == y │</span>
+<span class="go">│ ---  ┆ ---  ┆ ---    │</span>
+<span class="go">│ f64  ┆ f64  ┆ bool   │</span>
+<span class="go">╞══════╪══════╪════════╡</span>
+<span class="go">│ 1.0  ┆ 2.0  ┆ false  │</span>
+<span class="go">│ 2.0  ┆ 2.0  ┆ true   │</span>
+<span class="go">│ NaN  ┆ NaN  ┆ false  │</span>
+<span class="go">│ 4.0  ┆ 4.0  ┆ true   │</span>
+<span class="go">│ null ┆ 5.0  ┆ false  │</span>
+<span class="go">│ null ┆ null ┆ true   │</span>
+<span class="go">└──────┴──────┴────────┘</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

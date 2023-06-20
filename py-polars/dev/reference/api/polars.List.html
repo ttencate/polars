@@ -1578,11 +1578,11 @@ document.write(`
 <h1>polars.List<a class="headerlink" href="#polars-list" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="polars.List">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">List</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/datatypes/classes.py#L406-L444"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.List" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">polars.</span></span><span class="sig-name descname"><span class="pre">List</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/datatypes/classes.py#L406-L463"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.List" title="Permalink to this definition">#</a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="polars.List.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PolarsDataType</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PythonDataType</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/datatypes/classes.py#L409-L419"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.List.__init__" title="Permalink to this definition">#</a></dt>
-<dd><p>Nested list/array type.</p>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PolarsDataType</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PythonDataType</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/pola-rs/polars/blob/main/py-polars/polars/datatypes/classes.py#L409-L438"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#polars.List.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Nested list/array type with variable length of inner lists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -1591,13 +1591,32 @@ document.write(`
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;integer_lists&quot;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]],</span>
+<span class="gp">... </span>        <span class="s2">&quot;float_lists&quot;</span><span class="p">:</span> <span class="p">[[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]],</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span>
+<span class="go">shape: (2, 2)</span>
+<span class="go">┌───────────────┬─────────────┐</span>
+<span class="go">│ integer_lists ┆ float_lists │</span>
+<span class="go">│ ---           ┆ ---         │</span>
+<span class="go">│ list[i64]     ┆ list[f64]   │</span>
+<span class="go">╞═══════════════╪═════════════╡</span>
+<span class="go">│ [1, 2]        ┆ [1.0, 2.0]  │</span>
+<span class="go">│ [3, 4]        ┆ [3.0, 4.0]  │</span>
+<span class="go">└───────────────┴─────────────┘</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <p class="rubric">Methods</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#polars.List.__init__" title="polars.List.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(inner)</p></td>
-<td><p>Nested list/array type.</p></td>
+<td><p>Nested list/array type with variable length of inner lists.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">base_type</span></code>()</p></td>
 <td><p>Return this DataType's fundamental/root type class.</p></td>
