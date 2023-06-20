@@ -470,6 +470,13 @@
 <a href="#470" id="470">470</a>
 <a href="#471" id="471">471</a>
 <a href="#472" id="472">472</a>
+<a href="#473" id="473">473</a>
+<a href="#474" id="474">474</a>
+<a href="#475" id="475">475</a>
+<a href="#476" id="476">476</a>
+<a href="#477" id="477">477</a>
+<a href="#478" id="478">478</a>
+<a href="#479" id="479">479</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_arrow::array::ValueSize;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">use </span>polars_arrow::export::arrow::array::{MutableArray, MutableUtf8Array};
@@ -918,6 +925,13 @@
     </span><span class="kw">pub fn </span>to_uppercase(<span class="self">self</span>) -&gt; Expr {
         <span class="self">self</span>.<span class="number">0
             </span>.map_private(FunctionExpr::StringExpr(StringFunction::Uppercase))
+    }
+
+    <span class="doccomment">/// Convert all characters to titlecase.
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]
+    </span><span class="kw">pub fn </span>to_titlecase(<span class="self">self</span>) -&gt; Expr {
+        <span class="self">self</span>.<span class="number">0
+            </span>.map_private(FunctionExpr::StringExpr(StringFunction::Titlecase))
     }
 
     <span class="attr">#[cfg(feature = <span class="string">&quot;string_from_radix&quot;</span>)]

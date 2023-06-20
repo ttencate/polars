@@ -634,6 +634,8 @@
 <a href="#634" id="634">634</a>
 <a href="#635" id="635">635</a>
 <a href="#636" id="636">636</a>
+<a href="#637" id="637">637</a>
+<a href="#638" id="638">638</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;abs&quot;</span>)]
 </span><span class="kw">mod </span>abs;
 <span class="attr">#[cfg(feature = <span class="string">&quot;arg_where&quot;</span>)]
@@ -1181,6 +1183,8 @@
             </span>Replace { n, literal } =&gt; <span class="macro">map_as_slice!</span>(strings::replace, literal, n),
             Uppercase =&gt; <span class="macro">map!</span>(strings::uppercase),
             Lowercase =&gt; <span class="macro">map!</span>(strings::lowercase),
+            <span class="attr">#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]
+            </span>Titlecase =&gt; <span class="macro">map!</span>(strings::titlecase),
             Strip(matches) =&gt; <span class="macro">map!</span>(strings::strip, matches.as_deref()),
             LStrip(matches) =&gt; <span class="macro">map!</span>(strings::lstrip, matches.as_deref()),
             RStrip(matches) =&gt; <span class="macro">map!</span>(strings::rstrip, matches.as_deref()),
