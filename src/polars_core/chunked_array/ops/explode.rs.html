@@ -577,7 +577,7 @@
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
 </span><span class="kw">use </span>polars_arrow::is_valid::IsValid;
 <span class="kw">use </span>polars_arrow::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span>polars_arrow::trusted_len::PushUnchecked;
+<span class="kw">use </span>polars_arrow::trusted_len::TrustedLenPush;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-array&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::chunked_array::builder::get_fixed_size_list_builder;

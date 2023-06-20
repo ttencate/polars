@@ -90,8 +90,21 @@
 <a href="#90" id="90">90</a>
 <a href="#91" id="91">91</a>
 <a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>core::slice::SliceIndex;
 <span class="kw">use </span>std::cmp::Ordering;
+<span class="kw">use </span>std::mem::MaybeUninit;
 
 <span class="kw">pub trait </span>Extrema&lt;T&gt; {
     <span class="kw">fn </span>min_value(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt;;
@@ -180,6 +193,17 @@
         } <span class="kw">else </span>{
             <span class="self">self</span>.get_unchecked_mut(index)
         }
+    }
+}
+
+<span class="kw">pub trait </span>Slice2Uninit&lt;T&gt; {
+    <span class="kw">fn </span>as_uninit(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[MaybeUninit&lt;T&gt;];
+}
+
+<span class="kw">impl</span>&lt;T&gt; Slice2Uninit&lt;T&gt; <span class="kw">for </span>[T] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>as_uninit(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[MaybeUninit&lt;T&gt;] {
+        <span class="kw">unsafe </span>{ std::slice::from_raw_parts(<span class="self">self</span>.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>MaybeUninit&lt;T&gt;, <span class="self">self</span>.len()) }
     }
 }
 </code></pre></div></section></main></body></html>

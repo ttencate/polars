@@ -151,7 +151,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::error::PolarsResult;
 <span class="kw">use </span><span class="kw">crate</span>::index::IdxSize;
 <span class="kw">use </span><span class="kw">crate</span>::kernels::BinaryMaskedSliceIterator;
-<span class="kw">use </span><span class="kw">crate</span>::trusted_len::PushUnchecked;
+<span class="kw">use </span><span class="kw">crate</span>::trusted_len::TrustedLenPush;
 
 <span class="doccomment">/// Set values in a primitive array where the primitive array has null values.
 /// this is faster because we don&#39;t have to invert and combine bitmaps

@@ -1047,7 +1047,7 @@
 <span class="kw">use </span>polars_arrow::kernels::rolling::{DynArgs, RollingVarParams};
 <span class="kw">use </span>polars_arrow::kernels::take_agg::<span class="kw-2">*</span>;
 <span class="kw">use </span>polars_arrow::prelude::QuantileInterpolOptions;
-<span class="kw">use </span>polars_arrow::trusted_len::PushUnchecked;
+<span class="kw">use </span>polars_arrow::trusted_len::TrustedLenPush;
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;object&quot;</span>)]

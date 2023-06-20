@@ -199,7 +199,7 @@
 <span class="kw">use </span>arrow::bitmap::Bitmap;
 <span class="kw">use </span>arrow::types::NativeType;
 
-<span class="kw">use </span><span class="kw">crate</span>::trusted_len::{FromIteratorReversed, PushUnchecked, TrustedLen};
+<span class="kw">use </span><span class="kw">crate</span>::trusted_len::{FromIteratorReversed, TrustedLen, TrustedLenPush};
 
 <span class="attr">#[derive(Clone)]
 </span><span class="kw">pub struct </span>TrustMyLength&lt;I: Iterator&lt;Item = J&gt;, J&gt; {

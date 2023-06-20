@@ -27,7 +27,7 @@
 <span class="kw">use </span>arrow::datatypes::DataType;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::trusted_len::PushUnchecked;
+<span class="kw">use </span><span class="kw">crate</span>::trusted_len::TrustedLenPush;
 
 <span class="kw">pub fn </span>string_lengths(array: <span class="kw-2">&amp;</span>Utf8Array&lt;i64&gt;) -&gt; ArrayRef {
     <span class="kw">let </span>values = array

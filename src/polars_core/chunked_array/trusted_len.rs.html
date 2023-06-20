@@ -255,7 +255,7 @@
 
 <span class="kw">use </span>arrow::bitmap::MutableBitmap;
 <span class="kw">use </span>polars_arrow::bit_util::{set_bit_raw, unset_bit_raw};
-<span class="kw">use </span>polars_arrow::trusted_len::{FromIteratorReversed, PushUnchecked};
+<span class="kw">use </span>polars_arrow::trusted_len::{FromIteratorReversed, TrustedLenPush};
 
 <span class="kw">use </span><span class="kw">crate</span>::chunked_array::upstream_traits::PolarsAsRef;
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;

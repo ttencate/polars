@@ -1129,7 +1129,7 @@
 };
 <span class="kw">use </span>arrow::types::PrimitiveType;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
-</span><span class="kw">use </span>polars_arrow::trusted_len::PushUnchecked;
+</span><span class="kw">use </span>polars_arrow::trusted_len::TrustedLenPush;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">use </span>polars_utils::slice::GetSaferUnchecked;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
