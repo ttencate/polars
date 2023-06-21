@@ -477,6 +477,15 @@
 <a href="#477" id="477">477</a>
 <a href="#478" id="478">478</a>
 <a href="#479" id="479">479</a>
+<a href="#480" id="480">480</a>
+<a href="#481" id="481">481</a>
+<a href="#482" id="482">482</a>
+<a href="#483" id="483">483</a>
+<a href="#484" id="484">484</a>
+<a href="#485" id="485">485</a>
+<a href="#486" id="486">486</a>
+<a href="#487" id="487">487</a>
+<a href="#488" id="488">488</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>polars_arrow::array::ValueSize;
 <span class="attr">#[cfg(feature = <span class="string">&quot;dtype-struct&quot;</span>)]
 </span><span class="kw">use </span>polars_arrow::export::arrow::array::{MutableArray, MutableUtf8Array};
@@ -954,6 +963,15 @@
     <span class="kw">pub fn </span>explode(<span class="self">self</span>) -&gt; Expr {
         <span class="self">self</span>.<span class="number">0
             </span>.apply_private(FunctionExpr::StringExpr(StringFunction::Explode))
+    }
+
+    <span class="attr">#[cfg(feature = <span class="string">&quot;extract_jsonpath&quot;</span>)]
+    </span><span class="kw">pub fn </span>json_extract(<span class="self">self</span>, dtype: <span class="prelude-ty">Option</span>&lt;DataType&gt;, infer_schema_len: <span class="prelude-ty">Option</span>&lt;usize&gt;) -&gt; Expr {
+        <span class="self">self</span>.<span class="number">0
+            </span>.map_private(FunctionExpr::StringExpr(StringFunction::JsonExtract {
+                dtype,
+                infer_schema_len,
+            }))
     }
 }
 </code></pre></div></section></main></body></html>

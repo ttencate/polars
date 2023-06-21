@@ -340,6 +340,12 @@
 <a href="#340" id="340">340</a>
 <a href="#341" id="341">341</a>
 <a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">impl </span>FunctionExpr {
@@ -680,6 +686,12 @@
             first.coerce(dt);
         }
         <span class="prelude-val">Ok</span>(first)
+    }
+
+    <span class="attr">#[cfg(feature = <span class="string">&quot;extract_jsonpath&quot;</span>)]
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>with_opt_dtype(<span class="kw-2">&amp;</span><span class="self">self</span>, dtype: <span class="prelude-ty">Option</span>&lt;DataType&gt;) -&gt; PolarsResult&lt;Field&gt; {
+        <span class="kw">let </span>dtype = dtype.unwrap_or(DataType::Unknown);
+        <span class="self">self</span>.with_dtype(dtype)
     }
 }
 </code></pre></div></section></main></body></html>
