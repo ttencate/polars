@@ -194,6 +194,42 @@
 <a href="#194" id="194">194</a>
 <a href="#195" id="195">195</a>
 <a href="#196" id="196">196</a>
+<a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a>
+<a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
+<a href="#207" id="207">207</a>
+<a href="#208" id="208">208</a>
+<a href="#209" id="209">209</a>
+<a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a>
+<a href="#213" id="213">213</a>
+<a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
+<a href="#218" id="218">218</a>
+<a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a>
+<a href="#225" id="225">225</a>
+<a href="#226" id="226">226</a>
+<a href="#227" id="227">227</a>
+<a href="#228" id="228">228</a>
+<a href="#229" id="229">229</a>
+<a href="#230" id="230">230</a>
+<a href="#231" id="231">231</a>
+<a href="#232" id="232">232</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>num::Float;
 <span class="kw">use </span>polars_core::export::num;
 
@@ -202,36 +238,42 @@
 <span class="attr">#[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(Serialize, Deserialize))]
 #[derive(Clone, Copy, PartialEq, Debug, Eq, Hash)]
 </span><span class="kw">pub enum </span>TrigonometricFunction {
-    Sin,
     Cos,
+    Cot,
+    Sin,
     Tan,
-    ArcSin,
     ArcCos,
+    ArcSin,
     ArcTan,
-    Sinh,
     Cosh,
+    Sinh,
     Tanh,
-    ArcSinh,
     ArcCosh,
+    ArcSinh,
     ArcTanh,
+    Degrees,
+    Radians,
 }
 
 <span class="kw">impl </span>Display <span class="kw">for </span>TrigonometricFunction {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
         <span class="kw">use </span><span class="self">self</span>::<span class="kw-2">*</span>;
         <span class="kw">match </span><span class="self">self </span>{
-            TrigonometricFunction::Sin =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;sin&quot;</span>),
             TrigonometricFunction::Cos =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;cos&quot;</span>),
+            TrigonometricFunction::Cot =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;cot&quot;</span>),
+            TrigonometricFunction::Sin =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;sin&quot;</span>),
             TrigonometricFunction::Tan =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;tan&quot;</span>),
-            TrigonometricFunction::ArcSin =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;arcsin&quot;</span>),
             TrigonometricFunction::ArcCos =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;arccos&quot;</span>),
+            TrigonometricFunction::ArcSin =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;arcsin&quot;</span>),
             TrigonometricFunction::ArcTan =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;arctan&quot;</span>),
-            TrigonometricFunction::Sinh =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;sinh&quot;</span>),
             TrigonometricFunction::Cosh =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;cosh&quot;</span>),
+            TrigonometricFunction::Sinh =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;sinh&quot;</span>),
             TrigonometricFunction::Tanh =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;tanh&quot;</span>),
-            TrigonometricFunction::ArcSinh =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;arcsinh&quot;</span>),
             TrigonometricFunction::ArcCosh =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;arccosh&quot;</span>),
+            TrigonometricFunction::ArcSinh =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;arcsinh&quot;</span>),
             TrigonometricFunction::ArcTanh =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;arctanh&quot;</span>),
+            TrigonometricFunction::Degrees =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;degrees&quot;</span>),
+            TrigonometricFunction::Radians =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;radians&quot;</span>),
         }
     }
 }
@@ -268,28 +310,22 @@
     ChunkedArray&lt;T&gt;: IntoSeries,
 {
     <span class="kw">match </span>trig_function {
-        TrigonometricFunction::Sin =&gt; sin(ca),
         TrigonometricFunction::Cos =&gt; cos(ca),
+        TrigonometricFunction::Cot =&gt; cot(ca),
+        TrigonometricFunction::Sin =&gt; sin(ca),
         TrigonometricFunction::Tan =&gt; tan(ca),
-        TrigonometricFunction::ArcSin =&gt; arcsin(ca),
         TrigonometricFunction::ArcCos =&gt; arccos(ca),
+        TrigonometricFunction::ArcSin =&gt; arcsin(ca),
         TrigonometricFunction::ArcTan =&gt; arctan(ca),
-        TrigonometricFunction::Sinh =&gt; sinh(ca),
         TrigonometricFunction::Cosh =&gt; cosh(ca),
+        TrigonometricFunction::Sinh =&gt; sinh(ca),
         TrigonometricFunction::Tanh =&gt; tanh(ca),
-        TrigonometricFunction::ArcSinh =&gt; arcsinh(ca),
         TrigonometricFunction::ArcCosh =&gt; arccosh(ca),
+        TrigonometricFunction::ArcSinh =&gt; arcsinh(ca),
         TrigonometricFunction::ArcTanh =&gt; arctanh(ca),
+        TrigonometricFunction::Degrees =&gt; degrees(ca),
+        TrigonometricFunction::Radians =&gt; radians(ca),
     }
-}
-
-<span class="kw">fn </span>sin&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
-<span class="kw">where
-    </span>T: PolarsFloatType,
-    T::Native: Float,
-    ChunkedArray&lt;T&gt;: IntoSeries,
-{
-    <span class="prelude-val">Ok</span>(ca.apply(|v| v.sin()).into_series())
 }
 
 <span class="kw">fn </span>cos&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
@@ -301,6 +337,24 @@
     <span class="prelude-val">Ok</span>(ca.apply(|v| v.cos()).into_series())
 }
 
+<span class="kw">fn </span>cot&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
+<span class="kw">where
+    </span>T: PolarsFloatType,
+    T::Native: Float,
+    ChunkedArray&lt;T&gt;: IntoSeries,
+{
+    <span class="prelude-val">Ok</span>(ca.apply(|v| v.cos() / v.sin()).into_series())
+}
+
+<span class="kw">fn </span>sin&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
+<span class="kw">where
+    </span>T: PolarsFloatType,
+    T::Native: Float,
+    ChunkedArray&lt;T&gt;: IntoSeries,
+{
+    <span class="prelude-val">Ok</span>(ca.apply(|v| v.sin()).into_series())
+}
+
 <span class="kw">fn </span>tan&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
 <span class="kw">where
     </span>T: PolarsFloatType,
@@ -308,15 +362,6 @@
     ChunkedArray&lt;T&gt;: IntoSeries,
 {
     <span class="prelude-val">Ok</span>(ca.apply(|v| v.tan()).into_series())
-}
-
-<span class="kw">fn </span>arcsin&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
-<span class="kw">where
-    </span>T: PolarsFloatType,
-    T::Native: Float,
-    ChunkedArray&lt;T&gt;: IntoSeries,
-{
-    <span class="prelude-val">Ok</span>(ca.apply(|v| v.asin()).into_series())
 }
 
 <span class="kw">fn </span>arccos&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
@@ -328,6 +373,15 @@
     <span class="prelude-val">Ok</span>(ca.apply(|v| v.acos()).into_series())
 }
 
+<span class="kw">fn </span>arcsin&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
+<span class="kw">where
+    </span>T: PolarsFloatType,
+    T::Native: Float,
+    ChunkedArray&lt;T&gt;: IntoSeries,
+{
+    <span class="prelude-val">Ok</span>(ca.apply(|v| v.asin()).into_series())
+}
+
 <span class="kw">fn </span>arctan&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
 <span class="kw">where
     </span>T: PolarsFloatType,
@@ -335,15 +389,6 @@
     ChunkedArray&lt;T&gt;: IntoSeries,
 {
     <span class="prelude-val">Ok</span>(ca.apply(|v| v.atan()).into_series())
-}
-
-<span class="kw">fn </span>sinh&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
-<span class="kw">where
-    </span>T: PolarsFloatType,
-    T::Native: Float,
-    ChunkedArray&lt;T&gt;: IntoSeries,
-{
-    <span class="prelude-val">Ok</span>(ca.apply(|v| v.sinh()).into_series())
 }
 
 <span class="kw">fn </span>cosh&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
@@ -355,6 +400,15 @@
     <span class="prelude-val">Ok</span>(ca.apply(|v| v.cosh()).into_series())
 }
 
+<span class="kw">fn </span>sinh&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
+<span class="kw">where
+    </span>T: PolarsFloatType,
+    T::Native: Float,
+    ChunkedArray&lt;T&gt;: IntoSeries,
+{
+    <span class="prelude-val">Ok</span>(ca.apply(|v| v.sinh()).into_series())
+}
+
 <span class="kw">fn </span>tanh&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
 <span class="kw">where
     </span>T: PolarsFloatType,
@@ -362,15 +416,6 @@
     ChunkedArray&lt;T&gt;: IntoSeries,
 {
     <span class="prelude-val">Ok</span>(ca.apply(|v| v.tanh()).into_series())
-}
-
-<span class="kw">fn </span>arcsinh&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
-<span class="kw">where
-    </span>T: PolarsFloatType,
-    T::Native: Float,
-    ChunkedArray&lt;T&gt;: IntoSeries,
-{
-    <span class="prelude-val">Ok</span>(ca.apply(|v| v.asinh()).into_series())
 }
 
 <span class="kw">fn </span>arccosh&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
@@ -382,6 +427,15 @@
     <span class="prelude-val">Ok</span>(ca.apply(|v| v.acosh()).into_series())
 }
 
+<span class="kw">fn </span>arcsinh&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
+<span class="kw">where
+    </span>T: PolarsFloatType,
+    T::Native: Float,
+    ChunkedArray&lt;T&gt;: IntoSeries,
+{
+    <span class="prelude-val">Ok</span>(ca.apply(|v| v.asinh()).into_series())
+}
+
 <span class="kw">fn </span>arctanh&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
 <span class="kw">where
     </span>T: PolarsFloatType,
@@ -389,5 +443,23 @@
     ChunkedArray&lt;T&gt;: IntoSeries,
 {
     <span class="prelude-val">Ok</span>(ca.apply(|v| v.atanh()).into_series())
+}
+
+<span class="kw">fn </span>degrees&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
+<span class="kw">where
+    </span>T: PolarsFloatType,
+    T::Native: Float,
+    ChunkedArray&lt;T&gt;: IntoSeries,
+{
+    <span class="prelude-val">Ok</span>(ca.apply(|v| v.to_degrees()).into_series())
+}
+
+<span class="kw">fn </span>radians&lt;T&gt;(ca: <span class="kw-2">&amp;</span>ChunkedArray&lt;T&gt;) -&gt; PolarsResult&lt;Series&gt;
+<span class="kw">where
+    </span>T: PolarsFloatType,
+    T::Native: Float,
+    ChunkedArray&lt;T&gt;: IntoSeries,
+{
+    <span class="prelude-val">Ok</span>(ca.apply(|v| v.to_radians()).into_series())
 }
 </code></pre></div></section></main></body></html>

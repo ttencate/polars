@@ -139,6 +139,24 @@
 <a href="#139" id="139">139</a>
 <a href="#140" id="140">140</a>
 <a href="#141" id="141">141</a>
+<a href="#142" id="142">142</a>
+<a href="#143" id="143">143</a>
+<a href="#144" id="144">144</a>
+<a href="#145" id="145">145</a>
+<a href="#146" id="146">146</a>
+<a href="#147" id="147">147</a>
+<a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
+<a href="#152" id="152">152</a>
+<a href="#153" id="153">153</a>
+<a href="#154" id="154">154</a>
+<a href="#155" id="155">155</a>
+<a href="#156" id="156">156</a>
+<a href="#157" id="157">157</a>
+<a href="#158" id="158">158</a>
+<a href="#159" id="159">159</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::ops::{Add, Div, Mul, Rem, Sub};
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -202,16 +220,22 @@
         }
     }
 
-    <span class="doccomment">/// Compute the sine of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>sin(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::Sin))
-    }
-
     <span class="doccomment">/// Compute the cosine of the given expression
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
     </span><span class="kw">pub fn </span>cos(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::Cos))
+    }
+
+    <span class="doccomment">/// Compute the cotangent of the given expression
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
+    </span><span class="kw">pub fn </span>cot(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::Cot))
+    }
+
+    <span class="doccomment">/// Compute the sine of the given expression
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
+    </span><span class="kw">pub fn </span>sin(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::Sin))
     }
 
     <span class="doccomment">/// Compute the tangent of the given expression
@@ -220,16 +244,16 @@
         <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::Tan))
     }
 
-    <span class="doccomment">/// Compute the inverse sine of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>arcsin(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::ArcSin))
-    }
-
     <span class="doccomment">/// Compute the inverse cosine of the given expression
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
     </span><span class="kw">pub fn </span>arccos(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::ArcCos))
+    }
+
+    <span class="doccomment">/// Compute the inverse sine of the given expression
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
+    </span><span class="kw">pub fn </span>arcsin(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::ArcSin))
     }
 
     <span class="doccomment">/// Compute the inverse tangent of the given expression
@@ -238,16 +262,16 @@
         <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::ArcTan))
     }
 
-    <span class="doccomment">/// Compute the hyperbolic sine of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>sinh(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::Sinh))
-    }
-
     <span class="doccomment">/// Compute the hyperbolic cosine of the given expression
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
     </span><span class="kw">pub fn </span>cosh(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::Cosh))
+    }
+
+    <span class="doccomment">/// Compute the hyperbolic sine of the given expression
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
+    </span><span class="kw">pub fn </span>sinh(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::Sinh))
     }
 
     <span class="doccomment">/// Compute the hyperbolic tangent of the given expression
@@ -256,22 +280,34 @@
         <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::Tanh))
     }
 
-    <span class="doccomment">/// Compute the inverse hyperbolic sine of the given expression
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
-    </span><span class="kw">pub fn </span>arcsinh(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::ArcSinh))
-    }
-
     <span class="doccomment">/// Compute the inverse hyperbolic cosine of the given expression
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
     </span><span class="kw">pub fn </span>arccosh(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::ArcCosh))
     }
 
+    <span class="doccomment">/// Compute the inverse hyperbolic sine of the given expression
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
+    </span><span class="kw">pub fn </span>arcsinh(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::ArcSinh))
+    }
+
     <span class="doccomment">/// Compute the inverse hyperbolic tangent of the given expression
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
     </span><span class="kw">pub fn </span>arctanh(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::ArcTanh))
+    }
+
+    <span class="doccomment">/// Convert from radians to degrees
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
+    </span><span class="kw">pub fn </span>degrees(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::Degrees))
+    }
+
+    <span class="doccomment">/// Convert from degrees to radians
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;trigonometry&quot;</span>)]
+    </span><span class="kw">pub fn </span>radians(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.map_private(FunctionExpr::Trigonometry(TrigonometricFunction::Radians))
     }
 
     <span class="doccomment">/// Compute the sign of the given expression
