@@ -1079,9 +1079,9 @@
         options: <span class="kw-2">&amp;</span>RollingGroupOptions,
     ) -&gt; PolarsResult&lt;(Series, Vec&lt;Series&gt;, GroupsProxy)&gt; {
         <span class="macro">polars_ensure!</span>(
-                        !options.period.negative,
+                        options.period.duration_ns()&gt;<span class="number">0 </span>&amp;&amp; !options.period.negative,
                         ComputeError:
-                        <span class="string">&quot;rolling window period should be positive&quot;</span>,
+                        <span class="string">&quot;rolling window period should be strictly positive&quot;</span>,
         );
         <span class="kw">let </span>time = <span class="self">self</span>.<span class="number">0</span>.column(<span class="kw-2">&amp;</span>options.index_column)<span class="question-mark">?</span>.clone();
         <span class="kw">if </span>by.is_empty() {
