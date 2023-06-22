@@ -222,7 +222,13 @@
 <a href="#222" id="222">222</a>
 <a href="#223" id="223">223</a>
 <a href="#224" id="224">224</a>
+<a href="#225" id="225">225</a>
+<a href="#226" id="226">226</a>
+<a href="#227" id="227">227</a>
+<a href="#228" id="228">228</a>
+<a href="#229" id="229">229</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
+<span class="kw">use </span>std::error::Error;
 <span class="kw">use </span>std::fmt::{<span class="self">self</span>, Display, Formatter};
 <span class="kw">use </span>std::ops::Deref;
 <span class="kw">use </span>std::{env, io};
@@ -317,6 +323,10 @@
             StructFieldNotFound(msg) =&gt; StructFieldNotFound(func(msg).into()),
         }
     }
+}
+
+<span class="kw">pub fn </span>map_err&lt;E: Error&gt;(error: E) -&gt; PolarsError {
+    PolarsError::ComputeError(<span class="macro">format!</span>(<span class="string">&quot;{error}&quot;</span>).into())
 }
 
 <span class="attr">#[macro_export]

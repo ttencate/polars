@@ -496,13 +496,13 @@
         function: SpecialEq&lt;Arc&lt;<span class="kw">dyn </span>RenameAliasFn&gt;&gt;,
         expr: Box&lt;Expr&gt;,
     },
-    <span class="attr">#[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, serde(skip))]
-    </span>AnonymousFunction {
+    AnonymousFunction {
         <span class="doccomment">/// function arguments
         </span>input: Vec&lt;Expr&gt;,
         <span class="doccomment">/// function to apply
         </span>function: SpecialEq&lt;Arc&lt;<span class="kw">dyn </span>SeriesUdf&gt;&gt;,
         <span class="doccomment">/// output dtype of the function
+        </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, serde(skip))]
         </span>output_type: GetOutput,
         options: FunctionOptions,
     },

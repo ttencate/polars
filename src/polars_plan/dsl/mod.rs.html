@@ -1919,6 +1919,8 @@
 <a href="#1919" id="1919">1919</a>
 <a href="#1920" id="1920">1920</a>
 <a href="#1921" id="1921">1921</a>
+<a href="#1922" id="1922">1922</a>
+<a href="#1923" id="1923">1923</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(ambiguous_glob_reexports)]
 </span><span class="doccomment">//! Domain specific language for the Lazy API.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;dtype-categorical&quot;</span>)]
@@ -1943,6 +1945,8 @@
 </span><span class="kw">mod </span>meta;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>names;
 <span class="kw">mod </span>options;
+<span class="attr">#[cfg(all(feature = <span class="string">&quot;python&quot;</span>, feature = <span class="string">&quot;serde&quot;</span>))]
+</span><span class="kw">pub mod </span>python_udf;
 <span class="kw">mod </span>selector;
 <span class="attr">#[cfg(feature = <span class="string">&quot;strings&quot;</span>)]
 </span><span class="kw">pub mod </span>string;
