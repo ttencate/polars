@@ -14,7 +14,7 @@
 <a href="#14" id="14">14</a>
 </pre></div><pre class="rust"><code><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">mod </span>no_nulls;
 <span class="kw">use </span>std::fmt::Debug;
-<span class="kw">use </span>std::ops::{AddAssign, Div, Mul, Sub, SubAssign};
+<span class="kw">use </span>std::ops::{AddAssign, Mul, SubAssign};
 
 <span class="kw">use </span>arrow::array::PrimitiveArray;
 <span class="kw">use </span>arrow::types::NativeType;
@@ -22,7 +22,7 @@
 <span class="kw">use </span>polars_arrow::export::arrow;
 <span class="kw">use </span>polars_arrow::index::IdxSize;
 <span class="kw">use </span>polars_arrow::trusted_len::TrustedLen;
-<span class="kw">use </span>polars_core::export::num::{Bounded, Float, NumCast, One};
+<span class="kw">use </span>polars_core::export::num::{Bounded, Float, NumCast};
 <span class="kw">use </span>polars_core::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
